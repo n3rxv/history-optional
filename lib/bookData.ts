@@ -91,8 +91,8 @@ export const bookData: BookChapter[] = [
             2013,
             2024
           ],
-          "lat": 23.1,
-          "lng": 77.5,
+          "lat": 22.8667,
+          "lng": 77.8833,
           "name_hi": "हथनोरा",
           "location_hi": "सेहोर जिला (मध्य प्रदेश), नर्मदा घाटी",
           "majorAspect_hi": "अरुण सोनाकिया ने 1982 में एक खोपड़ी का शीर्ष भाग पाया और बाद में ए.आर. संह्यन ने दूसरा शीर्ष भाग खोजा। प्रसिद्ध नर्मदा मानव, यह लगभग 30 वर्षीया महिला की है। इसके वर्गीकरण पर बहस चल रही है – होमो इरेक्टस या पुरातन होमो सैपियन। नवीनतम शोध से पता चलता है कि होमो इरेक्टस ने भारतीय जलवायु में जीवित रहने के लिये कुछ स्थानीय अनुकूलन विकसित किए थे।"
@@ -146,8 +146,8 @@ export const bookData: BookChapter[] = [
           "location": "Sirmaur district (Himachal Pradesh), Markanda River valley",
           "majorAspect": "It is a notified National Geo-heritage Monument. Several prehistoric fossil fuels have been discovered here. The park has a display of the fossil finds and an open-air exhibition of six life-sized fiberglass models of extinct mammals.",
           "pyqYears": [],
-          "lat": 30.6,
-          "lng": 77.2,
+          "lat": 30.64,
+          "lng": 77.44,
           "name_hi": "शिवालिक/सुकैती जीवाश्म उद्यान",
           "location_hi": "सिरमौर जिला (हिमाचल प्रदेश), मार्कंदा नदी घाटी",
           "majorAspect_hi": "यह एक अधिसूचित राष्ट्रीय भू‑विरासत स्मारक है। यहाँ कई प्रागैतिहासिक जीवाश्म ईंधन पाए गए हैं। उद्यान में जीवाश्मों की प्रदर्शनी तथा लुप्तप्राय स्तनधारियों के छह जीवन‑आकार के फाइबरग्लास मॉडल खुले में स्थापित हैं।"
@@ -168,8 +168,8 @@ export const bookData: BookChapter[] = [
           "location": "Dindori district (Madhya Pradesh)",
           "majorAspect": "It is known for its diverse collection of fossilised plant and animal remains. The park features fossils dating back to the Mesozoic era, including plant fossils, dinosaur eggs, and other prehistoric artifacts.",
           "pyqYears": [],
-          "lat": 22.9,
-          "lng": 81.1,
+          "lat": 23.1106,
+          "lng": 80.6142,
           "name_hi": "घुघुआ/घुघवा जीवाश्म उद्यान",
           "location_hi": "दिन्दोरी जिला (मध्य प्रदेश)",
           "majorAspect_hi": "यह विविध प्रकार के जीवाश्मित पौधों और जानवरों के अवशेषों के लिये जाना जाता है। उद्यान में मेसोज़ोइक युग के जीवाश्म, जिसमें पौधों के जीवाश्म, डायनासोर अंडे और अन्य प्रागैतिहासिक कलाकृतियाँ शामिल हैं, प्रदर्शित हैं।"
@@ -179,8 +179,8 @@ export const bookData: BookChapter[] = [
           "location": "Villupuram district (Tamil Nadu)",
           "majorAspect": "The park is famous for its petrified wood fossils.",
           "pyqYears": [],
-          "lat": 11.9,
-          "lng": 79.5,
+          "lat": 12.0192,
+          "lng": 79.6533,
           "name_hi": "तिरुवक्कराई जीवाश्म लकड़ी उद्यान",
           "location_hi": "विलुपुरम जिला (तमिलनाडु)",
           "majorAspect_hi": "यह उद्यान अपने पिट्रीफाइड (पेट्रिफाइड) लकड़ी के जीवाश्मों के लिये प्रसिद्ध है।"
@@ -318,8 +318,8 @@ export const bookData: BookChapter[] = [
             2013,
             2024
           ],
-          "lat": 23.1,
-          "lng": 77.5,
+          "lat": 22.8667,
+          "lng": 77.8833,
           "name_hi": "हथनोरा",
           "location_hi": "सेहोर जिला (मध्य प्रदेश), नर्मदा घाटी",
           "majorAspect_hi": "अरुण सोनाकिया ने 1982 में एक खोपड़ी का टोपी (स्कल कप) पाया और बाद में ए.आर. संह्यन ने दूसरा स्कल कप खोजा। इसे प्रसिद्ध रूप से नर्मदा मानव कहा जाता है, जो लगभग 30 वर्षीया महिला से संबंधित है। इसकी पहचान को लेकर चल रही बहस है—या तो होमो इरेक्टस या पुरातन होमो सैपियन। नवीनतम शोध से पता चलता है कि होमो इरेक्टस ने भारतीय जलवायु में जीवित रहने के लिए कुछ स्थानीय अनुकूलन विकसित किए हैं।"
@@ -373,8 +373,8 @@ export const bookData: BookChapter[] = [
           "location": "Sirmaur district (Himachal Pradesh), Markanda River valley",
           "majorAspect": "It is a notified National Geo-heritage Monument. Several prehistoric fossil fuels have been discovered here. The park has a display of the fossil finds and an open-air exhibition of six life-sized fiberglass models of extinct mammals.",
           "pyqYears": [],
-          "lat": 30.6,
-          "lng": 77.2,
+          "lat": 30.64,
+          "lng": 77.44,
           "name_hi": "शिवालिक/सुकैती फॉसिल पार्क",
           "location_hi": "सिरमौर जिला (हिमाचल प्रदेश), मार्कंडा नदी घाटी",
           "majorAspect_hi": "यह एक अधिसूचित राष्ट्रीय भू-धरोहर स्मारक है। यहाँ कई प्रागैतिहासिक जीवाश्म ईंधन पाए गए हैं। पार्क में जीवाश्मों की प्रदर्शनी और विलुप्त स्तनधारियों के छह वास्तविक आकार के फाइबरग्लास मॉडल की खुली हवा में प्रदर्शनी स्थापित है।"
@@ -395,8 +395,8 @@ export const bookData: BookChapter[] = [
           "location": "Dindori district (Madhya Pradesh)",
           "majorAspect": "It is known for its diverse collection of fossilised plant and animal remains. The park features fossils dating back to the Mesozoic era, including plant fossils, dinosaur eggs, and other prehistoric artifacts.",
           "pyqYears": [],
-          "lat": 22.9,
-          "lng": 81.1,
+          "lat": 23.1106,
+          "lng": 80.6142,
           "name_hi": "घुघुआ फॉसिल पार्क",
           "location_hi": "दिन्दोरी जिला (मध्य प्रदेश)",
           "majorAspect_hi": "यह अपने विविध पौधों और जानवरों के जीवाश्म संग्रह के लिए जाना जाता है। पार्क में मेसोज़ोइक युग के जीवाश्म प्रदर्शित हैं, जिनमें पौधों के जीवाश्म, डायनासोर के अंडे और अन्य प्रागैतिहासिक वस्तुएँ शामिल हैं।"
@@ -406,8 +406,8 @@ export const bookData: BookChapter[] = [
           "location": "Villupuram district (Tamil Nadu)",
           "majorAspect": "The park is famous for its petrified wood fossils.",
           "pyqYears": [],
-          "lat": 11.9,
-          "lng": 79.5,
+          "lat": 12.0192,
+          "lng": 79.6533,
           "name_hi": "तिरुवक्कराई फॉसिल वुड पार्क",
           "location_hi": "विलुपुरम जिला (तमिलनाडु)",
           "majorAspect_hi": "पार्क अपने पिटरिफ़ाइड लकड़ी के जीवाश्मों के लिए प्रसिद्ध है।"
@@ -776,8 +776,8 @@ export const bookData: BookChapter[] = [
           "location": "Kurnool district (Andhra Pradesh)",
           "majorAspect": "Only site where tools made of animal bones have been found in the upper Palaeolithic level.",
           "pyqYears": [],
-          "lat": 15.8,
-          "lng": 78.1,
+          "lat": 15.4348,
+          "lng": 78.1853,
           "name_hi": "कुर्नूल गुफाएँ",
           "location_hi": "कुर्नूल जिला (आंध्र प्रदेश)",
           "majorAspect_hi": "ऊपरी पालीओलिथिक स्तर में पशु हड्डियों से बने उपकरण पाए जाने वाला केवल यह स्थल है।"
@@ -801,8 +801,8 @@ export const bookData: BookChapter[] = [
           "location": "Tumkur district (Karnataka)",
           "majorAspect": "Kibbanahalli, located in Tumkur district of Karnataka, is a significant archaeological site dating back to the Neolithic period, circa 2000 BCE. The site has yielded key finds such as ash mounds, stone tools, and pottery, providing valuable insights into the lives of early farming communities. The discovery of these artifacts highlights the importance of Kibbanahalli as a major Neolithic site in South India, shedding light on the region's cultural and economic developments during that era.",
           "pyqYears": [],
-          "lat": 13.3,
-          "lng": 77.1,
+          "lat": 13.308,
+          "lng": 76.648,
           "name_hi": "किब्बनहली",
           "location_hi": "तुंकर जिला (कर्नाटक)",
           "majorAspect_hi": "किब्बनहली, कर्नाटक के तुंकर जिले में स्थित, नियोलिथिक काल, लगभग 2000 ई.पू. का महत्वपूर्ण पुरातात्विक स्थल है। यहाँ राख के टीले, पत्थर के उपकरण और मिट्टी के बर्तन मिले हैं, जो प्रारम्भिक कृषि समुदायों के जीवन की जानकारी देते हैं। इन कलाकृतियों की खोज किब्बनहली को दक्षिण भारत के प्रमुख नियोलिथिक स्थल के रूप में महत्व देती है, जो उस युग में क्षेत्र के सांस्कृतिक और आर्थिक विकास को उजागर करती है।"
@@ -958,8 +958,8 @@ export const bookData: BookChapter[] = [
           "location": "Balotra district (Rajasthan)",
           "majorAspect": "Evidence suggests that diet of people included both meat and vegetable food.",
           "pyqYears": [],
-          "lat": 25.8,
-          "lng": 72.3,
+          "lat": 25.8667,
+          "lng": 72.0833,
           "name_hi": "तिलवाड़ा",
           "location_hi": "बालotra जिला (राजस्थान)",
           "majorAspect_hi": "साक्ष्य दर्शाते हैं कि लोगों का आहार मांस और सब्ज़ी दोनों को शामिल करता था।"
@@ -972,8 +972,8 @@ export const bookData: BookChapter[] = [
             2013,
             2025
           ],
-          "lat": 24.9,
-          "lng": 74.6,
+          "lat": 25.3575,
+          "lng": 74.3731,
           "name_hi": "बागोर",
           "location_hi": "भीलवाड़ा जिला (राजस्थान)",
           "majorAspect_hi": "घर की फर्श और आश्रयों की रूपरेखा के प्रमाण मिले हैं।"
@@ -1049,8 +1049,8 @@ export const bookData: BookChapter[] = [
           "pyqYears": [
             2019
           ],
-          "lat": 25.4,
-          "lng": 81.9,
+          "lat": 24.9167,
+          "lng": 82.0833,
           "name_hi": "चोपानी मंडो",
           "location_hi": "प्रयागराज जिला (उत्तर प्रदेश)",
           "majorAspect_hi": "बांस‑मिट्टी के झोपड़े। देर मेसोलिथिक स्तरों से जंगली चावल की रिपोर्ट मिली।"
@@ -1130,8 +1130,8 @@ export const bookData: BookChapter[] = [
           "location": "Bellary district (Karnataka)",
           "majorAspect": "Sanganakallu, located in the Bellary district of Karnataka, is a significant archaeological site dating back to the Neolithic and Megalithic periods, approximately 2000 BCE to 200 CE. The site has yielded key finds such as ash mounds, megalithic burials, and iron slag, indicating early ironworking and agricultural practices. The discovery of these artifacts at Sanganakallu has shed light on the technological, social, and cultural developments of the region during this period, making it an important site for understanding the history of the Indian subcontinent.",
           "pyqYears": [],
-          "lat": 15.2,
-          "lng": 76.8,
+          "lat": 15.1847,
+          "lng": 76.9703,
           "name_hi": "संगणाकल्लु",
           "location_hi": "बेल्लारी जिला (कर्नाटक)",
           "majorAspect_hi": "संगणाकल्लु, कर्नाटक के बेल्लारी जिले में स्थित, नवपाषाण और मेगालिथिक काल (लगभग 2000 ई.पू. से 200 ई.) से संबंधित एक महत्वपूर्ण पुरातात्विक स्थल है। यहाँ राख के टीले, मेगालिथिक दफ़न और लोहे की स्लैग जैसी प्रमुख वस्तुएँ मिली हैं, जो प्रारम्भिक लोहे के काम और कृषि प्रथाओं को दर्शाती हैं। इन वस्तुओं की खोज ने इस अवधि में क्षेत्र के तकनीकी, सामाजिक और सांस्कृतिक विकास को उजागर किया है, जिससे यह स्थल भारतीय उपमहाद्वीप के इतिहास को समझने के लिए महत्वपूर्ण बनता है।"
@@ -1185,8 +1185,8 @@ export const bookData: BookChapter[] = [
           "location": "Jajpur district (Odisha)",
           "majorAspect": "Established by Guptas around 5th c CE. Two monasteries, one large Stupa, votive stupas, and several sculptures such as heads of Buddha are found. It is part of Buddhist Diamond Triangle of Odisha.",
           "pyqYears": [],
-          "lat": 20.9,
-          "lng": 86.5,
+          "lat": 20.6412,
+          "lng": 86.3353,
           "name_hi": "रत्नागिरी",
           "location_hi": "जजपुर जिला (ओडिशा)",
           "majorAspect_hi": "गुप्तों द्वारा 5वीं शताब्दी ईस्वी में स्थापित। दो मठ, एक बड़ा स्तूप, अर्पण स्तूप और कई मूर्तियाँ जैसे बुद्ध के सिर पाए जाते हैं। यह ओडिशा के बौद्ध हीरे त्रिकोण का हिस्सा है।"
@@ -1196,8 +1196,8 @@ export const bookData: BookChapter[] = [
           "location": "South Goa district (Goa)",
           "majorAspect": "Usgalimal, located in the South Goa district, is a significant archaeological site dating back to the Upper Paleolithic period, approximately 30,000-10,000 years ago. The site has yielded key finds such as petroglyphs, stone tools, and other artifacts, providing valuable insights into the lives of early human inhabitants of the region. The discovery of these artifacts has underscored the importance of Usgalimal as a crucial site for understanding the prehistoric culture and settlement patterns of the Indian subcontinent.",
           "pyqYears": [],
-          "lat": 15.3,
-          "lng": 74.1,
+          "lat": 15.1219,
+          "lng": 74.1306,
           "name_hi": "उष्गालिमल",
           "location_hi": "दक्षिण गोवा जिला (गोवा)",
           "majorAspect_hi": "उष्गालिमल, दक्षिण गोवा जिले में स्थित, अपर पेलियोलिथिक काल, लगभग 30,000-10,000 वर्ष पूर्व का महत्वपूर्ण पुरातात्विक स्थल है। इस स्थल ने पेत्रोग्लिफ़, पत्थर के औज़ार और अन्य कलाकृतियों जैसी प्रमुख खोजें प्रदान की हैं, जो क्षेत्र के प्रारंभिक मानव निवासियों के जीवन में मूल्यवान अंतर्दृष्टि देती हैं। इन कलाकृतियों की खोज ने भारतीय उपमहाद्वीप के प्रागैतिहासिक संस्कृति और बस्ती पैटर्न को समझने के लिए उष्गालिमल को एक महत्वपूर्ण स्थल के रूप में उजागर किया है।"
@@ -1207,8 +1207,8 @@ export const bookData: BookChapter[] = [
           "location": "Bellary District (Karnataka)",
           "majorAspect": "Kupgal, located in the Bellary District of Karnataka, is a significant archaeological site dating back to the Neolithic period, circa 2500-2000 BCE. The site has yielded key finds such as ash mounds, Neolithic celts, and pottery, providing valuable insights into the lives of early farming communities. The discovery of these artifacts at Kupgal has shed light on the agricultural practices, tool-making techniques, and cultural traditions of the Neolithic people in the region.",
           "pyqYears": [],
-          "lat": 15.2,
-          "lng": 76.8,
+          "lat": 15.1814,
+          "lng": 76.9686,
           "name_hi": "कुपगल",
           "location_hi": "बेल्लारी जिला (कर्नाटक)",
           "majorAspect_hi": "कुपगल, कर्नाटक के बेल्लारी जिले में स्थित, नियोलिथिक काल, लगभग 2500-2000 ईसा पूर्व का महत्वपूर्ण पुरातात्विक स्थल है। इस स्थल ने राख के टीले, नियोलिथिक सेल्ट, और मिट्टी के बर्तन जैसी प्रमुख खोजें प्रदान की हैं, जो प्रारंभिक कृषि समुदायों के जीवन में मूल्यवान अंतर्दृष्टि देती हैं। इन कलाकृतियों की खोज ने कुपगल में कृषि प्रथाओं, औज़ार निर्माण तकनीकों और नियोलिथिक लोगों की सांस्कृतिक परम्पराओं को उजागर किया है।"
@@ -1220,8 +1220,8 @@ export const bookData: BookChapter[] = [
           "pyqYears": [
             2019
           ],
-          "lat": 15.8,
-          "lng": 78.1,
+          "lat": 15.7,
+          "lng": 77.475,
           "name_hi": "कंदनाथी",
           "location_hi": "कर्नूल जिला (आंध्र प्रदेश)",
           "majorAspect_hi": "संगीतात्मक चट्टानें पाई गई हैं जो बड़े पत्थर से मारने पर ध्वनि उत्पन्न करती हैं।"
@@ -1247,8 +1247,8 @@ export const bookData: BookChapter[] = [
             2013,
             2017
           ],
-          "lat": 14.5,
-          "lng": 75.9,
+          "lat": 14.33,
+          "lng": 75.62,
           "name_hi": "हल्लूर",
           "location_hi": "हवेली जिला (कर्नाटक)",
           "majorAspect_hi": "हल्लूर, कर्नाटक के हवेली जिले में स्थित, आयरन एज और मेगालिथिक काल, लगभग 1200 ईसा पूर्व से 300 ईसा पूर्व तक का महत्वपूर्ण पुरातात्विक स्थल है। हल्लूर में उत्खनन ने लोहे के औज़ार, मिट्टी के बर्तन और मेगालिथिक संरचनाएँ जैसे डोल्मेन और कायरन सर्कल प्रदान किए हैं। यह स्थल उस अवधि में क्षेत्र के लोगों के सांस्कृतिक, सामाजिक और आर्थिक प्रथाओं में मूल्यवान अंतर्दृष्टि प्रदान करता है, नियोलिथिक से आयरन एज में परिवर्तन को उजागर करता है।"
@@ -1318,8 +1318,8 @@ export const bookData: BookChapter[] = [
           "location": "Satna district (Madhya Pradesh)",
           "majorAspect": "Ramnagar, located in Satna district of Madhya Pradesh, is a significant archaeological site dating back to the Paleolithic period, with key finds including stone tools and fossils of extinct fauna. The site has yielded important discoveries, such as hand axes and scrapers, which provide valuable insights into the lives of early humans in the region. The excavations at Ramnagar have contributed significantly to our understanding of the cultural and technological developments of the Paleolithic era in India.",
           "pyqYears": [],
-          "lat": 24.2,
-          "lng": 80.8,
+          "lat": 24.21,
+          "lng": 81.07,
           "name_hi": "रामनगर",
           "location_hi": "सतना जिला (मध्य प्रदेश)",
           "majorAspect_hi": "रामनगर, सतना जिला, मध्य प्रदेश में स्थित एक महत्वपूर्ण पुरातात्विक स्थल है जो पालीओलिथिक काल से संबंधित है। यहाँ पत्थर के औजार और विलुप्त जीवों के जीवाश्म जैसे प्रमुख अवशेष मिले हैं। इस स्थल से हाथ के कुल्हाड़ी, स्क्रैपर आदि महत्वपूर्ण खोजें प्राप्त हुई हैं, जो क्षेत्र में प्रारंभिक मानवों के जीवन के बारे में मूल्यवान जानकारी प्रदान करती हैं। रामनगर में किए गए उत्खननों ने भारत में पालीओलिथिक युग की सांस्कृतिक और तकनीकी विकास को समझने में महत्वपूर्ण योगदान दिया है।"
@@ -1419,8 +1419,8 @@ export const bookData: BookChapter[] = [
           "location": "South Goa district (Goa)",
           "majorAspect": "Usgalimal, located in the South Goa district, is a significant archaeological site dating back to the Upper Paleolithic period, approximately 30,000-10,000 years ago. The site has yielded key finds such as petroglyphs, stone tools, and other artifacts, providing valuable insights into the lives of early human inhabitants of the region. The discovery of these artifacts has underscored the importance of Usgalimal as a crucial site for understanding the prehistoric culture and settlement patterns of the Indian subcontinent.",
           "pyqYears": [],
-          "lat": 15.3,
-          "lng": 74.1,
+          "lat": 15.1219,
+          "lng": 74.1306,
           "name_hi": "उष्गलीमल",
           "location_hi": "साउथ गोवा जिला (गोवा)",
           "majorAspect_hi": "उष्गलीमल, दक्षिण गोवा जिले में स्थित, एक महत्वपूर्ण पुरातात्विक स्थल है जो ऊपरी पालीओलिथिक काल, लगभग ३०,०००‑१०,००० वर्ष पूर्व से संबंधित है। यहाँ पेत्रोग्लिफ़, पत्थर के औजार और अन्य कलाकृतियाँ मिली हैं, जो प्रारंभिक मानव निवासियों के जीवन के बारे में मूल्यवान जानकारी प्रदान करती हैं। इन खोजों ने भारतीय उपमहाद्वीप की प्रागैतिहासिक संस्कृति और बस्ती पैटर्न को समझने में उष्गलीमल की महत्ता को रेखांकित किया है।"
@@ -1441,8 +1441,8 @@ export const bookData: BookChapter[] = [
           "location": "Bellary District (Karnataka)",
           "majorAspect": "Kupgal, located in the Bellary District of Karnataka, is a significant archaeological site dating back to the Neolithic period, circa 2500-2000 BCE. The site has yielded key finds such as ash mounds, Neolithic celts, and pottery, providing valuable insights into the lives of early farming communities. The discovery of these artifacts at Kupgal has shed light on the agricultural practices, tool-making techniques, and cultural traditions of the Neolithic people in the region.",
           "pyqYears": [],
-          "lat": 15.2,
-          "lng": 76.8,
+          "lat": 15.1814,
+          "lng": 76.9686,
           "name_hi": "कुपगल",
           "location_hi": "बेल्लारी जिला (कर्नाटक)",
           "majorAspect_hi": "कुपगल, बेल्लारी जिला, कर्नाटक में स्थित, एक महत्वपूर्ण नियोलिथिक काल (लगभग २५००‑२००० ई.पू.) का पुरातात्विक स्थल है। यहाँ राख के टीले, नियोलिथिक सेलेट और मिट्टी के बर्तन मिले हैं, जो प्रारंभिक कृषि समुदायों के जीवन के बारे में मूल्यवान जानकारी प्रदान करते हैं। इन कलाकृतियों ने क्षेत्र में नियोलिथिक लोगों की कृषि प्रथाओं, औजार निर्माण तकनीक और सांस्कृतिक परम्पराओं को उजागर किया है।"
@@ -1555,8 +1555,8 @@ export const bookData: BookChapter[] = [
           "location": "Punjab province (Pakistan)",
           "majorAspect": "Jalilpur, located in the Punjab province of Pakistan, is a significant archaeological site dating back to the Indus Valley Civilization period (3300-1300 BCE). Excavations at the site have uncovered key finds such as pottery, seals, and other artifacts, providing valuable insights into the urban planning, trade, and cultural practices of the civilization. The discovery of a citadel and lower city at Jalilpur highlights the importance of the site as a major urban center of the Indus Valley Civilization.",
           "pyqYears": [],
-          "lat": 31.5,
-          "lng": 72.6,
+          "lat": 30.5306,
+          "lng": 72.1111,
           "name_hi": "जलीलपुर",
           "location_hi": "पंजाब प्रांत (पाकिस्तान)",
           "majorAspect_hi": "जलीलपुर, पाकिस्तान के पंजाब प्रांत में स्थित, एक महत्वपूर्ण पुरातात्विक स्थल है जो सिंधु घाटी सभ्यता (3300‑1300 ईसा पूर्व) से संबंधित है। उत्खनन से बर्तन, मोहरें और अन्य वस्तुएँ मिली हैं, जो सभ्यता की शहरी योजना, व्यापार और सांस्कृतिक प्रथाओं पर मूल्यवान अंतर्दृष्टि प्रदान करती हैं। जलीलपुर में किले और निचले शहर की खोज इस स्थल को सिंधु घाटी सभ्यता के प्रमुख शहरी केंद्र के रूप में महत्व देती है।"
@@ -1621,8 +1621,8 @@ export const bookData: BookChapter[] = [
           "pyqYears": [
             2021
           ],
-          "lat": 26.8,
-          "lng": 83.8,
+          "lat": 26.57,
+          "lng": 83.48,
           "name_hi": "सोहगौरा",
           "location_hi": "गोरखपुर जिला (उत्तर प्रदेश), राप्ती नदी के किनारे",
           "majorAspect_hi": "यह ज्ञात सबसे पुरानी भारतीय तांबे की पट्टिका अभिलेख है, संभवतः अशोक पूर्व काल की।"
@@ -1635,8 +1635,8 @@ export const bookData: BookChapter[] = [
             2018,
             2020
           ],
-          "lat": 25.1,
-          "lng": 81.7,
+          "lat": 24.9,
+          "lng": 82.0333,
           "name_hi": "कोल्डिहवा",
           "location_hi": "प्रयागराज जिला (उत्तर प्रदेश)",
           "majorAspect_hi": "पशु पिंजरा जिसमें पशु के खुरों के निशान हैं।"
@@ -1660,8 +1660,8 @@ export const bookData: BookChapter[] = [
             2013,
             2022
           ],
-          "lat": 25.9,
-          "lng": 84.7,
+          "lat": 25.7409,
+          "lng": 84.8199,
           "name_hi": "चिरंद",
           "location_hi": "सारण जिला (बिहार)",
           "majorAspect_hi": "चिरंद, बिहार के सारण जिले में स्थित, लगभग 2500‑1500 ईसा पूर्व का एक महत्वपूर्ण नवपाषाण स्थल है। उत्खनन से बर्तन, औजार और चावल की खेती के प्रमाण मिले हैं, जो उस अवधि में क्षेत्र के सामाजिक‑आर्थिक और सांस्कृतिक विकास को समझने में स्थल के महत्व को दर्शाते हैं। नवपाषाण से मध्यकाल तक की निरंतर सांस्कृतिक क्रम की खोज ने चिरंद को गंगा घाटी में मानव बस्तियों के विकास का अध्ययन करने के लिए एक महत्वपूर्ण स्थल बना दिया है।"
@@ -1825,8 +1825,8 @@ export const bookData: BookChapter[] = [
             2013,
             2017
           ],
-          "lat": 14.5,
-          "lng": 75.9,
+          "lat": 14.33,
+          "lng": 75.62,
           "name_hi": "हल्लूर",
           "location_hi": "हावेरी जिला (कर्नाटक)",
           "majorAspect_hi": "हल्लूर, कर्नाटक के हावेरी जिले में स्थित, एक महत्वपूर्ण पुरातात्विक स्थल है जो लौह युग और मेगालिथिक काल (लगभग 1200 ईसा पूर्व से 300 ईसा पूर्व) से संबंधित है। उत्खनन से लोहे के औजार, बर्तन और मेगालिथिक संरचनाएँ जैसे डोल्मेन और कायरन सर्कल मिले हैं। यह स्थल उस अवधि में क्षेत्र के लोगों के सांस्कृतिक, सामाजिक और आर्थिक प्रथाओं के बारे में मूल्यवान अंतर्दृष्टि प्रदान करता है, जिससे नियोलिथिक से लौह युग में संक्रमण को समझने में मदद मिलती है।"
@@ -1861,8 +1861,8 @@ export const bookData: BookChapter[] = [
             2023,
             2026
           ],
-          "lat": 12.4,
-          "lng": 78.7,
+          "lat": 12.5,
+          "lng": 78.6,
           "name_hi": "पैयम्पल्ली",
           "location_hi": "तिरुपत्तूर जिला (तमिलनाडु)",
           "majorAspect_hi": "स्थानीय लोहे के धातुकरण के प्रमाण। लड़ाई के दृश्य और नृत्यरत आकृति की पेंटिंग्स।"
@@ -1937,8 +1937,8 @@ export const bookData: BookChapter[] = [
           "location": "Raichur district (Karnataka)",
           "majorAspect": "Watgal, located in Raichur district of Karnataka, is a significant archaeological site dating back to the Neolithic period, circa 1800 BCE. Excavations at Watgal have yielded key finds such as ceramics, stone tools, and evidence of early agriculture, highlighting the settlement patterns and subsistence strategies of the Neolithic people. The site's importance lies in its contribution to understanding the Neolithic culture and the transition from a nomadic to a settled agricultural way of life in the Deccan region.",
           "pyqYears": [],
-          "lat": 16.2,
-          "lng": 76.5,
+          "lat": 16.1027,
+          "lng": 76.7533,
           "name_hi": "वाटगल",
           "location_hi": "रायचूर जिला (कर्नाटक)",
           "majorAspect_hi": "वाटगल, कर्नाटक के रायचूर जिले में स्थित, एक महत्वपूर्ण पुरातात्विक स्थल है जो नवपाषाण काल, लगभग 1800 ईसा पूर्व से संबंधित है। वाटगल के उत्खनन से सिरेमिक, पत्थर के औजार और प्रारम्भिक कृषि के प्रमाण मिले हैं, जो नवपाषाण लोगों के बस्तियों के पैटर्न और आजीविका रणनीतियों को उजागर करते हैं। इस स्थल का महत्व नवपाषाण संस्कृति और डेक्कन क्षेत्र में घुमंतू जीवन से स्थायी कृषि जीवन में परिवर्तन को समझने में इसके योगदान में निहित है।"
@@ -1965,8 +1965,8 @@ export const bookData: BookChapter[] = [
           "location": "Raichur district (Karnataka)",
           "majorAspect": "Discovered by F. Raymond Allchin.",
           "pyqYears": [],
-          "lat": 15.9,
-          "lng": 76.6,
+          "lat": 15.9644,
+          "lng": 76.4495,
           "name_hi": "पिकलीहल",
           "location_hi": "रायचूर जिला (कर्नाटक)",
           "majorAspect_hi": "एफ. रेयमंड ऑलचिन द्वारा खोजा गया।"
@@ -1976,8 +1976,8 @@ export const bookData: BookChapter[] = [
           "location": "Bellary district (Karnataka)",
           "majorAspect": "Sanganakallu, also known as Kupgal, is a megalithic site in Bellary district, Karnataka, dating back to the Iron Age (1200 BCE - 24 BCE) and the early historic period. The site has yielded significant finds, including iron slag, pottery, and megalithic burials, providing valuable insights into the technological, social, and cultural developments of the region during that period. The discovery of a sophisticated irrigation system and a large number of iron tools at Sanganakallu underscores its importance as a major iron-producing and trading center in ancient India.",
           "pyqYears": [],
-          "lat": 15.2,
-          "lng": 76.8,
+          "lat": 15.1847,
+          "lng": 76.9703,
           "name_hi": "संगनकल्लु/कुपगल",
           "location_hi": "बेल्लारी जिला (कर्नाटक)",
           "majorAspect_hi": "संगनकल्लु, जिसे कुपगल भी कहा जाता है, बेल्लारी जिले, कर्नाटक में स्थित एक मेगालिथिक स्थल है जो आयरन एज (1200 ईसा पूर्व - 24 ईसा पूर्व) और प्रारम्भिक ऐतिहासिक काल से संबंधित है। इस स्थल से आयरन स्लैग, मिट्टी के बर्तन और मेगालिथिक दफ़न जैसे महत्वपूर्ण अवशेष मिले हैं, जो उस समय क्षेत्र के तकनीकी, सामाजिक और सांस्कृतिक विकास के बारे में मूल्यवान जानकारी प्रदान करते हैं। संगनकल्लु में एक उन्नत सिंचाई प्रणाली और बड़ी संख्या में लोहे के औजारों की खोज इस स्थल को प्राचीन भारत में प्रमुख लोहे उत्पादन और व्यापार केंद्र के रूप में उसकी महत्ता को रेखांकित करती है।"
@@ -2001,8 +2001,8 @@ export const bookData: BookChapter[] = [
             2013,
             2017
           ],
-          "lat": 14.5,
-          "lng": 75.9,
+          "lat": 14.33,
+          "lng": 75.62,
           "name_hi": "हल्लूर",
           "location_hi": "हवेरि जिला (कर्नाटक)",
           "majorAspect_hi": "हल्लूर, कर्नाटक के हवेरि जिले में स्थित, एक महत्वपूर्ण पुरातात्विक स्थल है जो आयरन एज और मेगालिथिक काल, लगभग 1200 ईसा पूर्व से 300 ईसा पूर्व तक, से संबंधित है। हल्लूर के उत्खनन से लोहे के औजार, मिट्टी के बर्तन और मेगालिथिक संरचनाएँ जैसे डोल्मेन और सायरन वृत्त मिले हैं। यह स्थल उस अवधि में क्षेत्र में रहने वाले लोगों के सांस्कृतिक, सामाजिक और आर्थिक प्रथाओं के बारे में मूल्यवान अंतर्दृष्टि प्रदान करता है, जिससे नवपाषाण से आयरन एज में परिवर्तन को समझने में मदद मिलती है।"
@@ -2039,8 +2039,8 @@ export const bookData: BookChapter[] = [
           "pyqYears": [
             2023
           ],
-          "lat": 28.8,
-          "lng": 67.8,
+          "lat": 29.365,
+          "lng": 67.588,
           "name_hi": "नौशारो",
           "location_hi": "बलूचिस्तान (पाकिस्तान)",
           "majorAspect_hi": "पुरातत्वविदों के अनुसार, मेहरगढ़ को 2600 ईसा‑पूर्व से 2000 ईसा‑पूर्व के बीच नौशारो की ओर स्थानांतरित किया गया।"
@@ -2054,8 +2054,8 @@ export const bookData: BookChapter[] = [
             2016,
             2018
           ],
-          "lat": 27.8,
-          "lng": 66.6,
+          "lat": 27.685,
+          "lng": 66.192,
           "name_hi": "नाल",
           "location_hi": "खुज़दार, बलूचिस्तान (पाकिस्तान)",
           "majorAspect_hi": "अमरी‑नाल बर्तन संस्कृति का हिस्सा।"
@@ -2152,8 +2152,8 @@ export const bookData: BookChapter[] = [
           "location": "Hisar district (Haryana)",
           "majorAspect": "Siswal, located in Hisar district of Haryana, is a significant archaeological site dating back to the Harappan period, circa 2600-1900 BCE. Excavations at the site have yielded key finds such as pottery, seals, and other artifacts, including a unique type of copper axe. The discovery of these artifacts highlights the importance of Siswal as a major urban centre of the Indus Valley Civilization, providing valuable insights into the culture, trade, and economy of the region during that period.",
           "pyqYears": [],
-          "lat": 29.2,
-          "lng": 75.7,
+          "lat": 29.2112,
+          "lng": 75.4964,
           "name_hi": "सिसवाल",
           "location_hi": "हिसार जिला (हरियाणा)",
           "majorAspect_hi": "सिसवाल, हरियाणा के हिसार जिले में स्थित, एक महत्वपूर्ण पुरातात्विक स्थल है जो लगभग 2600‑1900 ईसा‑पूर्व के हारप्पा काल से संबंधित है। इस स्थल के उत्खनन से बर्तन, मुहरें और अन्य कलाकृतियाँ मिली हैं, जिसमें एक अनूठी प्रकार की तांबे की कुल्हाड़ी भी शामिल है। इन कलाकृतियों की खोज सिसवाल को सिंधु घाटी सभ्यता के एक प्रमुख शहरी केंद्र के रूप में महत्व देती है, जिससे उस काल में क्षेत्र की संस्कृति, व्यापार और अर्थव्यवस्था के बारे में मूल्यवान जानकारी मिलती है।"
@@ -2190,8 +2190,8 @@ export const bookData: BookChapter[] = [
           "location": "Fatehabad district (Haryana), at the",
           "majorAspect": "Kunal, located in Fatehabad district of Haryana, is a significant archaeological site dating back to the Harappan period, circa 2600-2400 BCE. Excavations at Kunal have yielded key finds such as copper axes, beads, and pottery, indicating a thriving urban settlement. The discovery of Kunal is important as it extends the Harappan civilization's geographical expanse and provides valuable insights into the cultural and economic dynamics of the region during that period.",
           "pyqYears": [],
-          "lat": 29.5,
-          "lng": 75.4,
+          "lat": 29.6217,
+          "lng": 75.6583,
           "name_hi": "कुणाल",
           "location_hi": "फतेहाबाद जिला (हरियाणा), पर",
           "majorAspect_hi": "कुणाल, हरियाणा के फतेहाबाद जिले में स्थित, एक महत्वपूर्ण पुरातात्विक स्थल है जो लगभग 2600‑2400 ईसा‑पूर्व के हारप्पा काल से संबंधित है। इस स्थल के उत्खनन से तांबे की कुल्हाड़ियाँ, मोती और बर्तन जैसे प्रमुख अवशेष मिले हैं, जो एक समृद्ध शहरी बस्ती का संकेत देते हैं। कुणाल की खोज महत्वपूर्ण है क्योंकि यह हारप्पा सभ्यता के भौगोलिक विस्तार को बढ़ाती है और उस काल में क्षेत्र की सांस्कृतिक और आर्थिक गतिशीलता पर मूल्यवान अंतर्दृष्टि प्रदान करती है।"
@@ -2228,8 +2228,8 @@ export const bookData: BookChapter[] = [
           "location": "Kandahar province (Afghanistan)",
           "majorAspect": "Mundigak, located in the Kandahar province of Afghanistan, is a significant archaeological site dating back to the Bronze Age (around 3000-1500 BCE) and the Iron Age. Excavations at Mundigak have yielded key finds such as pottery, seals, and other artifacts, indicating cultural exchange and trade links with the Indus Valley Civilization and other ancient civilizations. The site's importance lies in its provision of valuable insights into the cultural, economic, and political dynamics of the region during the 3rd and 2nd millennia BCE.",
           "pyqYears": [],
-          "lat": 31.5,
-          "lng": 65.5,
+          "lat": 31.9039,
+          "lng": 65.5246,
           "name_hi": "मुंदिगाक",
           "location_hi": "कंधार प्रांत (अफ़गानिस्तान)",
           "majorAspect_hi": "मुंदिगाक, अफ़गानिस्तान के कंधार प्रांत में स्थित, एक महत्वपूर्ण पुरातात्विक स्थल है जो कांस्य युग (लगभग 3000-1500 ईसा‑पूर्व) और लौह युग से संबंधित है। यहाँ किए गए उत्खननों से बर्तन, मोहरें और अन्य कलाकृतियाँ मिली हैं, जो सिंधु घाटी सभ्यता और अन्य प्राचीन सभ्यताओं के साथ सांस्कृतिक विनिमय और व्यापार संबंधों को दर्शाती हैं। इस स्थल का महत्व 3री और 2री सहस्राब्दी ईसा‑पूर्व के दौरान क्षेत्र की सांस्कृतिक, आर्थिक और राजनीतिक गतिशीलताओं के मूल्यवान अंतर्दृष्टि प्रदान करने में निहित है।"
@@ -2434,8 +2434,8 @@ export const bookData: BookChapter[] = [
           "pyqYears": [
             2013
           ],
-          "lat": 28.9,
-          "lng": 77.7,
+          "lat": 29.0031,
+          "lng": 77.4847,
           "name_hi": "आलमगीरपुर",
           "location_hi": "मेरठ जिला (उत्तर प्रदेश)",
           "majorAspect_hi": "पूर्वतम हड़प्पा स्थल"
@@ -2667,8 +2667,8 @@ export const bookData: BookChapter[] = [
             2016,
             2021
           ],
-          "lat": 32.5,
-          "lng": 75.1,
+          "lat": 32.9333,
+          "lng": 74.8,
           "name_hi": "मंदा",
           "location_hi": "जम्मू जिला (जम्मू और कश्मीर)",
           "majorAspect_hi": "मंदा, जम्मू और कश्मीर के जम्मू जिले में स्थित, एक अत्यंत महत्वपूर्ण पुरातात्विक स्थल है, जो 3री शताब्दी ई.पू. से 5री शताब्दी ई. तक का है। उत्खननों में बर्तन, टेराकोटा आकृतियाँ और सिक्के मिले हैं, जो कुशान और गुप्त काल के दौरान एक समृद्ध बस्ती का संकेत देते हैं। यह स्थल प्राचीन काल के एक प्रमुख शहरी केंद्र के रूप में महत्व रखता है, जो क्षेत्र के सांस्कृतिक, आर्थिक और राजनीतिक परिदृश्य पर मूल्यवान अंतर्दृष्टि प्रदान करता है।"
@@ -2721,8 +2721,8 @@ export const bookData: BookChapter[] = [
           "location": "Balochistan (Pakistan)",
           "majorAspect": "Beginning of double cropping, indicating agriculture diversification in late Harappan phase",
           "pyqYears": [],
-          "lat": 28,
-          "lng": 66,
+          "lat": 29.4437,
+          "lng": 67.844,
           "name_hi": "पिराक",
           "location_hi": "बलूचिस्तान (पाकिस्तान)",
           "majorAspect_hi": "डबल फसल की शुरुआत, जो देर हड़प्पा चरण में कृषि विविधीकरण को दर्शाती है"
@@ -2756,8 +2756,8 @@ export const bookData: BookChapter[] = [
           "location": "Jalandhar district (Punjab)",
           "majorAspect": "Katpalon, located in the Jalandhar district of Punjab, is a significant archaeological site dating back to the Harappan period, circa 2600-1900 BCE. Excavations at the site have yielded key finds such as pottery, seals, and other artifacts, which highlight the cultural and trade connections of the Indus Valley Civilization. The discovery of a unique type of pottery and a seal with a unicorn motif at Katpalon underscores its importance as a major urban center of the Harappan civilization.",
           "pyqYears": [],
-          "lat": 31.2922,
-          "lng": 75.5679,
+          "lat": 31.0312,
+          "lng": 75.8446,
           "name_hi": "कटपलों",
           "location_hi": "जालंधर जिला (पंजाब)",
           "majorAspect_hi": "कटपलों, जो पंजाब के जालंधर जिले में स्थित है, एक महत्वपूर्ण पुरातात्विक स्थल है जो हड़प्पा काल, लगभग 2600‑1900 ईसा पूर्व से संबंधित है। उत्खनन से बर्तन, मुहरें और अन्य कलाकृतियाँ मिली हैं, जो सिंधु घाटी सभ्यता के सांस्कृतिक और व्यापारिक संबंधों को उजागर करती हैं। एक विशिष्ट प्रकार के बर्तन और एक यूनिकॉर्न मोटिफ वाली मुहर की खोज ने इसे हड़प्पा सभ्यता के प्रमुख शहरी केंद्र के रूप में महत्व दिया है।"
@@ -2780,8 +2780,8 @@ export const bookData: BookChapter[] = [
           "location": "Kurukshetra district (Haryana)",
           "majorAspect": "Overlap between Later Harappan and PGW phases. Evidence of flourishing specialised craft activity",
           "pyqYears": [],
-          "lat": 30.0607,
-          "lng": 76.7631,
+          "lat": 30.0667,
+          "lng": 76.95,
           "name_hi": "भगवानपुरा",
           "location_hi": "कुरुक्षेत्र जिला (हरियाणा)",
           "majorAspect_hi": "देर हड़प्पा और पेंटेड ग्रे वेयर (PGW) चरणों के बीच ओवरलैप। विशेषीकृत शिल्प गतिविधियों के फलते‑फूलते प्रमाण"
@@ -2802,8 +2802,8 @@ export const bookData: BookChapter[] = [
           "location": "Bhiwani district (Haryana)",
           "majorAspect": "Mitathal, located in Bhiwani district of Haryana, is a significant archaeological site dating back to the Indus Valley Civilization period, circa 2500-2000 BCE. Excavations at the site have yielded key finds such as pottery, seals, and other artifacts, including a unique 'plough' and a 'yoking device', which highlight the agricultural and technological advancements of the civilization. The discovery of Mitathal has contributed significantly to our understanding of the Indus Valley Civilization's presence in the region and its cultural and economic practices.",
           "pyqYears": [],
-          "lat": 28.7328,
-          "lng": 75.8928,
+          "lat": 28.8919,
+          "lng": 76.1697,
           "name_hi": "मिताथल",
           "location_hi": "भिवानी जिला (हरियाणा)",
           "majorAspect_hi": "मिताथल, जो हरियाणा के भिवानी जिले में स्थित है, सिंधु घाटी सभ्यता (लगभग 2500‑2000 ईसा पूर्व) से संबंधित एक महत्वपूर्ण पुरातात्विक स्थल है। उत्खनन से बर्तन, मुहरें और अन्य कलाकृतियाँ, साथ ही एक विशिष्ट ‘हल’ और ‘जोड़ने का उपकरण’ मिले हैं, जो सभ्यता की कृषि और तकनीकी उन्नति को दर्शाते हैं। मिताथल की खोज ने इस क्षेत्र में सिंधु घाटी सभ्यता की उपस्थिति और उसकी सांस्कृतिक‑आर्थिक प्रथाओं को समझने में महत्वपूर्ण योगदान दिया है।"
@@ -2813,8 +2813,8 @@ export const bookData: BookChapter[] = [
           "location": "Saharanpur district (Uttar Pradesh)",
           "majorAspect": "Hulas, located in the Saharanpur district of Uttar Pradesh, is an archaeological site dating back to the Painted Grey Ware (PGW) period, circa 1000-600 BCE. Excavations at the site have yielded key finds such as PGW pottery, iron tools, and other artifacts, providing significant insights into the cultural and technological developments of the region during that era. The discovery of Hulas has contributed substantially to the understanding of the PGW culture and its spread in the Indo-Gangetic plains, highlighting its importance in the historical narrative of ancient India.",
           "pyqYears": [],
-          "lat": 29.9857,
-          "lng": 77.5041,
+          "lat": 29.6903,
+          "lng": 77.3603,
           "name_hi": "हुलास",
           "location_hi": "सहारनपुर जिला (उत्तर प्रदेश)",
           "majorAspect_hi": "हुलास, जो उत्तर प्रदेश के साहारनपुर जिले में स्थित है, पेंटेड ग्रे वेयर (PGW) काल, लगभग 1000‑600 ईसा पूर्व से संबंधित एक पुरातात्विक स्थल है। उत्खनन से PGW बर्तन, लोहे के औजार और अन्य कलाकृतियाँ मिली हैं, जो उस युग में क्षेत्र के सांस्कृतिक और तकनीकी विकास के महत्वपूर्ण संकेत प्रदान करती हैं। हुलास की खोज ने इंडो‑गंगा मैदानी क्षेत्रों में PGW संस्कृति के प्रसार को समझने में महत्वपूर्ण योगदान दिया है, जिससे प्राचीन भारत के इतिहास में इसका महत्व स्पष्ट होता है।"
@@ -2826,8 +2826,8 @@ export const bookData: BookChapter[] = [
           "pyqYears": [
             2016
           ],
-          "lat": 29.4497,
-          "lng": 77.7429,
+          "lat": 29.4362,
+          "lng": 77.5741,
           "name_hi": "मंडी",
           "location_hi": "मुजफ्फरनगर (उत्तर प्रदेश)",
           "majorAspect_hi": "मंडी, जो उत्तर प्रदेश के मुजफ्फरनगर में स्थित है, पेंटेड ग्रे वेयर (PGW) काल, 1200‑800 ईसा पूर्व से संबंधित एक पुरातात्विक स्थल है। उत्खनन से बर्तन, लोहे के औजार और अन्य कलाकृतियाँ मिली हैं, जो प्रारम्भिक लौह युग की एक सुव्यवस्थित बस्ती का संकेत देती हैं। मंडी में PGW की खोज महत्वपूर्ण है क्योंकि यह उस अवधि में क्षेत्र के सांस्कृतिक‑तकनीकी विकास के प्रमाण प्रदान करती है, जिससे भारतीय उपमहाद्वीप के इतिहासिक प्रवाह में इसका महत्व उजागर होता है।"
@@ -2839,8 +2839,8 @@ export const bookData: BookChapter[] = [
           "pyqYears": [
             2025
           ],
-          "lat": 29,
-          "lng": 77.3,
+          "lat": 29.2461,
+          "lng": 77.3508,
           "name_hi": "सिनौली",
           "location_hi": "बागपत जिला (उत्तर प्रदेश)",
           "majorAspect_hi": "धनी कबरी सामग्री के साथ दफन पाए गए।"
@@ -2850,8 +2850,8 @@ export const bookData: BookChapter[] = [
           "location": "Devbhoomi Dwarka district (Gujarat)",
           "majorAspect": "Important site for maritime archaeology famous for its submerged remains. Evidence of trade with Persian Gulf.",
           "pyqYears": [],
-          "lat": 22.3,
-          "lng": 68.9,
+          "lat": 22.4494,
+          "lng": 69.1172,
           "name_hi": "बेत द्वारका",
           "location_hi": "देवभूमि द्वारका जिला (गुजरात)",
           "majorAspect_hi": "समुद्री पुरातत्व के लिए महत्वपूर्ण स्थल, जो अपने डूबे हुए अवशेषों के लिए प्रसिद्ध है। पारस खाड़ी के साथ व्यापार के प्रमाण।"
@@ -2861,8 +2861,8 @@ export const bookData: BookChapter[] = [
           "location": "Jammu district (Jammu & Kashmir), on banks of river Chenab",
           "majorAspect": "Northernmost site of the Indus Valley Civilization. Three cultural phases found: Harappan, PGW and OCP.",
           "pyqYears": [],
-          "lat": 32.73,
-          "lng": 74.87,
+          "lat": 32.9333,
+          "lng": 74.8,
           "name_hi": "मेंडा",
           "location_hi": "जम्मू जिला (जम्मू एवं कश्मीर), चेनाब नदी के किनारे",
           "majorAspect_hi": "सिंधु घाटी सभ्यता का उत्तरीतम स्थल। तीन सांस्कृतिक चरण पाए गए: हड़प्पा, PGW और ओसीपी।"
@@ -2935,8 +2935,8 @@ export const bookData: BookChapter[] = [
           "location": "Kandahar province (Afghanistan)",
           "majorAspect": "Mundigak, located in the Kandahar province of Afghanistan, is a significant archaeological site dating back to the Bronze Age (around 3000-1500 BCE) and the Iron Age. Excavations at Mundigak have yielded key finds such as pottery, seals, and other artifacts, indicating cultural exchange and trade links with the Indus Valley Civilization and other ancient civilizations. The site's importance lies in its provision of valuable insights into the cultural, economic, and political dynamics of the region during the 3rd and 2nd millennia BCE.",
           "pyqYears": [],
-          "lat": 31.5,
-          "lng": 65.5,
+          "lat": 31.9039,
+          "lng": 65.5246,
           "name_hi": "मुंदिगाक",
           "location_hi": "कंधार प्रांत (अफ़ग़ानिस्तान)",
           "majorAspect_hi": "मुंदिगाक, कंधार प्रांत, अफ़ग़ानिस्तान में स्थित, एक महत्वपूर्ण पुरातात्विक स्थल है जो कांस्य युग (लगभग 3000-1500 ईसा पूर्व) और लौह युग से संबंधित है। मुंदिगाक में किए गए उत्खननों से बर्तनों, मुहरों और अन्य कलाकृतियों जैसे प्रमुख अवशेष मिले हैं, जो सिंधु घाटी सभ्यता और अन्य प्राचीन सभ्यताओं के साथ सांस्कृतिक विनिमय और व्यापार संबंधों को दर्शाते हैं। इस स्थल का महत्व क्षेत्र के 3री और 2री सहस्राब्दी ईसा पूर्व के सांस्कृतिक, आर्थिक और राजनीतिक गतिशीलताओं पर मूल्यवान अंतर्दृष्टि प्रदान करने में है।"
@@ -2966,8 +2966,8 @@ export const bookData: BookChapter[] = [
             2013,
             2022
           ],
-          "lat": 25.9,
-          "lng": 84.7,
+          "lat": 25.7409,
+          "lng": 84.8199,
           "name_hi": "चिरंद",
           "location_hi": "सारण जिला (बिहार)",
           "majorAspect_hi": "चिरंद, बिहार के सारण जिले में स्थित, एक महत्वपूर्ण पुरातात्विक स्थल है जो नवपाषाण काल, लगभग 2500-1500 ईसा पूर्व से संबंधित है। चिरंद में किए गए उत्खननों से बर्तनों, औजारों और धान की खेती के प्रमाण जैसे प्रमुख अवशेष मिले हैं, जो उस अवधि में क्षेत्र के सामाजिक-आर्थिक और सांस्कृतिक विकास को समझने में साइट के महत्व को रेखांकित करते हैं। नवपाषाण से मध्ययुगीन काल तक की निरंतर सांस्कृतिक क्रम की खोज ने गंगा घाटी में मानव बस्तियों के विकास का अध्ययन करने के लिए चिरंद को एक महत्वपूर्ण स्थल बना दिया है।"
@@ -3024,8 +3024,8 @@ export const bookData: BookChapter[] = [
           "location": "Bellary district (Karnataka)",
           "majorAspect": "Sanganakallu, located in the Bellary district of Karnataka, is a significant archaeological site dating back to the Neolithic and Megalithic periods, approximately 2000 BCE to 200 CE. The site has yielded key finds such as ash mounds, megalithic burials, and iron slag, indicating early ironworking and agricultural practices. The discovery of these artifacts at Sanganakallu has shed light on the technological, social, and cultural developments of the region during this period, making it an important site for understanding the history of the Indian subcontinent.",
           "pyqYears": [],
-          "lat": 15.2,
-          "lng": 76.8,
+          "lat": 15.1847,
+          "lng": 76.9703,
           "name_hi": "संगनकल्लु",
           "location_hi": "बेल्लारी जिला (कर्नाटक)",
           "majorAspect_hi": "संगनकल्लु, कर्नाटक के बेल्लारी जिले में स्थित, एक महत्वपूर्ण पुरातात्विक स्थल है जो नवपाषाण और मेगालिथिक काल, लगभग 2000 ईसा पूर्व से 200 ईस्वी तक, से संबंधित है। इस स्थल से राख के टीले, मेगालिथिक दफन स्थल और लौह स्लैग जैसे प्रमुख अवशेष मिले हैं, जो प्रारंभिक लौह कार्य और कृषि प्रथाओं को दर्शाते हैं। संगनकल्लु में इन कलाकृतियों की खोज ने इस अवधि में क्षेत्र के तकनीकी, सामाजिक और सांस्कृतिक विकास को उजागर किया है, जिससे यह भारतीय उपमहाद्वीप के इतिहास को समझने के लिए एक महत्वपूर्ण स्थल बन गया है।"
@@ -3055,8 +3055,8 @@ export const bookData: BookChapter[] = [
             2013,
             2017
           ],
-          "lat": 14.5,
-          "lng": 75.9,
+          "lat": 14.33,
+          "lng": 75.62,
           "name_hi": "हल्लूर",
           "location_hi": "हावेरी जिला (कर्नाटक)",
           "majorAspect_hi": "हल्लूर, कर्नाटक के हावेरी जिले में स्थित, एक महत्वपूर्ण पुरातात्विक स्थल है जो लौह युग और मेगालिथिक काल, लगभग 1200 ईसा पूर्व से 300 ईसा पूर्व तक, से संबंधित है। हल्लूर में किए गए उत्खननों से लौह औजार, बर्तनों और मेगालिथिक संरचनाओं जैसे डोल्मेन और ढेर वृत्तों के प्रमुख अवशेष मिले हैं। यह स्थल उस अवधि में क्षेत्र के लोगों के सांस्कृतिक, सामाजिक और आर्थिक अभ्यासों पर मूल्यवान अंतर्दृष्टि प्रदान करता है, और नवपाषाण से लौह युग में परिवर्तन को उजागर करता है।"
@@ -3093,8 +3093,8 @@ export const bookData: BookChapter[] = [
           "location": "Raichur district (Karnataka)",
           "majorAspect": "Discovered by F. Raymond Allchin.",
           "pyqYears": [],
-          "lat": 15.9,
-          "lng": 76.6,
+          "lat": 15.9644,
+          "lng": 76.4495,
           "name_hi": "पिकलीहाल",
           "location_hi": "रायचूर जिला (कर्नाटक)",
           "majorAspect_hi": "एफ. रेयमंड अल्चिन द्वारा खोजा गया।"
@@ -3140,8 +3140,8 @@ export const bookData: BookChapter[] = [
           "pyqYears": [
             2018
           ],
-          "lat": 25.5,
-          "lng": 74.1,
+          "lat": 25.0167,
+          "lng": 74.25,
           "name_hi": "गिलुंद",
           "location_hi": "राजसमंद जिला (राजस्थान)",
           "majorAspect_hi": "अहर‑बनास संस्कृति का सबसे बड़ा स्थल।"
@@ -3151,8 +3151,8 @@ export const bookData: BookChapter[] = [
           "location": "Udaipur district (Rajasthan)",
           "majorAspect": "Leprosy evidence by DNA testing.",
           "pyqYears": [],
-          "lat": 24.6,
-          "lng": 73.7,
+          "lat": 24.7167,
+          "lng": 73.9833,
           "name_hi": "बालथाल",
           "location_hi": "उदयपुर जिला (राजस्थान)",
           "majorAspect_hi": "डीएनए परीक्षण द्वारा कुष्ठ रोग के प्रमाण।"
@@ -3175,8 +3175,8 @@ export const bookData: BookChapter[] = [
           "location": "Surendranagar district (Gujarat)",
           "majorAspect": "Famous for its Lustrous Red Ware found in mature Harappan sites.",
           "pyqYears": [],
-          "lat": 22.7,
-          "lng": 71.7,
+          "lat": 22.4333,
+          "lng": 71.9167,
           "name_hi": "रंगपुर",
           "location_hi": "सुरेंद्रनगर जिला (गुजरात)",
           "majorAspect_hi": "प्रसिद्ध है अपने चमकदार लाल बर्तनों के लिए, जो परिपक्व हड़प्पा स्थलों में पाए जाते हैं।"
@@ -3197,8 +3197,8 @@ export const bookData: BookChapter[] = [
           "location": "Sagar district (Madhya Pradesh)",
           "majorAspect": "Extensive mud-works (fortifications).",
           "pyqYears": [],
-          "lat": 23.9,
-          "lng": 78.9,
+          "lat": 24.0938,
+          "lng": 78.1727,
           "name_hi": "एरान",
           "location_hi": "सागर जिला (मध्य प्रदेश)",
           "majorAspect_hi": "व्यापक मिट्टी के कार्य (किलेबंदी)।"
@@ -3222,8 +3222,8 @@ export const bookData: BookChapter[] = [
             2020,
             2024
           ],
-          "lat": 22.3,
-          "lng": 75.7,
+          "lat": 22.162,
+          "lng": 75.583,
           "name_hi": "नवदतोली",
           "location_hi": "खरगोना जिला (मध्य प्रदेश)",
           "majorAspect_hi": "नवदतोली, मध्य प्रदेश के खरगोना जिले में स्थित, चालकोलिथिक काल (1700-1400 ई.पू.) की मालवा संस्कृति से संबंधित एक महत्वपूर्ण पुरातात्विक स्थल है। इस स्थल से बर्तन, तांबे के औजार और मोती जैसे प्रमुख अवशेष प्राप्त हुए हैं, जो उस अवधि में इस क्षेत्र में रहने वाले लोगों के जीवन के बारे में मूल्यवान जानकारी प्रदान करते हैं। नवदतोली की खोज ने भारत में चालकोलिथिक युग की सांस्कृतिक और तकनीकी विकास को समझने में महत्वपूर्ण योगदान दिया है।"
@@ -3363,8 +3363,8 @@ export const bookData: BookChapter[] = [
           "location": "South Dinajpur district (West Bengal)",
           "majorAspect": "Bangarh, located in South Dinajpur district of West Bengal, is a significant archaeological site dating back to the Gupta period (4th-6th century CE). Excavations at the site have yielded important finds, including a massive temple, sculptures, and coins, which highlight its importance as a major urban centre during that era. The discovery of these artefacts has shed light on the cultural, religious, and economic aspects of the region during the Gupta period, making Bangarh a crucial site for understanding ancient Indian history.",
           "pyqYears": [],
-          "lat": 25.2,
-          "lng": 88.2,
+          "lat": 25.4125,
+          "lng": 88.5306,
           "name_hi": "बंगरह",
           "location_hi": "दक्षिण दीनाजपुर जिला (पश्चिम बंगाल)",
           "majorAspect_hi": "बंगरह, पश्चिम बंगाल के दक्षिण दीनाजपुर जिले में स्थित, गुप्त काल (4वीं‑6वीं शताब्दी ईस्वी) का एक महत्वपूर्ण पुरातात्विक स्थल है। उत्खनन से एक विशाल मंदिर, मूर्तियां और सिक्के मिले, जो उस समय के प्रमुख शहरी केंद्र के रूप में इसकी महत्ता को दर्शाते हैं। इन कलाकृतियों की खोज ने गुप्त काल में इस क्षेत्र के सांस्कृतिक, धार्मिक और आर्थिक पहलुओं को उजागर किया, जिससे बंगरह प्राचीन भारतीय इतिहास को समझने के लिए एक महत्वपूर्ण स्थल बनता है।"
@@ -3388,8 +3388,8 @@ export const bookData: BookChapter[] = [
             2014,
             2025
           ],
-          "lat": 28.7,
-          "lng": 77.2,
+          "lat": 28.4069,
+          "lng": 77.8498,
           "name_hi": "लाल किला",
           "location_hi": "बुलंदशहर जिला (उत्तर प्रदेश)",
           "majorAspect_hi": "लाल किला, उत्तर प्रदेश के बुलंदशहर जिले में स्थित, पेंटेड ग्रे वेयर काल (लगभग 1000‑600 ईसा‑पूर्व) का एक महत्वपूर्ण पुरातात्विक स्थल है। उत्खनन से बर्तन, लोहे के उपकरण और अन्य वस्तुएँ मिलीं, जो उस काल में इस क्षेत्र की सांस्कृतिक और आर्थिक प्रथाओं के बारे में मूल्यवान जानकारी देती हैं। यह स्थल गंगा‑यमुना दोआब में प्रारम्भिक लौह युग की संस्कृति और शहरीकरण को समझने में महत्वपूर्ण है।"
@@ -3443,8 +3443,8 @@ export const bookData: BookChapter[] = [
           "location": "Raichur district (Karnataka)",
           "majorAspect": "The first instance of the Copper Hoard culture being discovered in South India.",
           "pyqYears": [],
-          "lat": 16.0547,
-          "lng": 76.9004,
+          "lat": 16.1399,
+          "lng": 77.2049,
           "name_hi": "कल्लूर",
           "location_hi": "रायचुर जिला (कर्नाटक)",
           "majorAspect_hi": "दक्षिण भारत में तांबे की होर्ड संस्कृति की पहली खोज यहाँ हुई।"
@@ -3454,8 +3454,8 @@ export const bookData: BookChapter[] = [
           "location": "Mainpuri district (Uttar Pradesh)",
           "majorAspect": "4000 years old copper hoard has been discovered. People used big weapons such as 4 feet long sword and arms that had sharp, sophisticated shapes, like starfish. OCP culture at this place is generally dated between 2,000 and 1,500 BCE.",
           "pyqYears": [],
-          "lat": 27.2093,
-          "lng": 79.0625,
+          "lat": 27.4133,
+          "lng": 79.0956,
           "name_hi": "गणेशपुर",
           "location_hi": "मैंदौरी जिला (उत्तर प्रदेश)",
           "majorAspect_hi": "4000 वर्ष पुरानी तांबे की होर्ड मिली है। लोग बड़े हथियार जैसे 4 फुट लंबी तलवार और नुकीले, जटिल आकार (जैसे स्टारफ़िश) वाले उपकरण उपयोग करते थे। इस स्थान पर ओसीपी संस्कृति का सामान्यतः 2000‑1500 ईसा‑पूर्व के बीच तिथि निर्धारण किया गया है।"
@@ -3525,8 +3525,8 @@ export const bookData: BookChapter[] = [
           "location": "Etah district (Uttar Pradesh)",
           "majorAspect": "Atranjikhera, located in Etah district of Uttar Pradesh, is a significant archaeological site dating back to the PGW (Painted Grey Ware) period, circa 1000-600 BCE. Excavations at the site have yielded key finds such as PGW pottery, iron tools, and other artifacts, providing valuable insights into the material culture and technological advancements of the region during that period. The site's importance lies in its ability to shed light on the cultural and economic dynamics of the Ganga-Yamuna doab region during the early Iron Age in India.",
           "pyqYears": [],
-          "lat": 27.555,
-          "lng": 78.5992,
+          "lat": 27.7,
+          "lng": 78.6833,
           "name_hi": "अत्रानिकेरा",
           "location_hi": "एटा जिला (उत्तर प्रदेश)",
           "majorAspect_hi": "अत्रानिकेरा, उत्तर प्रदेश के एटा जिले में स्थित, पेंटेड ग्रे वेयर (PGW) काल (लगभग 1000-600 ईसा पूर्व) का एक महत्वपूर्ण पुरातात्विक स्थल है। उत्खनन से PGW मिट्टी के बर्तन, लोहे के औजार और अन्य वस्तुएँ मिली हैं, जो उस अवधि में क्षेत्र की सामग्री संस्कृति और तकनीकी उन्नति के बारे में मूल्यवान जानकारी देती हैं। यह स्थल गंगा-यमुना दोआब क्षेत्र में प्रारम्भिक लौह युग की सांस्कृतिक और आर्थिक गतिशीलता को उजागर करने में महत्वपूर्ण है।"
@@ -3605,8 +3605,8 @@ export const bookData: BookChapter[] = [
             2013,
             2017
           ],
-          "lat": 23.63,
-          "lng": 87.97,
+          "lat": 23.5719,
+          "lng": 87.6497,
           "name_hi": "पांडु राजर धिबी",
           "location_hi": "पूर्व बर्दमान जिला (पश्चिम बंगाल), अजय नदी के किनारे",
           "majorAspect_hi": "बंगाल में एक महत्वपूर्ण कांस्य युग का स्थल। तांबे के औजार, हस्तनिर्मित मिट्टी के बर्तन और धान की खेती के प्रमाण मिले हैं। यह पूर्वी भारत में नवपाषाण और कांस्य युग की संस्कृतियों के ओवरलैप को दर्शाता है।"
@@ -3616,8 +3616,8 @@ export const bookData: BookChapter[] = [
           "location": "Jalandhar district (Punjab)",
           "majorAspect": "Late Harappan and OCP cultural remains found. Important site for understanding post-urban Harappan phase in the Punjab plains.",
           "pyqYears": [],
-          "lat": 31.32,
-          "lng": 75.58,
+          "lat": 31.0312,
+          "lng": 75.8446,
           "name_hi": "कटपलोन",
           "location_hi": "जालंधर जिला (पंजाब)",
           "majorAspect_hi": "लेट हारप्पा और ओसीपी (ओटजि-चेनल) सांस्कृतिक अवशेष पाए गए हैं। यह पंजाब के मैदानी क्षेत्रों में पोस्ट-शहरी हारप्पा चरण को समझने के लिए एक महत्वपूर्ण स्थल है।"
@@ -3627,8 +3627,8 @@ export const bookData: BookChapter[] = [
           "location": "Hisar district (Haryana)",
           "majorAspect": "Pre-Harappan site giving name to the Siswal culture (Early Harappan phase in Haryana). Yielded pottery and structural remains predating mature Harappan phase.",
           "pyqYears": [],
-          "lat": 29.18,
-          "lng": 75.72,
+          "lat": 29.2112,
+          "lng": 75.4964,
           "name_hi": "सिसवाल",
           "location_hi": "हिसार जिला (हरियाणा)",
           "majorAspect_hi": "प्रि-हारप्पा स्थल जो सिसवाल संस्कृति (हरियाणा में प्रारम्भिक हारप्पा चरण) को नाम देता है। इसमें मिट्टी के बर्तन और संरचनात्मक अवशेष मिले हैं, जो परिपक्व हारप्पा चरण से पहले के हैं।"
@@ -3679,8 +3679,8 @@ export const bookData: BookChapter[] = [
           "location": "Lucknow district (Uttar Pradesh)",
           "majorAspect": "Iron evidence from 1st millennium BCE.",
           "pyqYears": [],
-          "lat": 26.8312,
-          "lng": 80.9174,
+          "lat": 26.6893,
+          "lng": 80.8171,
           "name_hi": "दादुपुर",
           "location_hi": "लखनऊ जिला (उत्तर प्रदेश)",
           "majorAspect_hi": "प्रथम सहस्राब्दी ईसा पूर्व से लोहे के प्रमाण।"
@@ -3715,8 +3715,8 @@ export const bookData: BookChapter[] = [
           "location": "Prayagraj district (Uttar Pradesh)",
           "majorAspect": "Iron here is dated to c. 1100 BCE.",
           "pyqYears": [],
-          "lat": 25.2793,
-          "lng": 81.9035,
+          "lat": 25.43,
+          "lng": 81.93,
           "name_hi": "झुसी",
           "location_hi": "प्रयागराज जिला (उत्तर प्रदेश)",
           "majorAspect_hi": "यहाँ का लोहे का काल लगभग 1100 ईसा पूर्व निर्धारित किया गया है।"
@@ -3879,8 +3879,8 @@ export const bookData: BookChapter[] = [
           "location": "Kurukshetra district (Haryana)",
           "majorAspect": "One large house had thirteen rooms and a courtyard and may have belonged to a chief.",
           "pyqYears": [],
-          "lat": 30.0607,
-          "lng": 76.7631,
+          "lat": 30.0667,
+          "lng": 76.95,
           "name_hi": "भगवानपुरा",
           "location_hi": "कुरुक्षेत्र जिला (हरियाणा)",
           "majorAspect_hi": "एक बड़े घर में तेरह कक्ष और एक आँगन था और यह संभवतः किसी प्रमुख का था।"
@@ -3906,8 +3906,8 @@ export const bookData: BookChapter[] = [
           "pyqYears": [
             2013
           ],
-          "lat": 31.32,
-          "lng": 75.58,
+          "lat": 31.0415,
+          "lng": 75.8332,
           "name_hi": "नगर",
           "location_hi": "जालंधर जिला (पंजाब)",
           "majorAspect_hi": "इसका प्राचीन नाम मलयनगर था और यह मल्लव गण-संघ की राजधानी थी, जो मौर्य‑उपरांत काल में थी। मल्लव जनपद के बड़े पैमाने पर सिक्के पाए गए।"
@@ -3930,8 +3930,8 @@ export const bookData: BookChapter[] = [
           "location": "New Delhi",
           "majorAspect": "Excavated by B. B. Lal.",
           "pyqYears": [],
-          "lat": 28.6,
-          "lng": 77.2,
+          "lat": 28.6094,
+          "lng": 77.2442,
           "name_hi": "पुराना किला",
           "location_hi": "नई दिल्ली",
           "majorAspect_hi": "बी. बी. लाल द्वारा उत्खनन किया गया।"
@@ -3969,8 +3969,8 @@ export const bookData: BookChapter[] = [
           "location": "Saharanpur district (Uttar Pradesh)",
           "majorAspect": "Hulas, located in the Saharanpur district of Uttar Pradesh, is an archaeological site dating back to the Painted Grey Ware (PGW) period, circa 1000-600 BCE. Excavations at the site have yielded key finds such as PGW pottery, iron tools, and other artifacts, providing significant insights into the cultural and technological developments of the region during that era. The discovery of Hulas has contributed substantially to the understanding of the PGW culture and its spread in the Indo-Gangetic plains, highlighting its importance in the historical narrative of ancient India.",
           "pyqYears": [],
-          "lat": 29.9857,
-          "lng": 77.5041,
+          "lat": 29.6903,
+          "lng": 77.3603,
           "name_hi": "हुलास",
           "location_hi": "सहारनपुर जिला (उत्तर प्रदेश)",
           "majorAspect_hi": "हुलास, साहारनपुर जिले में स्थित, पेंटेड ग्रे वेयर (PGW) काल (1000‑600 ईसा पूर्व) से संबंधित एक पुरातात्विक स्थल है। उत्खनन से PGW बर्तन, लोहे के औजार और अन्य वस्तुएँ मिलीं, जो उस समय क्षेत्र की सांस्कृतिक और तकनीकी प्रगति के बारे में महत्वपूर्ण जानकारी देती हैं। हुलास की खोज ने PGW संस्कृति और उसके इंडो‑गंगा मैदानी विस्तार को समझने में महत्वपूर्ण योगदान दिया है, जिससे प्राचीन भारत के इतिहास में इसका महत्व स्पष्ट होता है।"
@@ -4027,8 +4027,8 @@ export const bookData: BookChapter[] = [
           "location": "Jalandhar district (Punjab)",
           "majorAspect": "PGW site in Punjab plains. Shows continuity from Late Harappan to PGW cultural phase.",
           "pyqYears": [],
-          "lat": 31.32,
-          "lng": 75.58,
+          "lat": 31.0312,
+          "lng": 75.8446,
           "name_hi": "कटपलोन",
           "location_hi": "जालंधर जिला (पंजाब)",
           "majorAspect_hi": "पेंटेड ग्रे वेयर (PGW) स्थल, पंजाब मैदानी क्षेत्र में। यह देर हड़प्पा से PGW सांस्कृतिक चरण तक निरंतरता दर्शाता है।"
@@ -4281,8 +4281,8 @@ export const bookData: BookChapter[] = [
             2013,
             2017
           ],
-          "lat": 14.5,
-          "lng": 75.9,
+          "lat": 14.33,
+          "lng": 75.62,
           "name_hi": "हल्लूर",
           "location_hi": "हावेरी जिला (कर्नाटक)",
           "majorAspect_hi": "हल्लूर, कर्नाटक के हावेरी जिले में स्थित, आयरन एज और मेगालिथिक काल (लगभग ई.पू. 1200‑300) का एक महत्वपूर्ण पुरातात्विक स्थल है। उत्खनन से लोहे के औजार, मृत्तिका, और मेगालिथिक संरचनाएँ जैसे डोल्मेन और ढेर वृत्त मिले हैं। यह स्थल उस समय के लोगों के सांस्कृतिक, सामाजिक और आर्थिक अभ्यासों के बारे में मूल्यवान अंतर्दृष्टि प्रदान करता है, जो नवपाषाण से आयरन एज में परिवर्तन को उजागर करता है"
@@ -4303,8 +4303,8 @@ export const bookData: BookChapter[] = [
           "location": "Thrissur district (Kerala)",
           "majorAspect": "Machad, located in the Thrissur district of Kerala, is a significant archaeological site dating back to the Megalithic period, circa 1000 BCE to 500 BCE. Excavations at the site have yielded key finds such as dolmens, urn burials, and iron implements, providing valuable insights into the lives of the megalithic people of the region. The discovery of these artifacts highlights the importance of Machad as a site that sheds light on the cultural, social, and technological developments of the Megalithic era in southern India.",
           "pyqYears": [],
-          "lat": 10.4787,
-          "lng": 76.2726,
+          "lat": 10.6358,
+          "lng": 76.2598,
           "name_hi": "माचड",
           "location_hi": "त्रिशूर जिला (केरल)",
           "majorAspect_hi": "माचड, केरल के त्रिशूर जिले में स्थित, मेगालिथिक काल (लगभग ई.पू. 1000‑500) का एक महत्वपूर्ण पुरातात्विक स्थल है। उत्खनन से डोल्मेन, कलश दफन और लोहे के उपकरण मिले हैं, जो क्षेत्र के मेगालिथिक लोगों के जीवन के बारे में मूल्यवान अंतर्दृष्टि प्रदान करते हैं। इन कलाकृतियों की खोज दक्षिण भारत में मेगालिथिक युग के सांस्कृतिक, सामाजिक और तकनीकी विकास को उजागर करती है"
@@ -4339,8 +4339,8 @@ export const bookData: BookChapter[] = [
             2023,
             2026
           ],
-          "lat": 12.4,
-          "lng": 78.7,
+          "lat": 12.5,
+          "lng": 78.6,
           "name_hi": "पैयम्पल्ली",
           "location_hi": "तिरुपट्टूर जिला (तमिलनाडु)",
           "majorAspect_hi": "स्थानीय लोहे के धातुकरण के प्रमाण। लड़ाई के दृश्य, नृत्यरत आकृति की पेंटिंग"
@@ -4378,8 +4378,8 @@ export const bookData: BookChapter[] = [
             2024,
             2026
           ],
-          "lat": 10.5,
-          "lng": 78.9,
+          "lat": 10.466,
+          "lng": 78.734,
           "name_hi": "सित्तनवसाल",
           "location_hi": "पुदुकोट्टई जिला (तमिलनाडु)",
           "majorAspect_hi": "जैन संतों द्वारा निर्मित प्रसिद्ध ऐतिहासिक फ्रेशो चित्रकला गुफाओं के भीतर पाई जाती है और यह पांड्य चित्रकला देखने वाला एकमात्र स्थान है।"
@@ -4420,8 +4420,8 @@ export const bookData: BookChapter[] = [
           "pyqYears": [
             2024
           ],
-          "lat": 23.5444,
-          "lng": 93.348,
+          "lat": 23.2035,
+          "lng": 93.3332,
           "name_hi": "वांगछिया",
           "location_hi": "चम्पाई जिला (मिज़ोरम)",
           "majorAspect_hi": "यह मिज़ोरम का पहला पुरातात्विक रूप से संरक्षित स्थल है।"
@@ -4431,8 +4431,8 @@ export const bookData: BookChapter[] = [
           "location": "Narayanpet district (Telangana)",
           "majorAspect": "80 tall menhirs aligned for astronomical significance. A unique menhir with cup marks is considered the earliest known depiction of a constellation in South Asia (Ursa Major/Saptarshi Mandal). Some stones are even worshipped by local people suggesting living cultural traditions. UNESCO Tentative list of World Heritage Sites.",
           "pyqYears": [],
-          "lat": 16.7006,
-          "lng": 77.6165,
+          "lat": 16.3793,
+          "lng": 77.4109,
           "name_hi": "मुडुमाल",
           "location_hi": "नारायणपेट जिला (तेलंगाना)",
           "majorAspect_hi": "खगोलीय महत्व के लिए 80 ऊँचे मेन्हिरों को क्रमबद्ध किया गया है। कप चिह्नों वाले एक अनूठे मेन्हिर को दक्षिण एशिया में सबसे प्राचीन ज्ञात नक्षत्र चित्रण (उर्सा मेजर/सप्तर्षि मंडल) माना जाता है। कुछ पत्थरों की स्थानीय लोग पूजा भी करते हैं, जो जीवित सांस्कृतिक परम्पराओं का संकेत है। यह यूनेस्को की विश्व धरोहर संभावित सूची में शामिल है।"
@@ -4442,8 +4442,8 @@ export const bookData: BookChapter[] = [
           "location": "Champhai district (Mizoram)",
           "majorAspect": "Declared a 'monument of national importance' by ASI.",
           "pyqYears": [],
-          "lat": 23.5444,
-          "lng": 93.348,
+          "lat": 23.2437,
+          "lng": 93.3285,
           "name_hi": "लियनपुई",
           "location_hi": "चम्पाई जिला (मिज़ोरम)",
           "majorAspect_hi": "इसे एएसआई द्वारा 'राष्ट्रीय महत्व का स्मारक' घोषित किया गया है।"
@@ -4466,8 +4466,8 @@ export const bookData: BookChapter[] = [
           "location": "West Jaintia Hills district (Meghalaya)",
           "majorAspect": "Nartiang, located in the West Jaintia Hills district of Meghalaya, is a significant archaeological site dating back to the 13th-19th centuries. Excavations have uncovered key finds such as monoliths, menhirs, and other megalithic structures, indicating a rich cultural and historical heritage of the Jaintia tribe. The site holds importance as it provides valuable insights into the megalithic culture and traditions of the region during the medieval period.",
           "pyqYears": [],
-          "lat": 25.4426,
-          "lng": 92.2988,
+          "lat": 25.567,
+          "lng": 92.209,
           "name_hi": "नर्तियांग",
           "location_hi": "वेस्ट जैंटिया हिल्स जिला (मेघालय)",
           "majorAspect_hi": "नर्तियांग, मेघालय के वेस्ट जैंटिया हिल्स जिले में स्थित, 13वीं से 19वीं शताब्दी तक का एक महत्वपूर्ण पुरातात्विक स्थल है। उत्खननों में मोनोलिथ, मेन्हिर और अन्य मेगालिथिक संरचनाएँ जैसी प्रमुख वस्तुएँ मिली हैं, जो जैंटिया जनजाति की समृद्ध सांस्कृतिक और ऐतिहासिक विरासत को दर्शाती हैं। यह स्थल मध्ययुगीन काल में क्षेत्र की मेगालिथिक संस्कृति और परम्पराओं के बारे में मूल्यवान अंतर्दृष्टि प्रदान करता है।"
@@ -4591,8 +4591,8 @@ export const bookData: BookChapter[] = [
           "location": "Delhi, on the banks of river Yamuna",
           "majorAspect": "Indraprastha, located at Delhi on the banks of river Yamuna, is a site of immense historical and archaeological significance, dating back to the 6th century BCE of the Mahabharata period. Excavations have yielded key finds such as Painted Grey Ware, a characteristic pottery of the Iron Age, and other artifacts like pottery, tools, and ceramics. The site holds importance as it is believed to be the capital of the Pandavas, marking an early urban settlement in the Indian subcontinent.",
           "pyqYears": [],
-          "lat": 28.6,
-          "lng": 77.2,
+          "lat": 28.6094,
+          "lng": 77.2442,
           "name_hi": "इंद्रप्रस्थ",
           "location_hi": "दिल्ली, यमुना नदी के किनारे",
           "majorAspect_hi": "इंद्रप्रस्थ, जो दिल्ली में यमुना के किनारे स्थित है, एक अत्यंत ऐतिहासिक और पुरातात्विक महत्व का स्थल है, जो महाभारत काल की 6ठी शताब्दी ईसा‑पूर्व से संबंधित है। उत्खनन में पेंटेड ग्रे वेयर (आयरन एज की विशिष्ट मिट्टी की बर्तन), तथा अन्य बर्तन, औजार और सिरेमिक्स मिले हैं। यह स्थल पांडवों की राजधानी माना जाता है, जिससे भारतीय उपमहाद्वीप में प्रारम्भिक शहरी बस्ती का प्रमाण मिलता है।"
@@ -4629,8 +4629,8 @@ export const bookData: BookChapter[] = [
           "location": "Etawah district (UP), on the banks of Kali Nadi",
           "majorAspect": "It shows transition from village to town and became a fortified secondary centre.",
           "pyqYears": [],
-          "lat": 27.555,
-          "lng": 78.5992,
+          "lat": 27.7,
+          "lng": 78.6833,
           "name_hi": "अत्रांझेहरा",
           "location_hi": "एटावा जिला (उत्तर प्रदेश), काली नदी के किनारे",
           "majorAspect_hi": "यह गाँव से नगर में परिवर्तन को दर्शाता है और एक किलेबंद द्वितीयक केंद्र बन गया।"
@@ -4756,8 +4756,8 @@ export const bookData: BookChapter[] = [
           "pyqYears": [
             2018
           ],
-          "lat": 25.7,
-          "lng": 85.1,
+          "lat": 26.0137,
+          "lng": 85.109,
           "name_hi": "वैशाली",
           "location_hi": "वैशाली जिला (बिहार)",
           "majorAspect_hi": "दूसरे बौद्ध परिषद का स्थल। कलासोका द्वारा संरक्षित और शाक्य बकमी द्वारा अध्यक्षता किया गया। उद्देश्य: ‘महान विभाजन’ अर्थात विभिन्न बौद्ध संप्रदायों के बीच मतभेदों पर चर्चा।"
@@ -4858,8 +4858,8 @@ export const bookData: BookChapter[] = [
           "pyqYears": [
             2021
           ],
-          "lat": 26.8,
-          "lng": 83.8,
+          "lat": 26.57,
+          "lng": 83.48,
           "name_hi": "सोहगौरा",
           "location_hi": "गोरखपुर जिला (उत्तर प्रदेश), राप्ती नदी के किनारे",
           "majorAspect_hi": "यह ज्ञात सबसे पुरानी भारतीय तांबे की पट्टिका अभिलेख है, संभवतः प्राचीन अशोक पूर्व काल की।"
@@ -4905,8 +4905,8 @@ export const bookData: BookChapter[] = [
           "pyqYears": [
             2021
           ],
-          "lat": 26.8,
-          "lng": 83.8,
+          "lat": 26.57,
+          "lng": 83.48,
           "name_hi": "सोहगौरा",
           "location_hi": "गोरखपुर जिला (उत्तर प्रदेश), राप्ती नदी के किनारे",
           "majorAspect_hi": "सबसे पुरानी ज्ञात भारतीय तांबे की पट्टिका अभिलेख, संभवतः अशोकपूर्व काल की। प्राकृत भाषा और ब्राह्मी लिपि में लिखी, जिसमें अकाल राहत के उपायों का उल्लेख है। विभिन्न अधिकारियों और प्रशासनिक शब्दों का उल्लेख है, जो जटिल नौकरशाही का संकेत देता है।"
@@ -4927,8 +4927,8 @@ export const bookData: BookChapter[] = [
           "location": "Jehanabad district (Bihar)",
           "majorAspect": "Commissioned by Ashoka and his grandson Dasharatha for Ajivika sects. The inscriptions in the Barabar caves are part of Ashoka's Minor Rock Edicts and appear in three caves named Sudama, Visvakarma and Karna Chopar.",
           "pyqYears": [],
-          "lat": 26.17,
-          "lng": 75.79,
+          "lat": 25.005,
+          "lng": 85.063,
           "name_hi": "बाराबर और नगरजुनी गुफाएँ",
           "location_hi": "जहानाबाद जिला (बिहार)",
           "majorAspect_hi": "अशोक और उनके पोते दशरथ द्वारा अजीविक संप्रदायों के लिये निर्मित। बाराबर गुफाओं में अभिलेख अशोक के लघु शिलालेखों का हिस्सा हैं और तीन गुफाओं – सुदामा, विश्वकर्मा और कर्ण चोपड़ – में पाए जाते हैं।"
@@ -4987,8 +4987,8 @@ export const bookData: BookChapter[] = [
           "location": "Koppal district (Karnataka)",
           "majorAspect": "Capital of Southern Province of Mauryas. Had gold mines and was thus an important source of revenue for the empire.",
           "pyqYears": [],
-          "lat": 15.35,
-          "lng": 76.15,
+          "lat": 15.55,
+          "lng": 76.4,
           "name_hi": "सुवर्णगिरी",
           "location_hi": "कोप्पल जिला (कर्नाटक)",
           "majorAspect_hi": "मौर्य साम्राज्य के दक्षिणी प्रांत की राजधानी। यहाँ सोने की खानें थीं, इसलिए यह साम्राज्य के लिये राजस्व का महत्वपूर्ण स्रोत था।"
@@ -5059,8 +5059,8 @@ export const bookData: BookChapter[] = [
             2015,
             2019
           ],
-          "lat": 26.17,
-          "lng": 75.79,
+          "lat": 21.5258,
+          "lng": 70.4831,
           "name_hi": "गिरनार (जुन्नागढ़)",
           "location_hi": "जुन्नागढ़ जिला (गुजरात)",
           "majorAspect_hi": "मुख्य शिलालेख स्थल। यहाँ रुद्रदमन प्रथम और स्कंदगुप्त के शिलालेख (जुन्नागढ़ शिलालेख) भी स्थित हैं।"
@@ -5092,8 +5092,8 @@ export const bookData: BookChapter[] = [
           "location": "Palghar district (Maharashtra)",
           "majorAspect": "Major Rock Edict site (western coast). Fragments found.",
           "pyqYears": [],
-          "lat": 19.055,
-          "lng": 72.8692,
+          "lat": 19.4154,
+          "lng": 72.8613,
           "name_hi": "बॉम्बे‑सोपारा",
           "location_hi": "पालघर जिला (महाराष्ट्र)",
           "majorAspect_hi": "मुख्य शिलालेख स्थल (पश्चिमी तट)। टुकड़े पाए गए हैं।"
@@ -5250,8 +5250,8 @@ export const bookData: BookChapter[] = [
           "location": "Bellary district (Karnataka)",
           "majorAspect": "Minor Rock Edict.",
           "pyqYears": [],
-          "lat": 15.15,
-          "lng": 76.92,
+          "lat": 15.5467,
+          "lng": 76.8328,
           "name_hi": "निट्टूर",
           "location_hi": "बेल्लारी जिला (कर्नाटक)",
           "majorAspect_hi": "लघु शिला अभिलेख।"
@@ -5261,8 +5261,8 @@ export const bookData: BookChapter[] = [
           "location": "Bellary district (Karnataka)",
           "majorAspect": "Minor Rock Edict.",
           "pyqYears": [],
-          "lat": 15.2,
-          "lng": 76.95,
+          "lat": 15.5258,
+          "lng": 76.8189,
           "name_hi": "उदेगोलम",
           "location_hi": "बेल्लारी जिला (कर्नाटक)",
           "majorAspect_hi": "लघु शिला अभिलेख।"
@@ -5272,8 +5272,8 @@ export const bookData: BookChapter[] = [
           "location": "Originally Yamunanagar (Haryana), moved to Delhi by Firoz Shah Tughlaq",
           "majorAspect": "Pillar Edict. Contains all 7 Pillar Edicts including the 7th (unique). Moved to Delhi by Firuz Shah Tughlaq in 1356.",
           "pyqYears": [],
-          "lat": 28.6139,
-          "lng": 77.209,
+          "lat": 28.635,
+          "lng": 77.2427,
           "name_hi": "दिल्ली‑टॉपरा",
           "location_hi": "मूल रूप से यमुनानगर (हरियाणा), फ़िरोज़ शाह तुगलक द्वारा दिल्ली में स्थानांतरित",
           "majorAspect_hi": "स्तम्भ अभिलेख। सभी 7 स्तम्भ अभिलेखों सहित 7वाँ (विशिष्ट) शामिल है। 1356 में फ़िरोज़ शाह तुगलक द्वारा दिल्ली में स्थानांतरित किया गया।"
@@ -5283,8 +5283,8 @@ export const bookData: BookChapter[] = [
           "location": "Originally Meerut (Uttar Pradesh), moved to Delhi by Firoz Shah Tughlaq",
           "majorAspect": "Pillar Edict. Contains Pillar Edicts 1-6. Moved to Delhi by Firuz Shah Tughlaq.",
           "pyqYears": [],
-          "lat": 28.6139,
-          "lng": 77.209,
+          "lat": 28.6739,
+          "lng": 77.2117,
           "name_hi": "दिल्ली‑मेरठ",
           "location_hi": "मूल रूप से मेरठ (उत्तर प्रदेश), फ़िरोज़ शाह तुगलक द्वारा दिल्ली में स्थानांतरित",
           "majorAspect_hi": "स्तम्भ अभिलेख। स्तम्भ अभिलेख 1-6 शामिल हैं। फ़िरोज़ शाह तुगलक द्वारा दिल्ली में स्थानांतरित किया गया।"
@@ -5327,8 +5327,8 @@ export const bookData: BookChapter[] = [
           "location": "West Champaran district (Bihar)",
           "majorAspect": "Pillar Edict. Two pillars found — one with bull capital, one with lion capital.",
           "pyqYears": [],
-          "lat": 27,
-          "lng": 84.45,
+          "lat": 27.2699,
+          "lng": 84.4995,
           "name_hi": "रम्पुर्वा",
           "location_hi": "पश्चिम चम्पारण जिला (बिहार)",
           "majorAspect_hi": "स्तम्भ अभिलेख। दो स्तम्भ मिले — एक बैल के शीर्ष के साथ, दूसरा शेर के शीर्ष के साथ।"
@@ -5408,8 +5408,8 @@ export const bookData: BookChapter[] = [
           "location": "Raisen district (Madhya Pradesh)",
           "majorAspect": "Schism Edict found at Sanchi stupa. Warning against schism in the Buddhist Sangha.",
           "pyqYears": [],
-          "lat": 23.2676,
-          "lng": 78.1727,
+          "lat": 23.4807,
+          "lng": 77.7363,
           "name_hi": "सांची",
           "location_hi": "रायसेन जिला (मध्य प्रदेश)",
           "majorAspect_hi": "सांची स्तूप पर पाया गया विभाजन अभिलेख। बौद्ध संघ में विभाजन के विरुद्ध चेतावनी।"
@@ -5440,8 +5440,8 @@ export const bookData: BookChapter[] = [
           "pyqYears": [
             2021
           ],
-          "lat": 34.9,
-          "lng": 69,
+          "lat": 34.9461,
+          "lng": 69.265,
           "name_hi": "बाग्राम",
           "location_hi": "परवान प्रांत (अफ़गानिस्तान)",
           "majorAspect_hi": "कुशान राजवंश की राजधानी, रेशम मार्ग पर महत्वपूर्ण व्यापार केंद्र। बाग्राम हाथीदंत और रोमन/चीनी कलाकृतियों की खोज।"
@@ -5569,8 +5569,8 @@ export const bookData: BookChapter[] = [
           "location": "Gwalior district (Madhya Pradesh)",
           "majorAspect": "Capital of Naga dynasty during post-Mauryan period.",
           "pyqYears": [],
-          "lat": 25.95,
-          "lng": 77.93,
+          "lat": 25.77,
+          "lng": 78.25,
           "name_hi": "पद्मावती",
           "location_hi": "ग्वालियर जिला (मध्य प्रदेश)",
           "majorAspect_hi": "मौर्य‑उपरांत काल में नागा राजवंश की राजधानी।"
@@ -5665,8 +5665,8 @@ export const bookData: BookChapter[] = [
             2015,
             2019
           ],
-          "lat": 16.2854,
-          "lng": 80.5686,
+          "lat": 16.5753,
+          "lng": 80.358,
           "name_hi": "अमरावती",
           "location_hi": "गुंटूर जिला (आंध्र प्रदेश)",
           "majorAspect_hi": "सातवाहनों की राजधानी और प्रमुख बौद्ध केंद्र, प्रसिद्ध अमरावती कला विद्यालय।"
@@ -5840,8 +5840,8 @@ export const bookData: BookChapter[] = [
           "location": "Tirunelveli district (Tamil Nadu)",
           "majorAspect": "Megalithic and early historic burial site with Tamil-Brahmi inscriptions.",
           "pyqYears": [],
-          "lat": 8.93,
-          "lng": 77.55,
+          "lat": 8.4281,
+          "lng": 77.671,
           "name_hi": "थुलुक्करपट्टी",
           "location_hi": "तिरुनेल्वेली जिला (तमिलनाडु)",
           "majorAspect_hi": "मेगालिथिक और प्रारम्भिक ऐतिहासिक दफन स्थल जिसमें तमिल-ब्राह्मी लिपि के अभिलेख पाए गए हैं।"
@@ -5901,8 +5901,8 @@ export const bookData: BookChapter[] = [
           "pyqYears": [
             2020
           ],
-          "lat": 10.53,
-          "lng": 76.02,
+          "lat": 10.22,
+          "lng": 76.194,
           "name_hi": "चेरेमन जूमा मस्जिद",
           "location_hi": "त्रिशूर जिला (केरल)",
           "majorAspect_hi": "परम्परागत रूप से भारत की प्रारम्भिक मस्जिदों में से एक मानी जाती है, प्रारम्भिक अरब व्यापार संबंधों से जुड़ी।"
@@ -5925,8 +5925,8 @@ export const bookData: BookChapter[] = [
           "location": "Narsingdi district (Bangladesh)",
           "majorAspect": "Ancient fortified city with evidence of early trade network in Bengal delta, possibly pre-Mauryan to post-Mauryan.",
           "pyqYears": [],
-          "lat": 24.1,
-          "lng": 90.65,
+          "lat": 24.0931,
+          "lng": 90.8256,
           "name_hi": "वारी-बाटेश्वर",
           "location_hi": "नरसिंहदी जिला (बांग्लादेश)",
           "majorAspect_hi": "प्राचीन किलेबंद शहर, बंगाल डेल्टा में प्रारम्भिक व्यापार नेटवर्क के प्रमाण के साथ, संभवतः प्राचीन-मैसूरियन से पोस्ट-मैसूरियन काल तक।"
@@ -5979,8 +5979,8 @@ export const bookData: BookChapter[] = [
           "location": "Prayagraj district (Uttar Pradesh)",
           "majorAspect": "Site of Allahabad Pillar Inscription (Prashasti of Samudragupta by Harisena).",
           "pyqYears": [],
-          "lat": 25.2793,
-          "lng": 81.9035,
+          "lat": 25.4358,
+          "lng": 81.8464,
           "name_hi": "प्रयाग",
           "location_hi": "प्रयागराज जिला (उत्तर प्रदेश)",
           "majorAspect_hi": "अल्लाहाबाद स्तम्भ अभिलेख (समुद्रगुप्त की प्रशंसा हरिसेन द्वारा) का स्थल।"
@@ -6069,8 +6069,8 @@ export const bookData: BookChapter[] = [
           "location": "Srikakulam district (Andhra Pradesh)",
           "majorAspect": "Capital of Kalinga region mentioned among states defeated by Samudragupta in his southern campaign.",
           "pyqYears": [],
-          "lat": 26.17,
-          "lng": 75.79,
+          "lat": 18.6,
+          "lng": 83.9667,
           "name_hi": "कालींगनगर",
           "location_hi": "श्रीकाकुलम जिला (आंध्र प्रदेश)",
           "majorAspect_hi": "समुद्रगुप्त के दक्षिणी अभियान में पराजित राज्यों में कालींग क्षेत्र की राजधानी।"
@@ -6115,8 +6115,8 @@ export const bookData: BookChapter[] = [
           "location": "Anuppur district (Madhya Pradesh)",
           "majorAspect": "Amarkantak is known as the king of pilgrimages, or Tirthraj because of presence of several temples such as Pataleshwara temple and Narmada temple.",
           "pyqYears": [],
-          "lat": 23.0346,
-          "lng": 81.751,
+          "lat": 22.6733,
+          "lng": 81.7595,
           "name_hi": "अमरकंटक",
           "location_hi": "अनुपपुर जिला (मध्य प्रदेश)",
           "majorAspect_hi": "अमरकंटक को तीर्थराज कहा जाता है, क्योंकि यहाँ पतलेश्वर और नर्मदा मंदिर सहित कई मंदिर स्थित हैं।"
@@ -6126,8 +6126,8 @@ export const bookData: BookChapter[] = [
           "location": "Chamoli district (Uttarakhand)",
           "majorAspect": "One of the Char Dham pilgrimage sites, it is dedicated to Lord Vishnu. Architectural similarities with Buddhist vihara led to argument that it was a Buddhist shrine and Adi Shankara converted it to Hindu temple.",
           "pyqYears": [],
-          "lat": 30.4986,
-          "lng": 79.6191,
+          "lat": 30.744,
+          "lng": 79.493,
           "name_hi": "बद्रीनाथ",
           "location_hi": "चमोली जिला (उत्तराखंड)",
           "majorAspect_hi": "चार धाम में से एक तीर्थस्थल, विष्णु भगवान को समर्पित। बौद्ध विहार के समान वास्तुशिल्प के कारण इसे बौद्ध मंदिर माना जाता था, जिसे आदि शंकर ने हिन्दू मंदिर में परिवर्तित किया।"
@@ -6208,8 +6208,8 @@ export const bookData: BookChapter[] = [
           "pyqYears": [
             2023
           ],
-          "lat": 26.9987,
-          "lng": 79.6928,
+          "lat": 27.07,
+          "lng": 79.92,
           "name_hi": "कन्नौज",
           "location_hi": "कन्नौज जिला (उत्तर प्रदेश)",
           "majorAspect_hi": "हर्षवर्धन की राजधानी, प्रारम्भिक मध्यकालीन त्रिपक्षीय संघर्ष का प्रमुख केंद्र।"
@@ -6252,8 +6252,8 @@ export const bookData: BookChapter[] = [
           "location": "Sindh province (Pakistan)",
           "majorAspect": "Major city of Sindh, site of resistance and capture during Arab conquest under Muhammad bin Qasim.",
           "pyqYears": [],
-          "lat": 25.85,
-          "lng": 68.6,
+          "lat": 25.8811,
+          "lng": 68.7769,
           "name_hi": "ब्रह्मनाबाद",
           "location_hi": "सिंध प्रांत (पाकिस्तान)",
           "majorAspect_hi": "सिंध का प्रमुख शहर, मुहम्मद बिन कासिम के तहत अरब आक्रमण के दौरान प्रतिरोध और कब्जे का स्थल।"
@@ -6279,8 +6279,8 @@ export const bookData: BookChapter[] = [
             2021,
             2022
           ],
-          "lat": 21.34,
-          "lng": 83.07,
+          "lat": 21.3452,
+          "lng": 82.1848,
           "name_hi": "सिरपुर",
           "location_hi": "महासमुंद जिला (छत्तीसगढ़)",
           "majorAspect_hi": "पोस्ट‑गुप्त काल में दक्षिण कोसल के पांडुवंशी राजवंश की राजधानी।"
@@ -6292,8 +6292,8 @@ export const bookData: BookChapter[] = [
           "pyqYears": [
             2015
           ],
-          "lat": 16.2904,
-          "lng": 75.5916,
+          "lat": 15.9203,
+          "lng": 75.6803,
           "name_hi": "बादामी/वातापी",
           "location_hi": "बागलकोटे जिला (कर्नाटक)",
           "majorAspect_hi": "बदमि चालुक्य राजवंश की राजधानी, प्रसिद्ध शैल-खोदित गुफा मंदिरों के लिए प्रसिद्ध।"
@@ -6349,8 +6349,8 @@ export const bookData: BookChapter[] = [
           "location": "Baramulla district (Jammu and Kashmir)",
           "majorAspect": "Capital of Karkota dynasty built by Lalitaditya Muktapida during post-Gupta period in Kashmir.",
           "pyqYears": [],
-          "lat": 34.2,
-          "lng": 74.45,
+          "lat": 34.1333,
+          "lng": 74.6333,
           "name_hi": "परिहासपुर",
           "location_hi": "बारामुल्ला जिला (जम्मू और कश्मीर)",
           "majorAspect_hi": "कर्कोट राजवंश की राजधानी, ललितादित्य मुक्तापिद द्वारा पोस्ट‑गुप्त काल में कश्मीर में निर्मित।"
@@ -6390,8 +6390,8 @@ export const bookData: BookChapter[] = [
           "location": "Baramulla district (Jammu and Kashmir)",
           "majorAspect": "Capital of Karkota dynasty built by Lalitaditya Muktapida in 8th century. According to Kalhana, Lalitaditya built his residence and four temples in this area.",
           "pyqYears": [],
-          "lat": 34.2,
-          "lng": 74.45,
+          "lat": 34.1333,
+          "lng": 74.6333,
           "name_hi": "परिहासपुर/परिहासपुर",
           "location_hi": "बारामुल्ला जिला (जम्मू और कश्मीर)",
           "majorAspect_hi": "करकोटा राजवंश की राजधानी, जिसे ललितादित्य मुक्तापिद ने 8वीं शताब्दी में स्थापित किया। कल्हणा के अनुसार, ललितादित्य ने इस क्षेत्र में अपना निवास और चार मंदिर बनवाए।"
@@ -6469,8 +6469,8 @@ export const bookData: BookChapter[] = [
           "location": "Nadia district (West Bengal)",
           "majorAspect": "Capital of Sen Dynasty.",
           "pyqYears": [],
-          "lat": 23.4847,
-          "lng": 88.5567,
+          "lat": 23.42,
+          "lng": 88.37,
           "name_hi": "नवाबदीप",
           "location_hi": "नडिया जिला (पश्चिम बंगाल)",
           "majorAspect_hi": "सेन राजवंश की राजधानी।"
@@ -6491,8 +6491,8 @@ export const bookData: BookChapter[] = [
           "location": "Chhatarpur district (Madhya Pradesh)",
           "majorAspect": "First capital of Chandelas. Chandelas embellished the city with beautiful temples.",
           "pyqYears": [],
-          "lat": 24.7606,
-          "lng": 79.6782,
+          "lat": 24.85,
+          "lng": 79.925,
           "name_hi": "खजुराहो",
           "location_hi": "छतरपुर जिला (मध्य प्रदेश)",
           "majorAspect_hi": "चंदेलों की प्रथम राजधानी। चंदेलों ने इस शहर को सुंदर मंदिरों से अलंकृत किया।"
@@ -6560,8 +6560,8 @@ export const bookData: BookChapter[] = [
           "location": "Warangal district (Telangana)",
           "majorAspect": "Capital of the Kakatiya dynasty (12th c). During the rule of Ganapatideva, capital shifted from Hanamkonda to Warangal. Later annexed by invading forces of Delhi Sultanate in 14th c.",
           "pyqYears": [],
-          "lat": 17.8676,
-          "lng": 79.8019,
+          "lat": 17.9572,
+          "lng": 79.6144,
           "name_hi": "वारंगल",
           "location_hi": "वारंगल जिला (तेलंगाना)",
           "majorAspect_hi": "काकतीय वंश की राजधानी (12वीं शताब्दी)। गणपतिदेवा के शासनकाल में राजधानी हनमकोण्डा से वारंगल स्थानांतरित हुई। बाद में 14वीं शताब्दी में दिल्ली सल्तनत की आक्रमणकारी सेनाओं द्वारा अधिग्रहित।"
@@ -6597,8 +6597,8 @@ export const bookData: BookChapter[] = [
           "pyqYears": [
             2014
           ],
-          "lat": 17.2409,
-          "lng": 76.7697,
+          "lat": 17.195,
+          "lng": 77.1608,
           "name_hi": "मन्यखेता/मालखेड़",
           "location_hi": "कालाबुर्गी जिला (कर्नाटक), कागिना नदी के किनारे",
           "majorAspect_hi": "राष्ट्रकूट शासक अमोघवर्ष द्वारा स्थापित; 9वीं‑10वीं शताब्दियों में उनकी राजधानी बनी। राष्ट्रकूटों के पतन के बाद, उनके उत्तराधिकारियों – कल्याणी चालुक्यों/पश्चिमी चालुक्यों – की राजधानी रही, लगभग 1050 ईस्वी तक।"
@@ -6610,8 +6610,8 @@ export const bookData: BookChapter[] = [
           "pyqYears": [
             2018
           ],
-          "lat": 26.17,
-          "lng": 75.79,
+          "lat": 15.3344,
+          "lng": 76.4622,
           "name_hi": "विजयनगर/हम्पी",
           "location_hi": "विजयनगर जिला (कर्नाटक)",
           "majorAspect_hi": "विजयनगर साम्राज्य की राजधानी शहर। हारिहर और बुक्का, संगमा भाइयों द्वारा स्थापित।"
@@ -6634,8 +6634,8 @@ export const bookData: BookChapter[] = [
           "location": "Ariyalur district (Tamil Nadu)",
           "majorAspect": "Second capital of Imperial Cholas. Founded by Rajendra I to commemorate his victory over the Pala dynasty.",
           "pyqYears": [],
-          "lat": 11.1531,
-          "lng": 79.2586,
+          "lat": 11.2064,
+          "lng": 79.4483,
           "name_hi": "गंगैकोंडा चोलापुरम",
           "location_hi": "अरियालुर जिला (तमिलनाडु)",
           "majorAspect_hi": "इम्पीरियल चोलों की दूसरी राजधानी। राजेंद्र I द्वारा पाला वंश पर अपनी विजय के स्मरण में स्थापित।"
@@ -6769,8 +6769,8 @@ export const bookData: BookChapter[] = [
           "pyqYears": [
             2025
           ],
-          "lat": 26.17,
-          "lng": 75.79,
+          "lat": 26.7403,
+          "lng": 83.8889,
           "name_hi": "कुशीनगर",
           "location_hi": "देवरिया जिला (उत्तर प्रदेश)",
           "majorAspect_hi": "बुद्ध ने यहाँ परिनिर्वाण प्राप्त किया। रामभार स्तूप बुद्ध की राख के एक भाग के ऊपर निर्मित किया गया।"
@@ -6817,8 +6817,8 @@ export const bookData: BookChapter[] = [
           "pyqYears": [
             2018
           ],
-          "lat": 25.7,
-          "lng": 85.1,
+          "lat": 26.0137,
+          "lng": 85.109,
           "name_hi": "वैशाली",
           "location_hi": "वैशाली जिला (बिहार)",
           "majorAspect_hi": "दूसरे बौद्ध परिषद का स्थल (पहले के 100 वर्ष बाद आयोजित)। साथ ही महावीर का जन्मस्थान।"
@@ -6907,8 +6907,8 @@ export const bookData: BookChapter[] = [
           "location": "Rawalpindi district (Punjab, Pakistan)",
           "majorAspect": "Important Buddhist stupa of Kushana period. Gold and silver coins found inside.",
           "pyqYears": [],
-          "lat": 33.27,
-          "lng": 73.35,
+          "lat": 33.4481,
+          "lng": 73.2433,
           "name_hi": "मानिक्याला",
           "location_hi": "रावलपिंडी जिला (पंजाब, पाकिस्तान)",
           "majorAspect_hi": "कुशान काल का महत्वपूर्ण बौद्ध स्तूप। भीतर सोने और चांदी के सिक्के पाए गए।"
@@ -6944,8 +6944,8 @@ export const bookData: BookChapter[] = [
           "pyqYears": [
             2021
           ],
-          "lat": 27.06,
-          "lng": 79.27,
+          "lat": 27.3339,
+          "lng": 79.2711,
           "name_hi": "संकिस्सा",
           "location_hi": "फर्रुखाबाद जिला (उत्तर प्रदेश)",
           "majorAspect_hi": "बौद्ध तीर्थस्थलों के आठ महान स्थानों में से एक। वह स्थल जहाँ बुद्ध ने अपनी माता को उपदेश देने के बाद स्वर्ग (त्रयस्त्रिम्श) से अवतरण किया।"
@@ -6988,8 +6988,8 @@ export const bookData: BookChapter[] = [
           "location": "Aravalli district (Gujarat)",
           "majorAspect": "Buddhist stupa of 4th century CE with a relic casket containing bone relics of Buddha along with inscription.",
           "pyqYears": [],
-          "lat": 23.78,
-          "lng": 73.2,
+          "lat": 23.67,
+          "lng": 73.3963,
           "name_hi": "देवनी मोरी",
           "location_hi": "अरावली जिला (गुजरात)",
           "majorAspect_hi": "चौथी शताब्दी ईस्वी का बौद्ध स्तूप जिसमें हड्डी के अवशेषों वाला कफ़न तथा शिलालेख मिला।"
@@ -6999,8 +6999,8 @@ export const bookData: BookChapter[] = [
           "location": "Satna district (Madhya Pradesh)",
           "majorAspect": "Buddhist stupa with railing (2nd century BCE). Earliest example of Buddhist narrative art in India. Railings now in Indian Museum, Kolkata.",
           "pyqYears": [],
-          "lat": 24.65,
-          "lng": 80.71,
+          "lat": 24.4469,
+          "lng": 80.846,
           "name_hi": "भरहुत",
           "location_hi": "सतना जिला (मध्य प्रदेश)",
           "majorAspect_hi": "द्वितीय शताब्दी ईसा पूर्व का बौद्ध स्तूप जिसमें रेलिंग है। भारत में बौद्ध कथा कला का सबसे प्रारम्भिक उदाहरण। रेलिंग अब भारतीय संग्रहालय, कोलकाता में स्थित हैं।"
@@ -7010,8 +7010,8 @@ export const bookData: BookChapter[] = [
           "location": "Raisen district (Madhya Pradesh)",
           "majorAspect": "Group of Buddhist monuments. Great Stupa (Stupa no.1) built by Ashoka and expanded later. UNESCO World Heritage Site. Ashoka's lion capital found here.",
           "pyqYears": [],
-          "lat": 23.2676,
-          "lng": 78.1727,
+          "lat": 23.4807,
+          "lng": 77.7363,
           "name_hi": "सांची",
           "location_hi": "रायसेन जिला (मध्य प्रदेश)",
           "majorAspect_hi": "बौद्ध स्मारकों का समूह। महान स्तूप (स्तूप नं. 1) अशोक द्वारा निर्मित और बाद में विस्तारित। यूनेस्को विश्व धरोहर स्थल। यहाँ अशोक का शेर शीर्ष मिला।"
@@ -7120,8 +7120,8 @@ export const bookData: BookChapter[] = [
             2018,
             2022
           ],
-          "lat": 16.1,
-          "lng": 76.6,
+          "lat": 16.8354,
+          "lng": 76.9325,
           "name_hi": "कनागनहली",
           "location_hi": "कालाबुर्गी जिला (कर्नाटक), भीमा नदी के किनारे",
           "majorAspect_hi": "मौर्योत्तर काल की समृद्ध मूर्तियों से भरपूर। दो अशोक चित्र पाए गए। केवल वही पत्थर पर खुदा गया अशोक का चित्र जहाँ ब्राह्मी लिपि में उसका नाम ‘राया असोको’ लिखा है, स्तूप पर स्थित है।"
@@ -7177,8 +7177,8 @@ export const bookData: BookChapter[] = [
           "location": "Leh district (Ladakh), banks of Indus River",
           "majorAspect": "Annual Hemis festival honouring Padmasambhava (who introduced Tantric Buddhism to Tibet) is held here.",
           "pyqYears": [],
-          "lat": 33.83,
-          "lng": 77.4,
+          "lat": 33.9125,
+          "lng": 77.7028,
           "name_hi": "हेमिस मठ",
           "location_hi": "लेह जिला (लद्दाख), सिंधु नदी के किनारे",
           "majorAspect_hi": "वार्षिक हेमिस महोत्सव, जिसमें पद्मसम्भव (तिब्बत में तांत्रिक बौद्ध धर्म लाने वाले) को सम्मानित किया जाता है, यहाँ आयोजित होता है।"
@@ -7309,8 +7309,8 @@ export const bookData: BookChapter[] = [
           "location": "Hassan district (Karnataka)",
           "majorAspect": "Famous for 18m monolithic statue of Gommateshwara (Bahubali). Statue built by Ganga minister Chamundaraya in 981 CE. Mahamastakabhisheka festival held every 12 years.",
           "pyqYears": [],
-          "lat": 13.0302,
-          "lng": 76.1745,
+          "lat": 12.859,
+          "lng": 76.489,
           "name_hi": "श्रवणबेलगोला",
           "location_hi": "हसन जिला (कर्नाटक)",
           "majorAspect_hi": "१८ मीटर की एकल शिल्प गॉमतेश्वर (बहुबली) प्रतिमा के लिए प्रसिद्ध। प्रतिमा गंगा मंत्री चामुंदराय ने 981 ईस्वी में स्थापित की। महामस्तक अभिषेक महोत्सव हर 12 वर्ष में आयोजित होता है।"
@@ -7393,8 +7393,8 @@ export const bookData: BookChapter[] = [
           "location": "Chhatarpur district (Madhya Pradesh)",
           "majorAspect": "Parshvanatha temple — one of the largest and finest Jain temples in Khajuraho group. Built by Chandela rulers.",
           "pyqYears": [],
-          "lat": 24.7606,
-          "lng": 79.6782,
+          "lat": 24.85,
+          "lng": 79.925,
           "name_hi": "खजुराहो",
           "location_hi": "छतरपुर जिला (मध्य प्रदेश)",
           "majorAspect_hi": "पार्श्वनाथ मंदिर — खजुराहो समूह के सबसे बड़े और उत्कृष्ट जैन मंदिरों में से एक। चंदेला राजाओं द्वारा निर्मित।"
@@ -7404,8 +7404,8 @@ export const bookData: BookChapter[] = [
           "location": "Khordha district (Odisha), near Bhubaneswar",
           "majorAspect": "Rock-cut caves built during reign of Jain king Kharavela (2nd century BCE). Hatigumpha inscription found here. Ranigumpha is most elaborate cave.",
           "pyqYears": [],
-          "lat": 20.8747,
-          "lng": 86.1215,
+          "lat": 20.2628,
+          "lng": 85.786,
           "name_hi": "उदयगिरि और खंडगिरि",
           "location_hi": "खोर्डा जिला (ओडिशा), भुवनेश्वर के निकट",
           "majorAspect_hi": "जैन राजा खरवेला (2वीं शताब्दी ईसा पूर्व) के शासनकाल में निर्मित शैल-छेद गुफाएँ। यहाँ हतीगुंफ़ा अभिलेख मिला है। रानीगुंफ़ा सबसे विस्तृत गुफा है।"
@@ -7430,8 +7430,8 @@ export const bookData: BookChapter[] = [
             2024,
             2026
           ],
-          "lat": 10.5,
-          "lng": 78.9,
+          "lat": 10.466,
+          "lng": 78.734,
           "name_hi": "सित्तनवसल",
           "location_hi": "पुदुकोट्टई जिला (तमिलनाडु)",
           "majorAspect_hi": "अरीवर-कोइल नामक एक शैल-ख़ुदाई जैन मंदिर। सुंदर जैन फ्रेस्को (पंचवर्णदुरै चित्र) के लिए प्रसिद्ध। पल्लव काल में यहाँ जैन धर्म फल-फूल रहा था।"
@@ -7495,8 +7495,8 @@ export const bookData: BookChapter[] = [
             2022,
             2026
           ],
-          "lat": 21.1923,
-          "lng": 82.489,
+          "lat": 21.3452,
+          "lng": 82.1848,
           "name_hi": "सिरपुर",
           "location_hi": "महासमुंद जिला (छत्तीसगढ़)",
           "majorAspect_hi": "सुरंग टीला — ईंट से निर्मित जैन मंदिर। यहाँ बौद्ध और हिन्दू अवशेष भी हैं।"
@@ -7508,8 +7508,8 @@ export const bookData: BookChapter[] = [
           "pyqYears": [
             2015
           ],
-          "lat": 16.2904,
-          "lng": 75.5916,
+          "lat": 15.9203,
+          "lng": 75.6803,
           "name_hi": "बादामी/वातापी",
           "location_hi": "बागलकोटे जिला (कर्नाटक)",
           "majorAspect_hi": "बड़ामी गुफा 4 एक जैन गुफा है जिसमें महावीर और अन्य तीर्थंकरों की मूर्तियाँ हैं। चालुक्य काल की है।"
@@ -7532,8 +7532,8 @@ export const bookData: BookChapter[] = [
           "pyqYears": [
             2015
           ],
-          "lat": 13.0302,
-          "lng": 76.1745,
+          "lat": 13.2157,
+          "lng": 75.9914,
           "name_hi": "हलेबिदु",
           "location_hi": "हसन जिला (कर्नाटक)",
           "majorAspect_hi": "हॉयसलेश्वर मंदिर परिसर के साथ जैन बासादियाँ। पार्श्वनाथ बासादी प्रमुख है।"
@@ -7579,8 +7579,8 @@ export const bookData: BookChapter[] = [
           "location": "Kolhapur district (Maharashtra)",
           "majorAspect": "Jain temples of medieval period. Region had significant Jain presence.",
           "pyqYears": [],
-          "lat": 16.4627,
-          "lng": 74.0895,
+          "lat": 16.82,
+          "lng": 74.12,
           "name_hi": "पन्हाला किला क्षेत्र",
           "location_hi": "कोल्हापुर जिला (महाराष्ट्र)",
           "majorAspect_hi": "मध्ययुगीन काल के जैन मंदिर। इस क्षेत्र में जैन उपस्थिति महत्वपूर्ण थी।"
@@ -7609,8 +7609,8 @@ export const bookData: BookChapter[] = [
           "location": "Jehanabad district (Bihar)",
           "majorAspect": "Oldest surviving rock-cut caves in India. Commissioned by Ashoka and grandson Dasharatha for Ajivika sect. Three Barabar caves: Sudama, Visvakarma, Karna Chopar. Four Nagarjuni caves: Gopi, Vapiya, Vadathika, Mirza Mandi.",
           "pyqYears": [],
-          "lat": 26.17,
-          "lng": 75.79,
+          "lat": 25.005,
+          "lng": 85.063,
           "name_hi": "बाराबर‑नगरजुनी गुफाएँ",
           "location_hi": "जिहानाबाद जिला (बिहार)",
           "majorAspect_hi": "भारत की सबसे पुरानी जीवित शैल-छिद्रित गुफाएँ। अशोक और उनके पोते दशरथ द्वारा अजीविक संप्रदाय के लिये निर्मित। तीन बाराबर गुफाएँ: सुधामा, विश्वकर्मा, कर्ण चोपड़। चार नगरजुनी गुफाएँ: गोपी, वापिया, वदाथिका, मिर्जा मंडी।"
@@ -7642,8 +7642,8 @@ export const bookData: BookChapter[] = [
           "location": "Khordha district (Odisha), near Bhubaneswar",
           "majorAspect": "Rock-cut caves of Jain king Kharavela (2nd century BCE). Hatigumpha inscription. Udayagiri has 18 caves, Khandagiri has 15 caves.",
           "pyqYears": [],
-          "lat": 20.8747,
-          "lng": 86.1215,
+          "lat": 20.2628,
+          "lng": 85.786,
           "name_hi": "उदयगिरि/खण्डगिरि",
           "location_hi": "खोरदा जिला (ओडिशा), भुवनेश्वर के निकट",
           "majorAspect_hi": "जैन राजा खरवेला (२री शताब्दी ईसा‑पूर्व) द्वारा निर्मित शैल-छिद्रित गुफाएँ। हाटीगुंफ़ा शिलालेख। उदयगिरि में १८ गुफाएँ, खण्डगिरि में १५ गुफाएँ।"
@@ -7774,8 +7774,8 @@ export const bookData: BookChapter[] = [
           "location": "Elephanta Island, Mumbai Harbour (Maharashtra)",
           "majorAspect": "City of Caves on island in Sea of Oman. Rock art linked to cult of Shiva. Huge high reliefs in main cave considered perfect expression of Indian art. Trimurti sculpture (5.45m). UNESCO World Heritage Site.",
           "pyqYears": [],
-          "lat": 19.055,
-          "lng": 72.8692,
+          "lat": 18.9633,
+          "lng": 72.9314,
           "name_hi": "एलिफैंटा गुफाएँ",
           "location_hi": "एलिफैंटा द्वीप, मुंबई हार्बर (महाराष्ट्र)",
           "majorAspect_hi": "समुद्र ओमान में स्थित द्वीप पर गुफाओं का शहर। शिव पंथ से जुड़ी शैल कला। मुख्य गुफा में विशाल उच्च रिलीफ़ को भारतीय कला की पूर्ण अभिव्यक्ति माना जाता है। त्रिमूर्ति की मूर्ति (५.४५ मीटर)। यूनेस्को विश्व धरोहर स्थल।"
@@ -7822,8 +7822,8 @@ export const bookData: BookChapter[] = [
           "pyqYears": [
             2015
           ],
-          "lat": 16.2904,
-          "lng": 75.5916,
+          "lat": 15.9203,
+          "lng": 75.6803,
           "name_hi": "बादामी",
           "location_hi": "बागलकोटे जिला (कर्नाटक)",
           "majorAspect_hi": "बदमि-छलुक्य शैल-छिद्रित वास्तुकला (6वीं शताब्दी ईस्वी) का प्रतिनिधित्व करता है। चार गुफा मंदिर — गुफा 1 (शिव), गुफा 2 (विष्णु), गुफा 3 (विष्णु, सबसे बड़ी), गुफा 4 (जैन)। गुफा 3 में अनंत पर विष्णु की प्रसिद्ध प्रतिमा स्थित है।"
@@ -7833,8 +7833,8 @@ export const bookData: BookChapter[] = [
           "location": "West Godavari district (Andhra Pradesh)",
           "majorAspect": "Buddhist complex with rock-cut viharas and a circular Chaitya. Oldest circular Chaitya in India (2nd century BCE).",
           "pyqYears": [],
-          "lat": 17.27,
-          "lng": 80.95,
+          "lat": 17.0189,
+          "lng": 81.1306,
           "name_hi": "गुंटुपल्ले/गुंटुपल्ली समूह",
           "location_hi": "वेस्ट गोदावरी जिला (आंध्र प्रदेश)",
           "majorAspect_hi": "शैल-छिद्रित विहार और एक गोलाकार चैत्य वाला बौद्ध परिसर। भारत का सबसे पुराना गोलाकार चैत्य (2री शताब्दी ईसा पूर्व)।"
@@ -7869,8 +7869,8 @@ export const bookData: BookChapter[] = [
             2015,
             2024
           ],
-          "lat": 10.5,
-          "lng": 78.9,
+          "lat": 10.466,
+          "lng": 78.734,
           "name_hi": "सित्तनवसाल गुफाएँ (अरिवर कोइल)",
           "location_hi": "पुदुकोट्टी जिला (तमिलनाडु)",
           "majorAspect_hi": "जैन शैल-छिद्रित गुफा मंदिर, जिसमें 7वीं शताब्दी ईस्वी की जैन फ्रेस्को हैं। यह गुफा अभी भी जीवित मंदिर है और पूजा के अंतर्गत है।"
@@ -7913,8 +7913,8 @@ export const bookData: BookChapter[] = [
           "location": "Keonjhar district (Odisha)",
           "majorAspect": "Gupta period rock-cut monument. One of the few Gupta rock-cut monuments in Odisha.",
           "pyqYears": [],
-          "lat": 21.62,
-          "lng": 85.62,
+          "lat": 21.5005,
+          "lng": 85.7884,
           "name_hi": "सिताबिंजी",
           "location_hi": "केओंझर जिला (ओडिशा)",
           "majorAspect_hi": "गुप्त काल का शैल-छिद्रित स्मारक। ओडिशा में कुछ ही गुप्त शैल-छिद्रित स्मारकों में से एक।"
@@ -7981,8 +7981,8 @@ export const bookData: BookChapter[] = [
           "pyqYears": [
             2019
           ],
-          "lat": 26.3,
-          "lng": 80.05,
+          "lat": 26.2106,
+          "lng": 80.2761,
           "name_hi": "भितरगांव",
           "location_hi": "उत्तर प्रदेश (कानपुर जिला)",
           "majorAspect_hi": "भारत में सबसे पुराना जीवित ईंट का मंदिर (5वीं शताब्दी ईस्वी, गुप्त काल)। विष्णु को समर्पित। ऊँचा शिखर है।"
@@ -8029,8 +8029,8 @@ export const bookData: BookChapter[] = [
           "location": "Jabalpur district (Madhya Pradesh)",
           "majorAspect": "Gupta period Vishnu temple (Kankali Devi temple). One of the earliest surviving stone temples in central India.",
           "pyqYears": [],
-          "lat": 23.5,
-          "lng": 79.85,
+          "lat": 23.6901,
+          "lng": 80.0664,
           "name_hi": "टिगावा",
           "location_hi": "मध्य प्रदेश (जबलपुर जिला)",
           "majorAspect_hi": "गुप्त काल का विष्णु मंदिर (कंकाली देवी मंदिर)। मध्य भारत में सबसे प्राचीन जीवित पत्थर के मंदिरों में से एक।"
@@ -8040,8 +8040,8 @@ export const bookData: BookChapter[] = [
           "location": "Satna district (Madhya Pradesh)",
           "majorAspect": "Gupta period Shiva temple. Fine Gupta sculpture.",
           "pyqYears": [],
-          "lat": 24.58,
-          "lng": 80.78,
+          "lat": 24.4284,
+          "lng": 80.6416,
           "name_hi": "भुमरा",
           "location_hi": "मध्य प्रदेश (सतना जिला)",
           "majorAspect_hi": "गुप्त काल का शिव मंदिर। उत्कृष्ट गुप्त शिल्प।"
@@ -8062,8 +8062,8 @@ export const bookData: BookChapter[] = [
           "location": "Panna district (Madhya Pradesh)",
           "majorAspect": "Two Gupta period temples — Parvati temple (5th century) and Chaturmukha Shiva linga. One of few Gupta temples with Panchayatana plan.",
           "pyqYears": [],
-          "lat": 24.62,
-          "lng": 80.4,
+          "lat": 24.3992,
+          "lng": 80.4476,
           "name_hi": "नाचना कूथरा",
           "location_hi": "मध्य प्रदेश (पन्ना जिला)",
           "majorAspect_hi": "दो गुप्त काल के मंदिर — पार्वती मंदिर (5वीं शताब्दी) और चतुर्मुख शिव लिंग। पंचायती योजना वाले कुछ गुप्त मंदिरों में से एक।"
@@ -8155,8 +8155,8 @@ export const bookData: BookChapter[] = [
           "location": "Chhatarpur district (Madhya Pradesh)",
           "majorAspect": "Chandela dynasty temples (950-1050 CE). About 20 surviving temples. Famous for erotic sculptures illustrating dharmic texts that temples are to be worshipped in. Kandariya Mahadeva is the largest. UNESCO World Heritage Site.",
           "pyqYears": [],
-          "lat": 24.7606,
-          "lng": 79.6782,
+          "lat": 24.85,
+          "lng": 79.925,
           "name_hi": "खजुराहो",
           "location_hi": "छतरपुर जिला (मध्य प्रदेश)",
           "majorAspect_hi": "छंदेला राजवंश के मंदिर (950-1050 ईस्वी)। लगभग 20 बचे हुए मंदिर। धर्मग्रंथों में वर्णित कामुक शिल्पों के लिए प्रसिद्ध, जो दर्शाते हैं कि मंदिरों की पूजा कैसे की जानी चाहिए। कंदारिया महादेव सबसे बड़ा है। यूनेस्को विश्व धरोहर स्थल।"
@@ -8188,8 +8188,8 @@ export const bookData: BookChapter[] = [
           "location": "Gir Somnath district (Gujarat)",
           "majorAspect": "One of twelve Jyotirlingas. Built and rebuilt many times. Famous for attacks by Mahmud of Ghazni (1025 CE).",
           "pyqYears": [],
-          "lat": 20.9298,
-          "lng": 70.7628,
+          "lat": 20.888,
+          "lng": 70.4014,
           "name_hi": "सोमनाथ",
           "location_hi": "गिर सोमनाथ जिला (गुजरात)",
           "majorAspect_hi": "बारह ज्योतिर्लिंगों में से एक। कई बार निर्मित और पुनर्निर्मित। महमूद गज़नी के हमलों (1025 ईस्वी) के लिए प्रसिद्ध।"
@@ -8199,8 +8199,8 @@ export const bookData: BookChapter[] = [
           "location": "Mehsana district (Gujarat)",
           "majorAspect": "11th century CE Sun temple built by Solanki ruler Bhimadeva I. Has Sabha Mandapa, Gudhamandapa and Surya Kund (step-well). UNESCO Tentative list.",
           "pyqYears": [],
-          "lat": 23.6013,
-          "lng": 72.3742,
+          "lat": 23.5838,
+          "lng": 72.1327,
           "name_hi": "मोधेरा सूर्य मंदिर",
           "location_hi": "मेहसाणा जिला (गुजरात)",
           "majorAspect_hi": "11वीं शताब्दी ईस्वी का सूर्य मंदिर, सोलंकी शासक भीमदेव प्रथम द्वारा निर्मित। सभा मंडप, गुधा मंडप और सूर्य कुंड (स्टेपवेल) है। यूनेस्को प्रार्थी सूची में।"
@@ -8223,8 +8223,8 @@ export const bookData: BookChapter[] = [
           "pyqYears": [
             2026
           ],
-          "lat": 26.385,
-          "lng": 77.8613,
+          "lat": 26.4271,
+          "lng": 78.1968,
           "name_hi": "बटेश्वर मंदिर",
           "location_hi": "मोरैना जिला (मध्य प्रदेश)",
           "majorAspect_hi": "200 से अधिक गुह्य और बाद के काल के मंदिरों का समूह। खगोलीय और भूवैज्ञानिक शिल्प तथा कामुक शिल्प देखे जा सकते हैं।"
@@ -8234,8 +8234,8 @@ export const bookData: BookChapter[] = [
           "location": "Gwalior district (Madhya Pradesh)",
           "majorAspect": "Several temples such as Pataleshwara temple, Sas Bahu temple, Teli ka Mandir (8th century Pratihara).",
           "pyqYears": [],
-          "lat": 26.0287,
-          "lng": 78.1571,
+          "lat": 26.2125,
+          "lng": 78.1775,
           "name_hi": "ग्वालियर किला के मंदिर",
           "location_hi": "ग्वालियर जिला (मध्य प्रदेश)",
           "majorAspect_hi": "कई मंदिर जैसे पतलेश्वर मंदिर, सास बहु मंदिर, तेली का मंदिर (8वीं शताब्दी प्रतिहार)।"
@@ -8280,8 +8280,8 @@ export const bookData: BookChapter[] = [
           "location": "Ariyalur district (Tamil Nadu)",
           "majorAspect": "Built by Rajendra I. UNESCO World Heritage Site (Great Living Chola Temples).",
           "pyqYears": [],
-          "lat": 11.1531,
-          "lng": 79.2586,
+          "lat": 11.2064,
+          "lng": 79.4483,
           "name_hi": "गंगैकोंडा चोलापुरम",
           "location_hi": "अरियालूर जिला (तमिलनाडु)",
           "majorAspect_hi": "राजेंद्र प्रथम द्वारा निर्मित। यूनेस्को विश्व धरोहर स्थल (महान जीवित चोल मंदिर)।"
@@ -8302,8 +8302,8 @@ export const bookData: BookChapter[] = [
           "location": "Cuddalore district (Tamil Nadu)",
           "majorAspect": "Nataraja temple — one of Pancha Bhuta Stalas (Akasha). Major centre of Shaivism and Bharatanatyam.",
           "pyqYears": [],
-          "lat": 11.5202,
-          "lng": 79.3396,
+          "lat": 11.3994,
+          "lng": 79.6933,
           "name_hi": "चिदंबरम",
           "location_hi": "कुडालोर जिला (तमिलनाडु)",
           "majorAspect_hi": "नटराज मंदिर — पाँच भूत स्थलों (आकाश) में से एक। शैव धर्म और भरतनाट्यम का प्रमुख केंद्र।"
@@ -8351,8 +8351,8 @@ export const bookData: BookChapter[] = [
           "pyqYears": [
             2015
           ],
-          "lat": 16.2904,
-          "lng": 75.5916,
+          "lat": 15.9203,
+          "lng": 75.6803,
           "name_hi": "बादामी",
           "location_hi": "बागलकोटे जिला (कर्नाटक)",
           "majorAspect_hi": "छल्लुका काल के शैल-छिद्र और संरचनात्मक मंदिर। बदमी छल्लुका राजवंश की राजधानी।"
@@ -8386,8 +8386,8 @@ export const bookData: BookChapter[] = [
           "location": "Hassan district (Karnataka)",
           "majorAspect": "12th century CE Hoysala temple. Star-shaped plan. Over 800 ft of decorative frieze. UNESCO World Heritage Site (Sacred Ensembles of the Hoysalas).",
           "pyqYears": [],
-          "lat": 13.0302,
-          "lng": 76.1745,
+          "lat": 13.1629,
+          "lng": 75.8571,
           "name_hi": "बेलूर (चेनकेशव)",
           "location_hi": "हसन जिला (कर्नाटक)",
           "majorAspect_hi": "12वीं शताब्दी ईस्वी का होयसला मंदिर। तारा‑आकार की योजना। 800 फुट से अधिक सजावटी फ्रिज़। यूनेस्को विश्व धरोहर स्थल (होयसला के पवित्र समूह)।"
@@ -8397,8 +8397,8 @@ export const bookData: BookChapter[] = [
           "location": "Hassan district (Karnataka)",
           "majorAspect": "Hoysala twin temples (12th century CE). Characterized by hyper-real sculptures and stone sanctioned in dharmic texts. UNESCO World Heritage Site (Sacred Ensembles of Hoysalas). Three temples: Hoysaleshwara, Kedreshwara, Shanthaleshwara.",
           "pyqYears": [],
-          "lat": 13.0302,
-          "lng": 76.1745,
+          "lat": 13.2157,
+          "lng": 75.9914,
           "name_hi": "हलेबिदु/होयसलेश्वर",
           "location_hi": "हसन जिला (कर्नाटक)",
           "majorAspect_hi": "होयसला युग के जुड़वाँ मंदिर (12वीं शताब्दी ईस्वी)। अतियथार्थवादी शिल्प और धर्मग्रंथों में वर्णित पत्थर का उपयोग। यूनेस्को विश्व धरोहर स्थल (होयसला के पवित्र समूह)। तीन मंदिर: होयसलेश्वर, केद्रेश्वर, शान्तलेश्वर।"
@@ -8430,8 +8430,8 @@ export const bookData: BookChapter[] = [
           "location": "Anantapur district (Andhra Pradesh)",
           "majorAspect": "16th century Vijayanagara period Veerabhadra temple. Famous for Nandi monolith (largest in India) and hanging pillar (one pillar does not touch the ground). Impressive series of nine Hindu temples.",
           "pyqYears": [],
-          "lat": 14.6783,
-          "lng": 77.6065,
+          "lat": 13.81,
+          "lng": 77.6,
           "name_hi": "लेपाक्षी",
           "location_hi": "अनंतपुर जिला (आंध्र प्रदेश)",
           "majorAspect_hi": "16वीं शताब्दी विजयनगर काल का वीरभद्र मंदिर। नंदी की एकल शिलाप्रतिमा (भारत में सबसे बड़ी) और लटकी हुई स्तम्भ (एक स्तम्भ जमीन को नहीं छूता) के लिए प्रसिद्ध। नौ हिन्दू मंदिरों की प्रभावशाली श्रृंखला।"
@@ -8463,8 +8463,8 @@ export const bookData: BookChapter[] = [
           "location": "Koppal district (Karnataka)",
           "majorAspect": "Mahadev Temple situated here was constructed during Western Chalukyan rule. It is dedicated to Lord Shiva.",
           "pyqYears": [],
-          "lat": 15.5748,
-          "lng": 76.3118,
+          "lat": 15.49,
+          "lng": 75.995,
           "name_hi": "इटागी",
           "location_hi": "कोप्पल जिला (कर्नाटक)",
           "majorAspect_hi": "यहाँ स्थित महादेव मंदिर पश्चिमी छल्लुका शासन के दौरान निर्मित हुआ। यह भगवान शिव को समर्पित है।"
@@ -8500,8 +8500,8 @@ export const bookData: BookChapter[] = [
           "pyqYears": [
             2020
           ],
-          "lat": 22.08,
-          "lng": 81.3,
+          "lat": 22.11,
+          "lng": 81.1444,
           "name_hi": "भोरामदेव मंदिर",
           "location_hi": "कबीरधाम जिला (छत्तीसगढ़)",
           "majorAspect_hi": "११वीं सदी का नागरा शैली का मंदिर, जो शिव को समर्पित है। अपने कामुक शिल्पों के कारण 'छत्तीसगढ़ का खजुराहो' के नाम से प्रसिद्ध है।"
@@ -8615,8 +8615,8 @@ export const bookData: BookChapter[] = [
           "location": "North Central Province (Sri Lanka)",
           "majorAspect": "Ancient tank built during early Anuradhapura period. One of largest ancient water reservoirs.",
           "pyqYears": [],
-          "lat": 8.65,
-          "lng": 80.85,
+          "lat": 8.8322,
+          "lng": 80.7587,
           "name_hi": "पडाविया ताल",
           "location_hi": "उत्तरी मध्य प्रांत (श्रीलंका)",
           "majorAspect_hi": "प्रारम्भिक अनुराधपुर काल में निर्मित प्राचीन ताल। प्राचीन जलाशयों में से सबसे बड़े में से एक।"
@@ -8648,8 +8648,8 @@ export const bookData: BookChapter[] = [
           "location": "Ahmedabad district (Gujarat)",
           "majorAspect": "A five-storey stepwell constructed in 15th century. It is built in such a manner that sunlight falls on its steps only during noon and thus keeps it 6 degrees cooler than the temperature outside. Also a spiritual asylum where various deities along with the small fried monument of Naughrah (nine planets) are also situated.",
           "pyqYears": [],
-          "lat": 22.7455,
-          "lng": 72.2975,
+          "lat": 23.17,
+          "lng": 72.58,
           "name_hi": "अडालज",
           "location_hi": "अहमदाबाद जिला (गुजरात)",
           "majorAspect_hi": "पंद्रहवीं शताब्दी में निर्मित पाँच मंजिला चरणबद्ध कुआँ। ऐसा बनाया गया है कि दोपहर के समय सूर्य की रोशनी केवल सीढ़ियों पर पड़ती है, जिससे यह बाहर के तापमान से ६ डिग्री ठंडा रहता है। यह एक आध्यात्मिक आश्रय भी है जहाँ विभिन्न देवताओं के साथ नौ ग्रहों (नौघ्र) की छोटी मूर्ति भी स्थित है।"
@@ -8755,8 +8755,8 @@ export const bookData: BookChapter[] = [
           "location": "Delhi",
           "majorAspect": "Sixth Delhi. Built by Humayun (Din Panah); later modified by Sher Shah Suri. Qila-i-Kuhna mosque built by Sher Shah inside. Sher Mandal octagonal tower.",
           "pyqYears": [],
-          "lat": 28.6,
-          "lng": 77.2,
+          "lat": 28.6094,
+          "lng": 77.2442,
           "name_hi": "दीन पनाह/पुराना किला",
           "location_hi": "दिल्ली",
           "majorAspect_hi": "छठी दिल्ली। हुमायूँ (दीन पनाह) द्वारा निर्मित; बाद में शेर शाह सूरी द्वारा संशोधित। शेर शाह द्वारा किला‑इ‑कुहना मस्जिद निर्मित। शेर मंडल षट्भुजाकार टॉवर।"
@@ -8788,8 +8788,8 @@ export const bookData: BookChapter[] = [
           "location": "Delhi",
           "majorAspect": "Built 1570 CE. First garden-tomb in India. Inspired Taj Mahal. UNESCO World Heritage Site.",
           "pyqYears": [],
-          "lat": 28.6139,
-          "lng": 77.209,
+          "lat": 28.5933,
+          "lng": 77.2506,
           "name_hi": "हुमायूँ का मकबरा",
           "location_hi": "दिल्ली",
           "majorAspect_hi": "निर्मित 1570 ईस्वी। भारत का पहला बाग‑मकबरा। ताज महल की प्रेरणा। यूनेस्को विश्व धरोहर स्थल।"
@@ -8799,8 +8799,8 @@ export const bookData: BookChapter[] = [
           "location": "Agra district (Uttar Pradesh)",
           "majorAspect": "Built 1631-48 by Shah Jahan for Mumtaz Mahal. UNESCO World Heritage Site. Architect: Ustad Ahmad Lahori.",
           "pyqYears": [],
-          "lat": 27.0756,
-          "lng": 77.8754,
+          "lat": 27.175,
+          "lng": 78.0419,
           "name_hi": "ताज महल",
           "location_hi": "आगरा जिला (उत्तर प्रदेश)",
           "majorAspect_hi": "निर्मित 1631‑48 शाह जहाँ ने मुंताज़ महल के लिये। यूनेस्को विश्व धरोहर स्थल। वास्तुकार: उस्ताद अहमद लाहोरी।"
@@ -8821,8 +8821,8 @@ export const bookData: BookChapter[] = [
           "location": "Agra district (Uttar Pradesh)",
           "majorAspect": "Capital built by Akbar (1571-85). Ibadat Khana — hall of religious discussion. Buland Darwaza — highest gateway in India. UNESCO World Heritage Site.",
           "pyqYears": [],
-          "lat": 27.0756,
-          "lng": 77.8754,
+          "lat": 27.091,
+          "lng": 77.661,
           "name_hi": "फ़तेहपुर सीकरी",
           "location_hi": "आगरा जिला (उत्तर प्रदेश)",
           "majorAspect_hi": "अकबर (1571‑85) द्वारा निर्मित राजधानी। इबादत ख़ाना — धार्मिक चर्चा का हॉल। बुलंद दरवाज़ा — भारत का सबसे ऊँचा द्वार। यूनेस्को विश्व धरोहर स्थल।"
@@ -8832,8 +8832,8 @@ export const bookData: BookChapter[] = [
           "location": "Agra",
           "majorAspect": "UNESCO World Heritage Site.",
           "pyqYears": [],
-          "lat": 27.0756,
-          "lng": 77.8754,
+          "lat": 27.1795,
+          "lng": 78.0211,
           "name_hi": "लाल किला (आगरा किला परिसर)",
           "location_hi": "आगरा",
           "majorAspect_hi": "यूनेस्को विश्व धरोहर स्थल।"
@@ -8843,8 +8843,8 @@ export const bookData: BookChapter[] = [
           "location": "Delhi",
           "majorAspect": "Largest mosque in India. Built by Shah Jahan (1650-56). Courtyard holds 25,000 people.",
           "pyqYears": [],
-          "lat": 28.6139,
-          "lng": 77.209,
+          "lat": 28.6508,
+          "lng": 77.2331,
           "name_hi": "जामा मस्जिद (दिल्ली)",
           "location_hi": "दिल्ली",
           "majorAspect_hi": "भारत की सबसे बड़ी मस्जिद। शाह जहाँ (1650‑56) द्वारा निर्मित। आँगन में 25,000 लोग समा सकते हैं।"
@@ -8909,8 +8909,8 @@ export const bookData: BookChapter[] = [
           "location": "Panchmahal district (Gujarat)",
           "majorAspect": "Only complete and unchanged Islamic pre-Mughal city. 16th century capital of Gujarat Sultanate. UNESCO World Heritage Site.",
           "pyqYears": [],
-          "lat": 22.6978,
-          "lng": 73.5981,
+          "lat": 22.4833,
+          "lng": 73.5333,
           "name_hi": "चम्पानेर‑पवागढ़",
           "location_hi": "पंचमहल जिला (गुजरात)",
           "majorAspect_hi": "एकमात्र पूर्ण और अपरिवर्तित इस्लामी प्री‑मुगल शहर। 16वीं सदी में गुजरात सल्तनत की राजधानी। यूनेस्को विश्व धरोहर स्थल।"
@@ -8989,8 +8989,8 @@ export const bookData: BookChapter[] = [
           "location": "Agra district (Uttar Pradesh)",
           "majorAspect": "Shows beginning of Indo-Islamic architecture in Mughal style.",
           "pyqYears": [],
-          "lat": 27.0756,
-          "lng": 77.8754,
+          "lat": 27.18,
+          "lng": 78.02,
           "name_hi": "आगरा (सामान्य)",
           "location_hi": "आगरा जिला (उत्तर प्रदेश)",
           "majorAspect_hi": "मुगल शैली में इंडो‑इस्लामी वास्तुकला की शुरुआत को दर्शाता है।"
@@ -9011,8 +9011,8 @@ export const bookData: BookChapter[] = [
           "location": "Bijapur district (Karnataka)",
           "majorAspect": "It became the capital of Adil Shahis who adorned the city with beautiful buildings such as Gol Gumbaz, Ibrahim Rauza, Upar Buruj, Chand Bawdi, Anand Mahal and various mosques etc.",
           "pyqYears": [],
-          "lat": 16.8144,
-          "lng": 75.8934,
+          "lat": 16.8244,
+          "lng": 75.7154,
           "name_hi": "बिजापुर",
           "location_hi": "बिजापुर जिला (कर्नाटक)",
           "majorAspect_hi": "यह आदिल शाही का राजधान बन गया जहाँ गोल गुम्बज, इब्राहिम रौज़ा, उपर बुरुज, चाँद बावड़ी, आनंद महल और विभिन्न मस्जिदों आदि सुंदर इमारतों से शहर को सजाया गया।"
@@ -9044,8 +9044,8 @@ export const bookData: BookChapter[] = [
           "location": "Panchmahal district (Gujarat)",
           "majorAspect": "The city was captured by Mahmud Begarha who shifted his capital here from Ahmedabad. He embellished it with beautiful buildings such as Jama Masjid, palaces, and religious precincts etc. The site is the only complete and unchanged Islamic pre-Mughal city.",
           "pyqYears": [],
-          "lat": 22.6978,
-          "lng": 73.5981,
+          "lat": 22.4859,
+          "lng": 73.5371,
           "name_hi": "चम्पानेर/मुहम्मदाबाद",
           "location_hi": "पंचमहल जिला (गुजरात)",
           "majorAspect_hi": "यह शहर महमूद बेगरहा द्वारा कब्जा किया गया, जिन्होंने अहमदाबाद से अपनी राजधानी यहाँ स्थानांतरित की। उन्होंने इसे जामा मस्जिद, महलों और धार्मिक परिसर आदि जैसे सुंदर इमारतों से सजाया। यह स्थल एकमात्र पूर्ण और अपरिवर्तित इस्लामी प्री-मुग़ल शहर है।"
@@ -9055,8 +9055,8 @@ export const bookData: BookChapter[] = [
           "location": "Jaunpur district (Uttar Pradesh)",
           "majorAspect": "Patronized by Shargis, it came to be known as 'Shiraz of India' on account of cultural and architectural developments.",
           "pyqYears": [],
-          "lat": 25.7967,
-          "lng": 82.4889,
+          "lat": 25.73,
+          "lng": 82.68,
           "name_hi": "जौनपुर",
           "location_hi": "जौनपुर जिला (उत्तर प्रदेश)",
           "majorAspect_hi": "शार्गियों के संरक्षण में, यह सांस्कृतिक और वास्तु विकास के कारण 'भारत का शिराज़' कहलाने लगा।"
@@ -9066,8 +9066,8 @@ export const bookData: BookChapter[] = [
           "location": "Agra district (Uttar Pradesh)",
           "majorAspect": "It is a suburb of Agra where tombs of Akbar and his wife Harkha Bai are constructed. Minarets at Akbar's tombs were predecessors of Taj Mahal. Harkha Bai's tomb was inspired by Rajasthani style.",
           "pyqYears": [],
-          "lat": 27.0756,
-          "lng": 77.8754,
+          "lat": 27.2206,
+          "lng": 77.9505,
           "name_hi": "सिकंदरा",
           "location_hi": "आगरा जिला (उत्तर प्रदेश)",
           "majorAspect_hi": "यह आगरा का उपनगर है जहाँ अकबर और उनकी पत्नी हरखा बाई की कब्रें निर्मित हुईं। अकबर की कब्रों के मिनार ताज महल के पूर्वज थे। हरखा बाई की कब्र राजस्थानी शैली से प्रेरित थी।"
@@ -9164,8 +9164,8 @@ export const bookData: BookChapter[] = [
             2015,
             2019
           ],
-          "lat": 16.2854,
-          "lng": 80.5686,
+          "lat": 16.5753,
+          "lng": 80.358,
           "name_hi": "अमरावती",
           "location_hi": "गुंटूर जिला (आंध्र प्रदेश)",
           "majorAspect_hi": "अमरावती विद्यालय — प्राचीन भारतीय मूर्तिकला का तीसरा प्रमुख विद्यालय। सफेद संगमरमर का उपयोग। सातवाहन काल (तीसरी शताब्दी ईसा पूर्व - तीसरी शताब्दी ईस्वी)। स्तूप रेलिंग पर कथा-आधारित बेस-रिलिफ। गतिशील और कामुक शैली।"
@@ -9189,8 +9189,8 @@ export const bookData: BookChapter[] = [
           "location": "Satna district (Madhya Pradesh)",
           "majorAspect": "2nd century BCE Buddhist stupa railing sculptures. Earliest surviving example of Buddhist narrative art. Yakshas, Yakshinis, Jataka stories depicted. Railings in Indian Museum Kolkata.",
           "pyqYears": [],
-          "lat": 24.65,
-          "lng": 80.71,
+          "lat": 24.4469,
+          "lng": 80.846,
           "name_hi": "भरहुत",
           "location_hi": "सतना जिला (मध्य प्रदेश)",
           "majorAspect_hi": "2री शताब्दी ईसा पूर्व की बौद्ध स्तूप रेलिंग मूर्तियां। बौद्ध कथा कला का सबसे पुराना जीवित उदाहरण। यक्ष, यक्षिणी, जातक कथाओं का चित्रण। रेलिंगें भारतीय संग्रहालय, कोलकाता में।"
@@ -9200,8 +9200,8 @@ export const bookData: BookChapter[] = [
           "location": "Raisen district (Madhya Pradesh)",
           "majorAspect": "Toranas (gateways) with elaborate sculptural panels. Shalabhanjika (woman holding tree branch) — iconic sculpture. Aniconic representation of Buddha.",
           "pyqYears": [],
-          "lat": 23.2676,
-          "lng": 78.1727,
+          "lat": 23.4807,
+          "lng": 77.7363,
           "name_hi": "सांची",
           "location_hi": "रायसेन जिला (मध्य प्रदेश)",
           "majorAspect_hi": "तोरण (द्वार) जिनमें विस्तृत मूर्तिकला पैनल हैं। शालभांजिका (पेड़ की शाखा पकड़े महिला) — प्रतीकात्मक मूर्ति। अनाकार बुद्ध प्रतिमा।"
@@ -9247,8 +9247,8 @@ export const bookData: BookChapter[] = [
           "location": "Mumbai Harbour (Maharashtra)",
           "majorAspect": "Trimurti sculpture (Maheshamurti, 5.45m) — one of finest examples of Indian sculptural art. Belongs to late Gupta/early medieval period (6th century CE).",
           "pyqYears": [],
-          "lat": 19.055,
-          "lng": 72.8692,
+          "lat": 18.9633,
+          "lng": 72.9314,
           "name_hi": "एलिफैंटा",
           "location_hi": "मुंबई हार्बर (महाराष्ट्र)",
           "majorAspect_hi": "त्रिमूर्ति की मूर्ति (महेशमूर्ति, 5.45 मीटर) — भारतीय मूर्तिकला की श्रेष्ठ कृतियों में से एक। देर गुप्त/प्रारम्भिक मध्ययुगीन काल (6वीं शताब्दी ईस्वी) की।"
@@ -9269,8 +9269,8 @@ export const bookData: BookChapter[] = [
           "location": "Hassan district (Karnataka)",
           "majorAspect": "Hoysala period sculptures (12th-13th century CE). Characterized by hyper-real sculptures. Lathe-turned chloritic schist (soapstone) stone. Intricate detailed carvings — more than 300 figures on a single band at Halebidu.",
           "pyqYears": [],
-          "lat": 13.0302,
-          "lng": 76.1745,
+          "lat": 13.1629,
+          "lng": 75.8571,
           "name_hi": "बेलूर और हल्बीदु",
           "location_hi": "हासन जिला (कर्नाटक)",
           "majorAspect_hi": "होयसला काल की मूर्तियां (12वीं-13वीं शताब्दी ईस्वी)। अतियथार्थवादी मूर्तियों द्वारा विशेषता। लेथ-घुमाए गए क्लोराइटिक शिस्ट (साबुन पत्थर) का उपयोग। जटिल विस्तृत नक्काशियां — हल्बीदु में एक ही बैंड पर 300 से अधिक आकृतियां।"
@@ -9280,8 +9280,8 @@ export const bookData: BookChapter[] = [
           "location": "Chhatarpur district (Madhya Pradesh)",
           "majorAspect": "Chandela period sculptures (950-1050 CE). Erotic and secular sculptures on outer walls, divine sculptures inside. Represent Tantra and Shakta traditions alongside mainstream Shaivism and Vaishnavism.",
           "pyqYears": [],
-          "lat": 24.7606,
-          "lng": 79.6782,
+          "lat": 24.85,
+          "lng": 79.925,
           "name_hi": "खजुराहो",
           "location_hi": "छतरपुर जिला (मध्य प्रदेश)",
           "majorAspect_hi": "छंदेला काल की मूर्तियां (950-1050 ईस्वी)। बाहरी दीवारों पर कामुक और सांसारिक शिल्प, अंदर दिव्य शिल्प। तंत्र और शाक्ति परम्पराओं को मुख्य शैव और वैष्णव परम्पराओं के साथ दर्शाती हैं।"
@@ -9302,8 +9302,8 @@ export const bookData: BookChapter[] = [
           "location": "Puri district (Odisha)",
           "majorAspect": "Eastern Ganga period (13th century CE). Erotic and secular sculptures along with divine. Nata mandira (dance hall) sculptures show classical dance poses. UNESCO World Heritage Site.",
           "pyqYears": [],
-          "lat": 19.8343,
-          "lng": 85.6853,
+          "lat": 19.8908,
+          "lng": 86.1003,
           "name_hi": "कोणार्क",
           "location_hi": "पुरी जिला (ओडिशा)",
           "majorAspect_hi": "पूर्वी गंगा काल (13वीं शताब्दी ईस्वी)। कामुक, सांसारिक और दिव्य शिल्प। नटा मंडिर (नृत्य हॉल) की मूर्तियां शास्त्रीय नृत्य मुद्राएं दर्शाती हैं। यूनेस्को विश्व धरोहर स्थल।"
@@ -9315,8 +9315,8 @@ export const bookData: BookChapter[] = [
           "pyqYears": [
             2018
           ],
-          "lat": 26.17,
-          "lng": 75.79,
+          "lat": 15.3344,
+          "lng": 76.4622,
           "name_hi": "विजयनगर/हैंपी",
           "location_hi": "विजयनगर जिला (कर्नाटक)",
           "majorAspect_hi": "विजयनगर काल की मूर्तियां (14वीं-16वीं शताब्दी ईस्वी)। विशिष्ट प्रतीकात्मकता। उग्र नरसिंह एकलशिला (6.7 मी) और सासिवेकालु का गणेश — प्रतीकात्मक शिल्प।"
@@ -9350,8 +9350,8 @@ export const bookData: BookChapter[] = [
           "location": "Jajpur district (Odisha)",
           "majorAspect": "Pala period Buddhist sculptures. Heads of Buddha in Pala style — large eyes, elongated features. Established by Guptas around 5th century CE, flourished under Palas.",
           "pyqYears": [],
-          "lat": 20.9,
-          "lng": 86.5,
+          "lat": 20.6412,
+          "lng": 86.3353,
           "name_hi": "रत्नागिरी (ओडिशा)",
           "location_hi": "जाजपुर जिला (ओडिशा)",
           "majorAspect_hi": "पाला काल की बौद्ध मूर्तियां। पाला शैली के बुद्ध के सिर — बड़ी आँखें, लम्बी विशेषताएं। गुप्तों द्वारा 5वीं शताब्दी ईस्वी के आसपास स्थापित, पाला राजवंश के अधीन फली-फूली।"
@@ -9376,8 +9376,8 @@ export const bookData: BookChapter[] = [
           "location": "Bhagalpur district (Bihar)",
           "majorAspect": "Sultanganj Buddha — one of the largest copper Buddhist images in the world (2.3m, 500 kg). Gupta period (7th century CE). Now in Birmingham Museum, UK.",
           "pyqYears": [],
-          "lat": 25.2861,
-          "lng": 87.1304,
+          "lat": 25.246,
+          "lng": 86.738,
           "name_hi": "सुल्तंगंज",
           "location_hi": "भागलपुर जिला (बिहार)",
           "majorAspect_hi": "सुल्तंगंज बुद्ध — विश्व की सबसे बड़ी तांबे की बौद्ध प्रतिमाओं में से एक (2.3 मी, 500 किग्रा)। गुप्त काल (7वीं शताब्दी ईस्वी)। वर्तमान में बर्मिंघम संग्रहालय, यूके में स्थित।"
@@ -9411,8 +9411,8 @@ export const bookData: BookChapter[] = [
           "location": "Mathura district (Uttar Pradesh)",
           "majorAspect": "Intricately carved pillars with reliefs of Yakshis on the front and Buddhist themes on the back are considered one of the best specimens of Mathura art.",
           "pyqYears": [],
-          "lat": 27.6333,
-          "lng": 77.5833,
+          "lat": 27.5015,
+          "lng": 77.668,
           "name_hi": "भूटेश्वर",
           "location_hi": "मथुरा जिला (उत्तर प्रदेश)",
           "majorAspect_hi": "अग्रभाग में यक्षियों की रिलीफ़ और पीछे बौद्ध विषयों के साथ बारीकी से नक्काशी किए गए स्तंभ, मथुरा कला के सर्वश्रेष्ठ नमूनों में से एक माने जाते हैं।"
@@ -9435,8 +9435,8 @@ export const bookData: BookChapter[] = [
           "pyqYears": [
             2022
           ],
-          "lat": 24.6794,
-          "lng": 85.0116,
+          "lat": 24.8139,
+          "lng": 85.2032,
           "name_hi": "कुर्किहार (PYQ- 2022)",
           "location_hi": "गया जिला (बिहार)",
           "majorAspect_hi": "बौद्ध धर्म से संबंधित 9वीं-12वीं ईस्वी की कांस्य मूर्तियों का खजाना मिला। पाला काल की कई पत्थर की प्रतिमाएं भी मिलीं, जिनमें से कुछ स्थानीय देवी मंदिर में अभी भी सक्रिय रूप से पूजित हैं।"
@@ -9446,8 +9446,8 @@ export const bookData: BookChapter[] = [
           "location": "Mathura district (Uttar Pradesh)",
           "majorAspect": "A 2.6 metre tall statue of Yaksha identified as Manibhadra, a popular ancient deity, is found. It belongs to 2nd c BCE.",
           "pyqYears": [],
-          "lat": 27.6333,
-          "lng": 77.5833,
+          "lat": 27.2874,
+          "lng": 77.7174,
           "name_hi": "पार्कहैम",
           "location_hi": "मथुरा जिला (उत्तर प्रदेश)",
           "majorAspect_hi": "2.6 मीटर ऊँची यक्ष की प्रतिमा, जिसे मणिभद्र के रूप में पहचाना गया है, एक लोकप्रिय प्राचीन देवता, मिली है। यह 2री शताब्दी ईसा पूर्व की है।"
@@ -9479,8 +9479,8 @@ export const bookData: BookChapter[] = [
           "location": "Thanjavur district (Tamil Nadu)",
           "majorAspect": "Swamimalai Bronze Icons consisting of idols and statues has been granted",
           "pyqYears": [],
-          "lat": 10.659,
-          "lng": 79.2014,
+          "lat": 10.9596,
+          "lng": 79.3325,
           "name_hi": "स्वामिमलाई",
           "location_hi": "थंजावुर जिला (तमिलनाडु)",
           "majorAspect_hi": "स्वामिमलाई की कांस्य प्रतिमाएँ, जिनमें मूर्तियाँ और प्रतिमाएँ शामिल हैं, को मान्यता दी गई है।"
@@ -9620,8 +9620,8 @@ export const bookData: BookChapter[] = [
           "location": "Vijayanagara district (Karnataka)",
           "majorAspect": "Folklore, ancient Indian texts and Kannada literature",
           "pyqYears": [],
-          "lat": 14.9429,
-          "lng": 76.0448,
+          "lat": 15.3352,
+          "lng": 76.4587,
           "name_hi": "विरुपाक्ष मंदिर",
           "location_hi": "विजयनगर जिला (कर्नाटक)",
           "majorAspect_hi": "लोककथाएँ, प्राचीन भारतीय ग्रंथ और कन्नड़ साहित्य"
@@ -9631,8 +9631,8 @@ export const bookData: BookChapter[] = [
           "location": "Anantapur district (Andhra Pradesh)",
           "majorAspect": "Remarkable Vijayanagara empire paintings Mythology, courtly life, clothing patterns",
           "pyqYears": [],
-          "lat": 14.6783,
-          "lng": 77.6065,
+          "lat": 13.81,
+          "lng": 77.6,
           "name_hi": "लेपाक्षी मंदिर",
           "location_hi": "अनंतपुर जिला (आंध्र प्रदेश)",
           "majorAspect_hi": "विजयनगर साम्राज्य की उल्लेखनीय चित्रकला; पौराणिक कथा, दरबार जीवन, वस्त्र पैटर्न"
@@ -9642,8 +9642,8 @@ export const bookData: BookChapter[] = [
           "location": "Ernakulam district (Kerala)",
           "majorAspect": "Based on 'thriguna' principle where each colour represents a particular guna Ramayana along with other mythological and literary traditions",
           "pyqYears": [],
-          "lat": 10.0384,
-          "lng": 76.5074,
+          "lat": 9.958,
+          "lng": 76.259,
           "name_hi": "मैटांचेरी महल",
           "location_hi": "एर्नाकुलम जिला (केरल)",
           "majorAspect_hi": "'त्रिगुण' सिद्धांत पर आधारित जहाँ प्रत्येक रंग एक विशेष गुण दर्शाता है; रामायण तथा अन्य पौराणिक और साहित्यिक परम्पराएँ"
@@ -9653,8 +9653,8 @@ export const bookData: BookChapter[] = [
           "location": "Cuddalore district (Tamil Nadu)",
           "majorAspect": "Paintings bring to life stories from the Tamil Tiruvilaiyadal Puranam Shiva as Nataraja",
           "pyqYears": [],
-          "lat": 11.5202,
-          "lng": 79.3396,
+          "lat": 11.3994,
+          "lng": 79.6933,
           "name_hi": "चिदंबरम",
           "location_hi": "कुडालोर जिला (तमिलनाडु)",
           "majorAspect_hi": "चित्रकला में तमिल तिरुविलायडल पुराण से कहानियों को जीवंत किया गया; शिव नटराज के रूप में"
@@ -9678,8 +9678,8 @@ export const bookData: BookChapter[] = [
             2015,
             2024
           ],
-          "lat": 10.5,
-          "lng": 78.9,
+          "lat": 10.466,
+          "lng": 78.734,
           "name_hi": "सित्तनवसाल जैन चित्र",
           "location_hi": "पुडुकोट्टई जिला (तमिलनाडु)",
           "majorAspect_hi": "जैन धर्म"
@@ -9689,8 +9689,8 @@ export const bookData: BookChapter[] = [
           "location": "Kanyakumari district (Tamil Nadu)",
           "majorAspect": "Murals decorate the inner walls of the room intended to create atmosphere for meditation Indian mythology",
           "pyqYears": [],
-          "lat": 8.0793,
-          "lng": 77.5499,
+          "lat": 8.2509,
+          "lng": 77.3267,
           "name_hi": "पद्मनाभपुरम महल",
           "location_hi": "कन्याकुमारी जिला (तमिलनाडु)",
           "majorAspect_hi": "भित्तिचित्र कमरे की आंतरिक दीवारों को सजाते हैं, ध्यान के माहौल के लिए भारतीय पौराणिक कथाएँ"
@@ -9818,8 +9818,8 @@ export const bookData: BookChapter[] = [
           "location": "Naogaon district (Bangladesh)",
           "majorAspect": "A centre of Vajrayana Buddhism established by Palas in 1112 CE.",
           "pyqYears": [],
-          "lat": 24.8735,
-          "lng": 88.7376,
+          "lat": 25.1589,
+          "lng": 88.8875,
           "name_hi": "जगद्दला विहार",
           "location_hi": "नाओगांव जिला (बांग्लादेश)",
           "majorAspect_hi": "1112 ईस्वी में पालाओं द्वारा स्थापित वज्रयान बौद्ध धर्म का केन्द्र।"
@@ -9880,8 +9880,8 @@ export const bookData: BookChapter[] = [
           "pyqYears": [
             2013
           ],
-          "lat": 20.8747,
-          "lng": 86.1215,
+          "lat": 20.6416,
+          "lng": 86.2692,
           "name_hi": "उदयगिरि",
           "location_hi": "जजपुर जिला (ओडिशा)",
           "majorAspect_hi": "मधवपुरा महाविहार के नाम से भी जाना जाता है। 7वीं से 12वीं शताब्दी के बीच प्रमुख बौद्ध स्थल। ओडिशा के बौद्ध हीरे के त्रिकोण का हिस्सा।"
@@ -9891,8 +9891,8 @@ export const bookData: BookChapter[] = [
           "location": "Jajpur district (Odisha)",
           "majorAspect": "Established by Guptas around 5th century CE. Two monasteries, one large Stupa, votive stupas, and several sculptures including heads of Buddha. Part of Buddhist Diamond Triangle of Odisha.",
           "pyqYears": [],
-          "lat": 20.9,
-          "lng": 86.5,
+          "lat": 20.6412,
+          "lng": 86.3353,
           "name_hi": "रत्नगिरि",
           "location_hi": "जजपुर जिला (ओडिशा)",
           "majorAspect_hi": "5वीं शताब्दी ईस्वी के आसपास गुप्तों द्वारा स्थापित। दो मठ, एक बड़ा स्तूप, वोटिव स्तूप और कई मूर्तियाँ, जिनमें बुद्ध के सिर शामिल हैं। ओडिशा के बौद्ध हीरे के त्रिकोण का हिस्सा।"
@@ -9942,8 +9942,8 @@ export const bookData: BookChapter[] = [
           "location": "Bijapur district (Karnataka)",
           "majorAspect": "Famous centre of Vedic learning in 10th and 11th century CE.",
           "pyqYears": [],
-          "lat": 16.8144,
-          "lng": 75.8934,
+          "lat": 17.132,
+          "lng": 76.0201,
           "name_hi": "सलोटगी",
           "location_hi": "बीजापुर जिला (कर्नाटक)",
           "majorAspect_hi": "१०वीं और ११वीं शताब्दी ईस्वी में वैदिक शिक्षा का प्रसिद्ध केंद्र।"
@@ -9966,8 +9966,8 @@ export const bookData: BookChapter[] = [
           "location": "Chikmagalur district (Karnataka)",
           "majorAspect": "First of four Peethas established by Adi Shankaracharya, founder of Advaita philosophy.",
           "pyqYears": [],
-          "lat": 13.318,
-          "lng": 75.7739,
+          "lat": 13.4165,
+          "lng": 75.252,
           "name_hi": "श्रींगेरी मठ",
           "location_hi": "चिकमगलूर जिला (कर्नाटक)",
           "majorAspect_hi": "आदि शंकराचार्य द्वारा स्थापित चार पीठों में पहला, अद्वैत दर्शन के संस्थापक।"
@@ -9999,8 +9999,8 @@ export const bookData: BookChapter[] = [
           "location": "Villupuram district (Tamil Nadu)",
           "majorAspect": "A Vedic College also called Rajaraja Chaturvedi Mangalam.",
           "pyqYears": [],
-          "lat": 11.9398,
-          "lng": 79.4946,
+          "lat": 12.1268,
+          "lng": 79.4909,
           "name_hi": "एन्नायरम्",
           "location_hi": "विल्लुपुरम जिला (तमिलनाडु)",
           "majorAspect_hi": "एक वैदिक महाविद्यालय, जिसे राजराजा चतुर्वेदी मंगलम् भी कहा जाता है।"
@@ -10010,8 +10010,8 @@ export const bookData: BookChapter[] = [
           "location": "Nadia district (West Bengal)",
           "majorAspect": "Famous centre of learning and cultural practice since ancient times.",
           "pyqYears": [],
-          "lat": 23.4847,
-          "lng": 88.5567,
+          "lat": 23.42,
+          "lng": 88.37,
           "name_hi": "नवद्वीप",
           "location_hi": "नादिया जिला (पश्चिम बंगाल)",
           "majorAspect_hi": "प्राचीन काल से ही शिक्षा और सांस्कृतिक अभ्यास का प्रसिद्ध केंद्र।"
@@ -10086,8 +10086,8 @@ export const bookData: BookChapter[] = [
           "location": "Raigad district (Maharashtra)",
           "majorAspect": "Famed for trade in cotton textiles. Mentioned by Ptolemy, Periplus of Erythraean Sea, Varthema and Barbosa.",
           "pyqYears": [],
-          "lat": 18.4928,
-          "lng": 73.1381,
+          "lat": 18.5461,
+          "lng": 72.9272,
           "name_hi": "चौल",
           "location_hi": "रायगढ़ जिला (महाराष्ट्र)",
           "majorAspect_hi": "कॉटन वस्त्रों के व्यापार के लिए प्रसिद्ध। प्टोलमी, एरिथ्रियन सागर का पेरिप्लस, वार्थेमा और बार्बोसा द्वारा उल्लेखित।"
@@ -10097,8 +10097,8 @@ export const bookData: BookChapter[] = [
           "location": "Ratnagiri district (Maharashtra)",
           "majorAspect": "Important entry point for horses imported from Middle East. Mentioned by Russian traveller Afanasy Nikitin.",
           "pyqYears": [],
-          "lat": 17.2826,
-          "lng": 73.457,
+          "lat": 17.5868,
+          "lng": 73.1752,
           "name_hi": "डाबहोल",
           "location_hi": "रत्नागिरि जिला (महाराष्ट्र)",
           "majorAspect_hi": "मध्य पूर्व से आयातित घोड़ों के लिए महत्वपूर्ण प्रवेश बिंदु। रूसी यात्रि अफ़नासी निकितिन द्वारा उल्लेखित।"
@@ -10276,8 +10276,8 @@ export const bookData: BookChapter[] = [
           "pyqYears": [
             2025
           ],
-          "lat": 10.6026,
-          "lng": 79.7619,
+          "lat": 10.7672,
+          "lng": 79.8449,
           "name_hi": "नागपट्टिनम",
           "location_hi": "नागपट्टिनम जिला (तमिलनाडु)",
           "majorAspect_hi": "प्राचीन बंदरगाह जो महान चोल राजवंश के दौरान प्रमुखता प्राप्त करता है। राजेंद्र प्रथम ने यहाँ से दक्षिण‑पूर्व एशिया अभियानों का आरम्भ किया।"
@@ -10323,8 +10323,8 @@ export const bookData: BookChapter[] = [
           "location": "Kozhikode district (Kerala)",
           "majorAspect": "It was well known its crafting of huge wooden boats called 'uru'.",
           "pyqYears": [],
-          "lat": 11.4656,
-          "lng": 75.8919,
+          "lat": 11.17,
+          "lng": 75.8,
           "name_hi": "बायपुर/बायपोर/वायपुरा",
           "location_hi": "कोझिकोडे जिला (केरल)",
           "majorAspect_hi": "यहाँ बड़े लकड़ी के नौकाओं जिन्हें 'उरु' कहा जाता था, के निर्माण के लिए प्रसिद्ध था।"
@@ -10421,8 +10421,8 @@ export const bookData: BookChapter[] = [
           "location": "Ashoknagar district (Madhya Pradesh)",
           "majorAspect": "Babur captured Chanderi fort from Medini Rai in 1528. Led to the famous Jauhar by Rajput women.",
           "pyqYears": [],
-          "lat": 24.6186,
-          "lng": 77.8787,
+          "lat": 24.72,
+          "lng": 78.13,
           "name_hi": "चंदेरी",
           "location_hi": "अशोकनगर जिला (मध्य प्रदेश)",
           "majorAspect_hi": "बाबर ने 1528 ईस्वी में मेदिनी राय से चंदेरी किले को जीत लिया। इस पर राजपूत महिलाओं द्वारा प्रसिद्ध जौहर हुआ।"
@@ -10432,8 +10432,8 @@ export const bookData: BookChapter[] = [
           "location": "Bharatpur district (Rajasthan)",
           "majorAspect": "Babur defeated Rana Sanga (Sangram Singh) of Mewar in 1527 CE. Consolidated Mughal rule in Rajputana.",
           "pyqYears": [],
-          "lat": 27.0247,
-          "lng": 77.292,
+          "lat": 27.0353,
+          "lng": 77.5431,
           "name_hi": "खानवा",
           "location_hi": "भरतपुर जिला (राजस्थान)",
           "majorAspect_hi": "बाबर ने 1527 ईस्वी में मेवाड़ के राणा सांगा (संग्राम सिंह) को पराजित किया। इससे राजपूताना में मुगल शासन सुदृढ़ हुआ।"
@@ -10465,8 +10465,8 @@ export const bookData: BookChapter[] = [
           "location": "Ashoknagar district (Madhya Pradesh)",
           "majorAspect": "Same as entry 6 - Chanderi fort, famous for Jauhar during Babur's siege.",
           "pyqYears": [],
-          "lat": 24.6186,
-          "lng": 77.8787,
+          "lat": 24.72,
+          "lng": 78.13,
           "name_hi": "चंदेरी (जौहर)",
           "location_hi": "अशोकनगर जिला (मध्य प्रदेश)",
           "majorAspect_hi": "एंट्री 6 के समान – चंदेरी किला, बाबर के घेराव के दौरान जौहर के लिये प्रसिद्ध।"
@@ -10487,8 +10487,8 @@ export const bookData: BookChapter[] = [
           "location": "Buxar district (Bihar)",
           "majorAspect": "Sher Shah Sur defeated Humayun in 1539 and crowned himself ruler.",
           "pyqYears": [],
-          "lat": 25.5045,
-          "lng": 84.1098,
+          "lat": 25.5075,
+          "lng": 83.8823,
           "name_hi": "चौसा",
           "location_hi": "बक्सर जिला (बिहार)",
           "majorAspect_hi": "शेर शाह सूरी ने 1539 ईस्वी में हुमायूँ को पराजित कर स्वयं को शासक घोषित किया।"
@@ -10522,8 +10522,8 @@ export const bookData: BookChapter[] = [
           "location": "Bijapur district (Karnataka)",
           "majorAspect": "Also known as battle of Rakshasa Tangdi (1565). Watershed battle between Vijayanagara Empire and alliance of Deccan sultanates. Despite larger army, Vijayanagara was comprehensively defeated.",
           "pyqYears": [],
-          "lat": 16.8144,
-          "lng": 75.8934,
+          "lat": 16.4733,
+          "lng": 76.3118,
           "name_hi": "तालीकोटा",
           "location_hi": "बिजापुर जिला (कर्नाटक)",
           "majorAspect_hi": "राक्षस तांगड़ी की लड़ाई (1565) के नाम से भी ज्ञात। यह विजयनगर साम्राज्य और दक्षिण भारत के सल्तनत गठबंधन के बीच का निर्णायक युद्ध था। बड़ी सेना के बावजूद विजयनगर को पूरी तरह से पराजित किया गया।"
@@ -10533,8 +10533,8 @@ export const bookData: BookChapter[] = [
           "location": "Rajsamand district (Rajasthan)",
           "majorAspect": "Fought in 1576 between Maharana Pratap of Mewar and Mughals under Akbar.",
           "pyqYears": [],
-          "lat": 25.2892,
-          "lng": 73.8241,
+          "lat": 24.8922,
+          "lng": 73.6978,
           "name_hi": "हल्दीघाटी",
           "location_hi": "राजसमंद जिला (राजस्थान)",
           "majorAspect_hi": "1576 में मेवाड़ के महाराणा प्रताप और अकबर के तहत मुग़लों के बीच लड़ा गया।"
@@ -10555,8 +10555,8 @@ export const bookData: BookChapter[] = [
           "location": "Pune district (Maharashtra)",
           "majorAspect": "Mughal army under Jai Singh defeated Shivaji and took 23 of his 35 forts.",
           "pyqYears": [],
-          "lat": 18.6449,
-          "lng": 73.9224,
+          "lat": 18.2833,
+          "lng": 73.9833,
           "name_hi": "पुरंदर",
           "location_hi": "पुणे जिला (महाराष्ट्र)",
           "majorAspect_hi": "जै सिंह के नेतृत्व में मुगल सेना ने शिवाजी को पराजित कर उसके 35 किलों में से 23 किले ले लिये।"
@@ -10566,8 +10566,8 @@ export const bookData: BookChapter[] = [
           "location": "Mumbai (Maharashtra)",
           "majorAspect": "Marathas defeated Portuguese in 1739.",
           "pyqYears": [],
-          "lat": 19.055,
-          "lng": 72.8692,
+          "lat": 19.3303,
+          "lng": 72.815,
           "name_hi": "वासई/बासीन",
           "location_hi": "मुंबई (महाराष्ट्र)",
           "majorAspect_hi": "1739 में मराठों ने पुर्तगालियों को पराजित किया।"
@@ -10618,8 +10618,8 @@ export const bookData: BookChapter[] = [
           "location": "Delhi",
           "majorAspect": "Constructed by Shah Jahan who shifted capital from Agra to Delhi. Architect: Ustad Ahmad Lahori (also built Taj Mahal). Major buildings: Diwan-i-Aam, Diwan-i-Khas, Rang Mahal, Mumtaz Mahal. UNESCO World Heritage site.",
           "pyqYears": [],
-          "lat": 28.6139,
-          "lng": 77.209,
+          "lat": 28.6558,
+          "lng": 77.2403,
           "name_hi": "लाल किला",
           "location_hi": "दिल्ली",
           "majorAspect_hi": "शाहजहाँ ने अagra से दिल्ली को राजधानी बनाते हुए निर्मित। वास्तुकार: उस्ताद अहमद लाहोरी (ताज महल के निर्माता)। प्रमुख इमारतें: दीवान‑इ‑आम, दीवान‑इ‑खास, रंग महल, मुंताज़ महल। यूनेस्को विश्व धरोहर स्थल।"
@@ -10673,8 +10673,8 @@ export const bookData: BookChapter[] = [
           "location": "Sawai Madhopur district (Rajasthan)",
           "majorAspect": "Originally ruled by Chauhan Rajputs; changed hands from Mamluks to Mewar and then Mughals. Fort experienced a Jal Jauhar (self-immolation of women into a water tank) when Alauddin Khalji attacked Ranthambore ruled by Hammiradeva. UNESCO World Heritage site.",
           "pyqYears": [],
-          "lat": 26.229,
-          "lng": 76.3044,
+          "lat": 26.0203,
+          "lng": 76.455,
           "name_hi": "रंथाम्बोर किला",
           "location_hi": "सवाई माधोपुर जिला (राजस्थान)",
           "majorAspect_hi": "मूलतः चौहान राजपूतों के अधीन; बाद में ममलुक, मेवाड़ और फिर मुगलों के हाथों बदल गया। अलाउद्दीन खिलजी के रंथाम्बोर पर आक्रमण के समय हल्दीघाटी (जल जौहर) हुआ जब हामिरादेवा ने किला रखा था। यूनेस्को विश्व धरोहर स्थल।"
@@ -10684,8 +10684,8 @@ export const bookData: BookChapter[] = [
           "location": "Rajsamand district (Rajasthan)",
           "majorAspect": "Built during 15th century by Mewar's Kumbha; chief architect was Mandan who documented his style of work in text Rajvallabh. Over 360 temples within the fort, both Jain and Hindu. UNESCO World Heritage site.",
           "pyqYears": [],
-          "lat": 25.2892,
-          "lng": 73.8241,
+          "lat": 25.1489,
+          "lng": 73.5803,
           "name_hi": "कुंभलगढ़ किला",
           "location_hi": "राजसमंद जिला (राजस्थान)",
           "majorAspect_hi": "15वीं सदी में मेवाड़ के कुंभा द्वारा निर्मित; मुख्य वास्तुकार मंदन थे जिन्होंने अपने शैली को 'राजवल्लभ' ग्रन्थ में दर्ज किया। किले के भीतर 360 से अधिक मंदिर हैं, जिनमें जैन और हिंदू दोनों शामिल हैं। यूनेस्को विश्व धरोहर स्थल।"
@@ -10708,8 +10708,8 @@ export const bookData: BookChapter[] = [
           "location": "Jhalawar district (Rajasthan)",
           "majorAspect": "A hill and water fort (Jal Durga) built by Rajput ruler Bijaldev Singh in 12th century. Bhagat Pipa, renowned Nirguna Bhakti saint, was earlier the ruler of Gagron.",
           "pyqYears": [],
-          "lat": 24.3132,
-          "lng": 76.5221,
+          "lat": 24.628,
+          "lng": 76.183,
           "name_hi": "गागरॉन किला",
           "location_hi": "झालावाड़ जिला (राजस्थान)",
           "majorAspect_hi": "एक पहाड़ी‑और‑जल किला (जल दुर्ग) जिसे 12वीं सदी में राजपूत शासक बिजालदेव सिंह ने बनाया। भक्त पिपा, प्रसिद्ध निरगुण भक्ति संत, पहले गागरॉन के शासक थे।"
@@ -10730,8 +10730,8 @@ export const bookData: BookChapter[] = [
           "location": "Gwalior district (Madhya Pradesh)",
           "majorAspect": "Historic fortress initiated by Raja Sourya Sena, fortification finished around 773 CE. Came under Rajput Dynasty of Tomara, extensively constructed in reign of Raja Mansingh Tomar. Later ruled by Lodhis, Suris, Mughals and Sindhia Marathas. Major buildings: Man Mandir Palace, Gujari Mahal, Teli ka Mandir, Sas Bahu Temple, Siddhachal Jain caves. Tentative UNESCO list.",
           "pyqYears": [],
-          "lat": 26.0287,
-          "lng": 78.1571,
+          "lat": 26.2303,
+          "lng": 78.1689,
           "name_hi": "ग्वालियर किला",
           "location_hi": "ग्वालियर जिला (मध्य प्रदेश)",
           "majorAspect_hi": "ऐतिहासिक किला जिसकी शुरुआत राजा सौर्य सेन ने की, तथा 773 ईस्वी के आसपास दीवारें पूरी हुईं। टॉमरा राजवंश के राजाओं के अधीन आया, रजा मान सिंह टॉमर के शासन में व्यापक निर्माण हुआ। बाद में लोदी, सूरी, मुगल और सिंधिया मराठा राजाओं ने शासन किया। प्रमुख इमारतें: मान मंदिर महल, गुजरी महल, तेली का मंदिर, सास बहु मंदिर, सिद्धाचल जैन गुफाएँ। संभावित यूनेस्को सूची।"
@@ -10763,8 +10763,8 @@ export const bookData: BookChapter[] = [
           "location": "Raigad district (Maharashtra)",
           "majorAspect": "Built by Shivaji Maharaj; chief engineer was Hiroji Indulkar. After coronation in 1674, Shivaji made it capital of Hindavi Swaraj. Later temporarily captured by Zulfigar Khan, General of Aurangzeb.",
           "pyqYears": [],
-          "lat": 18.4928,
-          "lng": 73.1381,
+          "lat": 18.2335,
+          "lng": 73.4406,
           "name_hi": "रायगढ़ किला",
           "location_hi": "रायगढ़ जिला (महाराष्ट्र)",
           "majorAspect_hi": "शिवाजी महाराज द्वारा निर्मित; मुख्य अभियंता हिरोजी इंदुलकर थे। 1674 में राज्याभिषेक के बाद शिवाजी ने इसे हिंदवी स्वराज्य की राजधानी बनाया। बाद में औरंगजेब के जनरल ज़ुल्फ़ीगर ख़ान द्वारा अस्थायी रूप से कब्ज़ा किया गया।"
@@ -10774,8 +10774,8 @@ export const bookData: BookChapter[] = [
           "location": "Pune district (Maharashtra)",
           "majorAspect": "Formerly known as Murumbdev. Was the first capital of Shivaji Maharaj before it was moved to Raigad Fort.",
           "pyqYears": [],
-          "lat": 18.6449,
-          "lng": 73.9224,
+          "lat": 18.246,
+          "lng": 73.6822,
           "name_hi": "राजगढ़ किला",
           "location_hi": "पुणे जिला (महाराष्ट्र)",
           "majorAspect_hi": "पहले मुरुंबदेव के नाम से जाना जाता था। यह शिवाजी महाराज की पहली राजधानी थी, जिसे बाद में रायगढ़ किले में स्थानांतरित किया गया।"
@@ -10785,8 +10785,8 @@ export const bookData: BookChapter[] = [
           "location": "Satara district (Maharashtra)",
           "majorAspect": "Originally built by Shivaji in 1656 to defend the Sahyadri region. Historical significance due to Battle of Pratapgad (1659) between Shivaji and Bijapur Sultanate general Afzal Khan.",
           "pyqYears": [],
-          "lat": 17.6361,
-          "lng": 74.2983,
+          "lat": 17.9362,
+          "lng": 73.5776,
           "name_hi": "प्रतापगढ़ किला",
           "location_hi": "सतारा जिला (महाराष्ट्र)",
           "majorAspect_hi": "शिवाजी द्वारा 1656 में साह्याद्री क्षेत्र की रक्षा के लिए निर्मित। इसका ऐतिहासिक महत्व प्रतापगढ़ की लड़ाई (1659) से है, जिसमें शिवाजी और बीजापुर सल्तनत के जनरल अफ़ज़ल ख़ान के बीच संघर्ष हुआ।"
@@ -10796,8 +10796,8 @@ export const bookData: BookChapter[] = [
           "location": "Kolhapur district (Maharashtra)",
           "majorAspect": "Built during the patronage of Shilahar dynasty. Strategically constructed to keep eye on major trade route from Bijapur.",
           "pyqYears": [],
-          "lat": 16.4627,
-          "lng": 74.0895,
+          "lat": 16.82,
+          "lng": 74.12,
           "name_hi": "पनहाला किला",
           "location_hi": "कोल्हापुर जिला (महाराष्ट्र)",
           "majorAspect_hi": "शिलाहर वंश के संरक्षण में निर्मित। बीजापुर के प्रमुख व्यापार मार्ग पर नज़र रखने के लिये रणनीतिक रूप से बनाया गया।"
@@ -10818,8 +10818,8 @@ export const bookData: BookChapter[] = [
           "location": "Bidar district (Karnataka)",
           "majorAspect": "Built by Sultan Ahmad Shah I of Bahmani Sultanate. Later ruled by Barid Shahis, Adil Shahis, and Mughals. Contains more than 30 Islamic buildings. Tentative UNESCO list.",
           "pyqYears": [],
-          "lat": 18.0207,
-          "lng": 77.2487,
+          "lat": 17.912,
+          "lng": 77.52,
           "name_hi": "बिदर किला",
           "location_hi": "बिदर जिला (कर्नाटक)",
           "majorAspect_hi": "बाहमनी सल्तनत के सुल्तान अहमद शाह प्रथम द्वारा निर्मित। बाद में बारिद शाही, आदिल शाही और मुग़ल राजाओं ने इसे नियंत्रित किया। इसमें 30 से अधिक इस्लामी इमारतें हैं। यूनेस्को की संभावित सूची में शामिल।"
@@ -10829,8 +10829,8 @@ export const bookData: BookChapter[] = [
           "location": "Warangal district (Telangana)",
           "majorAspect": "Capital of Kakatiya dynasty. Attacked and held by Muhammad Bin Tughluq before being captured by Nayakas. Controlled by Bahmani Sultanate, Bijapur Sultanate, and Nizam. Tentative UNESCO list.",
           "pyqYears": [],
-          "lat": 17.8676,
-          "lng": 79.8019,
+          "lat": 17.9572,
+          "lng": 79.6144,
           "name_hi": "वारंगल किला",
           "location_hi": "वारंगल जिला (तेलंगाना)",
           "majorAspect_hi": "काकतीय वंश की राजधानी। मुहम्मद बिन तुगलक द्वारा आक्रमण कर कब्ज़ा किया गया, फिर नायकाओं द्वारा पुनः प्राप्त किया गया। बाद में बहमनी सल्तनत, बीजापुर सल्तनत और निज़ाम के अधीन रहा। यूनेस्को की संभावित सूची में शामिल।"
@@ -10851,8 +10851,8 @@ export const bookData: BookChapter[] = [
           "location": "Mandya district (Karnataka)",
           "majorAspect": "Heritage structure that formed epicentre of Tipu Sultan's kingdom. Reflects Indo-Islamic architectural style engraved with intricate works.",
           "pyqYears": [],
-          "lat": 12.6369,
-          "lng": 76.7275,
+          "lat": 12.414,
+          "lng": 76.704,
           "name_hi": "श्रीरंगपटना किला",
           "location_hi": "मंड्या जिला (कर्नाटक)",
           "majorAspect_hi": "ऐतिहासिक संरचना जो टिपु सुल्तान के राज्य का केंद्र बिंदु थी। यह इंडो‑इस्लामी वास्तुशिल्प शैली को दर्शाती है, जिसमें जटिल नक्काशी कार्य हैं।"
@@ -10862,8 +10862,8 @@ export const bookData: BookChapter[] = [
           "location": "Villupuram district (Tamil Nadu)",
           "majorAspect": "Known as 'Troy of the East' by British. Part of Maratha Military Landscape of India. Important centre of power of Nayakas after decline of Vijayanagara kingdom. Shivaji ranked it as 'impregnable fortress'.",
           "pyqYears": [],
-          "lat": 11.9398,
-          "lng": 79.4946,
+          "lat": 12.2501,
+          "lng": 79.3948,
           "name_hi": "गिंजी किला",
           "location_hi": "विलुपुरम जिला (तमिलनाडु)",
           "majorAspect_hi": "ब्रिटिशों द्वारा इसे 'पूर्व का ट्रॉय' कहा गया। भारत के मराठा सैन्य परिदृश्य का हिस्सा। विजयनगर साम्राज्य के पतन के बाद नायकाओं की शक्ति का महत्वपूर्ण केंद्र। शिवाजी ने इसे 'अभेद्य किला' कहा था।"
@@ -10897,8 +10897,8 @@ export const bookData: BookChapter[] = [
           "location": "Punjab (Pakistan)",
           "majorAspect": "Major entry point of Punjab. Centre of power of Khokhar tribe. Attacked by Mahmud Ghazni, Mongol army, Mohammed Ghori, Babur and Ahmad Shah Durrani.",
           "pyqYears": [],
-          "lat": 31,
-          "lng": 72,
+          "lat": 32.4811,
+          "lng": 72.9069,
           "name_hi": "भेरा",
           "location_hi": "पंजाब (पाकिस्तान)",
           "majorAspect_hi": "पंजाब का प्रमुख प्रवेश द्वार। खोखर जनजाति की शक्ति का केंद्र। महमूद ग़ज़नी, मंगोल सेना, मोहम्मद घोरी, बाबर और अहमद शाह दुर्दरानी द्वारा आक्रमण किया गया।"
@@ -10930,8 +10930,8 @@ export const bookData: BookChapter[] = [
           "location": "Raigad district (Maharashtra)",
           "majorAspect": "A water fort close to Murud coast. Siddis occupied the fort in 1617; considered an impregnable fort.",
           "pyqYears": [],
-          "lat": 18.4928,
-          "lng": 73.1381,
+          "lat": 18.2996,
+          "lng": 72.9644,
           "name_hi": "जंजिरा",
           "location_hi": "रायगड जिला (महाराष्ट्र)",
           "majorAspect_hi": "मुरुड तट के निकट स्थित एक जल किला। 1617 में सिद्दियों ने इस किले को कब्जा किया; इसे अभेद्य किला माना जाता है।"
@@ -11073,8 +11073,8 @@ export const bookData: BookChapter[] = [
           "location": "Kozhikode district (Kerala)",
           "majorAspect": "Portuguese explorer Vasco da Gama landed here in 1498, opening direct maritime trade route between Europe and India.",
           "pyqYears": [],
-          "lat": 11.4656,
-          "lng": 75.8919,
+          "lat": 11.2489,
+          "lng": 75.7839,
           "name_hi": "कालीकट/कोज़िकोड",
           "location_hi": "कोज़िकोड जिला (केरल)",
           "majorAspect_hi": "पुर्तगाली अन्वेषक वास्को दा गामा ने १४९८ में यहाँ उतरकर यूरोप और भारत के बीच सीधा समुद्री मार्ग स्थापित किया।"
@@ -11183,8 +11183,8 @@ export const bookData: BookChapter[] = [
           "location": "Tiruvallur district (Tamil Nadu)",
           "majorAspect": "Portuguese established trading post in 1502 with help of Vijayanagar rulers. Dutch occupied Pulicat fort in 1609; Fort Geldria was seat of Dutch Republic's first settlement in India.",
           "pyqYears": [],
-          "lat": 13.1394,
-          "lng": 79.9071,
+          "lat": 13.4177,
+          "lng": 80.3185,
           "name_hi": "पुलिकट",
           "location_hi": "तिरुवल्लूर जिला (तमिलनाडु)",
           "majorAspect_hi": "पुर्तगालियों ने 1502 में विजयनगर शासकों की मदद से यहाँ व्यापारिक पोस्ट स्थापित किया। डच ने 1609 में पुलिकट किले पर कब्ज़ा किया; फोर्ट गेल्ड्रिया डच गणराज्य की भारत में पहली बस्ती का मुख्यालय था।"
@@ -11227,8 +11227,8 @@ export const bookData: BookChapter[] = [
           "location": "Mayiladuthurai district (Tamil Nadu)",
           "majorAspect": "First Danish trading post in India.",
           "pyqYears": [],
-          "lat": 11.1896,
-          "lng": 79.6946,
+          "lat": 11.0272,
+          "lng": 79.8543,
           "name_hi": "त्रांकुबार/थरंगंबड़ी",
           "location_hi": "मयिलादुत्राई जिला (तमिलनाडु)",
           "majorAspect_hi": "भारत में पहला डेनिश व्यापारिक पोस्ट।"
@@ -11240,8 +11240,8 @@ export const bookData: BookChapter[] = [
           "pyqYears": [
             2025
           ],
-          "lat": 10.6026,
-          "lng": 79.7619,
+          "lat": 10.7672,
+          "lng": 79.8449,
           "name_hi": "नागपट्टिनम",
           "location_hi": "नागपट्टिनम जिला (तमिलनाडु)",
           "majorAspect_hi": "पहले पुर्तगाली और बाद में डच की फैक्ट्री। बाद में ब्रिटिश ने इसे डच से जीत लिया।"
@@ -11253,8 +11253,8 @@ export const bookData: BookChapter[] = [
           "pyqYears": [
             2021
           ],
-          "lat": 27.0756,
-          "lng": 77.8754,
+          "lat": 27.18,
+          "lng": 78.02,
           "name_hi": "आगरा",
           "location_hi": "आगरा जिला (उत्तर प्रदेश)",
           "majorAspect_hi": "बंदरों और आंतरिक क्षेत्रों दोनों से अच्छी तरह जुड़ा हुआ। अंग्रेज़ और डच का महत्वपूर्ण आंतरिक व्यापार केंद्र।"
@@ -11264,8 +11264,8 @@ export const bookData: BookChapter[] = [
           "location": "Patna district (Bihar)",
           "majorAspect": "Lay on important trade route with well established mercantile and trading traditions. Both British and Dutch opened factories here.",
           "pyqYears": [],
-          "lat": 25.4681,
-          "lng": 85.1953,
+          "lat": 25.61,
+          "lng": 85.1414,
           "name_hi": "पटना",
           "location_hi": "पटना जिला (बिहार)",
           "majorAspect_hi": "एक महत्वपूर्ण व्यापार मार्ग पर स्थित, जहाँ की वाणिज्यिक परम्पराएँ स्थापित हैं। ब्रिटिश और डच दोनों ने यहाँ फैक्ट्री स्थापित की।"
@@ -11286,8 +11286,8 @@ export const bookData: BookChapter[] = [
           "location": "Ahmedabad district (Gujarat)",
           "majorAspect": "Lay on major trade route for textiles and spices. British and Dutch factory site.",
           "pyqYears": [],
-          "lat": 22.7455,
-          "lng": 72.2975,
+          "lat": 23.0225,
+          "lng": 72.5714,
           "name_hi": "अहमदाबाद",
           "location_hi": "अहमदाबाद जिला (गुजरात)",
           "majorAspect_hi": "वस्त्र और मसालों के प्रमुख व्यापार मार्ग पर स्थित। ब्रिटिश और डच की फैक्ट्री स्थल।"
@@ -11305,8 +11305,8 @@ export const bookData: BookChapter[] = [
           "location": "Baghlan Province (Afghanistan)",
           "majorAspect": "Language-Script: Bactrian-Greek. Historical record of achievements of Kushana king Kanishka I, genealogy of Kushana dynasty and their religious beliefs (including Devakula tradition).",
           "pyqYears": [],
-          "lat": 35.96,
-          "lng": 68.71,
+          "lat": 36.1494,
+          "lng": 68.4041,
           "name_hi": "राबाताक",
           "location_hi": "बघ्लान प्रांत (अफ़गानिस्तान)",
           "majorAspect_hi": "भाषा‑लिपि: बेक्ट्रियन‑ग्रीक। कुसाण राजकुमार कणिष्क I की उपलब्धियों का ऐतिहासिक रिकॉर्ड, कुसाण वंश की वंशावली और उनके धार्मिक विश्वास (देवकुला परम्परा सहित)।"
@@ -11338,8 +11338,8 @@ export const bookData: BookChapter[] = [
           "location": "Ghazipur district (Uttar Pradesh)",
           "majorAspect": "Language-Script: Sanskrit-Ashokan Brahmi. Tells about genealogy of Guptas upto Skandagupta, military accomplishments of Skandagupta who defeated Shungas and Hunas and his dedication to religious merit of his father.",
           "pyqYears": [],
-          "lat": 25.6035,
-          "lng": 83.5076,
+          "lat": 25.5667,
+          "lng": 83.2889,
           "name_hi": "भीतड़ी स्तम्भ अभिलेख",
           "location_hi": "गाज़ीपुर जिला (उत्तर प्रदेश)",
           "majorAspect_hi": "भाषा‑लिपि: संस्कृत‑अशोकन ब्राह्मी। गुप्तों की वंशावली को स्कंदगुप्त तक बताता है, स्कंदगुप्त की सैन्य उपलब्धियों का विवरण है, जिन्होंने शुंगों और हुनों को पराजित किया तथा अपने पिता के धार्मिक पुण्य के प्रति उनकी समर्पण को दर्शाता है।"
@@ -11386,8 +11386,8 @@ export const bookData: BookChapter[] = [
           "pyqYears": [
             2023
           ],
-          "lat": 24.2628,
-          "lng": 75.3857,
+          "lat": 24.072,
+          "lng": 75.069,
           "name_hi": "मंडसौर (सोंडानी)",
           "location_hi": "मंडसौर जिला (मध्य प्रदेश)",
           "majorAspect_hi": "भाषा‑लिपि: शास्त्रीय संस्कृत‑गुप्त ब्राह्मी। दो अभिलेख: लता (गुजरात) से दासपुरा तक रेशमी बुनकरों के प्रवास का रिकॉर्ड—इस संघ ने 437 ईस्वी में सूर्य मंदिर का निर्माण किया। यशोधरमान (६वीं शताब्दी की शुरुआत) की स्तम्भ अभिलेख, जिसमें हुन राजा मिहिराकुला पर उनकी विजय का उल्लेख है।"
@@ -11397,8 +11397,8 @@ export const bookData: BookChapter[] = [
           "location": "Sagar district (Madhya Pradesh)",
           "majorAspect": "Language-Script: Sanskrit-Gupta Brahmi. Two inscriptions: Evidence of sati found in this inscription of Bhanugupta describing his military achievements and patronage of Vaishnavism. Also a Boar inscription contemporary to Huna ruler Toramana, inscribed by local feudatory Dhanyavishnu.",
           "pyqYears": [],
-          "lat": 23.8083,
-          "lng": 78.7583,
+          "lat": 24.0938,
+          "lng": 78.1727,
           "name_hi": "एरान स्तम्भ अभिलेख",
           "location_hi": "सागर जिला (मध्य प्रदेश)",
           "majorAspect_hi": "भाषा‑लिपि: संस्कृत‑गुप्त ब्राह्मी। दो अभिलेख: भानुगुप्त की इस अभिलेख में सती का प्रमाण मिलता है, जिसमें उनके सैन्य उपलब्धियों और वैष्णव धर्म के संरक्षण का उल्लेख है। साथ ही टोरामणा (हुन शासक) के समकालीन एक सूअर (बॉर) अभिलेख, जिसे स्थानीय उपभोगी धन्यविष्णु ने उत्कीर्ण किया।"
@@ -11410,8 +11410,8 @@ export const bookData: BookChapter[] = [
           "pyqYears": [
             2015
           ],
-          "lat": 23.8463,
-          "lng": 77.837,
+          "lat": 23.5496,
+          "lng": 77.7999,
           "name_hi": "बेशनगर/विदिशा स्तम्भ अभिलेख",
           "location_hi": "विदिशा जिला (मध्य प्रदेश)",
           "majorAspect_hi": "भाषा‑लिपि: प्राकृत (कुछ संस्कृत वर्तनी के साथ)‑ब्राह्मी। हेलेओडोरस द्वारा भगवान वासुदेवा को पत्थर के स्तम्भ की समर्पण का रिकॉर्ड, जो 150 ईसा पूर्व में कृष्ण भक्ति के प्रारम्भिक पुरातात्विक प्रमाणों में से एक है। हेलेओडोरस ग्रीक शासक एंटीअलकिडास के राजदूत थे, जिन्होंने शुंग शासक भागभद्र को भेजा; उन्होंने हिन्दू धर्म अपना लिया, जिससे ग्रीकों का भारतीय संस्कृति में समावेश दर्शित होता है।"
@@ -11450,8 +11450,8 @@ export const bookData: BookChapter[] = [
           "location": "Pune district (Maharashtra)",
           "majorAspect": "Language-Script: Prakrit-Brahmi. Composed by Queen Naganika, wife of Satakarni. Honours Queen Naganika, gives details of her lineage. Talks about shrauta sacrifices such as Ashvamedha by Satakarni I and donation of land as dakshina to priests. Shows evolution of numerals of the script. Donations by merchants hint at thriving trade, proving Naneghat was a check post of Indo-Roman trade.",
           "pyqYears": [],
-          "lat": 18.6449,
-          "lng": 73.9224,
+          "lat": 19.2919,
+          "lng": 73.676,
           "name_hi": "नानेघाट",
           "location_hi": "पुणे जिला (महाराष्ट्र)",
           "majorAspect_hi": "भाषा‑लिपि: प्राकृत‑ब्राह्मी। रानी नागनिक, सतकार्णि की पत्नी द्वारा रचित। रानी नागनिक को सम्मानित करता है, उनकी वंशावली का विवरण देता है। अश्वमेध जैसे श्रौत यज्ञों का उल्लेख है, जो सतकार्णि I ने किए तथा पुजारियों को दान के रूप में भूमि का दान। लिपि के अंकों के विकास को दर्शाता है। व्यापारियों द्वारा दान, इंडो‑रोमन व्यापार के चेक‑पॉइंट के रूप में नानेघाट की समृद्धि को सिद्ध करता है।"
@@ -11510,8 +11510,8 @@ export const bookData: BookChapter[] = [
             2018,
             2022
           ],
-          "lat": 16.1,
-          "lng": 76.6,
+          "lat": 16.8354,
+          "lng": 76.9325,
           "name_hi": "कनागनहली",
           "location_hi": "कलाबुर्गी जिला (कर्नाटक), भीमा नदी के किनारे",
           "majorAspect_hi": "मौर्योत्तर काल की समृद्ध मूर्तियों से समृद्ध। दो अशोक के चित्र पाए गए (एक में उनकी तीन रानियों के साथ और दूसरा पुत्र‑पुत्री के साथ बोधि वृक्ष की पूजा करते हुए)। 'राया अशोको' नाम के साथ अशोक की मूर्ति पर शिलालेख। विभिन्न सातवाहन शासकों की भी मूर्तियां मिली हैं। मौर्य काल का बौद्ध स्तूप भी खोजा गया।"
@@ -11617,8 +11617,8 @@ export const bookData: BookChapter[] = [
           "location": "Mehsana district (Gujarat)",
           "majorAspect": "Six hoards of coins and one hoard of cowrie shells belonging to Mamluk sultanate of Egypt and Solanki Rajputs excavated.",
           "pyqYears": [],
-          "lat": 23.6013,
-          "lng": 72.3742,
+          "lat": 23.785,
+          "lng": 72.64,
           "name_hi": "वडनगर",
           "location_hi": "मेहसाणा जिला (गुजरात)",
           "majorAspect_hi": "मामलुक सुल्तानate (मिस्र) और सोलंकी राजपूतों से संबंधित छह सिक्का संग्रह और एक कौरि शंखों का संग्रह उत्खनन किया गया।"
@@ -11731,8 +11731,8 @@ export const bookData: BookChapter[] = [
           "location": "Delhi",
           "majorAspect": "Year of Inscription: 1993. Built in 1570. First garden-tomb on Indian subcontinent. Inspired major architectural innovations culminating in Taj Mahal.",
           "pyqYears": [],
-          "lat": 28.6139,
-          "lng": 77.209,
+          "lat": 28.5933,
+          "lng": 77.2506,
           "name_hi": "हुमायूँ का मकबरा",
           "location_hi": "दिल्ली",
           "majorAspect_hi": "अंकन वर्ष: 1993. 1570 में निर्मित। भारतीय उपमहाद्वीप में पहला बाग़-समाधि। ताजमहल में परिणत प्रमुख वास्तु नवाचारों को प्रेरित किया।"
@@ -11742,8 +11742,8 @@ export const bookData: BookChapter[] = [
           "location": "Delhi",
           "majorAspect": "Year of Inscription: 1993. Built in early 13th century. Red sandstone tower 72.5m high. Includes Alai-Darwaza Gate and Quwwatu'l-Islam mosque (oldest in northern India).",
           "pyqYears": [],
-          "lat": 28.6139,
-          "lng": 77.209,
+          "lat": 28.5244,
+          "lng": 77.1852,
           "name_hi": "क़ुतुब मीनार और इसके स्मारक",
           "location_hi": "दिल्ली",
           "majorAspect_hi": "अंकन वर्ष: 1993. 13वीं शताब्दी की शुरुआत में निर्मित। 72.5 मीटर ऊँची लाल बलुआ पत्थर की मीनार। इसमें अलाय-दरवाज़ा द्वार और क़ुत्ता‑उल‑इस्लाम मस्जिद (उत्तरी भारत की सबसे पुरानी) शामिल हैं।"
@@ -11753,8 +11753,8 @@ export const bookData: BookChapter[] = [
           "location": "Delhi",
           "majorAspect": "Year of Inscription: 2007. Palace fort of Shahjahanabad built by Shah Jahan. Named for massive enclosing walls of red sandstone. Adjacent to Salimgarh Fort (built 1546 by Islam Shah Suri). Represents zenith of Mughal creativity.",
           "pyqYears": [],
-          "lat": 28.6139,
-          "lng": 77.209,
+          "lat": 28.6558,
+          "lng": 77.2403,
           "name_hi": "लाल किला परिसर",
           "location_hi": "दिल्ली",
           "majorAspect_hi": "अंकन वर्ष: 2007. शाहजहां द्वारा शहजाहनाबाद का शाही किला। लाल बलुआ पत्थर की विशाल दीवारों के कारण नामित। सलीमगढ़ किले (1546 में इस्लाम शाह सूरी द्वारा निर्मित) के निकट स्थित। मुगल रचनात्मकता के शिखर का प्रतिनिधित्व करता है।"
@@ -11775,8 +11775,8 @@ export const bookData: BookChapter[] = [
           "location": "Agra district (Uttar Pradesh)",
           "majorAspect": "Year of Inscription: 1983. Built 1631-1648 by Shah Jahan in memory of Mumtaz Mahal. Immense mausoleum of white marble. Jewel of Muslim art in India.",
           "pyqYears": [],
-          "lat": 27.0756,
-          "lng": 77.8754,
+          "lat": 27.175,
+          "lng": 78.0419,
           "name_hi": "ताज महल",
           "location_hi": "आगरा जिला (उत्तर प्रदेश)",
           "majorAspect_hi": "अंकन वर्ष: 1983. 1631‑1648 में शाहजहां द्वारा मुमताज़ महल की स्मृति में निर्मित। सफेद संगमरमर का विशाल समाधि। भारत में मुस्लिम कला का रत्न।"
@@ -11786,8 +11786,8 @@ export const bookData: BookChapter[] = [
           "location": "Agra district (Uttar Pradesh)",
           "majorAspect": "Year of Inscription: 1986. Built by Emperor Akbar in second half of 16th century. Capital of Mughal Empire for only about 10 years. Includes Jama Masjid.",
           "pyqYears": [],
-          "lat": 27.0756,
-          "lng": 77.8754,
+          "lat": 27.091,
+          "lng": 77.661,
           "name_hi": "फ़तेहपुर सीकरी",
           "location_hi": "आगरा जिला (उत्तर प्रदेश)",
           "majorAspect_hi": "अंकन वर्ष: 1986. सम्राट अकबर द्वारा 16वीं शताब्दी के दूसरे आधे में निर्मित। लगभग 10 वर्षों तक मुगल साम्राज्य की राजधानी। जिसमें जामा मस्जिद शामिल है।"
@@ -11823,8 +11823,8 @@ export const bookData: BookChapter[] = [
           "location": "Birbhum district (West Bengal)",
           "majorAspect": "Year of Inscription: 2023. Established in 1901 by Rabindranath Tagore. Residential school and centre for art based on ancient Indian traditions. Visva Bharati world university established 1921.",
           "pyqYears": [],
-          "lat": 24.0622,
-          "lng": 87.6983,
+          "lat": 23.68,
+          "lng": 87.68,
           "name_hi": "संतिनिकेतन",
           "location_hi": "बीरभूम जिला (पश्चिम बंगाल)",
           "majorAspect_hi": "अंकन वर्ष: 2023. 1901 में रवींद्रनाथ टैगोर द्वारा स्थापित। प्राचीन भारतीय परम्पराओं पर आधारित आवासीय विद्यालय और कला केंद्र। विश्व विश्वविद्यालय विश्वभारती 1921 में स्थापित।"
@@ -11869,8 +11869,8 @@ export const bookData: BookChapter[] = [
           "location": "Panchmahal district (Gujarat)",
           "majorAspect": "Year of Inscription: 2004. Only complete and unchanged Islamic pre-Mughal city. Contains prehistoric sites, hill fortress of early Hindu capital, and remains of 16th century capital of Gujarat.",
           "pyqYears": [],
-          "lat": 22.6978,
-          "lng": 73.5981,
+          "lat": 22.4833,
+          "lng": 73.5333,
           "name_hi": "चम्पानेर‑पवागढ़ पुरातत्वीय उद्यान",
           "location_hi": "पंचमहाल जिला (गुजरात)",
           "majorAspect_hi": "अंकन वर्ष: 2004. केवल पूर्ण और अपरिवर्तित इस्लामी प्री‑मुगल शहर। इसमें प्रागैतिहासिक स्थल, प्रारम्भिक हिन्दू राजधानी का पहाड़ी किला, और गुजरात के 16वीं शताब्दी की राजधानी के अवशेष शामिल हैं।"
@@ -11891,8 +11891,8 @@ export const bookData: BookChapter[] = [
           "location": "Chhatarpur district (Madhya Pradesh)",
           "majorAspect": "Year of Inscription: 1986. Temples built during Chandela dynasty (apogee 950-1050 CE). About 20 temples in three groups belonging to Hinduism and Jainism. Kandariya temple most notable.",
           "pyqYears": [],
-          "lat": 24.7606,
-          "lng": 79.6782,
+          "lat": 24.8544,
+          "lng": 79.9214,
           "name_hi": "खजुराहो स्मारक समूह",
           "location_hi": "छतरपुर जिला (मध्य प्रदेश)",
           "majorAspect_hi": "अंकन वर्ष: 1986. चंदेला राजवंश (शिखर 950‑1050 ई.) के दौरान निर्मित मंदिर। लगभग 20 मंदिर तीन समूहों में हिन्दू और जैन धर्म के हैं। कंदारिया मंदिर सबसे प्रमुख है।"
@@ -11917,8 +11917,8 @@ export const bookData: BookChapter[] = [
           "location": "Puri district (Odisha)",
           "majorAspect": "Year of Inscription: 1984. Monumental representation of sun god Surya's chariot with 24 wheels and 6 horses. Built in 13th century. One of India's most famous Brahman sanctuaries.",
           "pyqYears": [],
-          "lat": 19.8343,
-          "lng": 85.6853,
+          "lat": 19.8875,
+          "lng": 86.0947,
           "name_hi": "कोणार्क सूर्य मंदिर",
           "location_hi": "पुरी जिला (ओडिशा)",
           "majorAspect_hi": "अंकन वर्ष: 1984. सूर्य देवता के रथ का भव्य प्रतिनिधित्व जिसमें 24 पहिये और 6 घोड़े हैं। 13वीं शताब्दी में निर्मित। भारत के सबसे प्रसिद्ध ब्राह्मण तीर्थस्थलों में से एक।"
@@ -11977,8 +11977,8 @@ export const bookData: BookChapter[] = [
           "location": "Mumbai (Maharashtra)",
           "majorAspect": "Year of Inscription: 1987. City of Caves on island in Sea of Oman. Rock art linked to cult of Shiva. Huge high reliefs in the main cave considered perfect expression of Indian art.",
           "pyqYears": [],
-          "lat": 19.055,
-          "lng": 72.8692,
+          "lat": 18.9633,
+          "lng": 72.9314,
           "name_hi": "एलिफैंटा गुफाएँ",
           "location_hi": "मुंबई (महाराष्ट्र)",
           "majorAspect_hi": "अंकन वर्ष: 1987. समुद्र‑ओमान में स्थित द्वीप पर गुफा शहर। शिला कला शिव के पंथ से जुड़ी हुई। मुख्य गुफा में विशाल उच्च रिलीफ़ को भारतीय कला की पूर्ण अभिव्यक्ति माना जाता है।"
@@ -12002,8 +12002,8 @@ export const bookData: BookChapter[] = [
             2020,
             2024
           ],
-          "lat": 16.2904,
-          "lng": 75.5916,
+          "lat": 15.9513,
+          "lng": 75.8146,
           "name_hi": "पत्तड़ाकाल में स्मारक समूह",
           "location_hi": "बागलकोटे जिला (कर्नाटक)",
           "majorAspect_hi": "7वीं‑8वीं शताब्दी में चोलुकी राजवंश के अधीन विकसित विविध कला का शिखर प्रतिनिधित्व करता है। उत्तर और दक्षिण भारत की वास्तु शैलियों का सामंजस्यपूर्ण मिश्रण। नौ हिन्दू मंदिर और एक जैन तीर्थस्थल। विरुपाक्ष मंदिर इस समूह की कृति है।"
@@ -12051,8 +12051,8 @@ export const bookData: BookChapter[] = [
           "location": "Tamil Nadu",
           "majorAspect": "Year of Inscription: 1987, 2004. Three great 11th-12th century temples: Brihadisvara Temple at Thanjavur, Brihadisvara Temple at Gangaikondacholisvaram, Airavatesvara Temple at Darasuram. Testify Chola achievements in architecture, sculpture, painting and bronze casting.",
           "pyqYears": [],
-          "lat": 11.3324,
-          "lng": 78.6099,
+          "lat": 10.7831,
+          "lng": 79.1325,
           "name_hi": "महान जीवित चोल मंदिर",
           "location_hi": "तमिलनाडु",
           "majorAspect_hi": "अंकन वर्ष: 1987, 2004. तीन महान 11वीं‑12वीं शताब्दी के मंदिर: थंजावुर में बृहदीश्वर मंदिर, गंगैकोंडाचोलिस्वरम् में बृहदीश्वर मंदिर, दरासुराम में एयरवतेश्वर मंदिर। चोल राजवंश की वास्तुकला, मूर्तिकला, चित्रकला और कांस्य कास्टिंग में उपलब्धियों का प्रमाण।"
