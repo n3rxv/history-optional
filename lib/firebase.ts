@@ -65,7 +65,36 @@ export async function signInWithGoogleRedirect(): Promise<void> {
  * can't complete a popup. Resolves to the mechanism that ran — 'redirect' means
  * the page is navigating away and the caller should not touch state afterwards.
  */
+/**
+ * Browsers built into other apps where Google refuses to sign anyone in
+ * ("Error 403: disallowed_useragent"): Android WebViews, which is what
+ * Telegram, WhatsApp and most apps open links in, the Facebook family's
+ * browsers, and iOS WKWebViews, whose user agent lacks the Safari token that
+ * Safari, Chrome and Firefox on iOS all send. Sending these readers to Google
+ * only shows them Google's error page, so components/InAppBrowserNotice tells
+ * them to open the site in their own browser instead.
+ */
+const GOOGLE_BLOCKED = /; wv\)|FBAN|FBAV|FB_IAB|Instagram|LinkedInApp|Line\/|MicroMessenger|Snapchat|Telegram/i;
+
+export function googleBlocksThisBrowser(): boolean {
+  if (typeof window === 'undefined') return false;
+  const ua = navigator.userAgent || '';
+  if (GOOGLE_BLOCKED.test(ua)) return true;
+  return /iPhone|iPad|iPod/.test(ua) && !/Safari\//.test(ua) && !/CriOS|FxiOS|EdgiOS|OPiOS|GSA\//.test(ua);
+}
+
+export const isAndroid = () => typeof navigator !== 'undefined' && /Android/i.test(navigator.userAgent || '');
+
+/** Fired when sign-in is refused because of the browser; InAppBrowserNotice listens. */
+export const IN_APP_BROWSER_EVENT = 'ho:in-app-browser';
+
 export async function signInWithGoogle(): Promise<'popup' | 'redirect'> {
+  // Every caller resets its own spinner when sign-in throws, so this throws
+  // and lets the notice explain, rather than sending the reader to Google.
+  if (googleBlocksThisBrowser()) {
+    window.dispatchEvent(new Event(IN_APP_BROWSER_EVENT));
+    throw Object.assign(new Error('Google sign-in is not allowed in this in-app browser'), { code: 'auth/in-app-browser' });
+  }
   if (prefersRedirectSignIn()) {
     await signInWithGoogleRedirect();
     return 'redirect';

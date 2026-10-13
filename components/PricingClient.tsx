@@ -92,7 +92,7 @@ export default function PricingClient() {
   /** The same order-then-verify pair the PYQ paywall uses, so topper copies have one purchase path. */
   const buyTopper = async () => {
     const user = auth.currentUser;
-    if (!user) { await signInWithGoogle(); return; }
+    if (!user) { await signInWithGoogle().catch(() => {}); return; }
     const RZP = (window as unknown as { Razorpay?: new (o: unknown) => { open: () => void } }).Razorpay;
     if (!RZP) { alert('Payment is still loading. Give it a moment and try again.'); return; }
     setTopperBusy(true);
@@ -287,7 +287,7 @@ export default function PricingClient() {
           </div>
           {signedIn
             ? <Link href="/dashboard" className="ds-btn ds-btn-line">Go to your dashboard</Link>
-            : <button type="button" className="ds-btn ds-btn-line" onClick={() => signInWithGoogle()}>Sign in free</button>}
+            : <button type="button" className="ds-btn ds-btn-line" onClick={() => signInWithGoogle().catch(() => {})}>Sign in free</button>}
         </section>
       </div>
 

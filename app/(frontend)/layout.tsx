@@ -22,6 +22,7 @@ import PhoneGate from "@/components/PhoneGate";
 import AuthRedirectHandler from "@/components/AuthRedirectHandler";
 import BottomNav from "@/components/BottomNav";
 import PWARegister from "@/components/PWARegister";
+import InAppBrowserNotice from "@/components/InAppBrowserNotice";
 import PromoPopup from "@/components/PromoPopup";
 import { LangProvider } from "@/lib/i18n/LangContext";
 
@@ -164,6 +165,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <ProgressSync />
         <PhoneGate />
         <PWARegister />
+        <InAppBrowserNotice />
         <PromoPopup />
         <Navbar />
         <Script async src="https://www.googletagmanager.com/gtag/js?id=G-7ZF23N3PZC" strategy="afterInteractive" />
