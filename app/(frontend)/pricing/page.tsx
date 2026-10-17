@@ -7,8 +7,8 @@ export const metadata: Metadata = {
   description:
     'Notes, PYQs and the timeline are free. Premium removes the limits on answer evaluation, ' +
     'model answers and AI chat. ' +
-    `${planPriceLabel('yearly')} a year or ${planPriceLabel('sixmonths')} for six months, paid once; ` +
-    `${planPriceLabel('weekly')} a week, renewing until stopped; or ${planPriceLabel('daily')} for a day.`,
+    `${planPriceLabel('yearly')} a year, ${planPriceLabel('sixmonths')} for six months or ${planPriceLabel('daily')} for a day, ` +
+    'each paid once.',
   alternates: { canonical: 'https://historyoptional.xyz/pricing' },
   openGraph: {
     title: 'Pricing: History Optional',

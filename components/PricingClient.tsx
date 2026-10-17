@@ -5,7 +5,6 @@ import Link from 'next/link';
 import { createPortal } from 'react-dom';
 import { auth, signInWithGoogle } from '@/lib/firebase';
 import { SubscribeCard } from '@/components/SubscribeCard';
-import AutopaySheet from '@/components/AutopaySheet';
 import Mascot from '@/components/Mascot';
 import { FEATURES, ONE_OFF } from '@/lib/features';
 import { daysToMains, NEXT_MAINS } from '@/lib/examDates';
@@ -13,29 +12,29 @@ import { PLANS, PLAN_DURATION, planPriceLabel, type PlanId } from '@/lib/plans';
 
 /**
  * The plans, grouped by what each is for, as in the Go Premium panel: the
- * whole preparation paid once, week by week on a mandate, and a single day to
- * try it. Every price is formatted from lib/plans.ts, the table the order
+ * whole preparation paid once, and a single day to try it. The weekly mandate
+ * is no longer sold. Readers already on it keep their cancel control here. Every price is formatted from lib/plans.ts, the table the order
  * routes bill from, and every free allowance from lib/features.ts, which the
  * gates read. Nothing here is typed by hand.
  */
 
 type Status = { isPremium: boolean; plan?: string; expires_at?: string; autoRenew?: boolean; canResubscribe?: boolean };
 
+/** The plans on sale. 'weekly' stays in PlanId only for subscriptions bought before it was withdrawn. */
+type Sold = Exclude<PlanId, 'weekly'>;
 const rupees = (id: PlanId) => PLANS[id].amountPaise / 100;
-const PER: Record<PlanId, string> = {
+const PER: Record<Sold, string> = {
   yearly: `about ₹${Math.round(rupees('yearly') / 12)} a month`,
   sixmonths: `about ₹${Math.round(rupees('sixmonths') / 6)} a month`,
-  weekly: `about ₹${Math.round(rupees('weekly') / 7)} a day`,
   daily: 'for 24 hours',
 };
-const BLURB: Record<PlanId, string> = {
+const BLURB: Record<Sold, string> = {
   yearly: 'A full year: enough for the whole run to Mains, with time to revise.',
   sixmonths: 'One focused run up to Mains.',
-  weekly: 'Steady practice without paying for a year up front. Stop it any time and keep the days already paid for.',
   daily: 'Everything open for a day: for a test day, or to see the marking properly before a longer plan.',
 };
-const CTA: Record<PlanId, string> = { yearly: 'Get a year', sixmonths: 'Get 6 months', weekly: 'Subscribe weekly', daily: 'Get a day' };
-const EXTEND: Record<PlanId, string> = { yearly: 'Extend by a year', sixmonths: 'Extend by 6 months', weekly: '', daily: 'Extend by a day' };
+const CTA: Record<Sold, string> = { yearly: 'Get a year', sixmonths: 'Get 6 months', daily: 'Get a day' };
+const EXTEND: Record<Sold, string> = { yearly: 'Extend by a year', sixmonths: 'Extend by 6 months', daily: 'Extend by a day' };
 
 const Check = () => <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round" aria-label="Included"><path d="M20 6 9 17l-5-5" /></svg>;
 const Arrow = () => <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" /></svg>;
@@ -46,7 +45,6 @@ const noop = () => () => {};
 export default function PricingClient() {
   const [fingerprint, setFingerprint] = useState<string | null>(null);
   const [checkoutPlan, setCheckoutPlan] = useState<PlanId | null>(null);
-  const [autopayOpen, setAutopayOpen] = useState(false);
   const [status, setStatus] = useState<Status | null>(null);
   const [signedIn, setSignedIn] = useState(false);
   // Topper copies can be bought outright, so the card needs to know whether
@@ -133,35 +131,28 @@ export default function PricingClient() {
   };
 
   const premium = Boolean(status?.isPremium);
+  // Only readers who bought the weekly plan before it was withdrawn.
   const onAutopay = Boolean(status?.autoRenew);
-  // Cancelled the weekly and still inside the paid days: Premium, but with no
-  // mandate, so starting a new one is allowed.
-  const canResubscribe = Boolean(status?.canResubscribe);
   const free = (name: string) => FEATURES.find((f) => f.name === name)?.free.replace(' total', '') ?? '';
   /** The number alone ("5" from "5 copies"), for sentences that name the thing themselves. */
   const count = (name: string) => free(name).match(/\d+/)?.[0] ?? free(name);
 
   /** A one-time plan's button. A purchase on top of a live mandate would push the end date out while the weekly kept debiting; the order route refuses it too. */
-  const oneTime = (id: PlanId, solid: boolean) => (
+  const oneTime = (id: Sold, solid: boolean) => (
     <button type="button" className={`ds-btn ${solid ? 'ds-btn-solid' : 'ds-btn-line'} pr-buy`} disabled={onAutopay} onClick={() => setCheckoutPlan(id)}>
       {onAutopay ? 'You’re on the weekly plan' : premium ? EXTEND[id] : CTA[id]}
     </button>
   );
-  const plan = (id: PlanId, opts: { featured?: boolean; unit?: string } = {}) => (
+  const plan = (id: Sold, opts: { featured?: boolean; unit?: string } = {}) => (
     <article className={`pr-plan${opts.featured ? ' featured' : ''}`}>
       <div className="pr-plan-top">
-        <h3 className="pr-plan-name">{id === 'yearly' ? 'A year' : id === 'sixmonths' ? '6 months' : id === 'weekly' ? 'Weekly' : 'A day'}</h3>
+        <h3 className="pr-plan-name">{id === 'yearly' ? 'A year' : id === 'sixmonths' ? '6 months' : 'A day'}</h3>
         {opts.featured && <span className="pr-tag">Most chosen</span>}
       </div>
       <div className="pr-price"><span className="pr-rs">₹</span>{rupees(id).toLocaleString('en-IN')}<span className="pr-unit">{opts.unit ?? ''}</span></div>
       <div className="pr-period">{PER[id]}</div>
       <p className="pr-blurb">{BLURB[id]}</p>
-      {id === 'weekly' ? (
-        <button type="button" className="ds-btn ds-btn-line pr-buy" disabled={premium && !canResubscribe} onClick={() => setAutopayOpen(true)}>
-          {canResubscribe ? 'Start it again' : premium ? 'You already have Premium' : CTA.weekly}
-        </button>
-      ) : oneTime(id, Boolean(opts.featured))}
-      {id === 'weekly' && canResubscribe && <p className="pr-fine">Your paid days are still running; starting again picks up from the end of them, not from today.</p>}
+      {oneTime(id, Boolean(opts.featured))}
     </article>
   );
 
@@ -202,18 +193,14 @@ export default function PricingClient() {
         </section>
 
         <div className="pr-pair pr-rest">
-          <section className="pr-group" aria-labelledby="pr-g2">
-            <div className="pr-group-head"><h2 id="pr-g2" className="pr-h2">Week by week</h2><span>Renews weekly, for up to a year</span></div>
-            {plan('weekly', { unit: '/week' })}
-          </section>
           <section className="pr-group" aria-labelledby="pr-g3">
             <div className="pr-group-head"><h2 id="pr-g3" className="pr-h2">Just to try it</h2><span>24 hours, paid once</span></div>
             {plan('daily')}
           </section>
         </div>
 
-        {onAutopay && <p className="pr-note">You’re on the weekly plan, so the one-time plans are switched off. Cancel the renewal and they open up once your paid days run out.</p>}
-        <p className="pr-rzp">Payments go through Razorpay: UPI, cards and net banking. The weekly plan is a mandate, debited every 7 days for up to 52 weeks, the others are single payments.</p>
+        {onAutopay && <p className="pr-note">You’re on the weekly plan, which is no longer sold, so the one-time plans are switched off. Cancel the renewal and they open up once your paid days run out.</p>}
+        <p className="pr-rzp">Payments go through Razorpay: UPI, cards and net banking. Every plan is a single payment, and nothing renews on its own.</p>
 
         <section className="pr-section" aria-labelledby="pr-compare">
           <h2 id="pr-compare" className="pr-h2">Free account and Premium</h2>
@@ -264,7 +251,7 @@ export default function PricingClient() {
           <h2 id="pr-faq" className="pr-h2">Before you pay</h2>
           <div className="pr-faq-list">
             {[
-              { q: 'Does it renew on its own?', a: <>Only the weekly plan. It is a mandate: {planPriceLabel('weekly')} is taken every 7 days, for up to 52 weeks, until you stop it, which takes one click from the menu under your picture. You keep the days already paid for. The day, 6-month and yearly plans are single payments; when one runs out, access simply stops until you buy again.</> },
+              { q: 'Does it renew on its own?', a: <>No. The day, 6-month and yearly plans are single payments. When one runs out, access simply stops until you buy again.</> },
               { q: 'Can I see the marking before I pay?', a: <>Yes. A free account gets <strong>{free('Answer evaluation')} answer check</strong> and <strong>{free('AI Chat')} chats</strong>, enough to judge whether the feedback is worth having. A day at {planPriceLabel('daily')} opens everything for 24 hours.</> },
               { q: 'What happens if I buy while a plan is running?', a: <>The new time is added to the end of the current plan. You don’t lose the days already paid for.</> },
               { q: 'Is the map check included?', a: <>No. Map checks are {`₹${ONE_OFF[1].pricePaise / 100}`} each, whether or not you subscribe. Topper copies are the other way round: every plan includes them, and they can be bought on their own for {`₹${(ONE_OFF[0].pricePaise / 100).toLocaleString('en-IN')}`}.</> },
@@ -291,7 +278,6 @@ export default function PricingClient() {
         </section>
       </div>
 
-      {autopayOpen && <AutopaySheet onClose={() => setAutopayOpen(false)} />}
       {checkoutPlan && <CheckoutModal plan={checkoutPlan} fingerprint={fingerprint} onClose={() => setCheckoutPlan(null)} />}
     </div>
   );

@@ -10,7 +10,7 @@ export const metadata: Metadata = {
 
 export default function PrivacyPage() {
   return (
-    <LegalDoc current="privacy" title="Privacy Policy" updated="Last updated: 29 June 2026 · Effective: 29 June 2026">
+    <LegalDoc current="privacy" title="Privacy Policy" updated="Last updated: 17 October 2026 · Effective: 17 October 2026">
       <p>
         This Privacy Policy describes how History Optional (<strong>historyoptional.xyz</strong>,
         &ldquo;we&rdquo;, &ldquo;us&rdquo;, or &ldquo;our&rdquo;) collects, uses, and protects information when you use our website
@@ -31,8 +31,9 @@ export default function PrivacyPage() {
           UPI or bank details.
         </li>
         <li>
-          For the recurring weekly plan, Razorpay stores a payment mandate on your
-          instruction so it can collect ₹99 every 7 days. We store only a reference to
+          For the weekly plan, which is no longer sold but continues for anyone who
+          started it earlier, Razorpay stores a payment mandate on your instruction so it
+          can collect ₹99 every 7 days. We store only a reference to
           that mandate and its status, never the instrument itself. Cancelling from your
           profile menu revokes the mandate.
         </li>
@@ -54,7 +55,7 @@ export default function PrivacyPage() {
       <h2>3. Data Storage</h2>
       <p>
         Your data is stored securely. We retain your account data
-        for as long as your account is active. If you are on the recurring weekly plan,
+        for as long as your account is active. If you are still on the weekly plan,
         cancel it from your profile menu before requesting deletion, so no further
         payment is collected. You may request deletion at any time by contacting
         us at the address below.

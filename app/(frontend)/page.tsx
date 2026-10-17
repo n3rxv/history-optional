@@ -144,7 +144,7 @@ export default async function Home() {
         <section className="hm-section">
           <div className="ds-container">
             <div className="hm-head">
-              <h2 className="ds-h2">Pay once, or week by week</h2>
+              <h2 className="ds-h2">Pay once, for as long as you need</h2>
               <p className="ds-lede">The notes and PYQs are free once you sign in. You only pay for practice, like getting answers checked and the AI tutor.</p>
             </div>
             <div className="hm-plans">
@@ -158,7 +158,6 @@ export default async function Home() {
                 </Link>
               ))}
             </div>
-            <p className="hm-weekly">Or {planPriceLabel('weekly')} a week, renewing until you stop it.</p>
             <div className="hm-plans-more"><Link href="/pricing" className="ds-btn ds-btn-ghost">See what each plan includes<Arrow /></Link></div>
           </div>
         </section>
@@ -255,7 +254,6 @@ const HOME_CSS = `
 .hm-plan-price { font-weight: 700; font-size: 2rem; letter-spacing: -0.02em; color: var(--text); margin-top: var(--space-1); }
 .hm-plan-period { font-family: var(--font-ui); font-size: 0.8rem; color: var(--text3); }
 .hm-plan-text { font-size: 0.9rem; color: var(--text2); margin-top: var(--space-3); }
-.hm-weekly { margin: var(--space-5) 0 0; text-align: center; font-size: 0.92rem; color: var(--text2); }
 .hm-plans-more { display: flex; justify-content: center; margin-top: var(--space-3); }
 
 /* Close */

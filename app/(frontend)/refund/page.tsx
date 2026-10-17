@@ -10,7 +10,7 @@ export const metadata: Metadata = {
 
 export default function RefundPage() {
   return (
-    <LegalDoc current="refund" title="Refund Policy" updated="Last updated: 29 June 2026 · Effective: 29 June 2026">
+    <LegalDoc current="refund" title="Refund Policy" updated="Last updated: 17 October 2026 · Effective: 17 October 2026">
       <p>
         This Refund Policy applies to all premium subscription purchases made on{" "}
         <strong>historyoptional.xyz</strong>.
@@ -20,9 +20,9 @@ export default function RefundPage() {
       <p>
         All purchases are <strong>final and non-refundable</strong>. Once a payment is
         processed via Razorpay, we do not offer refunds, partial refunds, or credits,
-        regardless of usage. This applies to each individual collection on the recurring
-        weekly plan as well as to the one-time plans: cancelling stops the next charge,
-        it does not reverse the last one.
+        regardless of usage. For anyone still on the withdrawn weekly plan, this applies to
+        each individual collection: cancelling stops the next charge, it does not reverse
+        the last one.
       </p>
       <p>
         We strongly recommend using the <strong>free plan</strong> to evaluate the platform
@@ -31,25 +31,6 @@ export default function RefundPage() {
       </p>
 
       <h2>2. Subscription Plans</h2>
-
-      <h3>Recurring</h3>
-      <ul>
-        <li>
-          <strong>Weekly:</strong> ₹99 every 7 days, charged automatically against a
-          payment mandate until you cancel.
-        </li>
-      </ul>
-      <p>
-        Because this plan renews on its own, cancelling is the way to stop paying, not a
-        refund request. You can cancel in one click from the profile menu on the site,
-        and it takes effect immediately: no further charge is taken. <strong>You keep
-        access for the remainder of the period the last charge already covered.</strong>
-      </p>
-      <p>
-        A charge that has already been collected is not refunded when you cancel, so
-        cancel before the next debit rather than after it. Razorpay notifies you ahead of
-        every collection.
-      </p>
 
       <h3>One-time</h3>
       <ul>
@@ -60,6 +41,17 @@ export default function RefundPage() {
       <p>
         These are single payments. Nothing renews and nothing further is charged, so
         there is nothing to cancel.
+      </p>
+
+      <h3>The withdrawn weekly plan</h3>
+      <p>
+        We no longer sell the weekly plan (₹99 every 7 days on a payment mandate). If you
+        started it before 17 October 2026, cancelling is the way to stop paying, not a
+        refund request. You can cancel in one click from the profile menu on the site,
+        and it takes effect immediately: no further charge is taken. <strong>You keep
+        access for the remainder of the period the last charge already covered.</strong>{" "}
+        A charge already collected is not refunded, so cancel before the next debit
+        rather than after it. Razorpay notifies you ahead of every collection.
       </p>
 
       <h2>3. Exceptions</h2>

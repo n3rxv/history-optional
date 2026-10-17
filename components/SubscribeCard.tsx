@@ -1,7 +1,6 @@
 'use client';
 import { useLang } from '@/lib/i18n/LangContext';
 import { PLANS, PLAN_ORDER, PLAN_DURATION, DEFAULT_PLAN, planPriceLabel, type PlanId } from '@/lib/plans';
-import AutopaySheet from '@/components/AutopaySheet';
 import { useState, useEffect } from 'react';
 import { auth, signInWithGoogle } from '@/lib/firebase';
 
@@ -23,8 +22,6 @@ interface SubscribeCardProps {
   onSuccess?: () => void;
   onClose?: () => void;
   standalone?: boolean;
-  /** Opens the weekly mandate flow. Omitted where no such flow is wired up. */
-  onWeekly?: () => void;
   /**
    * Which tile is selected when the card opens. The pricing page shows its own
    * plan cards and then opens this one, so the plan the person clicked has to
@@ -35,12 +32,12 @@ interface SubscribeCardProps {
 
 export function SubscribeCard({
   fingerprint, onSuccess, onClose, standalone = false,
-  onWeekly, initialPlan = 'yearly' }: SubscribeCardProps) {
+  initialPlan = 'yearly' }: SubscribeCardProps) {
   const { langHi } = useLang();
   const [step, setStep] = useState<SubscribeStep>('idle');
   const [token, setToken] = useState<string | null>(null);
-  const [weeklyOpen, setWeeklyOpen] = useState(false);
-  const [selectedPlan, setSelectedPlan] = useState<PlanId>(initialPlan);
+  // 'weekly' is no longer sold, so a stale link or saved choice falls back.
+  const [selectedPlan, setSelectedPlan] = useState<PlanId>(initialPlan === 'weekly' ? DEFAULT_PLAN : initialPlan);
   // Set when sign-in resumes for someone who is already subscribed. The
   // success screen otherwise names the plan tile they happened to have
   // selected, which is not the plan they own.
@@ -52,9 +49,6 @@ export function SubscribeCard({
   }));
 
   const currentPlan = allPlans.find(p => p.id === selectedPlan) ?? { id: selectedPlan, label: PLANS[selectedPlan].label, price: planPriceLabel(selectedPlan), sub: PLAN_DURATION[selectedPlan] };
-  // Shown unless a caller explicitly opts out by passing onWeekly={undefined}
-  // and handling it themselves; by default the sheet opens in place.
-  const showWeekly = true;
 
   useEffect(() => {
     if (document.getElementById('rzp-script')) return;
@@ -70,7 +64,8 @@ export function SubscribeCard({
         const idToken = await firebaseUser.getIdToken();
         setToken(idToken);
         if (sessionStorage.getItem('ho_pending_payment') === '1') {
-          const savedPlan = sessionStorage.getItem('ho_pending_plan') as PlanId || DEFAULT_PLAN;
+          const stored = sessionStorage.getItem('ho_pending_plan') as PlanId | null;
+          const savedPlan: PlanId = stored && stored !== 'weekly' ? stored : DEFAULT_PLAN;
           sessionStorage.removeItem('ho_pending_payment');
           sessionStorage.removeItem('ho_pending_plan');
           setSelectedPlan(savedPlan);
@@ -207,18 +202,16 @@ export function SubscribeCard({
     );
   }
 
-  // Three kinds of plan, for three different reasons: the whole preparation,
-  // paid once; week by week, renewing through a mandate (AutopaySheet); and a
-  // single day to try it. One choice across all three, one button.
+  // Two kinds of plan, for two reasons: the whole preparation, paid once, and a
+  // single day to try it. One choice across both, one button. The weekly
+  // mandate is no longer sold.
   const GROUPS: { title: string; note: string; ids: PlanId[] }[] = langHi
     ? [
         { title: 'पूरी तैयारी के लिए', note: 'एकमुश्त भुगतान', ids: ['yearly', 'sixmonths'] },
-        { title: 'हफ़्ते दर हफ़्ते', note: 'एक साल तक हर हफ़्ते नवीनीकरण', ids: ['weekly'] },
         { title: 'बस आज़माने के लिए', note: '24 घंटे, एक बार भुगतान', ids: ['daily'] },
       ]
     : [
         { title: 'For your whole preparation', note: 'One-time payment', ids: ['yearly', 'sixmonths'] },
-        { title: 'Week by week', note: 'Renews every week for a year', ids: ['weekly'] },
         { title: 'Just to try it', note: '24 hours, paid once', ids: ['daily'] },
       ];
   const monthly = (id: PlanId) => {
@@ -228,29 +221,22 @@ export function SubscribeCard({
     return null;
   };
   const NOTE: Record<PlanId, string> = langHi
-    ? { yearly: '', sixmonths: '', weekly: 'कभी भी रोकें', daily: '24 घंटे सब कुछ खुला' }
-    : { yearly: '', sixmonths: '', weekly: 'Stop it anytime', daily: 'Everything open for 24 hours' };
+    ? { yearly: '', sixmonths: '', weekly: '', daily: '24 घंटे सब कुछ खुला' }
+    : { yearly: '', sixmonths: '', weekly: '', daily: 'Everything open for 24 hours' };
   const NAME: Record<PlanId, string> = langHi
     ? { yearly: 'सालाना', sixmonths: '6 महीने', weekly: 'साप्ताहिक', daily: 'एक दिन' }
     : { yearly: 'A year', sixmonths: '6 months', weekly: 'Weekly', daily: 'A day' };
-  const isWeekly = selectedPlan === 'weekly';
   const selPrice = planPriceLabel(selectedPlan);
-
-  const onCta = () => {
-    if (isWeekly) { if (onWeekly) onWeekly(); else setWeeklyOpen(true); return; }
-    handlePay();
-  };
 
   return (
     <div className={`sc ds${standalone ? ' standalone' : ''}`}>
       <style dangerouslySetInnerHTML={{ __html: SC_CSS }} />
-      {weeklyOpen && <AutopaySheet onClose={() => setWeeklyOpen(false)} />}
 
       <div className="sc-list" role="radiogroup" aria-label={langHi ? 'प्लान चुनें' : 'Choose a plan'}>
-        {GROUPS.filter(g => g.ids.some(id => id !== 'weekly' || showWeekly)).map(g => (
+        {GROUPS.map(g => (
           <div key={g.title} className="sc-group">
             <div className="sc-group-head"><strong>{g.title}</strong><span>{g.note}</span></div>
-            {g.ids.filter(id => id !== 'weekly' || showWeekly).map(id => {
+            {g.ids.map(id => {
               const on = selectedPlan === id;
               const pm = monthly(id);
               const note = pm ? `₹${pm.toLocaleString('en-IN')} ${langHi ? 'प्रति माह' : 'a month'}` : NOTE[id];
@@ -266,7 +252,6 @@ export function SubscribeCard({
                   </span>
                   <span className="sc-row-price">
                     {planPriceLabel(id)}
-                    {id === 'weekly' && <small>{langHi ? '/सप्ताह' : '/week'}</small>}
                   </span>
                 </button>
               );
@@ -276,19 +261,17 @@ export function SubscribeCard({
       </div>
 
       <div className="sc-cta">
-        <button className="ds-btn ds-btn-solid ds-btn-lg ds-btn-block" onClick={onCta} disabled={step === 'paying'}>
+        <button className="ds-btn ds-btn-solid ds-btn-lg ds-btn-block" onClick={handlePay} disabled={step === 'paying'}>
           {step === 'paying'
             ? (langHi ? 'Razorpay खुल रहा है…' : 'Opening Razorpay…')
-            : isWeekly
-              ? (langHi ? 'साप्ताहिक भुगतान सेट करें' : 'Set up weekly payment')
-              : !token
+            : !token
                 ? <><GoogleIcon /> {langHi ? 'Google से जारी रखें' : 'Continue with Google'}</>
                 : `${langHi ? 'भुगतान करें' : 'Pay'} ${selPrice}`}
         </button>
         <div className="sc-foot">
           <span className="sc-secure">
             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><rect x="3" y="11" width="18" height="11" rx="2" /><path d="M7 11V7a5 5 0 0 1 10 0v4" /></svg>
-            {!token && !isWeekly
+            {!token
               ? (langHi ? `फिर Razorpay पर ${selPrice} का भुगतान` : `Then pay ${selPrice} on Razorpay`)
               : (langHi ? 'भुगतान Razorpay से' : 'Payments go through Razorpay')}
           </span>

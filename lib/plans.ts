@@ -86,9 +86,7 @@ export function planValueLine(plan: PlanId): string {
 }
 
 /** Ordered cheapest to dearest, which is the order they are shown in. */
-/** The plans bought outright, cheapest first. Weekly is not here: it is sold
- *  as a recurring mandate, and lives in AUTOPAY_PLAN. */
+/** The plans on sale, cheapest first. 'weekly' is not one of them: the
+ *  mandate was withdrawn, and the id stays in PlanId only for subscriptions
+ *  bought before then, which still renew until cancelled. */
 export const PLAN_ORDER: PlanId[] = ['daily', 'sixmonths', 'yearly'];
-
-/** The one plan billed on a Razorpay mandate rather than a one-off order. */
-export const AUTOPAY_PLAN: PlanId = 'weekly';

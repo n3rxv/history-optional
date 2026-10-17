@@ -44,6 +44,12 @@ export async function POST(req: NextRequest) {
 
   const reqBody = await req.json().catch(() => ({}));
 
+  // The weekly plan is withdrawn. It was only ever sold as a mandate, and a
+  // one-time order for it would otherwise still be accepted here.
+  if (reqBody.plan === 'weekly') {
+    return NextResponse.json({ error: 'plan_withdrawn', message: 'The weekly plan is no longer offered.' }, { status: 410 });
+  }
+
   // An unrecognised plan falls back to the most expensive one rather than the
   // cheapest, so a malformed request can never underbill.
   const plan = toPlanId(reqBody.plan);

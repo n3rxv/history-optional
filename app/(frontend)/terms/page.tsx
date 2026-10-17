@@ -10,7 +10,7 @@ export const metadata: Metadata = {
 
 export default function TermsPage() {
   return (
-    <LegalDoc current="terms" title="Terms of Service" updated="Last updated: 29 June 2026 · Effective: 29 June 2026">
+    <LegalDoc current="terms" title="Terms of Service" updated="Last updated: 17 October 2026 · Effective: 17 October 2026">
       <p>
         These Terms of Service govern your use of <strong>historyoptional.xyz</strong> operated
         by the History Optional Team. By accessing or using the site you agree to be bound by
@@ -39,27 +39,7 @@ export default function TermsPage() {
 
       <h2>4. Subscription &amp; Payments</h2>
       <p>
-        We sell two different things, and the difference matters: one plan renews
-        itself, the other three do not.
-      </p>
-
-      <h3>Recurring plan</h3>
-      <ul>
-        <li>
-          <strong>Weekly, ₹99 every 7 days.</strong> This is a{" "}
-          <strong>subscription</strong>. You authorise a payment mandate once (UPI
-          Autopay, card e-mandate or e-NACH) and Razorpay collects ₹99 automatically
-          every 7 days until you cancel. Razorpay notifies you before each debit. The
-          mandate is authorised for a maximum of 52 collections. After that it ends and
-          you would need to start a new one.
-        </li>
-      </ul>
-      <p>
-        <strong>Cancelling.</strong> You can cancel at any time from the profile menu on
-        the site, in one click. Cancelling stops all future charges immediately. It does
-        not end access you have already paid for: you keep the platform until the end of
-        the period the last charge covered. Cancelling does not refund a charge already
-        taken.
+        Every plan we sell is a one-time payment. Nothing renews on its own.
       </p>
 
       <h3>One-time plans</h3>
@@ -74,6 +54,16 @@ export default function TermsPage() {
         to buy again. Buying again while a plan is still running adds the new period to
         the end of the current one.
       </p>
+      <h3>The withdrawn weekly plan</h3>
+      <p>
+        We no longer sell the weekly plan (₹99 every 7 days, collected through a
+        payment mandate). If you started it before 17 October 2026, it continues on the
+        terms you agreed to: Razorpay collects ₹99 every 7 days, notifies you before
+        each debit, and stops after at most 52 collections. You can cancel at any time
+        from the profile menu on the site, in one click. Cancelling stops all future
+        charges immediately and you keep access until the end of the period the last
+        charge covered. Cancelling does not refund a charge already taken.
+      </p>
       <p>
         All payments are processed securely by Razorpay. Prices are in Indian Rupees (INR)
         and inclusive of applicable taxes. We reserve the right to change pricing with
@@ -83,10 +73,10 @@ export default function TermsPage() {
       <h2>5. Refund Policy</h2>
       <p>
         All purchases are final. We do not offer refunds, exchanges, or credits for any
-        plan once payment has been processed. On the recurring weekly plan this applies
-        to each individual collection: cancelling stops the next charge, it does not
-        reverse the last one, so cancel before a debit rather than after it. Please
-        review the features available on the free plan before subscribing.
+        plan once payment has been processed. For anyone still on the withdrawn weekly
+        plan this applies to each individual collection: cancelling stops the next
+        charge, it does not reverse the last one. Please review the features available
+        on the free plan before buying.
       </p>
       <p>
         In the event of a demonstrable technical failure on our part that prevents access
