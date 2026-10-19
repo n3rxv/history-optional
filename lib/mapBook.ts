@@ -24,6 +24,8 @@ export type MapSite = {
   lng: number;
   /** The state or country, in English, for the chapter's filter. */
   region: string;
+  /** Its number on a past paper's map, when the map shows one paper. */
+  num?: number;
 };
 
 export type MapChapterSites = { key: string; sites: MapSite[] };

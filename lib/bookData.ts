@@ -562,8 +562,8 @@ export const bookData: BookChapter[] = [
           "pyqYears": [
             2020
           ],
-          "lat": 24.9,
-          "lng": 85.6,
+          "lat": 25.381,
+          "lng": 86.465,
           "name_hi": "पैसरा",
           "location_hi": "मुंगेर जिला (बिहार)",
           "majorAspect_hi": "आठ पोस्ट होल (छप्पर वाले झोपड़ियों के समर्थन के लिए) मिले, जो अस्थायी आश्रयों का संकेत देते हैं।"
@@ -1104,15 +1104,15 @@ export const bookData: BookChapter[] = [
         {
           "name": "Kuchai",
           "location": "Mayurbhanj district (Odisha)",
-          "majorAspect": "Kuchai, located in Mayurbhanj district of Odisha, is a significant archaeological site dating back to the 2nd century BCE to 2nd century CE, belonging to the Iron Age and early historic period. Excavations at the site have yielded key finds such as iron implements, pottery, and other artifacts, indicating a well-planned settlement with advanced craftsmanship. The site's importance lies in its contribution to understanding the cultural and technological developments of ancient Odisha during the said period.",
+          "majorAspect": "Kuchai, near Baripada in Mayurbhanj district of Odisha, is a Neolithic site excavated in the early 1960s. A microlithic level is followed by a Neolithic one with ground and polished stone celts and coarse handmade pottery. With Baidyapur and Sankarjang it is one of the key Neolithic sites of Odisha, linking the region to the Neolithic of eastern India.",
           "pyqYears": [
             2016
           ],
-          "lat": 21.9,
-          "lng": 86.1,
+          "lat": 21.94,
+          "lng": 86.72,
           "name_hi": "कुचै",
           "location_hi": "मयूरभंज जिला (ओडिशा)",
-          "majorAspect_hi": "कुचै, ओडिशा के मयूरभंज जिले में स्थित, एक महत्वपूर्ण पुरातात्विक स्थल है जो 2री शताब्दी ई.पू. से 2री शताब्दी ई.स. तक के आयरन एज और प्रारम्भिक ऐतिहासिक काल से संबंधित है। उत्खननों में लोहे के औज़ार, बर्तन और अन्य वस्तुएँ मिली हैं, जो एक सुव्यवस्थित बस्ती और उन्नत शिल्प कौशल को दर्शाती हैं। इस स्थल का महत्व प्राचीन ओडिशा में सांस्कृतिक और तकनीकी विकास को समझने में योगदान देता है।"
+          "majorAspect_hi": "कुचै, ओडिशा के मयूरभंज जिले में बारीपदा के पास, एक नवपाषाणिक स्थल है जिसका उत्खनन 1960 के दशक के आरंभ में हुआ। यहाँ सूक्ष्म पाषाण स्तर के बाद नवपाषाणिक स्तर मिलता है, जिसमें घिसी और चमकाई हुई पत्थर की कुल्हाड़ियाँ और हाथ से बने मोटे मृद्भांड मिले हैं। बैद्यपुर और संकरजंग के साथ यह ओडिशा के प्रमुख नवपाषाणिक स्थलों में से है।"
         },
         {
           "name": "Sambalpur",
@@ -1140,7 +1140,9 @@ export const bookData: BookChapter[] = [
           "name": "Thenmalai",
           "location": "Kollam district (Kerala)",
           "majorAspect": "The carvings inside the caves are unique. The parallel lines and the diagonal lines crossing them are believed to be an identification system or a kind of prehistoric signboards.",
-          "pyqYears": [],
+          "pyqYears": [
+            2025
+          ],
           "lat": 9,
           "lng": 76.9,
           "name_hi": "थेन्मलै",
@@ -1206,7 +1208,9 @@ export const bookData: BookChapter[] = [
           "name": "Kupgal",
           "location": "Bellary District (Karnataka)",
           "majorAspect": "Kupgal, located in the Bellary District of Karnataka, is a significant archaeological site dating back to the Neolithic period, circa 2500-2000 BCE. The site has yielded key finds such as ash mounds, Neolithic celts, and pottery, providing valuable insights into the lives of early farming communities. The discovery of these artifacts at Kupgal has shed light on the agricultural practices, tool-making techniques, and cultural traditions of the Neolithic people in the region.",
-          "pyqYears": [],
+          "pyqYears": [
+            2019
+          ],
           "lat": 15.1814,
           "lng": 76.9686,
           "name_hi": "कुपगल",
@@ -1440,7 +1444,9 @@ export const bookData: BookChapter[] = [
           "name": "Kupgal",
           "location": "Bellary District (Karnataka)",
           "majorAspect": "Kupgal, located in the Bellary District of Karnataka, is a significant archaeological site dating back to the Neolithic period, circa 2500-2000 BCE. The site has yielded key finds such as ash mounds, Neolithic celts, and pottery, providing valuable insights into the lives of early farming communities. The discovery of these artifacts at Kupgal has shed light on the agricultural practices, tool-making techniques, and cultural traditions of the Neolithic people in the region.",
-          "pyqYears": [],
+          "pyqYears": [
+            2019
+          ],
           "lat": 15.1814,
           "lng": 76.9686,
           "name_hi": "कुपगल",
@@ -1608,8 +1614,8 @@ export const bookData: BookChapter[] = [
             2023,
             2026
           ],
-          "lat": 26.9,
-          "lng": 83.5,
+          "lat": 26.77,
+          "lng": 82.9497,
           "name_hi": "लहुरादेवा",
           "location_hi": "संत कबीर नगर जिला (उत्तर प्रदेश)",
           "majorAspect_hi": "लगभग 1200 ईसा पूर्व से लोहे के प्रमाण।"
@@ -1704,16 +1710,16 @@ export const bookData: BookChapter[] = [
         },
         {
           "name": "Mahisdal",
-          "location": "Purba Medinipur (West Bengal)",
-          "majorAspect": "Mahisdal, located in Purba Medinipur, West Bengal, is a significant archaeological site dating back to the Gupta period (4th-6th century CE). Excavations at the site have yielded key finds such as pottery, terracotta seals, and coins, indicating a thriving trade and cultural center. The discovery of a temple complex and other structural remains underscores Mahisdal's importance as a major urban settlement and religious hub in ancient India.",
+          "location": "Birbhum district (West Bengal)",
+          "majorAspect": "Mahisdal, on the Kopai river in Birbhum district, West Bengal, is a Chalcolithic site excavated in the 1960s. Its Chalcolithic level yielded black-and-red ware, copper objects, microliths and remains of rice, with radiocarbon dates of roughly 1400 to 800 BCE. An iron-using level follows, which makes it a key site for the transition from copper to iron in eastern India.",
           "pyqYears": [
             2026
           ],
-          "lat": 22.3,
-          "lng": 87.7,
+          "lat": 23.668,
+          "lng": 87.684,
           "name_hi": "महिस्दल",
-          "location_hi": "पूर्व मेदिनीपुर (पश्चिम बंगाल)",
-          "majorAspect_hi": "महिस्दल, पश्चिम बंगाल के पूर्व मेदिनीपुर में स्थित, एक महत्वपूर्ण पुरातात्विक स्थल है जो गुप्त काल (4वीं-6वीं शताब्दी ईस्वी) से संबंधित है। उत्खनन से बर्तन, टेराकोटा मुहरें और सिक्के जैसे प्रमुख अवशेष मिले हैं, जो एक समृद्ध व्यापार और सांस्कृतिक केंद्र का संकेत देते हैं। एक मंदिर परिसर और अन्य संरचनात्मक अवशेषों की खोज महिस्दल को प्राचीन भारत में एक प्रमुख शहरी बस्ती और धार्मिक केंद्र के रूप में महत्व को रेखांकित करती है।"
+          "location_hi": "बीरभूम जिला (पश्चिम बंगाल)",
+          "majorAspect_hi": "महिस्दल, पश्चिम बंगाल के बीरभूम जिले में कोपाई नदी के किनारे, एक ताम्रपाषाणिक स्थल है जिसका उत्खनन 1960 के दशक में हुआ। इसके ताम्रपाषाणिक स्तर से काले-लाल मृद्भांड, तांबे की वस्तुएँ, सूक्ष्म पाषाण उपकरण और चावल के अवशेष मिले हैं, जिनकी रेडियोकार्बन तिथियाँ लगभग 1400 से 800 ईसा पूर्व हैं। इसके बाद लोहे के उपयोग का स्तर आता है, जिससे यह पूर्वी भारत में तांबे से लोहे की ओर बदलाव को समझने का प्रमुख स्थल है।"
         },
         {
           "name": "Sarutaru",
@@ -1734,8 +1740,8 @@ export const bookData: BookChapter[] = [
             2016,
             2021
           ],
-          "lat": 25.1,
-          "lng": 93.4,
+          "lat": 25.4333,
+          "lng": 93.1667,
           "name_hi": "डाओजली हडिंग",
           "location_hi": "दीमा हसाओ जिला (असम)",
           "majorAspect_hi": "डाओजली हडिंग, असम के दीमा हसाओ जिले में स्थित, एक महत्वपूर्ण पुरातात्विक स्थल है जो नियोलिथिक काल से संबंधित है, लगभग 2000 ईसा पूर्व। इस स्थल के उत्खनन से पॉलिश किए हुए पत्थर के औजार, बर्तन और अन्य कलाकृतियां मिली हैं, जो क्षेत्र के प्रारम्भिक बस्तियों के जीवन के बारे में मूल्यवान जानकारी देती हैं। इस स्थल का महत्व नियोलिथिक संस्कृति और पूर्वोत्तर भारत में प्रारम्भिक मानव जनसंख्या के प्रवास पैटर्न को समझने में योगदान के कारण है।"
@@ -1754,15 +1760,15 @@ export const bookData: BookChapter[] = [
         {
           "name": "Kuchai",
           "location": "Mayurbhanj district (Odisha)",
-          "majorAspect": "Kuchai, located in Mayurbhanj district of Odisha, is a significant archaeological site dating back to the 2nd century BCE to 2nd century CE, belonging to the Iron Age and early historic period. Excavations at the site have yielded key finds such as iron implements, pottery, and other artifacts, indicating a well-planned settlement with advanced craftsmanship. The site's importance lies in its contribution to understanding the cultural and technological developments of ancient Odisha during the said period.",
+          "majorAspect": "Kuchai, near Baripada in Mayurbhanj district of Odisha, is a Neolithic site excavated in the early 1960s. A microlithic level is followed by a Neolithic one with ground and polished stone celts and coarse handmade pottery. With Baidyapur and Sankarjang it is one of the key Neolithic sites of Odisha, linking the region to the Neolithic of eastern India.",
           "pyqYears": [
             2016
           ],
-          "lat": 21.9,
-          "lng": 86.1,
+          "lat": 21.94,
+          "lng": 86.72,
           "name_hi": "कुचै",
           "location_hi": "मयूरभंज जिला (ओडिशा)",
-          "majorAspect_hi": "कुचै, ओडिशा के मयूरभंज जिले में स्थित, एक महत्वपूर्ण पुरातात्विक स्थल है जो 2री शताब्दी ईसा पूर्व से 2री शताब्दी ईस्वी तक का है, अर्थात लौह युग और प्रारम्भिक ऐतिहासिक काल से संबंधित है। उत्खनन से लोहे के उपकरण, बर्तन और अन्य कलाकृतियां मिली हैं, जो एक सुव्यवस्थित बस्ती और उन्नत शिल्प कौशल का संकेत देती हैं। इस स्थल का महत्व प्राचीन ओडिशा के सांस्कृतिक और तकनीकी विकास को समझने में इसके योगदान में निहित है।"
+          "majorAspect_hi": "कुचै, ओडिशा के मयूरभंज जिले में बारीपदा के पास, एक नवपाषाणिक स्थल है जिसका उत्खनन 1960 के दशक के आरंभ में हुआ। यहाँ सूक्ष्म पाषाण स्तर के बाद नवपाषाणिक स्तर मिलता है, जिसमें घिसी और चमकाई हुई पत्थर की कुल्हाड़ियाँ और हाथ से बने मोटे मृद्भांड मिले हैं। बैद्यपुर और संकरजंग के साथ यह ओडिशा के प्रमुख नवपाषाणिक स्थलों में से है।"
         },
         {
           "name": "Golbai Sasan",
@@ -1975,7 +1981,9 @@ export const bookData: BookChapter[] = [
           "name": "Sanganakallu/Kupgal",
           "location": "Bellary district (Karnataka)",
           "majorAspect": "Sanganakallu, also known as Kupgal, is a megalithic site in Bellary district, Karnataka, dating back to the Iron Age (1200 BCE - 24 BCE) and the early historic period. The site has yielded significant finds, including iron slag, pottery, and megalithic burials, providing valuable insights into the technological, social, and cultural developments of the region during that period. The discovery of a sophisticated irrigation system and a large number of iron tools at Sanganakallu underscores its importance as a major iron-producing and trading center in ancient India.",
-          "pyqYears": [],
+          "pyqYears": [
+            2019
+          ],
           "lat": 15.1847,
           "lng": 76.9703,
           "name_hi": "संगनकल्लु/कुपगल",
@@ -2217,8 +2225,8 @@ export const bookData: BookChapter[] = [
             2017,
             2020
           ],
-          "lat": 21.2,
-          "lng": 71.5,
+          "lat": 21.3506,
+          "lng": 72.0592,
           "name_hi": "पद्री",
           "location_hi": "भवनगर जिला (गुजरात)",
           "majorAspect_hi": "पद्री, गुजरात के भवनगर जिले में स्थित, एक महत्वपूर्ण पुरातात्विक स्थल है जो सिंधु घाटी सभ्यता काल, लगभग 2600-1900 ईसा‑पूर्व से संबंधित है। यहाँ किए गए उत्खननों से बर्तन, मोहरें और मोती जैसे प्रमुख वस्तु‑सामान मिले हैं, जो उस समय क्षेत्र के व्यापार और सांस्कृतिक विनिमय नेटवर्क को उजागर करते हैं। पद्री में एक डॉकयार्ड और गोदाम की खोज ने इसे सिंधु घाटी सभ्यता के प्रमुख बंदरगाह शहर के रूप में महत्व दिया, जो भारतीय महासागर क्षेत्र की अन्य सभ्यताओं के साथ समुद्री व्यापार को सुविधाजनक बनाता था।"
@@ -2543,8 +2551,8 @@ export const bookData: BookChapter[] = [
           "pyqYears": [
             2013
           ],
-          "lat": 23.5,
-          "lng": 69.1,
+          "lat": 23.1983,
+          "lng": 69.4419,
           "name_hi": "डेसालपुर",
           "location_hi": "कच्छ जिला (गुजरात)",
           "majorAspect_hi": "डेसालपुर में एक विशाल पत्थर की किलाबंदी थी।"
@@ -2567,8 +2575,8 @@ export const bookData: BookChapter[] = [
           "pyqYears": [
             2018
           ],
-          "lat": 22.5,
-          "lng": 70.2,
+          "lat": 22.8917,
+          "lng": 70.5994,
           "name_hi": "कुंतासी",
           "location_hi": "राजकोट जिला (गुजरात)",
           "majorAspect_hi": "पी.पी. पंड्या द्वारा खोजा गया।"
@@ -2609,8 +2617,8 @@ export const bookData: BookChapter[] = [
             2017,
             2020
           ],
-          "lat": 21.2,
-          "lng": 71.5,
+          "lat": 21.3506,
+          "lng": 72.0592,
           "name_hi": "पद्री",
           "location_hi": "भवनगर जिला (गुजरात)",
           "majorAspect_hi": "पद्री, गुजरात के भवनगर जिले में स्थित, एक महत्वपूर्ण पुरातात्विक स्थल है जो सिंधु घाटी सभ्यता काल (लगभग 2600‑1900 ई.पू.) से संबंधित है। उत्खननों में बर्तन, मुहरें और मोती जैसी प्रमुख वस्तुएँ मिली हैं, जो उस युग में क्षेत्र के व्यापार और सांस्कृतिक विनिमय नेटवर्क को दर्शाती हैं। पद्री में एक डॉकयार्ड और गोदाम की खोज इस स्थल को सिंधु घाटी सभ्यता के प्रमुख बंदरगाह शहर के रूप में महत्व देती है, जो भारतीय महासागर क्षेत्र की अन्य सभ्यताओं के साथ समुद्री व्यापार को सुविधाजनक बनाता था।"
@@ -3268,8 +3276,8 @@ export const bookData: BookChapter[] = [
           "pyqYears": [
             2013
           ],
-          "lat": 19.3,
-          "lng": 74.5,
+          "lat": 19.5439,
+          "lng": 74.2762,
           "name_hi": "जोरवे",
           "location_hi": "अहिल्यनगर जिला (महाराष्ट्र)",
           "majorAspect_hi": "प्रोफ़. एमके धवलिकर द्वारा उत्खनन किया गया, यह लगभग एक नगर था, जिससे पोस्ट‑मैच्योर हड़प्पा काल में समग्र शहरी गिरावट की धारणा को चुनौती मिलती है।"
@@ -3314,16 +3322,16 @@ export const bookData: BookChapter[] = [
         },
         {
           "name": "Mahisdal",
-          "location": "Purba Medinipur (West Bengal)",
-          "majorAspect": "Mahisdal, located in Purba Medinipur, West Bengal, is a significant archaeological site dating back to the Gupta period (4th-6th century CE). Excavations at the site have yielded key finds such as pottery, terracotta seals, and coins, indicating a thriving trade and cultural center. The discovery of a temple complex and other structural remains underscores Mahisdal's importance as a major urban settlement and religious hub in ancient India.",
+          "location": "Birbhum district (West Bengal)",
+          "majorAspect": "Mahisdal, on the Kopai river in Birbhum district, West Bengal, is a Chalcolithic site excavated in the 1960s. Its Chalcolithic level yielded black-and-red ware, copper objects, microliths and remains of rice, with radiocarbon dates of roughly 1400 to 800 BCE. An iron-using level follows, which makes it a key site for the transition from copper to iron in eastern India.",
           "pyqYears": [
             2026
           ],
-          "lat": 22.3,
-          "lng": 87.7,
+          "lat": 23.668,
+          "lng": 87.684,
           "name_hi": "महिस्दल",
-          "location_hi": "पूर्व मेदिनीपुर (पश्चिम बंगाल)",
-          "majorAspect_hi": "महिस्दल, पूर्व मेदिनीपुर, पश्चिम बंगाल में स्थित, गुप्त काल (4वीं‑6वीं शताब्दी ईस्वी) का एक महत्वपूर्ण पुरातात्विक स्थल है। उत्खनन से बर्तन, टेराकोटा मुहरें और सिक्के मिले, जो एक समृद्ध व्यापार और सांस्कृतिक केंद्र का संकेत देते हैं। एक मंदिर परिसर और अन्य संरचनात्मक अवशेषों की खोज महिस्दल को प्राचीन भारत में एक प्रमुख शहरी बस्ती और धार्मिक केंद्र के रूप में महत्व देती है।"
+          "location_hi": "बीरभूम जिला (पश्चिम बंगाल)",
+          "majorAspect_hi": "महिस्दल, पश्चिम बंगाल के बीरभूम जिले में कोपाई नदी के किनारे, एक ताम्रपाषाणिक स्थल है जिसका उत्खनन 1960 के दशक में हुआ। इसके ताम्रपाषाणिक स्तर से काले-लाल मृद्भांड, तांबे की वस्तुएँ, सूक्ष्म पाषाण उपकरण और चावल के अवशेष मिले हैं, जिनकी रेडियोकार्बन तिथियाँ लगभग 1400 से 800 ईसा पूर्व हैं। इसके बाद लोहे के उपयोग का स्तर आता है, जिससे यह पूर्वी भारत में तांबे से लोहे की ओर बदलाव को समझने का प्रमुख स्थल है।"
         },
         {
           "name": "Ojjiyana",
@@ -3693,8 +3701,8 @@ export const bookData: BookChapter[] = [
             2023,
             2026
           ],
-          "lat": 26.9,
-          "lng": 83.5,
+          "lat": 26.77,
+          "lng": 82.9497,
           "name_hi": "लाहुरादेवा",
           "location_hi": "संत कबीर नगर जिला (उत्तर प्रदेश)",
           "majorAspect_hi": "लगभग 1200 ईसा पूर्व से लोहे के प्रमाण।"
@@ -4375,7 +4383,6 @@ export const bookData: BookChapter[] = [
           "majorAspect": "The famous historical fresco paintings by the Jain saints are found inside the caves and it is the only place where we can see the Pandya paintings.",
           "pyqYears": [
             2015,
-            2024,
             2026
           ],
           "lat": 10.466,
@@ -5021,8 +5028,8 @@ export const bookData: BookChapter[] = [
           "pyqYears": [
             2018
           ],
-          "lat": 34.4,
-          "lng": 71.94,
+          "lat": 34.2356,
+          "lng": 72.16,
           "name_hi": "शाहबाज़गढ़ी",
           "location_hi": "मरदान जिला (ख़ैबर पख़्तूनख़्वा, पाकिस्तान)",
           "majorAspect_hi": "मुख्य शिलालेख स्थल। खरोष्ठी लिपि और प्राकृत भाषा में दो उत्तर-पश्चिमी शिलालेख स्थलों में से एक।"
@@ -5888,8 +5895,8 @@ export const bookData: BookChapter[] = [
           "pyqYears": [
             2022
           ],
-          "lat": 8.5,
-          "lng": 78.2,
+          "lat": 8.0883,
+          "lng": 77.5385,
           "name_hi": "कपटपुरम",
           "location_hi": "तमिलनाडु तट के बाहर (डूबा हुआ, पौराणिक)",
           "majorAspect_hi": "पहले संगम की पौराणिक खोई हुई राजधानी, कहा जाता है कि समुद्र द्वारा डूबा दी गई।"
@@ -6006,8 +6013,7 @@ export const bookData: BookChapter[] = [
           "pyqYears": [
             2014,
             2021,
-            2023,
-            2024
+            2023
           ],
           "lat": 21.9,
           "lng": 71.9,
@@ -6313,7 +6319,9 @@ export const bookData: BookChapter[] = [
           "name": "Mahabalipuram/Mamallapuram",
           "location": "Chengalpattu district (Tamil Nadu)",
           "majorAspect": "Port city and major monument site of Pallava dynasty.",
-          "pyqYears": [],
+          "pyqYears": [
+            2025
+          ],
           "lat": 12.6,
           "lng": 80.2,
           "name_hi": "महाबलीपुरम",
@@ -6573,8 +6581,8 @@ export const bookData: BookChapter[] = [
           "pyqYears": [
             2016
           ],
-          "lat": 16.93,
-          "lng": 81.38,
+          "lat": 16.8122,
+          "lng": 81.1044,
           "name_hi": "वेंगी",
           "location_hi": "वेस्ट गोदावरी जिला (आंध्र प्रदेश)",
           "majorAspect_hi": "पूर्वी चालुक्यों की राजधानी (7वीं शताब्दी)।"
@@ -7264,7 +7272,9 @@ export const bookData: BookChapter[] = [
           "name": "Palitana/Shatrunjaya Hills",
           "location": "Bhavnagar district (Gujarat)",
           "majorAspect": "Large complex of temples on Shatrunjaya hills (around 863 temples). UNESCO tentative list. One of five most sacred Jain pilgrimage sites.",
-          "pyqYears": [],
+          "pyqYears": [
+            2024
+          ],
           "lat": 21.52,
           "lng": 71.83,
           "name_hi": "पलिताना/शत्रुंजय पहाड़ियाँ",
@@ -7344,8 +7354,7 @@ export const bookData: BookChapter[] = [
           "pyqYears": [
             2014,
             2021,
-            2023,
-            2024
+            2023
           ],
           "lat": 21.9,
           "lng": 71.9,
@@ -7427,7 +7436,6 @@ export const bookData: BookChapter[] = [
           "majorAspect": "A rock-cut Jain temple named Arivar-Koil. Famous for beautiful Jain frescoes (Panchavarnadurai paintings). Jainism flourished here under Pallava period.",
           "pyqYears": [
             2015,
-            2024,
             2026
           ],
           "lat": 10.466,
@@ -7854,7 +7862,9 @@ export const bookData: BookChapter[] = [
           "name": "Mahabalipuram",
           "location": "Chengalpattu district (Tamil Nadu)",
           "majorAspect": "Pallava rock-cut monuments — Pancha Rathas, Mandapas, Mahishasuramardini cave. UNESCO World Heritage Site. Also a major ancient port.",
-          "pyqYears": [],
+          "pyqYears": [
+            2025
+          ],
           "lat": 12.6,
           "lng": 80.2,
           "name_hi": "महाबलीपुरम",
@@ -7866,8 +7876,7 @@ export const bookData: BookChapter[] = [
           "location": "Pudukottai district (Tamil Nadu)",
           "majorAspect": "Rock-cut Jain cave temple with 7th century CE Jain frescoes. The cave is a living temple still under worship.",
           "pyqYears": [
-            2015,
-            2024
+            2015
           ],
           "lat": 10.466,
           "lng": 78.734,
@@ -8244,7 +8253,9 @@ export const bookData: BookChapter[] = [
           "name": "Mahabalipuram",
           "location": "Chengalpattu district (Tamil Nadu)",
           "majorAspect": "Pallava rock-cut and structural monuments. Shore Temple (UNESCO). Five Rathas (Pancha Rathas). UNESCO World Heritage Site.",
-          "pyqYears": [],
+          "pyqYears": [
+            2025
+          ],
           "lat": 12.6,
           "lng": 80.2,
           "name_hi": "महाबलीपुरम",
@@ -9257,7 +9268,9 @@ export const bookData: BookChapter[] = [
           "name": "Mahabalipuram",
           "location": "Chengalpattu district (Tamil Nadu)",
           "majorAspect": "Pallava period rock-cut and bas-relief sculptures. 'Descent of the Ganges' (Arjuna's Penance) — largest open-air bas-relief in the world (27m x 9m). Pancha Rathas. Shore Temple sculptures.",
-          "pyqYears": [],
+          "pyqYears": [
+            2025
+          ],
           "lat": 12.6,
           "lng": 80.2,
           "name_hi": "महाबलीपुरम",
@@ -9490,8 +9503,7 @@ export const bookData: BookChapter[] = [
           "location": "Bamiyan province (Afghanistan)",
           "majorAspect": "A masterpiece of Gandhara School of art, three Buddhas of Bamyan carved into cliffs (6th-7th c), were the tallest Buddhist sculptures in the world.",
           "pyqYears": [
-            2013,
-            2022
+            2013
           ],
           "lat": 34.8,
           "lng": 67.8,
@@ -9525,7 +9537,9 @@ export const bookData: BookChapter[] = [
           "name": "Hadda",
           "location": "Jalalabad district (Afghanistan)",
           "majorAspect": "A significant Greco-Buddhist site. Stone sculptures of Gandhara art are found in large numbers. One of the largest Buddhist sites in Afghanistan.",
-          "pyqYears": [],
+          "pyqYears": [
+            2022
+          ],
           "lat": 34.4428,
           "lng": 70.509,
           "name_hi": "हड्डा",
@@ -9675,8 +9689,7 @@ export const bookData: BookChapter[] = [
           "location": "Pudukottai district (Tamil Nadu)",
           "majorAspect": "Jainism",
           "pyqYears": [
-            2015,
-            2024
+            2015
           ],
           "lat": 10.466,
           "lng": 78.734,
@@ -9904,8 +9917,7 @@ export const bookData: BookChapter[] = [
           "pyqYears": [
             2014,
             2021,
-            2023,
-            2024
+            2023
           ],
           "lat": 21.9,
           "lng": 71.9,
@@ -10225,7 +10237,9 @@ export const bookData: BookChapter[] = [
           "name": "Mamallapuram/Mahabalipuram",
           "location": "Chengalpattu district (Tamil Nadu)",
           "majorAspect": "One of two major port cities in the Pallava kingdom. Chinese and Roman coins found. UNESCO World Heritage Site.",
-          "pyqYears": [],
+          "pyqYears": [
+            2025
+          ],
           "lat": 12.6362,
           "lng": 80.0654,
           "name_hi": "ममल्लपुरम/महाबलीपुरम",
@@ -10273,9 +10287,7 @@ export const bookData: BookChapter[] = [
           "name": "Nagapattinam",
           "location": "Nagapattinam district (Tamil Nadu)",
           "majorAspect": "Ancient port that rose to prominence during Great Cholas. Rajendra I launched SE Asian expeditions from here.",
-          "pyqYears": [
-            2025
-          ],
+          "pyqYears": [],
           "lat": 10.7672,
           "lng": 79.8449,
           "name_hi": "नागपट्टिनम",
@@ -10341,17 +10353,17 @@ export const bookData: BookChapter[] = [
           "majorAspect_hi": "एक प्राचीन बंदरगाह जो ममल्लपुरम से 11 मील दक्षिण में स्थित है। अन्वेषण से 1री‑2री शताब्दी ईस्वी में रोम के साथ व्यापारिक संपर्क स्थापित होने का प्रमाण मिलता है।"
         },
         {
-          "name": "Theemala",
-          "location": "Thiruvananthapuram district (Kerala)",
-          "majorAspect": "Ancient port site with Roman amphora and rouletted ware finds indicating Indo-Roman trade connections.",
+          "name": "Thenmala",
+          "location": "Kollam district (Kerala)",
+          "majorAspect": "Thenmala, in the Western Ghats of Kollam district, Kerala, has rock shelters with a Mesolithic occupation. Excavations yielded microliths of quartz and other stone, showing hunter-gatherers living in the hill forests of south India long before farming reached the region.",
           "pyqYears": [
             2025
           ],
           "lat": 8.55,
           "lng": 76.93,
-          "name_hi": "थीमला",
-          "location_hi": "त्रिवेंद्रम जिला (केरल)",
-          "majorAspect_hi": "प्राचीन बंदरगाह स्थल जहाँ रोमन एम्फोरा और रूलेटेड वेर के अवशेष मिले हैं, जो भारत‑रोम व्यापार संबंध दर्शाते हैं।"
+          "name_hi": "थेनमला",
+          "location_hi": "कोल्लम जिला (केरल)",
+          "majorAspect_hi": "थेनमला, केरल के कोल्लम जिले में पश्चिमी घाट में स्थित, मध्यपाषाणिक आवास वाले शैलाश्रयों का स्थल है। उत्खनन से क्वार्ट्ज़ और अन्य पत्थर के सूक्ष्म पाषाण उपकरण मिले हैं, जो दिखाते हैं कि खेती के यहाँ पहुँचने से बहुत पहले दक्षिण भारत के पहाड़ी वनों में शिकारी-संग्राहक रहते थे।"
         }
       ],
       "topic_hi": "बंदरगाह"
@@ -11237,9 +11249,7 @@ export const bookData: BookChapter[] = [
           "name": "Nagapattinam",
           "location": "Nagapattinam district (Tamil Nadu)",
           "majorAspect": "Portuguese and later Dutch factory. Later British captured it from the Dutch.",
-          "pyqYears": [
-            2025
-          ],
+          "pyqYears": [],
           "lat": 10.7672,
           "lng": 79.8449,
           "name_hi": "नागपट्टिनम",
@@ -11495,7 +11505,9 @@ export const bookData: BookChapter[] = [
           "name": "Kudumiyanmalai",
           "location": "Pudukottai district (Tamil Nadu)",
           "majorAspect": "Language-Script: Sanskrit-Grantha and Tamil Vattezhuthu. Belonging to reign of Pallava king Mahendravarman I. Musical inscription refers to great musician Rudracharya and describes seven-stringed musical instrument, the Parivadini. First inscriptional evidence of music in India.",
-          "pyqYears": [],
+          "pyqYears": [
+            2024
+          ],
           "lat": 10.3827,
           "lng": 78.8191,
           "name_hi": "कुदुमियानमलै",
@@ -12061,7 +12073,9 @@ export const bookData: BookChapter[] = [
           "name": "Group of Monuments at Mahabalipuram",
           "location": "Chengalpattu district (Tamil Nadu)",
           "majorAspect": "Year of Inscription: 1984. Sanctuaries founded by Pallava kings, carved out of rock along Coromandel Coast in 7th-8th centuries. Famous for rathas, mandapas, open-air reliefs like 'Descent of the Ganges', and temple of Rivage.",
-          "pyqYears": [],
+          "pyqYears": [
+            2025
+          ],
           "lat": 12.6362,
           "lng": 80.0654,
           "name_hi": "महाबलीपुरम समूह स्मारक",

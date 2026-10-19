@@ -3,8 +3,11 @@ import { Fragment, useCallback, useEffect, useRef, useState } from 'react';
 import { MapContainer, TileLayer, GeoJSON, CircleMarker, Tooltip, Pane, useMap } from 'react-leaflet';
 import type { GeoJsonObject } from 'geojson';
 import type { MapSite } from '@/lib/mapBook';
-import { bookBasemap } from '@/lib/basemap';
+import { bookBasemap, physicalBasemap } from '@/lib/basemap';
 import 'leaflet/dist/leaflet.css';
+
+/** Political: the tiles with state lines. Physical: relief and rivers. Outline: the exam's plain map. */
+export type MapBase = 'political' | 'physical' | 'outline';
 
 const INDIA_BOUNDS: [[number, number], [number, number]] = [[7.067, 56.787], [37.193, 102.996]];
 
@@ -99,47 +102,80 @@ function Graticule() {
 
 /**
  * The map book's map. Places are blue dots, the ones UPSC has asked amber,
- * the picked one a white dot ringed in blue. "No boundaries" swaps the tiles
- * for a plain outline of the region, as in the exam; the quiz uses it too, so
- * a basemap label cannot give the answer away. Dot colours come from classes,
- * since a CSS variable in an SVG attribute is not read by every browser, and
- * each dot has a wider, invisible ring around it to be easy to tap.
+ * the picked one a white dot ringed in blue. The base is the political map
+ * (tiles and state lines), the physical map (relief and rivers, no names) or
+ * the plain outline of the region, as in the exam; the quiz uses the outline
+ * by default, so a basemap label cannot give the answer away. A past paper's
+ * places carry their number on the paper and are drawn as numbered dots, as
+ * on the exam's map. Dot colours come from classes, since a CSS variable in an
+ * SVG attribute is not read by every browser, and each dot has a wider,
+ * invisible ring around it to be easy to tap.
  */
-export default function MappingMap({ sites, selected, onPick, outline = false, grid = false, fixed = false, quiet = false }: {
+export default function MappingMap({ sites, selected, onPick, outline = false, base: baseProp, grid = false, fixed = false, quiet = false }: {
   sites: MapSite[];
   selected: string | null;
   onPick: (name: string) => void;
-  /** The plain outline map, no tiles and no state lines. */
+  /** The plain outline map, no tiles and no state lines. Shorthand for base="outline". */
   outline?: boolean;
+  base?: MapBase;
   grid?: boolean;
   /** Keep India in frame whatever is picked (the quiz). */
   fixed?: boolean;
-  /** No names on hover (the quiz). */
+  /** No names on hover (the quiz, and testing yourself on a paper). */
   quiet?: boolean;
 }) {
-  const states = useGeo('states', !outline);
-  const shape = useGeo('outline', outline);
+  const base: MapBase = baseProp ?? (outline ? 'outline' : 'political');
+  const plain = base === 'outline';
+  const states = useGeo('states', base === 'political');
+  const shape = useGeo('outline', base !== 'political');
+  const tiles = base === 'physical' ? physicalBasemap : bookBasemap;
   return (
-    <div className={`mm${outline ? ' plain' : ''}`}>
-      <MapContainer key={outline ? 'plain' : 'tiles'} bounds={INDIA_BOUNDS} style={{ width: '100%', height: '100%' }}
-        zoomControl scrollWheelZoom={false} attributionControl={!outline && bookBasemap.requireVisibleAttribution}>
+    <div className={`mm${plain ? ' plain' : ''}`}>
+      <MapContainer key={base} bounds={INDIA_BOUNDS} style={{ width: '100%', height: '100%' }}
+        zoomControl scrollWheelZoom={false} attributionControl={!plain && tiles.requireVisibleAttribution}>
         {/* Shapes arrive after the dots; in the dots' own layer they would be drawn over them. */}
         <Pane name="shapes" style={{ zIndex: 350 }}>
-          {outline ? (
+          {plain ? (
             shape && <GeoJSON data={shape} interactive={false} style={(f) => {
               const india = f?.properties?.name === 'India';
               return { fillColor: india ? '#fbf8f2' : '#ebe7de', fillOpacity: 1, color: '#3a3a3a', weight: india ? 1.4 : 0.7 };
             }} />
+          ) : base === 'physical' ? (
+            // The relief has no borders of its own: the countries' outlines, unfilled.
+            shape && <GeoJSON data={shape} interactive={false} style={() => ({ fill: false, className: 'mm-border', weight: 1 })} />
           ) : (
             states && <GeoJSON data={states} interactive={false} style={() => ({ fill: false, color: '#8a8a8a', weight: 1, opacity: 0.7 })} />
           )}
         </Pane>
-        {!outline && <TileLayer url={bookBasemap.url} maxNativeZoom={bookBasemap.maxNativeZoom} maxZoom={19} attribution={bookBasemap.attribution} />}
+        {!plain && <TileLayer url={tiles.url} maxNativeZoom={tiles.maxNativeZoom} maxZoom={19} attribution={tiles.attribution} />}
         <Frame sites={sites} selected={selected} fixed={fixed} />
         {grid && <Graticule />}
         {sites.map((s) => {
           const on = selected === s.name;
           const asked = s.asked.length > 0;
+          if (s.num != null) {
+            return (
+              <Fragment key={s.name}>
+                <CircleMarker center={[s.lat, s.lng]} radius={18} pathOptions={{ className: 'mm-hit', weight: 0 }} eventHandlers={{ click: () => onPick(s.name) }}>
+                  {!quiet && (
+                    <Tooltip direction="top" offset={[0, -10]} className="mm-tip">
+                      <strong>{s.num}. {s.label}</strong>
+                      {s.place && <span>{s.place}</span>}
+                    </Tooltip>
+                  )}
+                </CircleMarker>
+                <CircleMarker
+                  key={`${s.name}-${on}`}
+                  center={[s.lat, s.lng]}
+                  radius={on ? 13 : 10}
+                  pathOptions={{ className: `mm-num${on ? ' on' : ''}`, fillOpacity: 1, weight: on ? 2.5 : 1.5 }}
+                  eventHandlers={{ click: () => onPick(s.name) }}
+                >
+                  <Tooltip permanent direction="center" offset={[0, 0]} className={`mm-n${on ? ' on' : ''}`}>{s.num}</Tooltip>
+                </CircleMarker>
+              </Fragment>
+            );
+          }
           return (
             <Fragment key={s.name}>
               <CircleMarker center={[s.lat, s.lng]} radius={16} pathOptions={{ className: 'mm-hit', weight: 0 }} eventHandlers={{ click: () => onPick(s.name) }} />
@@ -174,6 +210,12 @@ export default function MappingMap({ sites, selected, onPick, outline = false, g
         .mm-dot { fill: var(--accent); stroke: rgba(255, 255, 255, 0.85); cursor: pointer; }
         .mm-dot.asked { fill: var(--warning-text); }
         .mm-dot.on { fill: #fff; stroke: var(--accent); }
+        .mm-border { stroke: var(--black-700); stroke-opacity: 0.55; }
+        .mm-num { fill: var(--white-50); stroke: var(--black-800); cursor: pointer; }
+        .mm-num.on { fill: var(--accent); stroke: var(--white-50); }
+        .mm-n { background: transparent !important; border: none !important; box-shadow: none !important; padding: 0 !important; color: var(--black-800) !important; font: 800 10px var(--font-ui); user-select: none; pointer-events: none; }
+        .mm-n.on { color: var(--white-50) !important; font-size: 11px; }
+        .mm-n::before { display: none !important; }
         .mm-tip { display: flex; flex-direction: column; gap: 1px; padding: 6px 10px !important; background: var(--ds-card, #fff) !important; border: 1px solid var(--border2) !important; border-radius: 8px !important; box-shadow: var(--elev-2) !important; color: var(--text) !important; font-family: var(--font-ui); font-size: 12px; }
         .mm-tip span { color: var(--text3); font-size: 11px; }
         .mm-tip em { font-style: normal; color: var(--warning-text); font-size: 11px; font-weight: 600; }

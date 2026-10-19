@@ -52,3 +52,16 @@ export const bookBasemap: Basemap = CARTO_KEY ? carto('rastertiles/voyager_nolab
 
 /** Map quiz — keeps CARTO's place labels. */
 export const quizBasemap: Basemap = CARTO_KEY ? carto('light_all') : ESRI;
+
+/**
+ * The physical map: relief, rivers and water, with no place names, so it can
+ * be used to practise without giving answers away. Esri publishes it only to
+ * zoom 8; past that Leaflet stretches the zoom-8 tiles instead of fetching
+ * blank "data not available" ones.
+ */
+export const physicalBasemap: Basemap = {
+  url: 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Physical_Map/MapServer/tile/{z}/{y}/{x}',
+  attribution: '&copy; Esri, U.S. National Park Service',
+  maxNativeZoom: 8,
+  requireVisibleAttribution: false,
+};

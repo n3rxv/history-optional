@@ -3,6 +3,8 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import dynamic from 'next/dynamic';
 import Link from 'next/link';
 import type { MapChapter, MapChapterSites, MapSite } from '@/lib/mapBook';
+import type { MapBase } from '@/components/MappingMap';
+import { bookEntry, close, nameVariants, norm as normName, paper, paperYears, repeatedPlaces } from '@/lib/mapPapers';
 import { useLang } from '@/lib/i18n/LangContext';
 import { useLoginPrompt } from '@/hooks/useLoginPrompt';
 import { useRefreshSafe } from '@/hooks/useRefreshSafe';
@@ -40,7 +42,7 @@ function shuffle<T>(arr: T[]): T[] {
   return a;
 }
 const escapeRe = (s: string) => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-const variants = (name: string) => name.split(/[/,]|\salso known as\s|\sया\s|\sor\s/i).map((s) => s.trim()).filter((s) => s.length > 2);
+const variants = (name: string) => name.split(/[/,()]|\salso known as\s|\sया\s|\sor\s/i).map((s) => s.trim()).filter((s) => s.length > 2);
 const norm = (s: string) => s.normalize('NFKD').toLowerCase().replace(/[^\p{L}\p{N}]/gu, '');
 const away = (a: MapSite, b: MapSite) => Math.hypot(a.lat - b.lat, a.lng - b.lng);
 
@@ -79,7 +81,7 @@ function newRound(pool: MapSite[], all: MapSite[], after?: string) {
 }
 
 // ─── Quiz ───
-function Quiz({ pool, all, hi, format }: { pool: MapSite[]; all: MapSite[]; hi: boolean; format: 'pick' | 'type' }) {
+function Quiz({ pool, all, hi, format, base, grid }: { pool: MapSite[]; all: MapSite[]; hi: boolean; format: 'pick' | 'type'; base: MapBase; grid: boolean }) {
   const T = (en: string, h: string) => (hi ? h : en);
   const [round, setRound] = useState(() => newRound(pool, all));
   const [chosen, setChosen] = useState<string | null>(null);
@@ -129,7 +131,7 @@ function Quiz({ pool, all, hi, format }: { pool: MapSite[]; all: MapSite[]; hi: 
       </div>
 
       <div className="mp-quiz-map">
-        <MappingMap sites={[site]} selected={answered ? site.name : null} onPick={() => {}} outline fixed quiet />
+        <MappingMap sites={[site]} selected={answered ? site.name : null} onPick={() => {}} base={base} grid={grid} fixed quiet />
       </div>
 
       {site.about && (
@@ -178,9 +180,9 @@ function Quiz({ pool, all, hi, format }: { pool: MapSite[]; all: MapSite[]; hi: 
 }
 
 // ─── A chapter ───
-function Chapter({ chapter, open, onToggle, sites, selected, onPick, askedOnly, onToggleAsked, outline, grid, hi }: {
+function Chapter({ chapter, open, onToggle, sites, selected, onPick, askedOnly, onToggleAsked, mapBase, grid, hi }: {
   chapter: MapChapter; open: boolean; onToggle: () => void; sites: MapSite[] | null; selected: string | null; onPick: (name: string) => void;
-  askedOnly: boolean; onToggleAsked: () => void; outline: boolean; grid: boolean; hi: boolean;
+  askedOnly: boolean; onToggleAsked: () => void; mapBase: MapBase; grid: boolean; hi: boolean;
 }) {
   const T = (en: string, h: string) => (hi ? h : en);
   const [region, setRegion] = useState('All');
@@ -237,7 +239,7 @@ function Chapter({ chapter, open, onToggle, sites, selected, onPick, askedOnly, 
               ) : (
                 <div className="mp-split">
                   <div className="mp-map-col">
-                    <MappingMap sites={shown} selected={selected} onPick={onPick} outline={outline} grid={grid} />
+                    <MappingMap sites={shown} selected={selected} onPick={onPick} base={mapBase} grid={grid} />
                     {picked && (
                       <div className="mp-picked">
                         <div className="mp-place-top"><strong>{picked.label}</strong>{picked.asked.length > 0 && <span className="mp-year">{picked.asked.join(', ')}</span>}</div>
@@ -277,6 +279,198 @@ const Switch = ({ on, onClick, children, tone }: { on: boolean; onClick: () => v
   </button>
 );
 
+const BASES: { key: MapBase; en: string; hi: string }[] = [
+  { key: 'political', en: 'Political', hi: 'राजनीतिक' },
+  { key: 'physical', en: 'Physical', hi: 'भौतिक' },
+  { key: 'outline', en: 'No boundaries', hi: 'सीमा रहित' },
+];
+const BaseSeg = ({ value, onChange, hi }: { value: MapBase; onChange: (b: MapBase) => void; hi: boolean }) => (
+  <div className="mp-seg mp-base" role="radiogroup" aria-label={hi ? 'मैप का प्रकार' : 'Map type'}>
+    {BASES.map((b) => (
+      <button key={b.key} type="button" role="radio" aria-checked={value === b.key} className={value === b.key ? 'on' : ''} onClick={() => onChange(b.key)}>{hi ? b.hi : b.en}</button>
+    ))}
+  </div>
+);
+
+/** The map book's notes for a past paper's answer, when the book has the place within about 100 km of the paper's pin. */
+function noteFor(p: { answer: string; lat: number; lng: number }, all: MapSite[]) {
+  const b = bookEntry(p, all);
+  return b && Math.hypot(b.lat - p.lat, b.lng - p.lng) < 1 ? b : undefined;
+}
+
+/** A typed answer is right if it is one of the answer's names, give or take two letters of spelling. */
+function typedRight(typed: string, names: string[]) {
+  const t = normName(typed);
+  if (t.length < 3) return false;
+  return names.flatMap((n) => [n, ...nameVariants(n)]).map(normName).some((v) => v === t || close(v, t));
+}
+
+// ─── One past paper ───
+function PaperView({ year, view, base, grid, hi, all }: { year: number; view: 'study' | 'test'; base: MapBase; grid: boolean; hi: boolean; all: MapSite[] }) {
+  const T = (en: string, h: string) => (hi ? h : en);
+  const places = useMemo(() => paper(year), [year]);
+  const sites: MapSite[] = useMemo(() => places.map((p) => {
+    const b = noteFor(p, all);
+    return { name: `${year}-${p.number}`, label: (hi && b?.label) || p.answer, place: b?.place ?? '', about: b?.about ?? '', asked: p.askedIn, lat: p.lat, lng: p.lng, region: '', num: p.number };
+  }), [places, all, hi, year]);
+  const [selected, setSelected] = useState<string | null>(null);
+  const [typed, setTyped] = useState<Record<number, string>>({});
+  const [result, setResult] = useState<Record<number, 'right' | 'wrong' | 'shown'>>({});
+  const listRef = useRef<HTMLDivElement>(null);
+  const before = places.filter((p) => p.askedIn.some((y) => y < year)).length;
+  const rightN = Object.values(result).filter((r) => r === 'right').length;
+  const doneN = Object.keys(result).length;
+  const pick = (name: string) => setSelected((s) => (s === name ? null : name));
+  const picked = sites.find((s) => s.name === selected);
+
+  useEffect(() => {
+    const list = listRef.current;
+    const item = [...(list?.querySelectorAll<HTMLElement>('[data-site]') ?? [])].find((el) => el.dataset.site === selected);
+    if (!list || !item || list.scrollHeight <= list.clientHeight) return;
+    const top = item.offsetTop, bottom = top + item.offsetHeight;
+    if (top < list.scrollTop || bottom > list.scrollTop + list.clientHeight) list.scrollTo({ top: Math.max(0, top - 8), behavior: 'smooth' });
+  }, [selected]);
+
+  const check = (n: number) => {
+    const s = sites[n - 1];
+    setResult((r) => ({ ...r, [n]: typedRight(typed[n] ?? '', [places[n - 1].answer, s.label]) ? 'right' : 'wrong' }));
+  };
+
+  return (
+    <div className="pp">
+      <div className="pp-summary">
+        <span>{T(`${year}, Paper I, Question 1: twenty places`, `${year}, प्रश्नपत्र I, प्रश्न 1: बीस स्थल`)}</span>
+        {before > 0 && <span className="mp-asked-n">{T(`${before} of them asked before`, `इनमें से ${before} पहले भी पूछे गए`)}</span>}
+        {view === 'test' && (
+          <span className="pp-score">
+            {T(`${rightN} of 20 right`, `20 में ${rightN} सही`)}{doneN > 0 && doneN < 20 ? T(` · ${doneN} tried`, ` · ${doneN} किए`) : ''}
+            {doneN < 20 && <button type="button" className="mp-link" onClick={() => setResult((r) => Object.fromEntries(places.map((p) => [p.number, r[p.number] ?? 'shown'])))}>{T('Show all answers', 'सभी उत्तर दिखाएँ')}</button>}
+            {doneN > 0 && <button type="button" className="mp-link" onClick={() => { setResult({}); setTyped({}); }}>{T('Start over', 'फिर से शुरू करें')}</button>}
+          </span>
+        )}
+      </div>
+      <div className="mp-split">
+        <div className="mp-map-col">
+          <MappingMap sites={sites} selected={selected} onPick={pick} base={base} grid={grid} quiet={view === 'test'} />
+          {picked && (
+            <div className="mp-picked">
+              <div className="mp-place-top"><strong>{picked.num}. {view === 'test' && !result[picked.num!] ? places[picked.num! - 1].hint : picked.label}</strong></div>
+              {(view === 'study' || result[picked.num!]) && <>
+                {picked.place && <span className="mp-place-where">{picked.place}</span>}
+                <p>{places[picked.num! - 1].hint}</p>
+              </>}
+            </div>
+          )}
+        </div>
+        <div className="mp-list pp-list" ref={listRef}>
+          {places.map((p, i) => {
+            const s = sites[i];
+            const on = selected === s.name;
+            const others = p.askedIn.filter((y) => y !== year);
+            if (view === 'study') {
+              return (
+                <button key={s.name} data-site={s.name} type="button" className={`mp-place pp-item${on ? ' on' : ''}`} onClick={() => pick(s.name)} aria-expanded={on}>
+                  <span className="pp-hint"><span className="pp-n">{p.number}</span>{p.hint}</span>
+                  <span className="mp-place-top">
+                    <strong>{s.label}</strong>
+                    {others.length > 0 && <span className="mp-year">{T('Also', 'यह भी')} {others.join(', ')}</span>}
+                  </span>
+                  {s.place && <span className="mp-place-where">{s.place}</span>}
+                  {p.note && <span className="pp-dispute">{p.note}</span>}
+                  {on && s.about && <span className="mp-place-sig">{s.about}</span>}
+                </button>
+              );
+            }
+            const r = result[p.number];
+            return (
+              <div key={s.name} data-site={s.name} className={`mp-place pp-item pp-test${on ? ' on' : ''}${r ? ` ${r}` : ''}`}>
+                <button type="button" className="pp-hint pp-hint-btn" onClick={() => pick(s.name)} aria-label={T(`Show place ${p.number} on the map`, `स्थल ${p.number} मैप पर दिखाएँ`)}>
+                  <span className="pp-n">{p.number}</span>{p.hint}
+                </button>
+                {r ? (
+                  <div className="pp-result">
+                    <span>{r === 'right' ? T('Right', 'सही') : r === 'wrong' ? T('Not quite', 'सही नहीं') : T('Answer', 'उत्तर')}: <strong>{s.label}</strong></span>
+                    {r === 'wrong' && typed[p.number] && <small>{T('You wrote', 'आपने लिखा')} “{typed[p.number]}”</small>}
+                    {p.note && <small className="pp-dispute">{p.note}</small>}
+                    {others.length > 0 && <span className="mp-year">{T('Also', 'यह भी')} {others.join(', ')}</span>}
+                  </div>
+                ) : (
+                  <form className="pp-try" onSubmit={(e) => { e.preventDefault(); if ((typed[p.number] ?? '').trim()) check(p.number); }}>
+                    <input value={typed[p.number] ?? ''} onChange={(e) => setTyped((t) => ({ ...t, [p.number]: e.target.value }))} onFocus={() => setSelected(s.name)}
+                      placeholder={T('Your answer', 'आपका उत्तर')} aria-label={T(`Your answer for place ${p.number}`, `स्थल ${p.number} का आपका उत्तर`)} autoComplete="off" />
+                    <button type="submit" className="ds-btn ds-btn-solid ds-btn-sm" disabled={!(typed[p.number] ?? '').trim()}>{T('Check', 'जाँचें')}</button>
+                    <button type="button" className="mp-link" onClick={() => setResult((x) => ({ ...x, [p.number]: 'shown' }))}>{T('Show', 'दिखाएँ')}</button>
+                  </form>
+                )}
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ─── The places UPSC keeps asking ───
+function RepeatsView({ base, grid, hi, all }: { base: MapBase; grid: boolean; hi: boolean; all: MapSite[] }) {
+  const T = (en: string, h: string) => (hi ? h : en);
+  const [min, setMin] = useState(3);
+  const every = useMemo(() => repeatedPlaces(), []);
+  const list = useMemo(() => every.filter((r) => r.years.length >= min), [every, min]);
+  const sites: MapSite[] = useMemo(() => list.map((r, i) => {
+    const b = noteFor({ answer: r.name, lat: r.lat, lng: r.lng }, all);
+    return { name: `r-${r.name}`, label: (hi && b?.label) || r.name, place: b?.place ?? '', about: b?.about ?? '', asked: r.years, lat: r.lat, lng: r.lng, region: '', num: i + 1 };
+  }), [list, all, hi]);
+  const [selected, setSelected] = useState<string | null>(null);
+  const picked = sites.find((s) => s.name === selected);
+  const counts = [2, 3, 4].map((n) => ({ n, size: every.filter((r) => r.years.length >= n).length }));
+  return (
+    <div className="pp">
+      <div className="pp-summary">
+        <span>{T('Places UPSC has asked more than once since 2013, most asked first', '2013 से UPSC ने जो स्थल एक से अधिक बार पूछे, सबसे अधिक पूछे गए पहले')}</span>
+        <div className="mp-seg" role="radiogroup" aria-label={T('How often', 'कितनी बार')}>
+          {counts.map(({ n, size }) => (
+            <button key={n} type="button" role="radio" aria-checked={min === n} className={min === n ? 'on' : ''} onClick={() => { setMin(n); setSelected(null); }}>
+              {T(`${n}+ times`, `${n}+ बार`)} <small>{size}</small>
+            </button>
+          ))}
+        </div>
+      </div>
+      <div className="mp-split">
+        <div className="mp-map-col">
+          <MappingMap sites={sites} selected={selected} onPick={(n) => setSelected((s) => (s === n ? null : n))} base={base} grid={grid} />
+          {picked && (
+            <div className="mp-picked">
+              <div className="mp-place-top"><strong>{picked.num}. {picked.label}</strong><span className="mp-year">{picked.asked.join(', ')}</span></div>
+              {picked.place && <span className="mp-place-where">{picked.place}</span>}
+            </div>
+          )}
+        </div>
+        <div className="mp-list pp-list">
+          {list.map((r, i) => {
+            const s = sites[i];
+            const on = selected === s.name;
+            return (
+              <button key={s.name} data-site={s.name} type="button" className={`mp-place pp-item${on ? ' on' : ''}`} onClick={() => setSelected((x) => (x === s.name ? null : s.name))} aria-expanded={on}>
+                <span className="mp-place-top">
+                  <strong><span className="pp-n">{i + 1}</span>{s.label}</strong>
+                  <span className="mp-year">{T(`${r.years.length} times`, `${r.years.length} बार`)}</span>
+                </span>
+                <span className="mp-place-where">{r.years.join(', ')}{s.place ? ` · ${s.place}` : ''}</span>
+                {on ? (
+                  <span className="pp-hints">{r.hints.map((h) => <span key={`${h.year}-${h.hint}`}><b>{h.year}</b> {h.hint}</span>)}</span>
+                ) : (
+                  <span className="pp-hint-last">{T('Latest hint', 'हाल का संकेत')}: {r.hints[0].hint}</span>
+                )}
+              </button>
+            );
+          })}
+        </div>
+      </div>
+    </div>
+  );
+}
+
 // ─── The page ───
 export default function MapBrowser({ chapters }: { chapters: MapChapter[] }) {
   const { langHi: hi } = useLang();
@@ -284,15 +478,18 @@ export default function MapBrowser({ chapters }: { chapters: MapChapter[] }) {
   const lang = hi ? 'hi' : 'en';
   const { isOpen: loginOpen, message: loginMsg, requireLogin, closeModal: closeLogin } = useLoginPrompt();
 
-  const [mode, setMode] = useState<'browse' | 'quiz'>('browse');
+  const [mode, setMode] = useState<'browse' | 'papers' | 'quiz'>('browse');
   const [part, setPart] = useState(PARTS[1].key);
   const [open, setOpen] = useState<string[]>([]);
   const [selected, setSelected] = useState<string | null>(null);
   const [search, setSearch] = useState('');
   const [askedOnly, setAskedOnly] = useState(false);
   const [askedFor, setAskedFor] = useState<Record<string, boolean>>({});
-  const [outline, setOutline] = useState(false);
+  const [base, setBase] = useState<MapBase>('political');
   const [grid, setGrid] = useState(false);
+  const [quizBase, setQuizBase] = useState<MapBase>('outline');
+  const [paperYear, setPaperYear] = useState<number | 'repeats'>(paperYears[0]);
+  const [paperView, setPaperView] = useState<'study' | 'test'>('study');
   const [quizAsked, setQuizAsked] = useState(false);
   const [quizChapter, setQuizChapter] = useState('all');
   const [quizFormat, setQuizFormat] = useState<'pick' | 'type'>('pick');
@@ -300,12 +497,14 @@ export default function MapBrowser({ chapters }: { chapters: MapChapter[] }) {
   // The view is kept for the tab, so a refresh comes back to the same part,
   // the same chapters open and the same switches.
   useRefreshSafe(
-    'ho_mapping_v2',
-    { mode, part, open, selected, search, askedOnly, askedFor, outline, grid, quizAsked, quizChapter, quizFormat },
+    'ho_mapping_v3',
+    { mode, part, open, selected, search, askedOnly, askedFor, base, grid, quizBase, quizAsked, quizChapter, quizFormat, paperYear, paperView },
     (v) => {
       setMode(v.mode); if (PARTS.some((p) => p.key === v.part)) setPart(v.part);
       setOpen(v.open); setSelected(v.selected); setSearch(v.search); setAskedOnly(v.askedOnly); setAskedFor(v.askedFor);
-      setOutline(v.outline); setGrid(v.grid); setQuizAsked(v.quizAsked); setQuizChapter(v.quizChapter); setQuizFormat(v.quizFormat);
+      setBase(v.base); setGrid(v.grid); setQuizBase(v.quizBase); setQuizAsked(v.quizAsked); setQuizChapter(v.quizChapter); setQuizFormat(v.quizFormat);
+      if (v.paperYear === 'repeats' || paperYears.includes(v.paperYear)) setPaperYear(v.paperYear);
+      setPaperView(v.paperView);
     },
   );
 
@@ -341,10 +540,18 @@ export default function MapBrowser({ chapters }: { chapters: MapChapter[] }) {
     return out;
   }, [search, byKey, chapters]);
 
+  // A past paper's quiz: its twenty places, with UPSC's own hint as the clue.
   const quizPool = useMemo(() => {
+    const yr = /^y-(\d{4})$/.exec(quizChapter);
+    if (yr) {
+      return paper(Number(yr[1])).map((p) => {
+        const b = noteFor(p, all);
+        return { name: p.answer, label: (hi && b?.label) || p.answer, place: b?.place ?? '', about: p.hint, asked: p.askedIn, lat: p.lat, lng: p.lng, region: '' };
+      });
+    }
     const src = quizChapter === 'all' ? all : (byKey?.[quizChapter] ?? []);
     return src.filter((s) => !quizAsked || s.asked.length > 0);
-  }, [all, byKey, quizChapter, quizAsked]);
+  }, [all, byKey, quizChapter, quizAsked, hi]);
 
   const toggle = (key: string) => {
     if (!requireLogin('Sign in free to explore the Map Reference.')) return;
@@ -363,6 +570,18 @@ export default function MapBrowser({ chapters }: { chapters: MapChapter[] }) {
     if (!requireLogin('Sign in free to access Map Quiz mode.')) return;
     setMode('quiz');
   };
+  const toPapers = () => {
+    if (mode === 'papers') return;
+    if (!requireLogin('Sign in free to see every past map paper.')) return;
+    setMode('papers');
+  };
+  const yearsRef = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    const row = yearsRef.current, tab = row?.querySelector<HTMLElement>('.mp-part.on');
+    if (!row || !tab || row.scrollWidth <= row.clientWidth) return;
+    const left = tab.offsetLeft - row.offsetLeft, right = left + tab.offsetWidth;
+    if (left < row.scrollLeft || right > row.scrollLeft + row.clientWidth) row.scrollTo({ left: Math.max(0, left - 16), behavior: 'smooth' });
+  }, [paperYear, mode]);
 
   // On a phone the parts scroll sideways; keep the one picked in view.
   const partsRef = useRef<HTMLDivElement>(null);
@@ -383,12 +602,13 @@ export default function MapBrowser({ chapters }: { chapters: MapChapter[] }) {
           <h1 className="ds-h1 mp-h1">{T('Map practice', 'मैप अभ्यास')}</h1>
           <p className="ds-lede mp-lede">
             {hi
-              ? <>मैप सिलेबस का हर स्थल, अध्याय दर अध्याय। जो UPSC पूछ चुका है वे <span className="mp-amber">पीले</span> रंग में हैं, शुरुआत उन्हीं से करें।</>
-              : <>Every place on the map syllabus, chapter by chapter. The ones UPSC has already asked are in <span className="mp-amber">amber</span>, so start with those.</>}
+              ? <>मैप सिलेबस का हर स्थल, अध्याय दर अध्याय, और 2013 से हर साल का मैप प्रश्न। जो UPSC पूछ चुका है वे <span className="mp-amber">पीले</span> रंग में हैं, शुरुआत उन्हीं से करें।</>
+              : <>Every place on the map syllabus, chapter by chapter, and every year&rsquo;s map question since 2013. The ones UPSC has already asked are in <span className="mp-amber">amber</span>, so start with those.</>}
           </p>
           <div className="mp-hero-row">
             <div className="mp-modes" role="tablist" aria-label={T('View', 'दृश्य')}>
               <button type="button" role="tab" aria-selected={mode === 'browse'} className={`mp-mode${mode === 'browse' ? ' on' : ''}`} onClick={() => setMode('browse')}>{T('Browse', 'देखें')}</button>
+              <button type="button" role="tab" aria-selected={mode === 'papers'} className={`mp-mode${mode === 'papers' ? ' on' : ''}`} onClick={toPapers}>{T('Past papers', 'पिछले प्रश्नपत्र')}</button>
               <button type="button" role="tab" aria-selected={mode === 'quiz'} className={`mp-mode${mode === 'quiz' ? ' on' : ''}`} onClick={toQuiz}>{T('Quiz', 'क्विज़')}</button>
             </div>
             <Link href="/evaluate?mode=map" className="mp-check">
@@ -407,7 +627,33 @@ export default function MapBrowser({ chapters }: { chapters: MapChapter[] }) {
           </div>
         )}
 
-        {mode === 'quiz' ? (
+        {mode === 'papers' ? (
+          <>
+            <div className="mp-parts" ref={yearsRef} role="tablist" aria-label={T('Year', 'वर्ष')}>
+              <button type="button" role="tab" aria-selected={paperYear === 'repeats'} className={`mp-part pp-repeats${paperYear === 'repeats' ? ' on' : ''}`} onClick={() => setPaperYear('repeats')}>{T('Most repeated', 'सबसे ज़्यादा दोहराए गए')}</button>
+              {paperYears.map((y) => (
+                <button key={y} type="button" role="tab" aria-selected={paperYear === y} className={`mp-part${paperYear === y ? ' on' : ''}`} onClick={() => setPaperYear(y)}>{y}</button>
+              ))}
+            </div>
+            <div className="mp-bar">
+              <div className="mp-switches">
+                {paperYear !== 'repeats' && (
+                  <div className="mp-seg" role="radiogroup" aria-label={T('Study or test', 'पढ़ें या जाँचें')}>
+                    <button type="button" role="radio" aria-checked={paperView === 'study'} className={paperView === 'study' ? 'on' : ''} onClick={() => setPaperView('study')}>{T('Study', 'पढ़ें')}</button>
+                    <button type="button" role="radio" aria-checked={paperView === 'test'} className={paperView === 'test' ? 'on' : ''} onClick={() => setPaperView('test')}>{T('Test yourself', 'खुद को जाँचें')}</button>
+                  </div>
+                )}
+                <BaseSeg value={base} onChange={setBase} hi={hi} />
+                <Switch on={grid} onClick={() => setGrid((v) => !v)}>{T('Grid', 'ग्रिड')}</Switch>
+              </div>
+            </div>
+            <p className="pp-note">{T('UPSC prints only a hint for each place it marks, never the name. The names here are the generally accepted answers.', 'UPSC हर चिह्नित स्थल के लिए केवल संकेत देता है, नाम नहीं। यहाँ दिए नाम आमतौर पर स्वीकार किए गए उत्तर हैं।')}</p>
+            {paperYear === 'repeats'
+              ? <RepeatsView base={base} grid={grid} hi={hi} all={all} />
+              // A new year or view starts the paper afresh.
+              : <PaperView key={`${paperYear}-${paperView}`} year={paperYear} view={paperView} base={base} grid={grid} hi={hi} all={all} />}
+          </>
+        ) : mode === 'quiz' ? (
           <>
             <div className="mp-filters">
               <div className="mp-seg" role="radiogroup" aria-label={T('Answer by', 'उत्तर कैसे दें')}>
@@ -416,15 +662,22 @@ export default function MapBrowser({ chapters }: { chapters: MapChapter[] }) {
               </div>
               <select className={`mp-select${quizChapter !== 'all' ? ' set' : ''}`} value={quizChapter} onChange={(e) => setQuizChapter(e.target.value)} aria-label={T('Chapter', 'अध्याय')}>
                 <option value="all">{T('Every chapter', 'सभी अध्याय')}</option>
-                {chapters.map((c) => <option key={c.key} value={c.key}>{c.number > 0 ? `${c.number}. ` : ''}{hi && c.topicHi ? c.topicHi : c.topic}</option>)}
+                <optgroup label={T('A past paper', 'पिछला प्रश्नपत्र')}>
+                  {paperYears.map((y) => <option key={y} value={`y-${y}`}>{T(`${y} paper`, `${y} प्रश्नपत्र`)}</option>)}
+                </optgroup>
+                <optgroup label={T('A chapter', 'अध्याय')}>
+                  {chapters.map((c) => <option key={c.key} value={c.key}>{c.number > 0 ? `${c.number}. ` : ''}{hi && c.topicHi ? c.topicHi : c.topic}</option>)}
+                </optgroup>
               </select>
-              <Switch on={quizAsked} onClick={() => setQuizAsked((v) => !v)} tone="amber">{T('Only those asked', 'केवल पूछे गए')}</Switch>
+              {!quizChapter.startsWith('y-') && <Switch on={quizAsked} onClick={() => setQuizAsked((v) => !v)} tone="amber">{T('Only those asked', 'केवल पूछे गए')}</Switch>}
+              <BaseSeg value={quizBase} onChange={setQuizBase} hi={hi} />
+              <Switch on={grid} onClick={() => setGrid((v) => !v)}>{T('Grid', 'ग्रिड')}</Switch>
             </div>
             {!byKey ? (
               !loadFailed && <div className="mp-map-wait"><OwlLoader size="small" label={T('Loading the places', 'स्थल लोड हो रहे हैं')} /></div>
             ) : quizPool.length >= 4 ? (
               // A new pool is a new quiz.
-              <Quiz key={`${lang}-${quizChapter}-${quizAsked}-${quizFormat}`} pool={quizPool} all={all} hi={hi} format={quizFormat} />
+              <Quiz key={`${lang}-${quizChapter}-${quizAsked}-${quizFormat}`} pool={quizPool} all={all} hi={hi} format={quizFormat} base={quizBase} grid={grid} />
             ) : (
               <p className="mp-few">{T('That leaves fewer than four places to choose between. Pick another chapter or show every place.', 'चुनने के लिए चार से कम स्थल बचते हैं। दूसरा अध्याय चुनें या सभी स्थल दिखाएँ।')}</p>
             )}
@@ -459,7 +712,7 @@ export default function MapBrowser({ chapters }: { chapters: MapChapter[] }) {
             <div className="mp-bar">
               <div className="mp-switches">
                 <Switch on={askedOnly} onClick={() => { setAskedOnly((v) => !v); setAskedFor({}); }} tone="amber">{T('Only those asked', 'केवल पूछे गए')}</Switch>
-                <Switch on={outline} onClick={() => setOutline((v) => !v)}>{T('No boundaries', 'सीमा रहित')}</Switch>
+                <BaseSeg value={base} onChange={setBase} hi={hi} />
                 <Switch on={grid} onClick={() => setGrid((v) => !v)}>{T('Grid', 'ग्रिड')}</Switch>
               </div>
               <span className="mp-legend" aria-hidden="true"><i className="dot" />{T('Place', 'स्थल')}<i className="dot amber" />{T('Asked by UPSC', 'UPSC में पूछा गया')}</span>
@@ -469,7 +722,7 @@ export default function MapBrowser({ chapters }: { chapters: MapChapter[] }) {
               <Chapter key={c.key} chapter={c} open={open.includes(c.key)} onToggle={() => toggle(c.key)}
                 sites={byKey ? (byKey[c.key] ?? []) : null} selected={selected} onPick={(name) => setSelected((p) => (p === name ? null : name))}
                 askedOnly={askedFor[c.key] ?? askedOnly} onToggleAsked={() => setAskedFor((p) => ({ ...p, [c.key]: !(p[c.key] ?? askedOnly) }))}
-                outline={outline} grid={grid} hi={hi} />
+                mapBase={base} grid={grid} hi={hi} />
             ))}
           </>
         )}
@@ -590,6 +843,36 @@ const CSS = `
 .mp-answer p { margin: 0; line-height: 1.6; color: var(--text2); }
 .mp-answer p.mp-asked { font-size: 0.88rem; font-weight: 600; color: var(--warning-text); }
 .mp-answer .ds-btn { margin-top: var(--space-2); }
+.mp-bar .mp-switches { align-items: center; }
+.mp-base button { padding: 6px 12px; font-size: 0.86rem; }
+.mp-part.pp-repeats { border-color: color-mix(in srgb, var(--warning-text) 45%, transparent); color: var(--warning-text); }
+.mp-part.pp-repeats.on { border-color: var(--warning-text); background: var(--warning-wash); color: var(--warning-text); }
+.pp-note { margin: 0 0 var(--space-3); font-size: 0.86rem; color: var(--text3); }
+.pp-summary { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-2) var(--space-4); margin-bottom: var(--space-3); font-weight: 700; }
+.pp-summary .mp-seg small { margin-left: 4px; font-weight: 600; color: var(--text3); }
+.pp-score { display: inline-flex; flex-wrap: wrap; align-items: center; gap: var(--space-3); margin-left: auto; font-weight: 600; color: var(--text2); font-variant-numeric: tabular-nums; }
+.pp-list { gap: 8px; }
+.pp-item { gap: 4px; }
+.pp-hint { display: flex; align-items: flex-start; gap: 8px; font-size: 0.88rem; line-height: 1.45; color: var(--text2); }
+.pp-n { flex-shrink: 0; display: inline-flex; align-items: center; justify-content: center; min-width: 22px; height: 22px; margin-right: 6px; padding: 0 5px; border-radius: var(--radius-full); border: 1.5px solid var(--text2); background: var(--ds-card); color: var(--text); font-size: 0.74rem; font-weight: 800; font-variant-numeric: tabular-nums; }
+.pp-hint .pp-n { margin-right: 0; }
+.mp-place.on .pp-n { border-color: var(--accent); background: var(--accent); color: var(--accent-on); }
+.pp-hint-btn { width: 100%; padding: 0; border: none; background: none; font: inherit; font-size: 0.92rem; text-align: left; color: var(--text); cursor: pointer; }
+.pp-test { cursor: default; }
+.pp-test.right { border-color: color-mix(in srgb, var(--success-text) 50%, transparent); background: var(--success-wash); }
+.pp-test.wrong { border-color: color-mix(in srgb, var(--danger-text) 45%, transparent); background: var(--danger-wash); }
+.pp-test.shown { border-color: color-mix(in srgb, var(--warning-text) 45%, transparent); background: var(--warning-wash); }
+.pp-try { display: flex; align-items: center; gap: var(--space-2); margin-top: 4px; }
+.pp-try input { flex: 1; min-width: 0; height: 38px; padding: 0 var(--space-3); border: 1.5px solid var(--border2); border-radius: var(--radius-md); background: var(--ds-card); color: var(--text); font: inherit; font-size: 0.94rem; outline: none; }
+.pp-try input:focus { border-color: color-mix(in srgb, var(--accent) 60%, transparent); box-shadow: 0 0 0 3px var(--accent-glow); }
+.pp-result { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px var(--space-3); margin-top: 4px; font-size: 0.92rem; }
+.pp-result small { color: var(--text3); }
+.pp-hints { display: flex; flex-direction: column; gap: 4px; margin-top: 4px; font-size: 0.88rem; line-height: 1.45; color: var(--text2); }
+.pp-hints b { font-variant-numeric: tabular-nums; color: var(--text); margin-right: 4px; }
+.pp-hint-last { font-size: 0.86rem; color: var(--text3); }
+.pp-dispute { font-size: 0.82rem; line-height: 1.45; color: var(--warning-text); }
+.pp-result .pp-dispute { flex-basis: 100%; }
+.mp-place-top strong { display: inline-flex; align-items: center; }
 /* On a wide screen the map takes the left and the question sits beside it. */
 @media (min-width: 1001px) {
   .mp-quiz { --map-h: 560px; display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(340px, 1fr); grid-template-rows: auto auto auto auto 1fr; grid-template-areas: "map head" "map clue" "map pick" "map answer" "map ."; gap: var(--space-4) var(--space-6); align-items: start; max-width: none; }
