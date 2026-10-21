@@ -19,6 +19,19 @@ import { usePathname } from 'next/navigation';
 const HEARTBEAT_MS = 5 * 60 * 1000;
 
 /**
+ * A first visit is recorded only once the visitor has stayed: after
+ * FIRST_VISIT_AFTER_MS, on moving to another page, or on leaving after at
+ * least MIN_DWELL_SECS. It used to be written the moment the page loaded,
+ * so everyone who bounced straight off left a row with a 0-second session.
+ * The time already spent travels with the ping, so the row starts with it.
+ */
+const FIRST_VISIT_AFTER_MS = 10 * 1000;
+const MIN_DWELL_SECS = 1;
+// A new key, so visitors counted under the old rule go through the new one once.
+const COUNTED_KEY = 'ho_visit_counted';
+const pageLoadedAt = typeof performance !== 'undefined' ? Date.now() - performance.now() : Date.now();
+
+/**
  * Local dev writes to the production database, and an automated browser
  * (puppeteer, Playwright: navigator.webdriver is set) gets a fresh
  * fingerprint on every launch, so each test run left a new visitor row.
@@ -108,10 +121,22 @@ async function getFirebaseUid(): Promise<string | null> {
   }
 }
 
+function post(body: Record<string, unknown>, keepalive: boolean) {
+  void fetch('/api/track-visit', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(body),
+    keepalive,
+  }).catch(() => {});
+}
+
 export default function VisitorTracker() {
   const pathname = usePathname();
   // Reported once per visitor, not once per route change.
   const firstVisitReported = useRef(false);
+  // The first visit, held back until the visitor has stayed. Calling it sends
+  // it if they have been here long enough.
+  const pendingFirst = useRef<((keepalive: boolean) => void) | null>(null);
 
   useEffect(() => {
     if (!shouldTrack()) return;
@@ -121,26 +146,39 @@ export default function VisitorTracker() {
         const { visitor_id, old_fp } = await getVisitorId();
         if (cancelled) return;
 
-        const isFirstVisit = !localStorage.getItem('ho_visited');
-        if (isFirstVisit) localStorage.setItem('ho_visited', '1');
-
         const { device, os, browser } = getDeviceInfo();
         const firebase_uid = await getFirebaseUid();
         if (cancelled) return;
 
-        void fetch('/api/track-visit', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            visitor_id,
-            // Only worth sending while the old id is still around.
-            ...(old_fp && !firstVisitReported.current ? { old_fp } : {}),
-            page: pathname,
-            referrer: isFirstVisit ? document.referrer || 'direct' : undefined,
-            device, os, browser,
-            firebase_uid,
-          }),
-        }).catch(() => {});
+        const body = {
+          visitor_id,
+          // Only worth sending while the old id is still around.
+          ...(old_fp && !firstVisitReported.current ? { old_fp } : {}),
+          page: pathname,
+          device, os, browser,
+          firebase_uid,
+        };
+
+        // Moving to another page means the visitor stayed, so a first visit
+        // still held back for the page they came from is recorded now.
+        pendingFirst.current?.(false);
+
+        if (!localStorage.getItem(COUNTED_KEY)) {
+          pendingFirst.current = (keepalive: boolean) => {
+            const dwell = Math.floor((Date.now() - pageLoadedAt) / 1000);
+            if (dwell < MIN_DWELL_SECS) return;
+            pendingFirst.current = null;
+            localStorage.setItem(COUNTED_KEY, '1');
+            firstVisitReported.current = true;
+            post({ ...body, referrer: document.referrer || 'direct', first: true, dwell }, keepalive);
+          };
+          // Resolving the visitor id can take a while on a first visit; if the
+          // wait has already passed, there is no reason to hold on.
+          if (Date.now() - pageLoadedAt >= FIRST_VISIT_AFTER_MS) pendingFirst.current(false);
+          return;
+        }
+
+        post(body, false);
         firstVisitReported.current = true;
       } catch {
         // Analytics must never surface to the reader.
@@ -148,6 +186,22 @@ export default function VisitorTracker() {
     })();
     return () => { cancelled = true; };
   }, [pathname]);
+
+  // What releases a held-back first visit: staying FIRST_VISIT_AFTER_MS, or
+  // leaving the page (the tab is hidden, or the page is unloaded).
+  useEffect(() => {
+    if (!shouldTrack()) return;
+    const timer = setTimeout(() => pendingFirst.current?.(false), Math.max(0, FIRST_VISIT_AFTER_MS - (Date.now() - pageLoadedAt)));
+    const onHide = () => { if (document.visibilityState === 'hidden') pendingFirst.current?.(true); };
+    const onPageHide = () => pendingFirst.current?.(true);
+    document.addEventListener('visibilitychange', onHide);
+    window.addEventListener('pagehide', onPageHide);
+    return () => {
+      clearTimeout(timer);
+      document.removeEventListener('visibilitychange', onHide);
+      window.removeEventListener('pagehide', onPageHide);
+    };
+  }, []);
 
   useEffect(() => {
     if (!shouldTrack()) return;

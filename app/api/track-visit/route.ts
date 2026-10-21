@@ -98,6 +98,14 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ ok: false, reason: 'missing env' });
     }
 
+    // A first visit carries the seconds the visitor had already spent. Under a
+    // second is someone who bounced straight off, and that is not a visit.
+    const first = body.first === true;
+    const dwell = typeof body.dwell === 'number' && Number.isFinite(body.dwell)
+      ? Math.min(Math.max(Math.floor(body.dwell), 0), 3600)
+      : 0;
+    if (first && dwell < 1) return NextResponse.json({ ok: false, reason: 'too_short' });
+
     const supabase = db();
 
     // One-off, only sent while a visitor is still carrying a pre-FingerprintJS
@@ -123,6 +131,19 @@ export async function POST(req: NextRequest) {
       // Most likely cause is supabase/track_visit.sql never having been run.
       console.error('[track-visit] record_visit failed:', error.message);
       return NextResponse.json({ ok: false, reason: 'rpc error' });
+    }
+
+    // record_visit starts a new row at now() with a 0-second session. For a
+    // visitor's first row, start it when they arrived instead, so it holds
+    // the time they had already spent. visit_count = 1 keeps this off the rows
+    // of returning visitors.
+    if (first) {
+      const now = Date.now();
+      await supabase
+        .from('user_sessions')
+        .update({ session_start: new Date(now - dwell * 1000).toISOString(), session_duration_secs: dwell })
+        .eq('visitor_id', visitorId)
+        .eq('visit_count', 1);
     }
     return NextResponse.json({ ok: true });
   } catch (e) {
