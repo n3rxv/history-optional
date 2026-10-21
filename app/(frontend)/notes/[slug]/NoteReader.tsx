@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { onAuthStateChanged, type User } from 'firebase/auth';
 import { auth, signInWithGoogle } from '@/lib/firebase';
 import { useLang } from '@/lib/i18n/LangContext';
+import { localNote, noteTitle } from '@/lib/notesHi';
 import { rememberNote } from '@/lib/lastNote';
 import { useSyllabusTracker } from '@/hooks/useSyllabusTracker';
 import { useNoteSearch } from '@/hooks/useNoteSearch';
@@ -214,6 +215,7 @@ function ReadingProgress() {
 
 /** The contents as a card above the note, for when the sidebar is shut. */
 function TableOfContents({ entries }: { entries: TocEntry[] }) {
+  const { langHi } = useLang();
   const [open, setOpen] = useState(false);
   const activeId = useActiveHeading(entries);
   if (!entries.length) return null;
@@ -221,8 +223,8 @@ function TableOfContents({ entries }: { entries: TocEntry[] }) {
   return (
     <div className={`nr-toc${open ? ' open' : ''}`}>
       <button type="button" className="nr-toc-toggle" onClick={() => setOpen(o => !o)} aria-expanded={open}>
-        <span>On this page</span>
-        <span className="nr-toc-count">{entries.filter(e => e.level === 2).length} sections</span>
+        <span>{langHi ? 'इस पृष्ठ पर' : 'On this page'}</span>
+        <span className="nr-toc-count">{entries.filter(e => e.level === 2).length} {langHi ? 'खंड' : 'sections'}</span>
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="nr-toc-chev" aria-hidden="true"><path d="M6 9l6 6 6-6" /></svg>
       </button>
       {open && (
@@ -246,6 +248,7 @@ function TableOfContents({ entries }: { entries: TocEntry[] }) {
 
 /** The same headings, laid out for the sidebar. */
 function SidebarTOC({ entries, onNavigate }: { entries: TocEntry[]; onNavigate?: () => void }) {
+  const { langHi } = useLang();
   const activeId = useActiveHeading(entries);
 
   // A long list runs past the bottom of the panel; keep the current section
@@ -263,7 +266,7 @@ function SidebarTOC({ entries, onNavigate }: { entries: TocEntry[]; onNavigate?:
   if (!entries.length) return null;
   return (
     <>
-      <div className="sb-section-label">Contents</div>
+      <div className="sb-section-label">{langHi ? 'विषय-सूची' : 'Contents'}</div>
       <nav className="sb-toc" ref={navRef}>
         {entries.map(t => (
           <button key={t.id} type="button"
@@ -289,6 +292,7 @@ function SidebarTOC({ entries, onNavigate }: { entries: TocEntry[]; onNavigate?:
  * jumps to its heading; the thumb opens the contents.
  */
 function ScrollRail({ entries }: { entries: TocEntry[] }) {
+  const { langHi } = useLang();
   const pct = useScrollFraction();
   const vh = useViewportHeight();
   const [open, setOpen] = useState(false);
@@ -314,18 +318,18 @@ function ScrollRail({ entries }: { entries: TocEntry[] }) {
               onClick={() => scrollToId(t.id)} title={t.text} style={{ top }} />
           );
         })}
-        <button type="button" tabIndex={-1} className={`nr-rail-thumb${open ? ' open' : ''}`} onClick={() => setOpen(o => !o)} title="Contents"
+        <button type="button" tabIndex={-1} className={`nr-rail-thumb${open ? ' open' : ''}`} onClick={() => setOpen(o => !o)} title={langHi ? 'विषय-सूची' : 'Contents'}
           style={{ top: pct * (trackH - THUMB), height: THUMB }}>
           <span /><span /><span />
         </button>
       </div>
 
       {open && (
-        <div className="nr-rail-panel" role="dialog" aria-label="Contents">
+        <div className="nr-rail-panel" role="dialog" aria-label={langHi ? 'विषय-सूची' : 'Contents'}>
           <div className="nr-rail-panel-head">
             <span className="nr-rail-dot" />
-            <span className="nr-rail-panel-title">On this page</span>
-            <button type="button" className="nr-rail-close" onClick={() => setOpen(false)} aria-label="Close contents">
+            <span className="nr-rail-panel-title">{langHi ? 'इस पृष्ठ पर' : 'On this page'}</span>
+            <button type="button" className="nr-rail-close" onClick={() => setOpen(false)} aria-label={langHi ? 'विषय-सूची बंद करें' : 'Close contents'}>
               <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><path d="M18 6L6 18M6 6l12 12" /></svg>
             </button>
           </div>
@@ -370,6 +374,9 @@ export default function NoteReader({
   const slug = note.slug;
   const meta = sectionByName(note.section);
   const { langHi, toggleLang } = useLang();
+  // What the reader sees of the topic list (title, description, subtopics, section) in their language.
+  const view = localNote(note, langHi);
+  const L = (en: string, hi: string) => (langHi ? hi : en);
   const tracker = useSyllabusTracker();
   const isDone = tracker.mounted && tracker.isCompleted(slug);
 
@@ -678,21 +685,21 @@ export default function NoteReader({
             <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round"><path d="M4 4l8 8M12 4l-8 8" /></svg>
           </button>
           <div className="sb-head">
-            <span className="sb-chip"><span className="sb-chip-dot" />Paper {paperLabel} · Topic {note.topic}</span>
-            <h2 className="sb-title">{note.title}</h2>
-            {meta ? <Link href={meta.href} className="sb-sub">{note.section}</Link> : <p className="sb-sub">{note.section}</p>}
+            <span className="sb-chip"><span className="sb-chip-dot" />{L(`Paper ${paperLabel} · Topic ${note.topic}`, `प्रश्नपत्र ${paperLabel} · विषय ${note.topic}`)}</span>
+            <h2 className="sb-title">{view.title}</h2>
+            {meta ? <Link href={meta.href} className="sb-sub">{view.section}</Link> : <p className="sb-sub">{view.section}</p>}
           </div>
 
           {!editing && <SidebarTOC entries={toc} onNavigate={() => { if (floating()) closeSidebar(); }} />}
 
           {highlights.length > 0 && (
             <>
-              <div className="sb-section-label">Your highlights ({highlights.length})</div>
+              <div className="sb-section-label">{L('Your highlights', 'आपके हाइलाइट')} ({highlights.length})</div>
               <div className="sb-hls">
                 {highlights.map(h => (
                   <div key={h.id} className="sb-hl" style={{ ['--sw' as string]: HIGHLIGHT_COLORS.find(c => c.id === h.color)?.color }}>
-                    <button type="button" className="sb-hl-text" onClick={() => jumpToHighlight(h.text)} title="Go to it">{h.text}</button>
-                    <button type="button" className="sb-hl-x" onClick={() => setHighlights(p => p.filter(x => x.id !== h.id))} aria-label="Remove this highlight">{Icon.x}</button>
+                    <button type="button" className="sb-hl-text" onClick={() => jumpToHighlight(h.text)} title={L('Go to it', 'वहाँ जाएँ')}>{h.text}</button>
+                    <button type="button" className="sb-hl-x" onClick={() => setHighlights(p => p.filter(x => x.id !== h.id))} aria-label={L('Remove this highlight', 'यह हाइलाइट हटाएँ')}>{Icon.x}</button>
                   </div>
                 ))}
               </div>
@@ -701,19 +708,19 @@ export default function NoteReader({
 
           {(prev || next) && (
             <>
-              <div className="sb-section-label">Before and after</div>
+              <div className="sb-section-label">{L('Before and after', 'पहले और बाद में')}</div>
               <nav className="sb-related">
-                {prev && <Link className="sb-rel" href={`/notes/${prev.slug}`}><span className="sb-rel-dir">Previous</span><span className="sb-rel-title">{prev.title}</span></Link>}
-                {next && <Link className="sb-rel" href={`/notes/${next.slug}`}><span className="sb-rel-dir">Next</span><span className="sb-rel-title">{next.title}</span></Link>}
+                {prev && <Link className="sb-rel" href={`/notes/${prev.slug}`}><span className="sb-rel-dir">{L('Previous', 'पिछला')}</span><span className="sb-rel-title">{noteTitle(prev.slug, prev.title, langHi)}</span></Link>}
+                {next && <Link className="sb-rel" href={`/notes/${next.slug}`}><span className="sb-rel-dir">{L('Next', 'अगला')}</span><span className="sb-rel-title">{noteTitle(next.slug, next.title, langHi)}</span></Link>}
               </nav>
             </>
           )}
 
           {related.length > 0 && (
             <>
-              <div className="sb-section-label">More from {note.section}</div>
+              <div className="sb-section-label">{L(`More from ${note.section}`, `${view.section} से और`)}</div>
               <nav className="sb-more">
-                {related.map(r => <Link key={r.slug} href={`/notes/${r.slug}`}>{r.title}</Link>)}
+                {related.map(r => <Link key={r.slug} href={`/notes/${r.slug}`}>{noteTitle(r.slug, r.title, langHi)}</Link>)}
               </nav>
             </>
           )}
@@ -727,13 +734,13 @@ export default function NoteReader({
         <div className="nr-bar">
           <button type="button" className={`nr-pill nr-sb-toggle${sidebarOpen ? ' on' : ''}`}
             onClick={() => (sidebarOpen ?? !floating() ? closeSidebar() : openSidebar())}
-            aria-expanded={sidebarOpen ?? undefined} aria-label="Contents" title="Show or hide the contents">
-            {Icon.contents}<span>Contents</span>
+            aria-expanded={sidebarOpen ?? undefined} aria-label={L('Contents', 'विषय-सूची')} title={L('Show or hide the contents', 'विषय-सूची दिखाएँ या छिपाएँ')}>
+            {Icon.contents}<span>{L('Contents', 'विषय-सूची')}</span>
           </button>
 
           <nav className="nr-crumbs" aria-label="Breadcrumb">
-            <Link href={notesHref}>Notes</Link>
-            {meta && <><span aria-hidden="true">›</span><Link href={meta.href}>{note.section}</Link></>}
+            <Link href={notesHref}>{L('Notes', 'नोट्स')}</Link>
+            {meta && <><span aria-hidden="true">›</span><Link href={meta.href}>{view.section}</Link></>}
           </nav>
 
           <div className="nr-bar-actions">
@@ -751,17 +758,17 @@ export default function NoteReader({
                 </button>
                 {showDone && (
                   <button type="button" className={`nr-pill${isDone ? ' on done' : ''}`} onClick={() => tracker.toggle(slug)} aria-pressed={isDone}
-                    aria-label={isDone ? 'Studied. Tap to untick' : 'Mark as studied'} title={isDone ? 'Studied. Tap to untick' : 'Mark this topic as studied'}>
+                    aria-label={isDone ? L('Studied. Tap to untick', 'पढ़ लिया। हटाने के लिए टैप करें') : L('Mark as studied', 'पढ़ा हुआ चिह्नित करें')} title={isDone ? L('Studied. Tap to untick', 'पढ़ लिया। हटाने के लिए टैप करें') : L('Mark this topic as studied', 'इस विषय को पढ़ा हुआ चिह्नित करें')}>
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                       <circle cx="12" cy="12" r="9" />{isDone && <path d="M8 12.5l2.8 2.8L16.5 9.5" />}
                     </svg>
-                    <span>{isDone ? 'Studied' : 'Mark studied'}</span>
+                    <span>{isDone ? L('Studied', 'पढ़ लिया') : L('Mark studied', 'पढ़ा चिह्नित करें')}</span>
                   </button>
                 )}
                 {!gated && (
                   <button type="button" className={`nr-pill${tool || drawing ? ' on gold' : ''}`} onClick={() => pickTool(tool ? null : 'highlight')}
-                    aria-pressed={!!tool} aria-label="Annotate">
-                    {Icon.pen}<span>Annotate</span>
+                    aria-pressed={!!tool} aria-label={L('Annotate', 'टिप्पणी करें')}>
+                    {Icon.pen}<span>{L('Annotate', 'टिप्पणी करें')}</span>
                   </button>
                 )}
                 {adminToken && !langHi && (
@@ -769,7 +776,7 @@ export default function NoteReader({
                     {Icon.edit}<span>Edit</span>
                   </button>
                 )}
-                <Link className="nr-pill accent" href={askHref}>{Icon.chat}<span>Ask the AI</span></Link>
+                <Link className="nr-pill accent" href={askHref}>{Icon.chat}<span>{L('Ask the AI', 'AI से पूछें')}</span></Link>
               </>
             )}
           </div>
@@ -778,20 +785,20 @@ export default function NoteReader({
         {/* ── Annotation tools ── */}
         {tool && (
           <div className="nr-tools">
-            <div className="nr-tools-tabs" role="tablist" aria-label="Annotation tools">
-              <button type="button" role="tab" aria-selected={tool === 'highlight'} className={tool === 'highlight' ? 'on' : ''} onClick={() => pickTool('highlight')}>{Icon.pen}Highlight</button>
-              <button type="button" role="tab" aria-selected={tool === 'sticky'} className={tool === 'sticky' ? 'on' : ''} onClick={() => pickTool('sticky')}>{Icon.sticky}Sticky note</button>
-              <button type="button" role="tab" aria-selected={false} onClick={() => pickTool('draw')}>{Icon.draw}Draw</button>
+            <div className="nr-tools-tabs" role="tablist" aria-label={L('Annotation tools', 'टिप्पणी के साधन')}>
+              <button type="button" role="tab" aria-selected={tool === 'highlight'} className={tool === 'highlight' ? 'on' : ''} onClick={() => pickTool('highlight')}>{Icon.pen}{L('Highlight', 'हाइलाइट')}</button>
+              <button type="button" role="tab" aria-selected={tool === 'sticky'} className={tool === 'sticky' ? 'on' : ''} onClick={() => pickTool('sticky')}>{Icon.sticky}{L('Sticky note', 'स्टिकी नोट')}</button>
+              <button type="button" role="tab" aria-selected={false} onClick={() => pickTool('draw')}>{Icon.draw}{L('Draw', 'चित्र बनाएँ')}</button>
             </div>
             <span className="nr-tools-hint">
               {tool === 'highlight'
-                ? (highlights.length ? 'Select words to highlight them. Tap a highlight to take it off.' : 'Select some words, then pick a colour.')
-                : 'Tap the note where you want the sticky note.'}
+                ? (highlights.length ? L('Select words to highlight them. Tap a highlight to take it off.', 'हाइलाइट करने के लिए शब्द चुनें। हाइलाइट हटाने के लिए उस पर टैप करें।') : L('Select some words, then pick a colour.', 'कुछ शब्द चुनें, फिर एक रंग चुनें।'))
+                : L('Tap the note where you want the sticky note.', 'नोट में वहाँ टैप करें जहाँ आप स्टिकी नोट लगाना चाहते हैं।')}
             </span>
             {tool === 'highlight' && highlights.length > 0 && (
-              <button type="button" className="nr-tools-clear" onClick={() => { if (confirm('Remove all your highlights from this note?')) setHighlights([]); }}>Clear all</button>
+              <button type="button" className="nr-tools-clear" onClick={() => { if (confirm(L('Remove all your highlights from this note?', 'इस नोट से अपने सभी हाइलाइट हटाएँ?'))) setHighlights([]); }}>{L('Clear all', 'सब हटाएँ')}</button>
             )}
-            <button type="button" className="nr-tools-x" onClick={() => pickTool(null)} aria-label="Close the tools">{Icon.x}</button>
+            <button type="button" className="nr-tools-x" onClick={() => pickTool(null)} aria-label={L('Close the tools', 'साधन बंद करें')}>{Icon.x}</button>
           </div>
         )}
 
@@ -822,14 +829,14 @@ export default function NoteReader({
           <article className="nr-article">
             <header className="nr-head">
               <div className="nr-meta">
-                <span className="nr-paper">Paper {paperLabel}</span>
-                <span>Topic {note.topic}</span>
-                {content && <span>{readingMinutes(content)} min read</span>}
+                <span className="nr-paper">{L(`Paper ${paperLabel}`, `प्रश्नपत्र ${paperLabel}`)}</span>
+                <span>{L(`Topic ${note.topic}`, `विषय ${note.topic}`)}</span>
+                {content && <span>{L(`${readingMinutes(content)} min read`, `पढ़ने में ${readingMinutes(content)} मिनट`)}</span>}
               </div>
-              <h1 className="nr-title">{note.title}</h1>
-              <p className="nr-desc">{note.description}</p>
-              {note.subtopics && note.subtopics.length > 0 && (
-                <div className="nr-subs">{note.subtopics.map(st => <span key={st}>{st}</span>)}</div>
+              <h1 className="nr-title">{view.title}</h1>
+              <p className="nr-desc">{view.description}</p>
+              {view.subtopics.length > 0 && (
+                <div className="nr-subs">{view.subtopics.map(st => <span key={st}>{st}</span>)}</div>
               )}
             </header>
 
