@@ -21,6 +21,14 @@ export const PYQ_SECTION_RANGES: Record<string, [number, number][]> = {
     [
       1541,
       1542
+    ],
+    [
+      1594,
+      1595
+    ],
+    [
+      1600,
+      1601
     ]
   ],
   "Paper I - Early Medieval": [
@@ -47,6 +55,14 @@ export const PYQ_SECTION_RANGES: Record<string, [number, number][]> = {
     [
       1548,
       1548
+    ],
+    [
+      1602,
+      1603
+    ],
+    [
+      1605,
+      1605
     ]
   ],
   "Paper I - Medieval India": [
@@ -69,6 +85,30 @@ export const PYQ_SECTION_RANGES: Record<string, [number, number][]> = {
     [
       1549,
       1556
+    ],
+    [
+      1585,
+      1585
+    ],
+    [
+      1589,
+      1590
+    ],
+    [
+      1592,
+      1593
+    ],
+    [
+      1596,
+      1596
+    ],
+    [
+      1604,
+      1604
+    ],
+    [
+      1606,
+      1610
     ]
   ],
   "Paper II - Modern India": [
@@ -79,6 +119,22 @@ export const PYQ_SECTION_RANGES: Record<string, [number, number][]> = {
     [
       1557,
       1569
+    ],
+    [
+      1586,
+      1587
+    ],
+    [
+      1591,
+      1591
+    ],
+    [
+      1598,
+      1598
+    ],
+    [
+      1611,
+      1613
     ]
   ],
   "Paper II - India Since Independence": [
@@ -99,20 +155,36 @@ export const PYQ_SECTION_RANGES: Record<string, [number, number][]> = {
     [
       1571,
       1584
+    ],
+    [
+      1588,
+      1588
+    ],
+    [
+      1597,
+      1597
+    ],
+    [
+      1599,
+      1599
+    ],
+    [
+      1614,
+      1619
     ]
   ]
 };
 
 export const PYQ_SECTION_TOTALS: Record<string, number> = {
-  "Paper I - Ancient India": 282,
-  "Paper I - Early Medieval": 99,
-  "Paper I - Medieval India": 322,
-  "Paper II - Modern India": 422,
+  "Paper I - Ancient India": 286,
+  "Paper I - Early Medieval": 102,
+  "Paper I - Medieval India": 334,
+  "Paper II - Modern India": 429,
   "Paper II - India Since Independence": 47,
-  "Paper II - World History": 412
+  "Paper II - World History": 421
 };
 
-export const PYQ_TOTAL = 1584;
+export const PYQ_TOTAL = 1619;
 
 /** The section an id belongs to, or null if it is not a known question. */
 export function sectionForPyq(id: number): string | null {

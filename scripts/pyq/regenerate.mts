@@ -88,6 +88,14 @@ const SECTION_OF: Record<string, string> = {
   'World History': 'Paper II - World History',
 };
 
+/** Typos in the book's sub-topic headings. */
+const SUBTOPIC_FIX: Record<string, string> = {
+  'Interwar Y ears': 'Interwar Years',
+  'Langauge and Literature': 'Language and Literature',
+  'Logn-term Legal Change': 'Long-term Legal Change',
+  'Muslims League and Pakistan Movement': 'Muslim League and Pakistan Movement',
+};
+
 const out: (PYQ & { subtopic: string; syllabus: string[] })[] = [];
 const unmatched: PYQ[] = [];
 let sectionMoved = 0, textFixed = 0;
@@ -136,7 +144,7 @@ for (const q of pyqs) {
 
   out.push({
     ...q, section, question, topic,
-    subtopic: b.subtopic ?? '',
+    subtopic: SUBTOPIC_FIX[b.subtopic ?? ''] ?? b.subtopic ?? '',
     syllabus: (map[b.section]?.[b.topic!] ?? []).map(sylLabel),
   });
 }
@@ -169,7 +177,9 @@ const body = out.map(q =>
 ).join('\n');
 
 const header = `// AUTO-GENERATED — do not edit by hand.
-// Source: History Optional PYQ Book Upto 2025 (4th Edition) + UPSC Mains 2026.
+// Source: History Optional PYQ Book Upto 2025 (4th Edition) + UPSC Mains 2026,
+// and the 2016-2025 Mains questions the book left out, taken from the papers on
+// upsc.gov.in (placed by scripts/pyq/manualAssignments.json).
 // Regenerate: npx tsx scripts/pyq/regenerate.mts <book.json> <syllabus.json>
 //
 // \`topic\` and \`subtopic\` come from the book's own three-level structure. The
