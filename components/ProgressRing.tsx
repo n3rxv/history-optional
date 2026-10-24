@@ -3,9 +3,11 @@
  * it: topics studied on the notes pages, questions attempted on the PYQ pages.
  * Styled by .sr in the design system.
  */
-export default function ProgressRing({ done, total, noun, allDone }: {
+export default function ProgressRing({ done, total, noun, allDone, of = 'of' }: {
   done: number;
   total: number;
+  /** The word between the counts; Hindi pages pass "/" since "of" would be English. */
+  of?: string;
   /** What is being counted, e.g. "topics studied". */
   noun: string;
   /** Said instead when every one is done, e.g. "topics studied, all of them". */
@@ -14,7 +16,7 @@ export default function ProgressRing({ done, total, noun, allDone }: {
   const pct = total ? done / total : 0;
   const R = 30, C = 2 * Math.PI * R;
   return (
-    <div className="sr" role="img" aria-label={`${done} of ${total} ${noun}`}>
+    <div className="sr" role="img" aria-label={`${done} ${of} ${total} ${noun}`}>
       <svg width="76" height="76" viewBox="0 0 76 76" aria-hidden="true">
         <circle cx="38" cy="38" r={R} fill="none" stroke="var(--sr-track)" strokeWidth="7" />
         <circle cx="38" cy="38" r={R} fill="none" stroke="var(--success-text)" strokeWidth="7" strokeLinecap="round"
@@ -22,7 +24,7 @@ export default function ProgressRing({ done, total, noun, allDone }: {
         <text x="38" y="38" textAnchor="middle" dominantBaseline="central" className="sr-pct">{Math.round(pct * 100)}%</text>
       </svg>
       <div className="sr-text">
-        <strong>{done.toLocaleString('en-IN')} of {total.toLocaleString('en-IN')}</strong>
+        <strong>{done.toLocaleString('en-IN')} {of} {total.toLocaleString('en-IN')}</strong>
         <span>{done === total && total > 0 && allDone ? allDone : noun}</span>
       </div>
     </div>

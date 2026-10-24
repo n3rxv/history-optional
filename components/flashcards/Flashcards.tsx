@@ -330,7 +330,7 @@ export default function Flashcards({ notes }: { notes: NoteMeta[] }) {
             )}
           </div>
           <div className="fc-hero-side">
-            <ProgressRing done={mounted ? studiedCount : 0} total={scope.length} noun={langHi ? 'कार्ड पढ़े' : 'cards studied'} />
+            <ProgressRing done={mounted ? studiedCount : 0} total={scope.length} of={langHi ? '/' : 'of'} noun={langHi ? 'कार्ड पढ़े' : 'cards studied'} />
           </div>
         </div>
       </section>

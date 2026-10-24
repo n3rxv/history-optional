@@ -10,20 +10,23 @@ export type PyqSectionMeta = {
   /** As stored on each question, e.g. "Paper I - Ancient India". */
   value: string;
   name: string;
+  /** The name in Hindi mode. */
+  nameHi: string;
   /** For tight spots: a tab, a chip. */
   short: string;
+  shortHi: string;
   slug: string;
   key: SectionKey;
   paper: 1 | 2;
 };
 
 export const PYQ_SECTIONS: PyqSectionMeta[] = [
-  { value: 'Paper I - Ancient India', name: 'Ancient India', short: 'Ancient', slug: 'ancient-india', key: 'ancient', paper: 1 },
-  { value: 'Paper I - Early Medieval', name: 'Early Medieval India', short: 'Early Medieval', slug: 'early-medieval', key: 'medieval', paper: 1 },
-  { value: 'Paper I - Medieval India', name: 'Medieval India', short: 'Medieval', slug: 'medieval-india', key: 'medieval', paper: 1 },
-  { value: 'Paper II - Modern India', name: 'Modern India', short: 'Modern', slug: 'modern-india', key: 'modern', paper: 2 },
-  { value: 'Paper II - India Since Independence', name: 'India since Independence', short: 'Since 1947', slug: 'india-since-independence', key: 'modern', paper: 2 },
-  { value: 'Paper II - World History', name: 'World History', short: 'World', slug: 'world-history', key: 'world', paper: 2 },
+  { value: 'Paper I - Ancient India', name: 'Ancient India', nameHi: 'प्राचीन भारत', short: 'Ancient', shortHi: 'प्राचीन', slug: 'ancient-india', key: 'ancient', paper: 1 },
+  { value: 'Paper I - Early Medieval', name: 'Early Medieval India', nameHi: 'प्रारंभिक मध्यकालीन भारत', short: 'Early Medieval', shortHi: 'प्रारंभिक मध्यकाल', slug: 'early-medieval', key: 'medieval', paper: 1 },
+  { value: 'Paper I - Medieval India', name: 'Medieval India', nameHi: 'मध्यकालीन भारत', short: 'Medieval', shortHi: 'मध्यकालीन', slug: 'medieval-india', key: 'medieval', paper: 1 },
+  { value: 'Paper II - Modern India', name: 'Modern India', nameHi: 'आधुनिक भारत', short: 'Modern', shortHi: 'आधुनिक', slug: 'modern-india', key: 'modern', paper: 2 },
+  { value: 'Paper II - India Since Independence', name: 'India since Independence', nameHi: 'स्वतंत्रता के बाद का भारत', short: 'Since 1947', shortHi: '1947 के बाद', slug: 'india-since-independence', key: 'modern', paper: 2 },
+  { value: 'Paper II - World History', name: 'World History', nameHi: 'विश्व इतिहास', short: 'World', shortHi: 'विश्व', slug: 'world-history', key: 'world', paper: 2 },
 ];
 
 export const pyqSection = (value: string): PyqSectionMeta | undefined => PYQ_SECTIONS.find((s) => s.value === value);

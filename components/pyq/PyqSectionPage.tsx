@@ -3,8 +3,9 @@ import { pyqs, type PYQ } from '@/lib/pyqData';
 import { SectionIcon } from '@/components/notes/sections';
 import AttemptedRing from './AttemptedRing';
 import AttemptTick from './AttemptTick';
-import { PYQ_SECTIONS, tintFor, topicName } from './sections';
+import { PYQ_SECTIONS, tintFor } from './sections';
 import { PYQ_HERO_CSS, PYQ_LIST_CSS } from './styles';
+import { HiText, PyqQ, PyqSub, PyqSyllabus, PyqTopic, PyqWriteLink } from './PyqHiText';
 
 /**
  * One section of the PYQ book on a page of its own: every question in it,
@@ -69,21 +70,23 @@ export default function PyqSectionPage({ slug }: { slug: string }) {
         <section className="pl-hero">
           <div className="ds-container pl-hero-row">
             <div className="pl-hero-main">
-              <Link href="/pyqs" className="ds-back">{BACK}PYQs</Link>
+              <Link href="/pyqs" className="ds-back">{BACK}<HiText en="PYQs" hi="पिछले प्रश्न" /></Link>
               <div className="pl-title">
                 <span className="pl-icon" aria-hidden="true"><SectionIcon id={meta.key} size={24} /></span>
-                <h1 className="ds-h1">{meta.name} PYQs</h1>
+                <h1 className="ds-h1"><HiText en={`${meta.name} PYQs`} hi={`${meta.nameHi}: पिछले प्रश्न`} /></h1>
               </div>
               <p className="ds-lede pl-lede">
-                Every {meta.name} question UPSC has asked since {first}, topic by topic.
-                <span className="pl-more"> Open one to see how to approach it, or write your answer and get it checked.</span>
+                <HiText
+                  en={<>Every {meta.name} question UPSC has asked since {first}, topic by topic.<span className="pl-more"> Open one to see how to approach it, or write your answer and get it checked.</span></>}
+                  hi={<>{first} से अब तक UPSC द्वारा पूछे गए {meta.nameHi} के सभी प्रश्न, विषयवार।<span className="pl-more"> कोई प्रश्न खोलकर देखें कि उसे कैसे हल करें, या अपना उत्तर लिखकर जँचवाएँ।</span></>}
+                />
               </p>
               <div className="pl-actions">
-                <Link href={`/pyqs?section=${encodeURIComponent(meta.value)}`} className="ds-btn ds-btn-line ds-btn-sm">Search and filter these {ARROW}</Link>
+                <Link href={`/pyqs?section=${encodeURIComponent(meta.value)}`} className="ds-btn ds-btn-line ds-btn-sm"><HiText en="Search and filter these" hi="इन्हें खोजें और छाँटें" /> {ARROW}</Link>
               </div>
               <nav className="pl-chips pl-siblings" aria-label="The other sections">
                 {PYQ_SECTIONS.filter((s) => s.slug !== slug).map((s) => (
-                  <Link key={s.slug} href={`/pyqs/${s.slug}`} style={{ ['--st' as string]: `var(--tint-${s.key})` }}><span aria-hidden="true" />{s.name}</Link>
+                  <Link key={s.slug} href={`/pyqs/${s.slug}`} style={{ ['--st' as string]: `var(--tint-${s.key})` }}><span aria-hidden="true" /><HiText en={s.name} hi={s.nameHi} /></Link>
                 ))}
               </nav>
             </div>
@@ -100,26 +103,26 @@ export default function PyqSectionPage({ slug }: { slug: string }) {
                 {topics.map((t) => (
                   <section key={t.topic} id={idOf(t.topic)} className="pq-topic-block">
                     <div className="pq-topic-head">
-                      <h2 className="pq-topic-title">{topicName(t.topic)}</h2>
-                      <span className="pq-topic-count">{t.n} {t.n === 1 ? 'question' : 'questions'}</span>
+                      <h2 className="pq-topic-title"><PyqTopic topic={t.topic} /></h2>
+                      <span className="pq-topic-count">{t.n} <HiText en={t.n === 1 ? 'question' : 'questions'} hi="प्रश्न" /></span>
                     </div>
-                    {t.syllabus.length > 0 && <p className="pq-syllabus">Syllabus: {t.syllabus.map((s) => s.replace(/^Paper I+, /, '')).join('; ')}</p>}
+                    {t.syllabus.length > 0 && <p className="pq-syllabus"><PyqSyllabus items={t.syllabus} /></p>}
                     {t.subs.map((s) => (
                       <div key={s.sub || '-'} className="pq-sub">
-                        {s.sub && <h3 className="pq-sub-head">{s.sub}</h3>}
+                        {s.sub && <h3 className="pq-sub-head"><PyqSub sub={s.sub} /></h3>}
                         <div className="pq-cards">
                           {s.items.map((q) => (
                             <article key={q.id} className="pq-card">
                               <div className="pq-meta">
                                 <span className="pq-year-tag">{q.year}</span>
                                 {q.source !== 'UPSC' && <span className="pq-src">{q.source}</span>}
-                                <span className="pq-marks">{q.marks} marks</span>
+                                <span className="pq-marks">{q.marks} <HiText en="marks" hi="अंक" /></span>
                               </div>
-                              <p className="pq-q"><Link href={`/pyqs/${q.id}`}>{q.question}</Link></p>
+                              <p className="pq-q"><Link href={`/pyqs/${q.id}`}><PyqQ id={q.id} en={q.question} /></Link></p>
                               <div className="pq-foot">
                                 <span className="pq-foot-end">
                                   <AttemptTick id={q.id} />
-                                  <Link className="pq-write" href={`/evaluate?question=${encodeURIComponent(q.question)}&marks=${q.marks}`}>Write an answer {ARROW}</Link>
+                                  <PyqWriteLink id={q.id} en={q.question} marks={q.marks}>{ARROW}</PyqWriteLink>
                                 </span>
                               </div>
                             </article>
@@ -132,12 +135,12 @@ export default function PyqSectionPage({ slug }: { slug: string }) {
               </div>
               <aside className="pq-aside" aria-label="Topics in this section">
                 <div className="pq-side pq-side-jumps">
-                  <h2>Jump to a topic</h2>
+                  <h2><HiText en="Jump to a topic" hi="विषय पर जाएँ" /></h2>
                   <ol className="pq-jump">
                     <li>
                       <ol>
                         {topics.map((t) => (
-                          <li key={t.topic}><a href={`#${idOf(t.topic)}`}><span className="pq-jump-name">{topicName(t.topic)}</span><span className="pq-jump-n">{t.n}</span></a></li>
+                          <li key={t.topic}><a href={`#${idOf(t.topic)}`}><span className="pq-jump-name"><PyqTopic topic={t.topic} /></span><span className="pq-jump-n">{t.n}</span></a></li>
                         ))}
                       </ol>
                     </li>

@@ -11,6 +11,8 @@ import TopperLocked from '@/components/TopperLocked';
 import CompareIcon from '@/components/CompareIcon';
 import { LIST_KEY } from './PyqBrowser';
 import { pyqSection, tintFor, topicName } from './sections';
+import { useLang } from '@/lib/i18n/LangContext';
+import { usePyqHi, topicLabel } from '@/lib/pyqHi';
 
 type AnswerEntry = { id: string; display_name: string; public_url: string; answer_number: number; created_at: string };
 type TopperCopy = { id: string; question: string; note: string | null };
@@ -36,6 +38,17 @@ export default function PyqDetail({ pyq, related, prev, next, topicCount }: {
 }) {
   const router = useRouter();
   const meta = pyqSection(pyq.section);
+  // Hindi mode: the question in Hindi, with the English a tap away, and the
+  // page's own words in Hindi.
+  const { langHi } = useLang();
+  const hi = usePyqHi(langHi);
+  const L = (en: string, h: string) => (langHi ? h : en);
+  const [showEnglish, setShowEnglish] = useState(false);
+  const qHi = hi?.q[pyq.id];
+  const official = Boolean(hi?.official.includes(pyq.id));
+  const qOf = (id: number, en: string) => hi?.q[id] ?? en;
+  const shown = qHi ?? pyq.question;
+  const tName = topicLabel(pyq.topic, hi);
   const { isAttempted, toggle, ready } = useAttemptedPyqs();
   const attempted = ready && isAttempted(pyq.id);
   // Model answers are Premium: a free reader gets the upgrade card instead.
@@ -64,8 +77,8 @@ export default function PyqDetail({ pyq, related, prev, next, topicCount }: {
 
   const handleUpload = async () => {
     setUploadErr(null);
-    if (!file) { setUploadErr('Choose a PDF of your answer first.'); return; }
-    if (!displayName.trim()) { setUploadErr('Add the name to show with it.'); return; }
+    if (!file) { setUploadErr(L('Choose a PDF of your answer first.', 'पहले अपने उत्तर की PDF चुनें।')); return; }
+    if (!displayName.trim()) { setUploadErr(L('Add the name to show with it.', 'उत्तर के साथ दिखाने के लिए नाम जोड़ें।')); return; }
     setUploading(true);
     const form = new FormData();
     form.append('pyq_id', String(pyq.id));
@@ -76,8 +89,8 @@ export default function PyqDetail({ pyq, related, prev, next, topicCount }: {
     const token = auth.currentUser ? await auth.currentUser.getIdToken().catch(() => '') : '';
     try {
       const res = await fetch('/api/pyq-answers', { method: 'POST', body: form, headers: token ? { authorization: `Bearer ${token}` } : undefined });
-      const data = await res.json().catch(() => ({ error: 'Upload failed.' }));
-      if (!res.ok || data.error) setUploadErr(data.error ?? 'Upload failed.');
+      const data = await res.json().catch(() => ({ error: L('Upload failed.', 'अपलोड नहीं हुआ।') }));
+      if (!res.ok || data.error) setUploadErr(data.error ?? L('Upload failed.', 'अपलोड नहीं हुआ।'));
       else {
         setAnswers((prev) => [...prev, data.answer]);
         setFile(null);
@@ -87,7 +100,7 @@ export default function PyqDetail({ pyq, related, prev, next, topicCount }: {
         setShowUpload(false);
         setTimeout(() => setUploadOk(false), 4000);
       }
-    } catch { setUploadErr('Upload failed. Check your connection and try again.'); }
+    } catch { setUploadErr(L('Upload failed. Check your connection and try again.', 'अपलोड नहीं हुआ। अपना कनेक्शन जाँचें और फिर कोशिश करें।')); }
     setUploading(false);
   };
 
@@ -120,7 +133,7 @@ export default function PyqDetail({ pyq, related, prev, next, topicCount }: {
     if (saved && saved !== '/pyqs') { e.preventDefault(); router.push(saved); }
   };
 
-  const evaluateHref = `/evaluate?question=${encodeURIComponent(pyq.question)}&marks=${pyq.marks}`;
+  const evaluateHref = `/evaluate?question=${encodeURIComponent(shown)}&marks=${pyq.marks}`;
   const topicHref = `/pyqs?topic=${encodeURIComponent(pyq.topic)}`;
 
   return (
@@ -129,31 +142,42 @@ export default function PyqDetail({ pyq, related, prev, next, topicCount }: {
       <div className="pd ds" style={tintFor(meta?.key)}>
         <div className="ds-container pd-grid">
           <div className="pd-main">
-            <Link href="/pyqs" className="ds-back" onClick={backToList}><Arrow back />PYQs</Link>
+            <Link href="/pyqs" className="ds-back" onClick={backToList}><Arrow back />{L('PYQs', 'पिछले प्रश्न')}</Link>
 
             <article className="pd-qcard">
               <div className="pd-meta">
-                <span className="pd-sec">{meta?.name ?? pyq.section}</span>
-                <span>Paper {meta?.paper === 2 ? 'II' : 'I'}</span>
+                <span className="pd-sec">{(langHi ? meta?.nameHi : meta?.name) ?? pyq.section}</span>
+                <span>{L('Paper', 'प्रश्नपत्र')} {meta?.paper === 2 ? 'II' : 'I'}</span>
                 <span>{pyq.year}</span>
                 {pyq.source !== 'UPSC' && <span className="pd-src">{pyq.source}</span>}
-                <span className="pd-marks">{pyq.marks} marks</span>
+                <span className="pd-marks">{pyq.marks} {L('marks', 'अंक')}</span>
               </div>
-              <h1 className="pd-question">{pyq.question}</h1>
+              <h1 className="pd-question" lang={qHi ? 'hi' : undefined}>{shown}</h1>
+              {qHi && (
+                <div className="pd-lang">
+                  <span className={`pd-lang-src${official ? ' official' : ''}`}>
+                    {official ? 'UPSC प्रश्नपत्र का हिंदी पाठ' : 'हिंदी अनुवाद'}
+                  </span>
+                  <button type="button" className="pd-lang-btn" onClick={() => setShowEnglish((v) => !v)} aria-expanded={showEnglish}>
+                    {showEnglish ? 'अंग्रेज़ी छिपाएँ' : 'अंग्रेज़ी में देखें'}
+                  </button>
+                </div>
+              )}
+              {qHi && showEnglish && <p className="pd-question-en" lang="en">{pyq.question}</p>}
               <div className="pd-tags">
-                <Link href={topicHref} className="pd-topic" title={`Every question on ${topicName(pyq.topic)}`}>{topicName(pyq.topic)}</Link>
-                {pyq.subtopic && <span className="pd-micro">{pyq.subtopic}</span>}
+                <Link href={topicHref} className="pd-topic" title={L(`Every question on ${topicName(pyq.topic)}`, `${tName} के सभी प्रश्न`)}>{tName}</Link>
+                {pyq.subtopic && <span className="pd-micro">{hi?.subtopics[pyq.subtopic] ?? pyq.subtopic}</span>}
               </div>
               {pyq.syllabus.length > 0 && (
-                <p className="pd-syllabus">Syllabus: {pyq.syllabus.join('; ')}</p>
+                <p className="pd-syllabus">{L('Syllabus', 'पाठ्यक्रम')}: {pyq.syllabus.map((x) => hi?.syllabus[x] ?? x).join(langHi ? ', ' : '; ')}</p>
               )}
             </article>
 
             <div className="pd-actions">
-              <Link href={evaluateHref} className="ds-btn ds-btn-solid">Write an answer</Link>
-              <Link href={`/chat?q=${encodeURIComponent(pyq.question)}`} className="ds-btn ds-btn-line">Ask the AI how to approach it</Link>
+              <Link href={evaluateHref} className="ds-btn ds-btn-solid">{L('Write an answer', 'उत्तर लिखें')}</Link>
+              <Link href={`/chat?q=${encodeURIComponent(shown)}`} className="ds-btn ds-btn-line">{L('Ask the AI how to approach it', 'AI से पूछें कि इसे कैसे हल करें')}</Link>
               <button type="button" className="ds-btn ds-btn-ghost" onClick={() => (subscribed ? setShowModel(true) : showChatLimitModal())}>
-                Show a model answer
+                {L('Show a model answer', 'आदर्श उत्तर देखें')}
                 {!subscribed && <span className="pd-pro">Premium</span>}
               </button>
             </div>
@@ -164,39 +188,39 @@ export default function PyqDetail({ pyq, related, prev, next, topicCount }: {
                 <span className="pd-attempt-box" aria-hidden="true">
                   {attempted && <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5" /></svg>}
                 </span>
-                <span>{attempted ? 'You’ve attempted this question' : 'I’ve attempted this question'}</span>
+                <span>{attempted ? L('You’ve attempted this question', 'आपने यह प्रश्न हल कर लिया है') : L('I’ve attempted this question', 'मैंने यह प्रश्न हल कर लिया है')}</span>
               </label>
             )}
 
             <section className="pd-community">
               <div className="pd-sec-head">
-                <h2>Answers from other aspirants{answers.length > 0 && <span>{answers.length}</span>}</h2>
-                {!showUpload && <button type="button" className="ds-btn ds-btn-line ds-btn-sm" onClick={() => setShowUpload(true)}>Share yours</button>}
+                <h2>{L('Answers from other aspirants', 'अन्य अभ्यर्थियों के उत्तर')}{answers.length > 0 && <span>{answers.length}</span>}</h2>
+                {!showUpload && <button type="button" className="ds-btn ds-btn-line ds-btn-sm" onClick={() => setShowUpload(true)}>{L('Share yours', 'अपना साझा करें')}</button>}
               </div>
 
-              {uploadOk && <p className="pd-ok" role="status">Thanks, your answer is up.</p>}
+              {uploadOk && <p className="pd-ok" role="status">{L('Thanks, your answer is up.', 'धन्यवाद, आपका उत्तर जुड़ गया है।')}</p>}
 
               {showUpload && (
                 <div className="pd-card pd-upload">
-                  <p className="pd-upload-intro">Upload a PDF of your handwritten or typed answer. Others writing this question will see it with your name.</p>
+                  <p className="pd-upload-intro">{L('Upload a PDF of your handwritten or typed answer. Others writing this question will see it with your name.', 'अपने हस्तलिखित या टाइप किए गए उत्तर की PDF अपलोड करें। यह प्रश्न लिखने वाले अन्य अभ्यर्थी इसे आपके नाम के साथ देखेंगे।')}</p>
                   <div className="pd-upload-row">
-                    <input className="pd-input" placeholder="Name to show" value={displayName} onChange={(e) => setDisplayName(e.target.value)} aria-label="Name to show with your answer" />
+                    <input className="pd-input" placeholder={L('Name to show', 'दिखाने के लिए नाम')} value={displayName} onChange={(e) => setDisplayName(e.target.value)} aria-label={L('Name to show with your answer', 'आपके उत्तर के साथ दिखने वाला नाम')} />
                     <label className={`pd-file${file ? ' chosen' : ''}`}>
                       <input ref={fileRef} type="file" accept="application/pdf" onChange={(e) => setFile(e.target.files?.[0] ?? null)} />
                       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" /><path d="M14 2v6h6" /></svg>
-                      <span>{file ? file.name : 'Choose a PDF, up to 5 MB'}</span>
+                      <span>{file ? file.name : L('Choose a PDF, up to 5 MB', 'PDF चुनें, 5 MB तक')}</span>
                     </label>
                   </div>
                   {uploadErr && <p className="pd-err" role="alert">{uploadErr}</p>}
                   <div className="pd-upload-actions">
-                    <button type="button" className="ds-btn ds-btn-solid ds-btn-sm" onClick={handleUpload} disabled={uploading}>{uploading ? 'Uploading…' : 'Upload answer'}</button>
-                    <button type="button" className="ds-btn ds-btn-ghost ds-btn-sm" onClick={() => { setShowUpload(false); setUploadErr(null); }}>Cancel</button>
+                    <button type="button" className="ds-btn ds-btn-solid ds-btn-sm" onClick={handleUpload} disabled={uploading}>{uploading ? L('Uploading…', 'अपलोड हो रहा है…') : L('Upload answer', 'उत्तर अपलोड करें')}</button>
+                    <button type="button" className="ds-btn ds-btn-ghost ds-btn-sm" onClick={() => { setShowUpload(false); setUploadErr(null); }}>{L('Cancel', 'रद्द करें')}</button>
                   </div>
                 </div>
               )}
 
               {loadingAnswers ? <Dots /> : answers.length === 0 ? (
-                !showUpload && <p className="pd-none">Nobody has shared an answer to this one yet. Be the first.</p>
+                !showUpload && <p className="pd-none">{L('Nobody has shared an answer to this one yet. Be the first.', 'अभी तक किसी ने इसका उत्तर साझा नहीं किया है। पहले आप करें।')}</p>
               ) : (
                 <div className="pd-answers">
                   {answers.map((ans) => (
@@ -206,7 +230,7 @@ export default function PyqDetail({ pyq, related, prev, next, topicCount }: {
                       </span>
                       <span className="pd-answer-text">
                         <span className="pd-answer-name">{ans.display_name}</span>
-                        <span className="pd-answer-meta">Answer {ans.answer_number} · {new Date(ans.created_at).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })}</span>
+                        <span className="pd-answer-meta">{L('Answer', 'उत्तर')} {ans.answer_number} · {new Date(ans.created_at).toLocaleDateString(langHi ? 'hi-IN' : 'en-IN', { day: 'numeric', month: 'short', year: 'numeric' })}</span>
                       </span>
                     </a>
                   ))}
@@ -215,17 +239,17 @@ export default function PyqDetail({ pyq, related, prev, next, topicCount }: {
             </section>
 
             {(prev || next) && (
-              <nav className="pd-pager" aria-label="More questions">
+              <nav className="pd-pager" aria-label={L('More questions', 'और प्रश्न')}>
                 {prev ? (
                   <Link href={`/pyqs/${prev.id}`} className="pd-pager-link">
-                    <span className="pd-pager-dir"><Arrow back /> Previous</span>
-                    <span className="pd-pager-q">{short(prev.question, 80)}</span>
+                    <span className="pd-pager-dir"><Arrow back /> {L('Previous', 'पिछला')}</span>
+                    <span className="pd-pager-q">{short(qOf(prev.id, prev.question), 80)}</span>
                   </Link>
                 ) : <span />}
                 {next ? (
                   <Link href={`/pyqs/${next.id}`} className="pd-pager-link next">
-                    <span className="pd-pager-dir">Next <Arrow /></span>
-                    <span className="pd-pager-q">{short(next.question, 80)}</span>
+                    <span className="pd-pager-dir">{L('Next', 'अगला')} <Arrow /></span>
+                    <span className="pd-pager-q">{short(qOf(next.id, next.question), 80)}</span>
                   </Link>
                 ) : <span />}
               </nav>
@@ -234,17 +258,17 @@ export default function PyqDetail({ pyq, related, prev, next, topicCount }: {
 
           <aside className="pd-aside">
             <div className="pd-side">
-              <h2 className="pd-side-title">Topper copies{copies.length > 0 && <span>{copies.length}</span>}</h2>
+              <h2 className="pd-side-title">{L('Topper copies', 'टॉपर कॉपियाँ')}{copies.length > 0 && <span>{copies.length}</span>}</h2>
               {copiesLoading ? <Dots /> : copies.length === 0 ? (
-                <p className="pd-side-text">No topper has an answer to this one on the site yet. Copies are added as booklets come in.</p>
+                <p className="pd-side-text">{L('No topper has an answer to this one on the site yet. Copies are added as booklets come in.', 'अभी साइट पर इस प्रश्न का किसी टॉपर का उत्तर नहीं है। पुस्तिकाएँ आने पर कॉपियाँ जोड़ी जाती हैं।')}</p>
               ) : (
                 <>
                   {copies.length >= 2 && (
                     <button type="button" className="pd-compare" onClick={() => openCopy(`/pyqs/${pyq.id}/compare`)}>
                       <span className="pd-compare-icon" aria-hidden="true"><CompareIcon size={18} /></span>
                       <span className="pd-compare-text">
-                        <strong>Compare answers side by side</strong>
-                        <span>{toppers >= 2 ? `See how ${toppers} toppers wrote this answer` : `Read ${copies.length} copies next to each other`}</span>
+                        <strong>{L('Compare answers side by side', 'उत्तरों की आमने-सामने तुलना करें')}</strong>
+                        <span>{toppers >= 2 ? L(`See how ${toppers} toppers wrote this answer`, `देखें कि ${toppers} टॉपरों ने यह उत्तर कैसे लिखा`) : L(`Read ${copies.length} copies next to each other`, `${copies.length} कॉपियाँ साथ-साथ पढ़ें`)}</span>
                       </span>
                       <Arrow />
                     </button>
@@ -252,7 +276,7 @@ export default function PyqDetail({ pyq, related, prev, next, topicCount }: {
                   <div className="pd-copies">
                     {copies.map((c) => (
                       <button key={c.id} type="button" className="pd-copy" onClick={() => openCopy(`/topper-copies/${c.id}`)}>
-                        <span className="pd-copy-who">{c.note || 'Topper copy'}</span>
+                        <span className="pd-copy-who">{c.note || L('Topper copy', 'टॉपर कॉपी')}</span>
                         <span className="pd-copy-q">{short(c.question, 110)}</span>
                       </button>
                     ))}
@@ -263,17 +287,17 @@ export default function PyqDetail({ pyq, related, prev, next, topicCount }: {
 
             {related.length > 0 && (
               <div className="pd-side">
-                <h2 className="pd-side-title">More on {topicName(pyq.topic)}</h2>
+                <h2 className="pd-side-title">{L(`More on ${topicName(pyq.topic)}`, `${tName} पर और प्रश्न`)}</h2>
                 <div className="pd-related">
                   {related.map((q) => (
                     <Link key={q.id} href={`/pyqs/${q.id}`} className="pd-rel">
-                      <span className="pd-rel-q">{short(q.question)}</span>
-                      <span className="pd-rel-meta">{q.year} · {q.marks} marks</span>
+                      <span className="pd-rel-q">{short(qOf(q.id, q.question))}</span>
+                      <span className="pd-rel-meta">{q.year} · {q.marks} {L('marks', 'अंक')}</span>
                     </Link>
                   ))}
                 </div>
                 {topicCount > related.length + 1 && (
-                  <Link href={topicHref} className="pd-side-all">All {topicCount} questions on this topic <Arrow /></Link>
+                  <Link href={topicHref} className="pd-side-all">{L(`All ${topicCount} questions on this topic`, `इस विषय के सभी ${topicCount} प्रश्न`)} <Arrow /></Link>
                 )}
               </div>
             )}
@@ -289,7 +313,7 @@ export default function PyqDetail({ pyq, related, prev, next, topicCount }: {
         </div>
       )}
       <GateModals />
-      {showModel && <ModelAnswerModal question={pyq.question} marks={pyq.marks} cacheKey={String(pyq.id)} onClose={() => setShowModel(false)} />}
+      {showModel && <ModelAnswerModal question={shown} marks={pyq.marks} cacheKey={String(pyq.id)} onClose={() => setShowModel(false)} />}
     </>
   );
 }
@@ -305,6 +329,11 @@ const CSS = `
 .pd-src { padding: 1px 9px; border-radius: var(--radius-full); background: var(--ds-soft); color: var(--text2); font-weight: 600; }
 .pd-marks { margin-left: auto; padding: 2px 10px; border-radius: var(--radius-full); background: var(--ds-soft); color: var(--text2); font-weight: 600; }
 .pd-question { margin: 0 0 var(--space-4); font-size: clamp(1.18rem, 2.2vw, 1.42rem); font-weight: 600; line-height: 1.5; letter-spacing: -0.01em; color: var(--text); }
+.pd-lang { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-2) var(--space-3); margin: calc(-1 * var(--space-2)) 0 var(--space-4); }
+.pd-lang-src { font-size: 0.8rem; color: var(--text3); }
+.pd-lang-src.official { color: var(--success-text); font-weight: 600; }
+.pd-lang-btn { padding: 0; border: none; background: none; color: var(--accent-text); font: inherit; font-size: 0.84rem; font-weight: 600; cursor: pointer; text-decoration: underline; text-underline-offset: 3px; }
+.pd-question-en { margin: 0 0 var(--space-4); padding: var(--space-3) var(--space-4); border-left: 3px solid var(--border2); background: var(--ds-soft); border-radius: var(--radius-md); font-size: 0.98rem; line-height: 1.6; color: var(--text2); }
 .pd-tags { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; }
 .pd-topic { padding: 4px 12px; border-radius: var(--radius-full); border: 1px solid color-mix(in srgb, var(--t) 35%, transparent); background: var(--w); color: var(--t); font-size: 0.84rem; font-weight: 600; text-decoration: none; }
 .pd-topic:hover { border-color: var(--t); }

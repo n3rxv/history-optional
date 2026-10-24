@@ -19,6 +19,7 @@ import type { DailyQuestion } from '@/lib/dailyQuestions';
 import { PYQ_SECTION_TOTALS, sectionForPyq } from '@/lib/pyqSectionRanges';
 import { SECTIONS, type SectionKey } from '@/components/notes/sections';
 import { pyqSection, tintFor } from '@/components/pyq/sections';
+import { usePyqHi } from '@/lib/pyqHi';
 
 /**
  * The reader's own page: what to do today, how far they have come, and the
@@ -137,6 +138,8 @@ function Bar({ label, value, total, style, color }: { label: string; value: numb
 export default function Dashboard({ day, question: built }: { day: string; question: DailyQuestion | null }) {
   const { langHi: hi } = useLang();
   const T = (en: string, h: string) => (hi ? h : en);
+  // Today's question in Hindi too, once the Hindi question bank has loaded.
+  const pyqHi = usePyqHi(hi);
   const inBrowser = useInBrowser();
   const { user } = useFirebaseAuth();
   const { usage, loading: usageLoading, FREE_EVAL_LIMIT, FREE_CHAT_LIMIT } = useUsageTracker();
@@ -282,11 +285,11 @@ export default function Dashboard({ day, question: built }: { day: string; quest
               <article className="db-today" style={tintFor(pyqSection(question.section)?.key)}>
                 <div className="db-today-head">
                   <span className="db-today-label">{T('Today’s question', 'आज का प्रश्न')}</span>
-                  <span className="db-today-meta">{question.year} · {pyqSection(question.section)?.short ?? question.section} · {question.marks} {T('marks', 'अंक')}</span>
+                  <span className="db-today-meta">{question.year} · {(hi ? pyqSection(question.section)?.shortHi : pyqSection(question.section)?.short) ?? question.section} · {question.marks} {T('marks', 'अंक')}</span>
                 </div>
-                <Link href={`/pyqs/${question.id}`} className="db-today-q">{question.question}</Link>
+                <Link href={`/pyqs/${question.id}`} className="db-today-q" lang={pyqHi?.q[question.id] ? 'hi' : undefined}>{pyqHi?.q[question.id] ?? question.question}</Link>
                 <div className="db-today-actions">
-                  <Link href={`/evaluate?question=${encodeURIComponent(question.question)}&marks=${question.marks}`} className="ds-btn ds-btn-solid ds-btn-sm">{T('Write an answer', 'उत्तर लिखें')}</Link>
+                  <Link href={`/evaluate?question=${encodeURIComponent(pyqHi?.q[question.id] ?? question.question)}&marks=${question.marks}`} className="ds-btn ds-btn-solid ds-btn-sm">{T('Write an answer', 'उत्तर लिखें')}</Link>
                   <Link href={`/chat?q=${encodeURIComponent(`How should I approach this question? ${question.question}`)}`} className="ds-btn ds-btn-line ds-btn-sm">{T('Ask the AI how to approach it', 'AI से तरीका पूछें')}</Link>
                   <Link href="/#daily-answer" className="db-more">{T('All five for today', 'आज के सभी पाँच')} <Arrow /></Link>
                 </div>

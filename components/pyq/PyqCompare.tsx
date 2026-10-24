@@ -10,6 +10,8 @@ import LoginPromptModal from '@/components/LoginPromptModal';
 import { useLoginPrompt } from '@/hooks/useLoginPrompt';
 import { pyqSection, tintFor, topicName } from './sections';
 import { initials, parseNote, topperOf } from '@/components/topper/note';
+import { useLang } from '@/lib/i18n/LangContext';
+import { usePyqHi } from '@/lib/pyqHi';
 
 type Copy = { id: string; question: string; note: string | null };
 type Side = 'a' | 'b';
@@ -59,6 +61,8 @@ const Avatar = ({ name, side, small }: { name: string; side: Side; small?: boole
  */
 export default function PyqCompare({ pyq }: { pyq: Question }) {
   const meta = pyqSection(pyq.section);
+  const { langHi } = useLang();
+  const pyqHi = usePyqHi(langHi);
   const [copies, setCopies] = useState<Copy[] | null>(null);
   const [picks, setPicks] = useState<Picks | null>(null);
   const [access, setAccess] = useState<'checking' | 'signed-out' | 'locked' | 'open'>('checking');
@@ -200,7 +204,7 @@ export default function PyqCompare({ pyq }: { pyq: Question }) {
         <div className="cmp-hero">
           <div className="cmp-hero-main">
             <div className="cmp-kicker"><CompareIcon size={14} /> Toppers’ answers, side by side</div>
-            <h1>{pyq.question}</h1>
+            <h1 lang={pyqHi?.q[pyq.id] ? 'hi' : undefined}>{pyqHi?.q[pyq.id] ?? pyq.question}</h1>
             <div className="cmp-chips">
               {[`UPSC ${pyq.year}`, `${pyq.marks} marks`, meta?.name ?? pyq.section, topicName(pyq.topic)].map((chip) => <span key={chip}>{chip}</span>)}
             </div>

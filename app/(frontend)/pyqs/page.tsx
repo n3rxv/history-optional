@@ -5,6 +5,7 @@ import PyqBrowser from '@/components/pyq/PyqBrowser';
 import AttemptedRing from '@/components/pyq/AttemptedRing';
 import { PYQ_SECTIONS, tintFor, type ListPyq } from '@/components/pyq/sections';
 import { PYQ_HERO_CSS, PYQ_LIST_CSS } from '@/components/pyq/styles';
+import { HiText } from '@/components/pyq/PyqHiText';
 
 /**
  * Every past question. The list used to be a client page that imported the
@@ -30,18 +31,20 @@ export default function PyqsPage() {
         <section className="pl-hero">
           <div className="ds-container pl-hero-row">
             <div className="pl-hero-main">
-              <Link href="/" className="ds-back">{BACK}Home</Link>
+              <Link href="/" className="ds-back">{BACK}<HiText en="Home" hi="होम" /></Link>
               <div className="pl-title">
                 <span className="pl-icon" aria-hidden="true"><SectionIcon id="pyqs" size={24} /></span>
-                <h1 className="ds-h1">PYQs</h1>
+                <h1 className="ds-h1"><HiText en="PYQs" hi="पिछले प्रश्न" /></h1>
               </div>
               <p className="ds-lede pl-lede">
-                Every History question UPSC has asked since {first}, grouped by topic the way the PYQ book does it.
-                <span className="pl-more"> Open one to see how to approach it, or write your answer and get it checked.</span>
+                <HiText
+                  en={<>Every History question UPSC has asked since {first}, grouped by topic the way the PYQ book does it.<span className="pl-more"> Open one to see how to approach it, or write your answer and get it checked.</span></>}
+                  hi={<>{first} से अब तक UPSC द्वारा पूछा गया इतिहास का हर प्रश्न, PYQ पुस्तक की तरह विषयवार।<span className="pl-more"> कोई प्रश्न खोलकर देखें कि उसे कैसे हल करें, या अपना उत्तर लिखकर जँचवाएँ।</span></>}
+                />
               </p>
               <div className="pl-actions">
-                <Link href="/test" className="ds-btn ds-btn-line ds-btn-sm">Attempt a test paper {ARROW}</Link>
-                <Link href="/topper-copies" className="ds-btn ds-btn-ghost ds-btn-sm">Topper copies</Link>
+                <Link href="/test" className="ds-btn ds-btn-line ds-btn-sm"><HiText en="Attempt a test paper" hi="टेस्ट पेपर हल करें" /> {ARROW}</Link>
+                <Link href="/topper-copies" className="ds-btn ds-btn-ghost ds-btn-sm"><HiText en="Topper copies" hi="टॉपर कॉपियाँ" /></Link>
               </div>
             </div>
             <div className="pl-hero-side">
@@ -57,10 +60,10 @@ export default function PyqsPage() {
             {/* Real links to the section pages, which is how a crawler reaches
                 them; the tabs above only filter. */}
             <nav className="pl-browse" aria-label="PYQs by section">
-              <h2>Each section on a page of its own</h2>
+              <h2><HiText en="Each section on a page of its own" hi="हर खंड का अपना पृष्ठ" /></h2>
               <div className="pl-chips">
                 {PYQ_SECTIONS.map((s) => (
-                  <Link key={s.slug} href={`/pyqs/${s.slug}`} style={{ ['--st' as string]: `var(--tint-${s.key})` }}><span aria-hidden="true" />{s.name}</Link>
+                  <Link key={s.slug} href={`/pyqs/${s.slug}`} style={{ ['--st' as string]: `var(--tint-${s.key})` }}><span aria-hidden="true" /><HiText en={s.name} hi={s.nameHi} /></Link>
                 ))}
               </div>
             </nav>
