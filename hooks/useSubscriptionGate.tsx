@@ -65,24 +65,24 @@ const LIM_CSS = `
 .lim-scrim {
   position: fixed; inset: 0; z-index: 1001; overflow-y: auto;
   display: flex; align-items: center; justify-content: center; padding: var(--space-4);
-  background: color-mix(in srgb, var(--bg) 72%, transparent);
+  background: var(--scrim);
   backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
 }
 .lim {
   position: relative; width: 100%; max-width: 440px; margin: auto;
   padding: var(--space-6); font-family: var(--font-body);
-  background: var(--ds-card); border: 1px solid var(--border2); border-radius: var(--radius-xl);
-  box-shadow: var(--elev-3);
+  background: var(--ds-card); border: 1px solid var(--border); border-radius: 16px;
+  box-shadow: var(--shadow-xl);
 }
 .lim-close {
   position: absolute; top: var(--space-3); right: var(--space-3);
-  width: 32px; height: 32px; display: inline-flex; align-items: center; justify-content: center;
-  border: none; border-radius: var(--radius-sm); background: none; color: var(--text3); cursor: pointer;
+  width: 36px; height: 36px; display: inline-flex; align-items: center; justify-content: center;
+  border: none; border-radius: var(--radius-md); background: none; color: var(--text3); cursor: pointer;
 }
 .lim-close:hover { color: var(--text); background: var(--bg2); }
 .lim-head { display: flex; align-items: center; gap: var(--space-4); margin-bottom: var(--space-5); padding-right: var(--space-6); }
 .lim-owl { height: auto; flex-shrink: 0; }
-.lim-head h2 { font-family: var(--font-ui); font-size: 1.2rem; font-weight: 800; letter-spacing: -0.01em; line-height: 1.3; color: var(--text); margin: 0 0 var(--space-1); }
+.lim-head h2 { font-family: var(--font-ui); font-size: 1.125rem; font-weight: 700; letter-spacing: -0.01em; line-height: 1.3; color: var(--text); margin: 0 0 var(--space-1); }
 .lim-head p { font-size: 0.85rem; line-height: 1.55; color: var(--text2); margin: 0; }
 @media (max-width: 480px) {
   .lim { padding: var(--space-5) var(--space-4); }

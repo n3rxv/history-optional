@@ -1,6 +1,7 @@
 'use client';
 import Script from 'next/script';
 import { auth } from '@/lib/firebase';
+import { toast } from '@/components/ui/Toast';
 
 type Props = {
   /** Called once a Topper Copies purchase is verified. */
@@ -21,7 +22,7 @@ export default function TopperLocked({ onUnlocked, onDismiss, message }: Props) 
     if (!currentUser) return;
     const w = window as unknown as { Razorpay?: new (opts: object) => { open: () => void } };
     if (!w.Razorpay) {
-      alert('Payment SDK not loaded. Please refresh and try again.');
+      toast('Payment is still loading. Refresh the page and try again.', 'error');
       return;
     }
     const token = await currentUser.getIdToken();
@@ -31,7 +32,7 @@ export default function TopperLocked({ onUnlocked, onDismiss, message }: Props) 
     });
     const order = await res.json();
     if (!res.ok) {
-      alert('Order creation failed: ' + (order.error || 'Unknown error'));
+      toast(order.error || 'Could not start the payment.', 'error');
       return;
     }
     const rzp = new w.Razorpay({

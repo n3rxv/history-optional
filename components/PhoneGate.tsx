@@ -6,6 +6,7 @@ import { onAuthStateChanged, User } from 'firebase/auth';
 import { auth } from '@/lib/firebase';
 import { getFingerprint } from '@/lib/fingerprint';
 import { PhoneModal } from '@/components/PhoneModal';
+import { toast } from '@/components/ui/Toast';
 
 /**
  * Asks for a phone number, at a strength that depends on who is asking.
@@ -136,7 +137,8 @@ export default function PhoneGate() {
       visitorId={visitorId}
       initialFirstName={known.first}
       initialLastName={known.last}
-      onDone={() => setShow(false)}
+      email={authed ? user?.email ?? null : null}
+      onDone={() => { setShow(false); toast('Your profile is saved'); }}
       onCancel={
         mandatory
           ? undefined

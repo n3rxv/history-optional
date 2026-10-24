@@ -2,6 +2,7 @@
 import { useState, useCallback, useEffect } from 'react';
 import { auth } from '@/lib/firebase';
 import OwlLoader from '@/components/OwlLoader';
+import { toast } from '@/components/ui/Toast';
 
 /**
  * A PYQ's model answer, in a modal: generated on first open, kept in
@@ -61,7 +62,7 @@ function SavePDFButton({ answer, question }: { answer: string; question: string 
       onClick={async () => {
         setSaving(true);
         try { await downloadAnswerAsPDF(answer, question); }
-        catch (e) { console.error(e); alert('The PDF could not be made. Try again in a moment.'); }
+        catch (e) { console.error(e); toast('The PDF could not be made. Try again in a moment.', 'error'); }
         finally { setSaving(false); }
       }}
       disabled={saving}

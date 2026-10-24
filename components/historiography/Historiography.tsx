@@ -7,6 +7,8 @@ import { useLoginPrompt } from '@/hooks/useLoginPrompt';
 import LoginPromptModal from '@/components/LoginPromptModal';
 import { tintFor } from '@/components/pyq/sections';
 import type { Debate, DebateInput, Position } from '@/lib/debates';
+import { toast } from '@/components/ui/Toast';
+import { confirmDialog } from '@/components/ui/ConfirmDialog';
 
 /**
  * The historiography bank: each debate or reading with the historians on it,
@@ -135,8 +137,8 @@ export default function Historiography({ initialDebates }: { initialDebates: Deb
     setSaving(false);
   };
   const remove = async (d: Debate) => {
-    if (!window.confirm(`Delete “${d.title}”?`)) return;
-    try { await call('DELETE', undefined, d.id); } catch (e) { alert(e instanceof Error ? e.message : 'That did not delete.'); }
+    if (!(await confirmDialog({ title: `Delete “${d.title}”?`, text: 'This cannot be undone.', confirmLabel: 'Delete', tone: 'danger' }))) return;
+    try { await call('DELETE', undefined, d.id); toast('Debate deleted'); } catch (e) { toast(e instanceof Error ? e.message : 'That did not delete.', 'error'); }
   };
 
   const shown = useMemo(() => {

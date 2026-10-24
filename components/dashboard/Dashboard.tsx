@@ -459,7 +459,7 @@ export default function Dashboard({ day, question: built }: { day: string; quest
                 {user.displayName && <div><span>{T('Name', 'नाम')}</span><span>{user.displayName}</span></div>}
                 <div><span>{T('Email', 'ईमेल')}</span><span className="db-email">{user.email}</span></div>
               </div>
-              <p className="db-card-note">{T('Change your name, phone or target year from Your profile, in the menu under your picture.', 'नाम, फ़ोन या लक्ष्य वर्ष अपनी तस्वीर वाले मेनू में Your profile से बदलें।')}</p>
+              <Link href="/profile" className="db-link">{T('Profile and settings', 'प्रोफ़ाइल और सेटिंग्स')} <Arrow /></Link>
             </div>
           )}
         </aside>

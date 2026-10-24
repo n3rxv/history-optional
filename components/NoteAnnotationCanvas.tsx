@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useRef, useState, useCallback } from 'react';
+import { confirmDialog } from '@/components/ui/ConfirmDialog';
 
 interface Point { x: number; y: number; }
 interface Stroke {
@@ -269,7 +270,7 @@ export default function NoteAnnotationCanvas({ noteSlug, active, onToggle }: Pro
             <button type="button" className="nac-btn" onClick={undo} title="Undo" aria-label="Undo">
               <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M3 7v6h6" /><path d="M21 17a9 9 0 0 0-15-6.7L3 13" /></svg>
             </button>
-            <button type="button" className="nac-btn danger" onClick={() => { if (confirm('Rub out every drawing on this note?')) clearAll(); }} title="Clear all" aria-label="Clear all">
+            <button type="button" className="nac-btn danger" onClick={async () => { if (await confirmDialog({ title: 'Rub out every drawing on this note?', text: 'This cannot be undone.', confirmLabel: 'Rub out', tone: 'danger' })) clearAll(); }} title="Clear all" aria-label="Clear all">
               <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M3 6h18M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6M10 11v6M14 11v6" /></svg>
             </button>
             <button type="button" className="ds-btn ds-btn-solid ds-btn-sm" onClick={onToggle}>Done</button>
@@ -301,5 +302,5 @@ const CANVAS_CSS = `
 .nac-btn:hover { background: var(--ds-soft); color: var(--text); }
 .nac-btn.danger:hover { color: var(--danger-text); }
 /* Clear of the tab bar on a phone. */
-@media (max-width: 768px) { .nac-bar { bottom: calc(64px + env(safe-area-inset-bottom, 0px) + 10px); } }
+@media (max-width: 768px) { .nac-bar { bottom: calc(var(--bn-clear) + 10px); } }
 `;

@@ -3,6 +3,7 @@ import { useEffect, useRef, useState } from 'react';
 import { signInWithGoogle } from '@/lib/firebase';
 import { useLang } from '@/lib/i18n/LangContext';
 import Mascot from '@/components/Mascot';
+import { toastSignInError } from '@/components/ui/Toast';
 
 interface LoginPromptModalProps {
   isOpen: boolean;
@@ -40,6 +41,7 @@ export default function LoginPromptModal({ isOpen, onClose, message }: LoginProm
       onClose();
     } catch (err) {
       console.error('Sign in error:', err);
+      toastSignInError(err, langHi);
       setSigningIn(false);
     }
   };
@@ -54,7 +56,10 @@ export default function LoginPromptModal({ isOpen, onClose, message }: LoginProm
         aria-labelledby="lpm-title"
         onClick={e => e.stopPropagation()}
       >
-        <Mascot pose="peek" width={104} className="lpm-owl" />
+        <button className="lpm-x" onClick={onClose} aria-label={langHi ? 'बंद करें' : 'Close'}>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12" /></svg>
+        </button>
+        <Mascot pose="peek" width={88} className="lpm-owl" />
         <h2 id="lpm-title">{langHi ? 'जारी रखने के लिए साइन इन करें' : 'Sign in to continue'}</h2>
         <p className="lpm-msg">
           {message || (langHi ? 'इसके लिए एक निःशुल्क खाता चाहिए।' : 'This needs a free account.')}
@@ -86,24 +91,25 @@ const LPM_CSS = `
 .lpm-scrim {
   position: fixed; inset: 0; z-index: 2000;
   display: flex; align-items: center; justify-content: center; padding: var(--space-6);
-  background: color-mix(in srgb, var(--bg) 72%, transparent);
-  backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);
+  background: var(--scrim);
+  backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
 }
 .lpm {
   width: 100%; max-width: 400px;
   display: flex; flex-direction: column; align-items: center; text-align: center;
   padding: var(--space-8) var(--space-8) var(--space-6);
-  background: var(--bg-raised); border: 1px solid var(--border2); border-radius: var(--radius-xl);
-  box-shadow: var(--elev-3); font-family: var(--font-body);
+  position: relative;
+  background: var(--bg-raised); border: 1px solid var(--border); border-radius: 16px;
+  box-shadow: var(--shadow-xl); font-family: var(--font-body);
   animation: lpmIn 0.25s cubic-bezier(0.16, 1, 0.3, 1);
 }
 .lpm-owl { height: auto; margin-bottom: var(--space-3); }
-.lpm h2 { font-family: var(--font-body); font-size: 1.3rem; font-weight: 700; color: var(--text); margin: 0 0 var(--space-2); }
+.lpm h2 { font-family: var(--font-body); font-size: 1.125rem; font-weight: 700; color: var(--text); margin: 0 0 var(--space-2); }
 .lpm-msg { font-size: 0.92rem; line-height: 1.6; color: var(--text2); margin: 0 0 var(--space-6); }
 .lpm-google {
   width: 100%; display: flex; align-items: center; justify-content: center; gap: var(--space-3);
-  padding: var(--space-3) var(--space-5); border-radius: var(--radius-md);
-  background: var(--bg-raised); color: var(--text); border: 1px solid var(--border3);
+  min-height: 44px; padding: 0 var(--space-5); border-radius: var(--radius-md);
+  background: var(--bg-raised); color: var(--text); border: 1px solid var(--border2); box-shadow: var(--shadow-xs);
   font-family: var(--font-body); font-size: 0.95rem; font-weight: 600; cursor: pointer;
   transition: border-color 0.15s, background 0.15s;
 }
@@ -111,6 +117,8 @@ const LPM_CSS = `
 .lpm-google:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 .lpm-google:disabled { cursor: wait; color: var(--text3); }
 .lpm-spin { width: 16px; height: 16px; border-radius: var(--radius-circle); border: 2px solid var(--accent-glow); border-top-color: var(--accent); animation: lpmSpin 0.7s linear infinite; }
+.lpm-x { position: absolute; top: var(--space-3); right: var(--space-3); width: 36px; height: 36px; display: inline-flex; align-items: center; justify-content: center; border: none; background: none; border-radius: var(--radius-md); color: var(--text3); cursor: pointer; }
+.lpm-x:hover { color: var(--text); background: var(--bg2); }
 .lpm-later { margin-top: var(--space-3); background: none; border: none; font-family: var(--font-body); font-size: 0.85rem; color: var(--text3); cursor: pointer; padding: var(--space-2); }
 .lpm-later:hover { color: var(--text2); }
 @keyframes lpmIn { from { opacity: 0; transform: translateY(12px) scale(0.97); } to { opacity: 1; transform: none; } }

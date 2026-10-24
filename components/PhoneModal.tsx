@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
+import Mascot from '@/components/Mascot';
 
 export const COUNTRIES = [
   { code: '+91',  flag: '🇮🇳', name: 'India' },
@@ -69,6 +70,7 @@ export function PhoneModal({
   visitorId,
   initialFirstName,
   initialLastName,
+  email,
   onDone,
   onCancel,
 }: {
@@ -90,6 +92,8 @@ export function PhoneModal({
    */
   initialFirstName?: string | null;
   initialLastName?: string | null;
+  /** The signed-in account's address, shown read-only so the reader can see which account this is. */
+  email?: string | null;
   onDone: () => void;
   /** Omitted for signed-in users: for them the gate has no way past. */
   onCancel?: () => void;
@@ -240,16 +244,24 @@ export function PhoneModal({
       onClick={() => setOpen(false)} role="dialog" aria-modal="true" aria-label="Complete your profile">
       <style dangerouslySetInnerHTML={{ __html: PM_CSS }} />
       <div ref={cardRef} className="ds-modal pm" onClick={e => e.stopPropagation()}>
-        <div className="ds-modal-head">
-          <div>
-            <h2>Complete your profile</h2>
-            <p>Your name and number, so we can reach you about your account.</p>
-          </div>
+        {onCancel && (
+          <button type="button" className="ds-x ds-modal-x" onClick={() => close(onCancel)} aria-label="Close">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12" /></svg>
+          </button>
+        )}
+        <div className="pm-head">
+          <Mascot pose={getToken ? 'celebrate' : 'peek'} width={72} />
+          <h2 className="ds-modal-title">{getToken ? 'You’re signed in' : 'Complete your profile'}</h2>
+          <p className="ds-modal-text">
+            {getToken
+              ? 'Check your name and add your number to finish setting up your account.'
+              : 'Your name and number, so we can reach you about your account.'}
+          </p>
         </div>
 
         <div className="pm-row">
           <label className="pm-field">
-            <span className="pm-label">First name</span>
+            <span className="pm-label">First name <i aria-hidden="true">*</i></span>
             <input id="ho-first-name" className={`pm-input${bad('first_name')}`} autoFocus={!initialFirstName} autoComplete="given-name" placeholder="Rahul"
               value={firstName} onChange={e => setFirstName(e.target.value)} onKeyDown={e => e.key === 'Enter' && submit()} />
           </label>
@@ -259,6 +271,13 @@ export function PhoneModal({
               value={lastName} onChange={e => setLastName(e.target.value)} onKeyDown={e => e.key === 'Enter' && submit()} />
           </label>
         </div>
+
+        {email && (
+          <label className="pm-field">
+            <span className="pm-label">Email</span>
+            <input className="pm-input" value={email} disabled readOnly aria-readonly="true" />
+          </label>
+        )}
 
         <div className="pm-field">
           <label className="pm-label" htmlFor="ho-phone">Phone number</label>
@@ -293,10 +312,10 @@ export function PhoneModal({
           {err && <p className="pm-err" role="alert">{err}</p>}
         </div>
 
-        <button type="button" className="ds-btn ds-btn-solid ds-btn-lg ds-btn-block" disabled={loading} onClick={submit}>
+        <button type="button" className="ds-btn ds-btn-solid ds-btn-block pm-save" disabled={loading} onClick={submit}>
           {loading ? 'Saving…' : 'Save and continue'}
         </button>
-        {onCancel && <button type="button" className="ds-btn ds-btn-ghost ds-btn-block pm-cancel" onClick={() => close(onCancel)}>Cancel</button>}
+        {onCancel && <button type="button" className="ds-btn ds-btn-line ds-btn-block pm-cancel" onClick={() => close(onCancel)}>Not now</button>}
         <p className="pm-fine">Kept private, and never shared with anyone.</p>
       </div>
     </div>
@@ -306,16 +325,22 @@ export function PhoneModal({
 const PM_CSS = `
 .pm-overlay { z-index: 10050; opacity: 0; transition: opacity var(--pm-ms) ease; }
 .pm-overlay.shown { opacity: 1; }
-.pm { max-width: 440px; overflow: visible; transform: translateY(10px) scale(0.98); transition: transform calc(var(--pm-ms) * 1.2) cubic-bezier(0.16, 1, 0.3, 1); }
+.pm { max-width: 400px; overflow: visible; transform: translateY(10px) scale(0.98); transition: transform calc(var(--pm-ms) * 1.2) cubic-bezier(0.16, 1, 0.3, 1); }
 .pm-overlay.shown .pm { transform: none; }
+.pm-head { display: flex; flex-direction: column; align-items: center; text-align: center; margin-bottom: var(--space-5); }
+.pm-head img { margin-bottom: var(--space-3); }
+.pm-head .ds-modal-text { max-width: 300px; }
+.pm-save, .pm-cancel { border-radius: var(--radius-md); min-height: 44px; }
 .pm-row { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: var(--space-3); margin-bottom: var(--space-4); }
-.pm-field { display: flex; flex-direction: column; gap: 6px; margin-bottom: var(--space-5); }
+.pm-field { display: flex; flex-direction: column; gap: 6px; margin-bottom: var(--space-4); }
 .pm-row .pm-field { margin-bottom: 0; }
-.pm-label { font-size: 0.9rem; font-weight: 700; color: var(--text); }
+.pm-label { font-size: 0.875rem; font-weight: 500; color: var(--text2); }
+.pm-label i { font-style: normal; color: var(--accent-text); }
 .pm-label em { font-style: normal; font-weight: 500; color: var(--text3); }
-.pm-input { width: 100%; box-sizing: border-box; min-height: 46px; padding: 0 var(--space-4); background: var(--bg); border: 1.5px solid var(--border2); border-radius: var(--radius-lg); color: var(--text); font: inherit; font-size: 0.98rem; outline: none; transition: border-color 0.15s, box-shadow 0.15s; }
+.pm-input { width: 100%; box-sizing: border-box; min-height: 44px; padding: 0 var(--space-3); background: var(--ds-card); border: 1px solid var(--border2); border-radius: var(--radius-md); box-shadow: var(--shadow-xs); color: var(--text); font: inherit; font-size: 0.98rem; outline: none; transition: border-color 0.15s, box-shadow 0.15s; }
 .pm-input:focus, .pm-input.open { border-color: color-mix(in srgb, var(--accent) 65%, transparent); box-shadow: 0 0 0 4px var(--accent-glow); }
 .pm-input.bad { border-color: var(--danger-text); }
+.pm-input:disabled { background: var(--ds-soft); color: var(--text3); box-shadow: none; }
 .pm-input::placeholder { color: var(--text3); }
 .pm-phone { display: flex; gap: var(--space-2); }
 .pm-cc-wrap { position: relative; flex-shrink: 0; }

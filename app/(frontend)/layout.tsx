@@ -21,6 +21,8 @@ import ProgressSync from '@/components/ProgressSync';
 import PhoneGate from "@/components/PhoneGate";
 import AuthRedirectHandler from "@/components/AuthRedirectHandler";
 import BottomNav from "@/components/BottomNav";
+import Toaster from "@/components/ui/Toast";
+import ConfirmHost from "@/components/ui/ConfirmDialog";
 import PWARegister from "@/components/PWARegister";
 import InAppBrowserNotice from "@/components/InAppBrowserNotice";
 import PromoPopup from "@/components/PromoPopup";
@@ -179,6 +181,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <main style={{ minHeight: '100vh', paddingTop: 60 }} className="ho-main">{children}</main>
         <Footer />
         <BottomNav />
+        <Toaster />
+        <ConfirmHost />
         <Analytics />
         <SpeedInsights />
         </LangProvider>

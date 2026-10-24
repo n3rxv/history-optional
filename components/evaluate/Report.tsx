@@ -2,6 +2,7 @@
 import type { ReactNode } from 'react';
 import Link from 'next/link';
 import type { AnswerEntry } from '@/hooks/useAnswerHistory';
+import { toast } from '@/components/ui/Toast';
 
 /**
  * A marked answer: the score and the marks for each part beside it, and the
@@ -293,7 +294,7 @@ export function ReportBody({ data, tab, setTab, hi, compact }: {
         <section className="ev-block ev-model">
           <div className="ev-block-head">
             <h2>{hi ? 'आदर्श उत्तर' : 'Model answer'} · {data.allotted} {hi ? 'अंक' : 'marks'}</h2>
-            <button type="button" className="ds-btn ds-btn-line ds-btn-sm" onClick={() => downloadPdf(data).catch(() => alert(hi ? 'PDF नहीं बन सका। फिर कोशिश करें।' : 'The PDF could not be made. Please try again.'))}>
+            <button type="button" className="ds-btn ds-btn-line ds-btn-sm" onClick={() => downloadPdf(data).catch(() => toast(hi ? 'PDF नहीं बन सका। फिर कोशिश करें।' : 'The PDF could not be made. Try again in a moment.', 'error'))}>
               {hi ? 'PDF डाउनलोड करें' : 'Download as PDF'}
             </button>
           </div>

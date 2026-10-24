@@ -14,30 +14,10 @@ import { SubscribeCard } from '@/components/SubscribeCard';
 import { FEATURES } from '@/lib/features';
 import { daysToMains } from '@/lib/examDates';
 import { PLANS, PLAN_ORDER, DEFAULT_PLAN, planPriceLabel, addPlanDuration, isPlanId, type PlanId } from '@/lib/plans';
-
-/**
- * The reader's Google profile picture, falling back to their initial.
- *
- * Firebase hands this over as user.photoURL from the Google provider. It is
- * null for anyone who signed in without a picture, so the initial is a real
- * path rather than a safety net, and onError covers a URL that 404s later,
- * which Google's lh3 links do once a photo is removed.
- */
-function UserAvatar({ email, name, photoURL, size = 34 }: {
-  email: string; name?: string; photoURL?: string | null; size?: number;
-}) {
-  const [failed, setFailed] = useState(false);
-  const initial = (name?.trim() || email || '?').charAt(0).toUpperCase();
-  const showImage = Boolean(photoURL) && !failed;
-  return (
-    <span className="nb-avatar-disc" style={{ width: size, height: size, fontSize: Math.round(size * 0.4) }}>
-      {showImage ? (
-        // eslint-disable-next-line @next/next/no-img-element
-        <img src={photoURL as string} alt="" width={size} height={size} referrerPolicy="no-referrer" onError={() => setFailed(true)} />
-      ) : initial}
-    </span>
-  );
-}
+import { toast } from '@/components/ui/Toast';
+import { confirmDialog } from '@/components/ui/ConfirmDialog';
+import UserAvatar from '@/components/ui/UserAvatar';
+import { loadAspirantProfile, PROFILE_EVENT, type AspirantProfile } from '@/lib/aspirantProfile';
 
 /** A stored plan id shown to the reader. Falls back to the raw value for
  *  rows written before the id set settled. */
@@ -319,11 +299,9 @@ export default function Navbar() {
   const [userMenuOpen, setUserMenuOpen] = useState(false);
   const { langHi, toggleLang } = useLang();
   const [isDark, setIsDark] = useState(false);
-  const [profileOpen, setProfileOpen] = useState(false);
-  const [aspirantName, setAspirantName] = useState('');
-  const [aspirantAge, setAspirantAge] = useState('');
-  const [aspirantAttempt, setAspirantAttempt] = useState('');
-  const [aspirantYear, setAspirantYear] = useState('');
+  const [aspirant, setAspirant] = useState<AspirantProfile>({ name: '', age: '', attempt: '', year: '' });
+  const aspirantName = aspirant.name;
+  const aspirantYear = aspirant.year;
   const [subData, setSubData] = useState<{ plan: string; expires_at: string; autoRenew?: boolean } | null>(null);
   const [showExtendModal, setShowExtendModal] = useState(false);
   const [cancelling, setCancelling] = useState(false);
@@ -338,14 +316,15 @@ export default function Navbar() {
   /** Stops future weekly debits. Access already paid for is untouched. */
   async function handleCancelAutopay() {
     if (!auth.currentUser) return;
-    if (!window.confirm('Stop the weekly renewal? You keep access for the remaining days you’ve already paid for.')) return;
+    if (!(await confirmDialog({ title: 'Stop the weekly renewal?', text: 'You keep access for the remaining days you’ve already paid for.', confirmLabel: 'Stop renewal', cancelLabel: 'Keep it', tone: 'danger' }))) return;
     setCancelling(true);
     try {
       const token = await auth.currentUser.getIdToken();
       const res = await fetch('/api/razorpay/subscription/cancel', {
         method: 'POST', headers: { 'x-user-token': token },
       });
-      if (res.ok) setSubData(prev => (prev ? { ...prev, autoRenew: false } : prev));
+      if (res.ok) { setSubData(prev => (prev ? { ...prev, autoRenew: false } : prev)); toast('Weekly renewal stopped'); }
+      else toast('That did not go through. Try again in a moment.', 'error');
     } finally {
       setCancelling(false);
     }
@@ -357,6 +336,10 @@ export default function Navbar() {
     const dark = document.documentElement.getAttribute('data-theme') === 'dark';
     setIsDark(dark);
     paintBrowserBar(dark);
+    // The profile page can switch the theme too; follow it.
+    const watch = new MutationObserver(() => setIsDark(document.documentElement.getAttribute('data-theme') === 'dark'));
+    watch.observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
+    return () => watch.disconnect();
   }, []);
 
   // Always writes an explicit choice, in both directions, so a reader on a
@@ -488,13 +471,9 @@ export default function Navbar() {
   }, [fetchSub]);
 
   useEffect(() => {
-    const saved = localStorage.getItem('ho_aspirant_profile');
-    if (saved) {
-      try {
-        const p = JSON.parse(saved);
-        setAspirantName(p.name || ''); setAspirantAge(p.age || ''); setAspirantAttempt(p.attempt || ''); setAspirantYear(p.year || '');
-      } catch {}
-    }
+    setAspirant(loadAspirantProfile());
+    const onProfile = () => setAspirant(loadAspirantProfile());
+    window.addEventListener(PROFILE_EVENT, onProfile);
     const unsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {
       setUser(firebaseUser);
       if (firebaseUser) {
@@ -504,7 +483,7 @@ export default function Navbar() {
         setSubData(null);
       }
     });
-    return () => unsubscribe();
+    return () => { unsubscribe(); window.removeEventListener(PROFILE_EVENT, onProfile); };
   }, [fetchSub]);
 
   const handleSignOut = async () => {
@@ -512,11 +491,6 @@ export default function Navbar() {
     setUserMenuOpen(false);
     setOpen(false);
     router.refresh();
-  };
-
-  const saveProfileField = (key: 'name' | 'age' | 'attempt' | 'year', value: string) => {
-    const cur = { name: aspirantName, age: aspirantAge, attempt: aspirantAttempt, year: aspirantYear, [key]: value };
-    localStorage.setItem('ho_aspirant_profile', JSON.stringify(cur));
   };
 
   const notesItems: MenuItem[] = [
@@ -653,7 +627,7 @@ export default function Navbar() {
                       )}
                       <div className="nb-menu-links">
                         <Link href="/dashboard" className="nb-menu-item" role="menuitem">{Icon.dash}Dashboard</Link>
-                        <button className="nb-menu-item" role="menuitem" onClick={() => { setProfileOpen(true); setUserMenuOpen(false); }}>{Icon.edit}Your profile</button>
+                        <Link href="/profile" className="nb-menu-item" role="menuitem" onClick={() => setUserMenuOpen(false)}>{Icon.edit}Profile and settings</Link>
                         <Link href="/pricing" className="nb-menu-item" role="menuitem">{Icon.plans}Plans</Link>
                         <button className="nb-menu-item danger" role="menuitem" onClick={handleSignOut}>{Icon.out}Sign out</button>
                       </div>
@@ -709,40 +683,11 @@ export default function Navbar() {
           <div className="nb-sheet-actions">
             {langToggle}
             <button className="ds-btn ds-btn-line ds-btn-sm" onClick={toggleTheme}>{isDark ? Icon.sun : Icon.moon}{isDark ? 'Light' : 'Dark'}</button>
-            {user && <button className="ds-btn ds-btn-line ds-btn-sm" onClick={() => { setProfileOpen(true); setOpen(false); }}>{Icon.edit}Profile</button>}
+            {user && <Link href="/profile" className="ds-btn ds-btn-line ds-btn-sm" onClick={() => setOpen(false)}>{Icon.edit}Profile</Link>}
             {user && <button className="ds-btn ds-btn-line ds-btn-sm nb-danger" onClick={handleSignOut}>{Icon.out}Sign out</button>}
           </div>
         </div>
       </div>
-
-      {profileOpen && user && (
-        <div className="ds ds-overlay" onClick={() => setProfileOpen(false)}>
-          <div className="ds-modal nb-profile" role="dialog" aria-modal="true" aria-labelledby="nb-profile-title" onClick={e => e.stopPropagation()}>
-            <div className="ds-modal-head">
-              <div>
-                <h2 id="nb-profile-title">Your profile</h2>
-                <p>Kept on this device. Your target year sets the exam countdown.</p>
-              </div>
-              <button className="ds-x" onClick={() => setProfileOpen(false)} aria-label="Close">{Icon.close}</button>
-            </div>
-            <div className="nb-profile-fields">
-              {([
-                { label: 'Name', val: aspirantName, set: setAspirantName, placeholder: 'e.g. Rahul Sharma', key: 'name', mode: 'text' },
-                { label: 'Age', val: aspirantAge, set: setAspirantAge, placeholder: 'e.g. 24', key: 'age', mode: 'numeric' },
-                { label: 'Attempt', val: aspirantAttempt, set: setAspirantAttempt, placeholder: 'e.g. 1st', key: 'attempt', mode: 'text' },
-                { label: 'Target year', val: aspirantYear, set: setAspirantYear, placeholder: 'e.g. 2026', key: 'year', mode: 'numeric' },
-              ] as const).map(({ label, val, set, placeholder, key, mode }) => (
-                <label key={key} className={`ds-field${key === 'name' ? ' wide' : ''}`}>
-                  <span>{label}</span>
-                  <input className="ds-input" value={val} placeholder={placeholder} inputMode={mode}
-                    onChange={e => { set(e.target.value); saveProfileField(key, e.target.value); }} />
-                </label>
-              ))}
-            </div>
-            <button className="ds-btn ds-btn-solid ds-btn-block" onClick={() => setProfileOpen(false)}>Done</button>
-          </div>
-        </div>
-      )}
 
       {showExtendModal && user && (
         <ExtendModal
@@ -854,9 +799,6 @@ const NAV_CSS = `
 .nb-exam { display: flex; align-items: center; justify-content: space-between; gap: var(--space-3); margin: 0 var(--space-2) var(--space-2); padding: var(--space-2) var(--space-3); border-radius: var(--radius-md); background: var(--ds-soft); font-family: var(--font-ui); font-size: 0.8rem; color: var(--text2); }
 .nb-exam strong { color: var(--text); }
 .nb-exam-days strong { font-size: 1rem; font-weight: 800; color: var(--accent-text); }
-.nb-profile { max-width: 440px; }
-.nb-profile-fields { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: var(--space-3); margin-bottom: var(--space-5); }
-.nb-profile-fields .wide { grid-column: 1 / -1; }
 .nb-plan-block { display: flex; flex-direction: column; gap: var(--space-2); padding: var(--space-3) var(--space-2); border-top: 1px solid var(--border); }
 .nb-plan-line { display: flex; align-items: baseline; justify-content: space-between; gap: var(--space-2); }
 .nb-plan-line strong { font-size: 0.9rem; }

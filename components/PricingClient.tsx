@@ -9,6 +9,8 @@ import Mascot from '@/components/Mascot';
 import { FEATURES, ONE_OFF } from '@/lib/features';
 import { daysToMains, NEXT_MAINS } from '@/lib/examDates';
 import { PLANS, PLAN_DURATION, planPriceLabel, type PlanId } from '@/lib/plans';
+import { toast } from '@/components/ui/Toast';
+import { confirmDialog } from '@/components/ui/ConfirmDialog';
 
 /**
  * The plans, grouped by what each is for, as in the Go Premium panel: the
@@ -92,13 +94,13 @@ export default function PricingClient() {
     const user = auth.currentUser;
     if (!user) { await signInWithGoogle().catch(() => {}); return; }
     const RZP = (window as unknown as { Razorpay?: new (o: unknown) => { open: () => void } }).Razorpay;
-    if (!RZP) { alert('Payment is still loading. Give it a moment and try again.'); return; }
+    if (!RZP) { toast('Payment is still loading. Give it a moment and try again.', 'error'); return; }
     setTopperBusy(true);
     try {
       const token = await user.getIdToken();
       const res = await fetch('/api/razorpay/topper-order', { method: 'POST', headers: { 'x-user-token': token } });
       const order = await res.json();
-      if (!res.ok) { alert(order.error || 'Could not start the payment.'); setTopperBusy(false); return; }
+      if (!res.ok) { toast(order.error || 'Could not start the payment.', 'error'); setTopperBusy(false); return; }
       new RZP({
         key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
         amount: order.amount,
@@ -117,17 +119,18 @@ export default function PricingClient() {
         modal: { ondismiss: () => setTopperBusy(false) },
       }).open();
     } catch {
-      alert('Could not start the payment.');
+      toast('Could not start the payment.', 'error');
       setTopperBusy(false);
     }
   };
 
   const cancelRenewal = async () => {
     if (!auth.currentUser) return;
-    if (!window.confirm('Stop the weekly renewal? You keep access for the days you’ve already paid for.')) return;
+    if (!(await confirmDialog({ title: 'Stop the weekly renewal?', text: 'You keep access for the days you’ve already paid for.', confirmLabel: 'Stop renewal', cancelLabel: 'Keep it', tone: 'danger' }))) return;
     const token = await auth.currentUser.getIdToken();
     const res = await fetch('/api/razorpay/subscription/cancel', { method: 'POST', headers: { 'x-user-token': token } });
-    if (res.ok) setStatus((s) => (s ? { ...s, autoRenew: false, canResubscribe: true } : s));
+    if (res.ok) { setStatus((s) => (s ? { ...s, autoRenew: false, canResubscribe: true } : s)); toast('Weekly renewal stopped'); }
+    else toast('That did not go through. Try again in a moment.', 'error');
   };
 
   const premium = Boolean(status?.isPremium);

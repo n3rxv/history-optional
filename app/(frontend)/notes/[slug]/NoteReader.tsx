@@ -14,6 +14,8 @@ import OwlLoader from '@/components/OwlLoader';
 import Mascot from '@/components/Mascot';
 import { sectionByName } from '@/components/notes/sections';
 import InlineEditorToolbar from './InlineEditorToolbar';
+import { confirmDialog } from '@/components/ui/ConfirmDialog';
+import { toastSignInError } from '@/components/ui/Toast';
 
 /**
  * One note: the page most of the site's reading happens on, and most of it on
@@ -385,7 +387,7 @@ export default function NoteReader({
   const [authLoading, setAuthLoading] = useState(true);
   useEffect(() => onAuthStateChanged(auth, u => { setUser(u); setAuthLoading(false); }), []);
   const handleSignIn = async () => {
-    try { await signInWithGoogle(); } catch (e) { console.error(e); }
+    try { await signInWithGoogle(); } catch (e) { console.error(e); toastSignInError(e, langHi); }
   };
   const adminToken = useSyncExternalStore(noSubscribe, readAdminToken, () => null);
 
@@ -796,7 +798,7 @@ export default function NoteReader({
                 : L('Tap the note where you want the sticky note.', 'नोट में वहाँ टैप करें जहाँ आप स्टिकी नोट लगाना चाहते हैं।')}
             </span>
             {tool === 'highlight' && highlights.length > 0 && (
-              <button type="button" className="nr-tools-clear" onClick={() => { if (confirm(L('Remove all your highlights from this note?', 'इस नोट से अपने सभी हाइलाइट हटाएँ?'))) setHighlights([]); }}>{L('Clear all', 'सब हटाएँ')}</button>
+              <button type="button" className="nr-tools-clear" onClick={async () => { if (await confirmDialog({ title: L('Remove all your highlights from this note?', 'इस नोट से अपने सभी हाइलाइट हटाएँ?'), confirmLabel: L('Remove all', 'सब हटाएँ'), cancelLabel: L('Cancel', 'रद्द करें'), tone: 'danger' })) setHighlights([]); }}>{L('Clear all', 'सब हटाएँ')}</button>
             )}
             <button type="button" className="nr-tools-x" onClick={() => pickTool(null)} aria-label={L('Close the tools', 'साधन बंद करें')}>{Icon.x}</button>
           </div>
@@ -1065,7 +1067,7 @@ const NR_CSS = `
 }
 /* The tab bar sits over the foot of the panel on a phone. */
 @media (max-width: 768px) {
-  .nr-sidebar-inner { padding-bottom: calc(64px + env(safe-area-inset-bottom, 0px) + var(--space-8)); }
+  .nr-sidebar-inner { padding-bottom: calc(var(--bn-clear) + var(--space-8)); }
 }
 
 /* ── Sidebar contents ── */
@@ -1292,7 +1294,7 @@ a.sb-sub:hover { color: var(--t); }
 
 /* ── Phones ── */
 @media (max-width: 768px) {
-  .nr-find-fab, .nr-find-panel { bottom: calc(64px + env(safe-area-inset-bottom, 0px) + 12px); right: 12px; }
+  .nr-find-fab, .nr-find-panel { bottom: calc(var(--bn-clear) + 12px); right: 12px; }
 }
 @media (max-width: 640px) {
   .nr-bar { padding: var(--space-2) var(--space-4); }
