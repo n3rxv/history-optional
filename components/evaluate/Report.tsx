@@ -3,6 +3,7 @@ import type { ReactNode } from 'react';
 import Link from 'next/link';
 import type { AnswerEntry } from '@/hooks/useAnswerHistory';
 import { toast } from '@/components/ui/Toast';
+import PdfButton, { downloadEvaluationPdf } from '@/components/evaluate/PdfButton';
 
 /**
  * A marked answer: the score and the marks for each part beside it, and the
@@ -222,6 +223,7 @@ export default function Report({ data, tab, setTab, onAnother, onBack, chatHref,
             )}
             <div className="ev-score-actions">
               {data.model && <button type="button" className="ds-btn ds-btn-solid" onClick={() => setTab('model')}>{hi ? 'आदर्श उत्तर देखें' : 'See the model answer'}</button>}
+              <PdfButton hi={hi} download={() => downloadEvaluationPdf([data], { hi })} label={hi ? 'मूल्यांकन की PDF डाउनलोड करें' : 'Download the evaluation (PDF)'} />
               <Link href={chatHref} className="ds-btn ds-btn-line">{hi ? 'AI से इस पर पूछें' : 'Ask the AI about it'}</Link>
               <button type="button" className="ds-btn ds-btn-ghost" onClick={onAnother}>{hi ? 'दूसरा उत्तर जाँचें' : 'Check another answer'}</button>
             </div>
@@ -241,13 +243,15 @@ export default function Report({ data, tab, setTab, onAnother, onBack, chatHref,
  * the tabs and what is under them. Also used for each question of a full
  * paper (components/PDFTestEvaluator).
  */
-export function ReportBody({ data, tab, setTab, hi, compact }: {
+export function ReportBody({ data, tab, setTab, hi, compact, pdf }: {
   data: ReportData;
   tab: 'eval' | 'model' | 'hist';
   setTab: (t: 'eval' | 'model' | 'hist') => void;
   hi: boolean;
   /** Leave out the note on indicative marks, said once for a whole paper. */
   compact?: boolean;
+  /** Offer this answer's evaluation as a PDF, under its number in the paper if it has one. */
+  pdf?: { label?: string };
 }) {
   const tabs = [
     ['eval', hi ? 'प्रतिक्रिया' : 'Feedback'],
@@ -262,11 +266,16 @@ export function ReportBody({ data, tab, setTab, hi, compact }: {
           : 'These marks are indicative: an examiner may give a mark or two less. What moves your score is the feedback, the points you missed, the historians you could cite, and how analytical the answer is.'}
       </p>}
 
-      {tabs.length > 1 && (
-        <div className="ev-tabs" role="tablist">
-          {tabs.map(([k, label]) => (
-            <button key={k} type="button" role="tab" aria-selected={tab === k} className={`ev-tab${tab === k ? ' on' : ''}`} onClick={() => setTab(k)}>{label}</button>
-          ))}
+      {(tabs.length > 1 || pdf) && (
+        <div className="ev-tabs-row">
+          {tabs.length > 1 && (
+            <div className="ev-tabs" role="tablist">
+              {tabs.map(([k, label]) => (
+                <button key={k} type="button" role="tab" aria-selected={tab === k} className={`ev-tab${tab === k ? ' on' : ''}`} onClick={() => setTab(k)}>{label}</button>
+              ))}
+            </div>
+          )}
+          {pdf && <PdfButton hi={hi} className="ds-btn ds-btn-line ds-btn-sm ev-pdf" download={() => downloadEvaluationPdf([{ ...data, label: pdf.label }], { hi })} label={hi ? 'PDF डाउनलोड करें' : 'Download PDF'} />}
         </div>
       )}
 
@@ -295,7 +304,7 @@ export function ReportBody({ data, tab, setTab, hi, compact }: {
           <div className="ev-block-head">
             <h2>{hi ? 'आदर्श उत्तर' : 'Model answer'} · {data.allotted} {hi ? 'अंक' : 'marks'}</h2>
             <button type="button" className="ds-btn ds-btn-line ds-btn-sm" onClick={() => downloadPdf(data).catch(() => toast(hi ? 'PDF नहीं बन सका। फिर कोशिश करें।' : 'The PDF could not be made. Try again in a moment.', 'error'))}>
-              {hi ? 'PDF डाउनलोड करें' : 'Download as PDF'}
+              {hi ? 'आदर्श उत्तर की PDF' : 'Download the model answer'}
             </button>
           </div>
           <h3 className="ev-model-h">{hi ? 'भूमिका' : 'Introduction'}</h3>
@@ -352,6 +361,8 @@ export const REPORT_CSS = `
 .ev-score-actions .ds-btn { width: 100%; justify-content: center; min-height: 46px; }
 .ev-note { margin: 0; padding: var(--space-3) var(--space-4); border-radius: var(--radius-lg); background: var(--ds-soft); font-size: 0.88rem; line-height: 1.55; color: var(--text2); }
 .ev-tabs { display: flex; gap: 4px; padding: 4px; border-radius: var(--radius-full); background: var(--ds-soft); border: 1px solid var(--border); align-self: flex-start; }
+.ev-tabs-row { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: var(--space-2) var(--space-3); }
+.ev-pdf { margin-left: auto; }
 .ev-tab { padding: 8px 18px; border: none; border-radius: var(--radius-full); background: none; color: var(--text2); font: inherit; font-size: 0.92rem; font-weight: 700; white-space: nowrap; cursor: pointer; }
 .ev-tab.on { background: var(--ds-card); color: var(--text); box-shadow: var(--elev-1); }
 .ev-block { padding: var(--space-5) var(--space-6); background: var(--ds-card); border: 1px solid var(--border); border-radius: var(--radius-xl); }

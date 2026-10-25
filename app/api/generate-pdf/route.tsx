@@ -1,104 +1,12 @@
-export const maxDuration = 30;
+// A full paper's report is the longest render, a page or more per answer.
+export const maxDuration = 60;
 
 import { NextRequest, NextResponse } from "next/server";
 import { checkRateLimit, clientIp, tooManyRequests } from "@/lib/rateLimit";
-import { renderToBuffer, Document, Page, Text, View, Image as PdfImage, StyleSheet, Font } from "@react-pdf/renderer";
-import { OWL_PEEK, OWL_PEEK_RATIO, OWL_READING, OWL_READING_RATIO } from "@/lib/pdfMascot";
-import path from "path";
-import fs from "fs";
-
-const fontDir = path.join(process.cwd(), "public");
-Font.register({
-  family: "NotoSans",
-  fonts: [
-    { src: path.join(fontDir, "NotoSans-Regular.ttf"), fontWeight: "normal" },
-    { src: path.join(fontDir, "NotoSans-Bold.ttf"), fontWeight: "bold" },
-  ],
-});
-
-// --lapis-600, the light theme's accent. A PDF has no stylesheet, so the
-// token cannot be used here: var(--accent) reached react-pdf as an unknown
-// colour and every rule and bar printed black.
-const BLUE = "#4c6ae2";
-const BLACK = "#1a1a1a";
-const WHITE = "#ffffff";
-const GRAY = "#888888";
-const LIGHT_BLUE = "#eef3fc";
-const RULE = "#bbbbbb";
-
-const s = StyleSheet.create({
-  page: { fontFamily: "NotoSans", fontSize: 11, color: BLACK, paddingTop: 36, paddingBottom: 78, paddingLeft: 40, paddingRight: 40 },
-  // header
-  headerRow: { flexDirection: "row", alignItems: "center", marginBottom: 10 },
-  headerOwl: { width: 64, height: 64 * OWL_PEEK_RATIO, marginRight: 12 },
-  headerMid: { flex: 1 },
-  headerTitle: { fontSize: 26, fontWeight: "bold", color: BLACK },
-  headerSub: { fontSize: 8, color: GRAY, marginTop: 2 },
-  headerDate: { fontSize: 8, color: GRAY, textAlign: "right", letterSpacing: 1 },
-  headerDivider: { height: 3, backgroundColor: BLUE, marginBottom: 16 },
-  // question
-  qBlock: { flexDirection: "row", marginBottom: 16 },
-  qAccent: { width: 6, backgroundColor: BLUE },
-  qInner: { flex: 1, backgroundColor: LIGHT_BLUE, padding: 12 },
-  qLabel: { fontSize: 7, fontWeight: "bold", color: BLUE, letterSpacing: 2, marginBottom: 6 },
-  qText: { fontSize: 12, fontWeight: "bold", color: BLACK, lineHeight: 1.4 },
-  // section
-  sectionThin: { height: 0.5, backgroundColor: RULE, marginTop: 10, marginBottom: 4 },
-  sectionRow: { flexDirection: "row", alignItems: "flex-end", marginBottom: 2 },
-  sectionNum: { fontSize: 28, fontWeight: "bold", color: "#e8e8e8", width: 36 },
-  sectionTitle: { fontSize: 13, fontWeight: "bold", color: BLACK, letterSpacing: 2, flex: 1 },
-  sectionBlue: { height: 2, backgroundColor: BLUE, marginBottom: 8 },
-  // h2
-  h2Row: { flexDirection: "row", alignItems: "center", marginTop: 10, marginBottom: 3 },
-  h2Accent: { width: 4, height: 14, backgroundColor: BLUE, marginRight: 6 },
-  h2Text: { fontSize: 12, fontWeight: "bold", color: BLACK, flex: 1 },
-  // h3
-  h3Row: { flexDirection: "row", alignItems: "center", marginTop: 7, marginBottom: 3 },
-  h3Accent: { width: 3, height: 10, backgroundColor: BLUE, marginRight: 6 },
-  h3Text: { fontSize: 11, fontWeight: "bold", color: BLACK, flex: 1 },
-  // bullet
-  bulletRow: { flexDirection: "row", marginLeft: 8, marginBottom: 5 },
-  bulletDot: { width: 14, fontSize: 16, color: BLUE, marginTop: -3 },
-  bulletText: { fontSize: 11, color: BLACK, flex: 1, lineHeight: 1.65 },
-  // para
-  para: { fontSize: 11, color: BLACK, lineHeight: 1.7, marginBottom: 5 },
-  // table
-  tableRow: { flexDirection: "row" },
-  tableCell: { flex: 1, fontSize: 10, padding: 4, borderWidth: 0.5, borderColor: "#cccccc" },
-  // score badge
-  scoreBlock: { flexDirection: "row", marginBottom: 14 },
-  scoreBadge: { backgroundColor: LIGHT_BLUE, padding: 10, width: 110, alignItems: "center", justifyContent: "center" },
-  scoreNum: { fontSize: 22, fontWeight: "bold", color: BLACK, textAlign: "center" },
-  scoreLabel: { fontSize: 7, color: GRAY, textAlign: "center", letterSpacing: 1, marginTop: 2 },
-  scoreMeta: { flex: 1, justifyContent: "center", paddingLeft: 12 },
-  scoreTitle: { fontSize: 14, fontWeight: "bold", color: BLACK, marginBottom: 4 },
-  scoreSubtitle: { fontSize: 8, color: GRAY },
-  // historian card
-  hCard: { flexDirection: "row", marginBottom: 8 },
-  hAccent: { width: 6, backgroundColor: BLUE },
-  hInner: { flex: 1, backgroundColor: LIGHT_BLUE, padding: 10 },
-  hName: { fontSize: 12, fontWeight: "bold", color: BLACK, marginBottom: 2 },
-  hWork: { fontSize: 9, color: GRAY, marginBottom: 4 },
-  hArg: { fontSize: 10.5, color: BLACK, lineHeight: 1.6 },
-  // section header (evaluate style)
-  evalSecThin: { height: 0.5, backgroundColor: RULE, marginTop: 10, marginBottom: 4 },
-  evalSecRow: { flexDirection: "row", alignItems: "center", marginBottom: 2 },
-  evalSecAccent: { width: 4, height: 14, backgroundColor: BLUE, marginRight: 6 },
-  evalSecTitle: { fontSize: 11, fontWeight: "bold", color: BLACK, letterSpacing: 2, flex: 1 },
-  evalSecBlue: { height: 2, backgroundColor: BLUE, marginBottom: 8 },
-  // footer. It had no margin below it, so it sat on the paper's edge (where
-  // many printers cannot print) with a wide gap above. paddingBottom on the
-  // page is the footer's height, about 52, plus a 26pt gap to the text.
-  footer: { position: "absolute", bottom: 0, left: 0, right: 0 },
-  footerBar: { height: 3, backgroundColor: BLUE },
-  footerRow: { flexDirection: "row", alignItems: "center", paddingLeft: 40, paddingRight: 40, paddingTop: 8, paddingBottom: 20 },
-  footerOwl: { width: 24, height: 24 * OWL_READING_RATIO, marginRight: 8 },
-  footerLeft: { flex: 1 },
-  footerSiteLabel: { fontSize: 9, fontWeight: "bold", color: BLACK },
-  footerRight: { alignItems: "flex-end" },
-  footerPage: { fontSize: 11, fontWeight: "bold", color: BLACK },
-  footerPageLabel: { fontSize: 6, color: GRAY, letterSpacing: 1, marginTop: 1 },
-});
+import type { ReactElement } from "react";
+import { renderToBuffer, Document, Page, Text, View, type DocumentProps } from "@react-pdf/renderer";
+import { s, WHITE, BLACK, TABLE_HEAD, TABLE_ALT, Header, Footer, EvalSectionHeader, fitDevanagari } from "./parts";
+import { ReportPDF, MapPDF, reportTooBig, mapTooBig, type ReportItem, type MapData } from "./report";
 
 // ── Helpers ──
 function parseInlineChat(t: string): string {
@@ -116,53 +24,6 @@ function parseInlineEval(t: string): { text: string; bold?: boolean }[] {
   }
   if (last < t.length) parts.push({ text: t.slice(last) });
   return parts.length ? parts : [{ text: t }];
-}
-
-function Header({ dateStr }: { dateStr: string }) {
-  return (
-    <>
-      <View style={s.headerRow}>
-        <PdfImage src={OWL_PEEK} style={s.headerOwl} />
-        <View style={s.headerMid}>
-          <Text style={s.headerTitle}>HistoryOptional.xyz</Text>
-          <Text style={s.headerSub}>one-stop solution for everything history optional</Text>
-        </View>
-        <Text style={s.headerDate}>{dateStr}</Text>
-      </View>
-      <View style={s.headerDivider} />
-    </>
-  );
-}
-
-function Footer() {
-  return (
-    <View style={s.footer} fixed>
-      <View style={s.footerBar} />
-      <View style={s.footerRow}>
-        <PdfImage src={OWL_READING} style={s.footerOwl} />
-        <View style={s.footerLeft}>
-          <Text style={s.footerSiteLabel}>HistoryOptional.xyz</Text>
-        </View>
-        <View style={s.footerRight}>
-          <Text style={s.footerPage} render={({ pageNumber, totalPages }) => `${pageNumber} / ${totalPages}`} />
-          <Text style={s.footerPageLabel}>PAGE</Text>
-        </View>
-      </View>
-    </View>
-  );
-}
-
-function EvalSectionHeader({ title }: { title: string }) {
-  return (
-    <>
-      <View style={s.evalSecThin} />
-      <View style={s.evalSecRow}>
-        <View style={s.evalSecAccent} />
-        <Text style={s.evalSecTitle}>{title.toUpperCase()}</Text>
-      </View>
-      <View style={s.evalSecBlue} />
-    </>
-  );
 }
 
 // ── Chat/PYQ PDF ──
@@ -225,7 +86,7 @@ function ChatPDF({ markdownText, questionText, dateStr }: { markdownText: string
                 <View key={rIdx} style={s.tableRow}>
                   {row.map((cell: string, cIdx: number) => (
                     <Text key={cIdx} style={[s.tableCell, {
-                      backgroundColor: rIdx === 0 ? "#2a2a2a" : rIdx % 2 === 0 ? "#f5f7ff" : WHITE,
+                      backgroundColor: rIdx === 0 ? TABLE_HEAD : rIdx % 2 === 0 ? TABLE_ALT : WHITE,
                       color: rIdx === 0 ? WHITE : BLACK,
                       fontWeight: rIdx === 0 ? "bold" : "normal",
                     }]}>{cell}</Text>
@@ -305,6 +166,27 @@ function EvalPDF({ question, marks, evaluation, dateStr }: { question: string; m
 }
 
 // ── Route Handler ──
+type Body = { type?: string; markdownText?: string; questionText?: string; question?: string; marks?: number; evaluation?: unknown; items?: unknown; map?: unknown; paper?: boolean };
+const fileName = (t: string) => t.slice(0, 60).replace(/[^a-zA-Z0-9 ]/g, "").trim().replace(/\s+/g, "_");
+
+/** The document a request asks for, built outside the handler's try (JSX there would not be caught by it anyway). */
+function documentFor(body: Body, hi: boolean, dateStr: string): { doc: ReactElement<DocumentProps>; filename: string } | { error: string } {
+  const { type = "chat", markdownText, questionText, question, marks, evaluation, items, map, paper } = body;
+  if (type === "report") {
+    // The full evaluation: one answer, or a whole paper with its summary.
+    return { doc: <ReportPDF items={items as ReportItem[]} hi={hi} dateStr={dateStr} paper={!!paper} />, filename: paper ? "Full paper evaluation (historyoptional.xyz).pdf" : "Evaluation (historyoptional.xyz).pdf" };
+  }
+  if (type === "map") {
+    return { doc: <MapPDF map={map as MapData} hi={hi} dateStr={dateStr} />, filename: "Map question evaluation (historyoptional.xyz).pdf" };
+  }
+  if (type === "eval") {
+    if (!question || !evaluation) return { error: "Missing eval data" };
+    return { doc: <EvalPDF question={question} marks={marks ?? 20} evaluation={evaluation} dateStr={dateStr} />, filename: fileName(question) + "-model_answer (historyoptional.xyz).pdf" };
+  }
+  if (!markdownText) return { error: "Missing content" };
+  return { doc: <ChatPDF markdownText={markdownText} questionText={questionText} dateStr={dateStr} />, filename: fileName(questionText ?? markdownText) + " (historyoptional.xyz).pdf" };
+}
+
 // renderToBuffer is CPU-bound and runs in-process, so a burst of requests
 // saturates the function rather than queuing cheaply. None of the three
 // callers is behind a login, so the gate is per-IP rather than per-account.
@@ -319,7 +201,8 @@ export async function POST(req: NextRequest) {
 
   try {
     const body = await req.json();
-    const { type = "chat", markdownText, questionText, question, marks, evaluation } = body;
+    const { type = "chat", markdownText, questionText, question, evaluation, items, map, lang } = body;
+    const hi = lang === "hi";
 
     // Bounds the render: without them a single request can pin a lambda for
     // the full 30s budget on an arbitrarily long document.
@@ -327,26 +210,23 @@ export async function POST(req: NextRequest) {
       (typeof markdownText === "string" && markdownText.length > MAX_TEXT_CHARS) ||
       (typeof questionText === "string" && questionText.length > 2_000) ||
       (typeof question === "string" && question.length > 2_000) ||
-      (evaluation !== undefined && JSON.stringify(evaluation).length > MAX_TEXT_CHARS);
+      (evaluation !== undefined && JSON.stringify(evaluation).length > MAX_TEXT_CHARS) ||
+      (type === "report" && reportTooBig(items)) ||
+      (type === "map" && mapTooBig(map));
     if (oversized) {
       return NextResponse.json({ error: "Content too long for PDF export" }, { status: 413 });
     }
 
     const now = new Date();
-    const dateStr = now.toLocaleDateString("en-IN", { day: "2-digit", month: "long", year: "numeric" }).toUpperCase();
+    const dateStr = hi
+      ? now.toLocaleDateString("hi-IN", { day: "numeric", month: "long", year: "numeric" })
+      : now.toLocaleDateString("en-IN", { day: "2-digit", month: "long", year: "numeric" }).toUpperCase();
 
-    let buffer: Buffer;
-    let filename: string;
-
-    if (type === "eval") {
-      if (!question || !evaluation) return NextResponse.json({ error: "Missing eval data" }, { status: 400 });
-      buffer = await renderToBuffer(<EvalPDF question={question} marks={marks ?? 20} evaluation={evaluation} dateStr={dateStr} />);
-      filename = question.slice(0, 60).replace(/[^a-zA-Z0-9 ]/g, "").trim().replace(/\s+/g, "_") + "-model_answer (historyoptional.xyz).pdf";
-    } else {
-      if (!markdownText) return NextResponse.json({ error: "Missing content" }, { status: 400 });
-      buffer = await renderToBuffer(<ChatPDF markdownText={markdownText} questionText={questionText} dateStr={dateStr} />);
-      filename = (questionText ?? markdownText).slice(0, 60).replace(/[^a-zA-Z0-9 ]/g, "").trim().replace(/\s+/g, "_") + " (historyoptional.xyz).pdf";
-    }
+    const made = documentFor(body, hi, dateStr);
+    if ("error" in made) return NextResponse.json({ error: made.error }, { status: 400 });
+    await fitDevanagari();
+    const buffer = await renderToBuffer(made.doc);
+    const filename = made.filename;
 
     return new NextResponse(buffer as unknown as BodyInit, {
       status: 200,

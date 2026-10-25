@@ -33,13 +33,45 @@ export interface AnswerEntry {
   historiansToCite?: { name: string; work?: string; argument: string }[];
   modelAnswer?: { introduction: string; body: string | string[]; conclusion: string };
   type?: "single" | "batch" | "map";
+  /** Answers marked from one full paper share this, so the paper can be downloaded whole. */
+  paperId?: string;
+  /** The question's number in its paper, as "Q1(a)". */
+  label?: string;
+  /** A map question's place-by-place marking, for its download. */
+  mapResults?: MapResults;
 }
+
+export interface MapPlace {
+  number: string;
+  clue: string;
+  status: 'correct' | 'partial' | 'wrong' | 'blank';
+  marks: number;
+  maxMarks: number;
+  studentSite: string | null;
+  studentDescription: string | null;
+  correctSite: string | null;
+  correctLocation: string | null;
+  siteMarks: number;
+  descriptionScore: number;
+  descriptionFeedback: string;
+}
+export interface MapResults { results: MapPlace[]; totalMarks: number; maxTotal: number; percentage: number }
 
 export function loadHistory(): AnswerEntry[] {
   if (typeof window === 'undefined') return [];
   try {
     const raw = localStorage.getItem(STORAGE_KEY);
-    return raw ? JSON.parse(raw) : [];
+    const list: AnswerEntry[] = raw ? JSON.parse(raw) : [];
+    // Full papers saved before ids were made unique share one id per paper,
+    // so opening one answer opened its neighbour. Told apart once, for good.
+    const seen = new Set<string>();
+    let changed = false;
+    for (const [i, e] of list.entries()) {
+      if (seen.has(e.id)) { e.id = `${e.id}-${i}`; changed = true; }
+      seen.add(e.id);
+    }
+    if (changed) localStorage.setItem(STORAGE_KEY, JSON.stringify(list));
+    return list;
   } catch { return []; }
 }
 
@@ -60,7 +92,9 @@ export function saveToHistory(entry: Omit<AnswerEntry, 'id' | 'date'>) {
   if (typeof window === 'undefined') return;
   try {
     const history = loadHistory();
-    const newEntry: AnswerEntry = { ...entry, id: Date.now().toString(), date: new Date().toISOString() };
+    // The answers of a full paper are saved in one go, inside the same
+    // millisecond, so the time alone gave them all one id.
+    const newEntry: AnswerEntry = { ...entry, id: `${Date.now()}-${Math.random().toString(36).slice(2, 7)}`, date: new Date().toISOString() };
     const updated = [newEntry, ...history].slice(0, MAX_ENTRIES);
     localStorage.setItem(STORAGE_KEY, JSON.stringify(updated));
     bumpStreak();

@@ -4,6 +4,7 @@ import { useLang } from '@/lib/i18n/LangContext';
 import { auth } from '@/lib/firebase';
 import { saveToHistory } from '@/hooks/useAnswerHistory';
 import { useRefreshSafe } from '@/hooks/useRefreshSafe';
+import PdfButton, { downloadMapPdf } from '@/components/evaluate/PdfButton';
 
 /**
  * The map question checked from one PDF: the outline map, the clue pages and
@@ -119,6 +120,8 @@ export default function MapEvaluator({ onLoginRequired }: { onLoginRequired: () 
           conclusion: { awarded: 0, out_of: 0 },
           presentation: { awarded: 0, out_of: 0 },
         },
+        // Place by place, so the past evaluations can download it again.
+        mapResults: { results: data.results, totalMarks: data.totalMarks, maxTotal: data.maxTotal, percentage: data.percentage },
       });
     } catch (e) {
       setError(e instanceof Error ? e.message : 'The marking did not finish.');
@@ -184,7 +187,10 @@ export default function MapEvaluator({ onLoginRequired }: { onLoginRequired: () 
               {count('blank') > 0 && <span className="blank">{T(`${count('blank')} left blank`, `${count('blank')} खाली`)}</span>}
             </span>
           </div>
-          <button type="button" className="ds-btn ds-btn-line ds-btn-sm" onClick={reset}>{T('Check another map', 'दूसरा मैप जँचवाएँ')}</button>
+          <div className="me-summary-actions">
+            <PdfButton hi={hi} className="ds-btn ds-btn-solid ds-btn-sm" download={() => downloadMapPdf(results, hi)} label={T('Download PDF', 'PDF डाउनलोड करें')} />
+            <button type="button" className="ds-btn ds-btn-line ds-btn-sm" onClick={reset}>{T('Check another map', 'दूसरा मैप जँचवाएँ')}</button>
+          </div>
         </div>
         <p className="me-note">{T('Each place is out of 2.5: 1.5 for the name and 1 for your note. Open one to see what was read and why.', 'हर स्थल 2.5 अंक का है: नाम के 1.5 और टिप्पणी का 1। क्या पढ़ा गया और क्यों, देखने के लिए खोलें।')}</p>
         <div className="me-rows">
@@ -315,6 +321,7 @@ const ME_CSS = `
 
 .me-summary { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: var(--space-3); padding: var(--space-5) var(--space-6); }
 .me-summary > div { display: flex; flex-direction: column; gap: 2px; }
+.me-summary > .me-summary-actions { flex-direction: row; flex-wrap: wrap; gap: var(--space-2); }
 .me-summary-label { font-size: 0.86rem; color: var(--text3); }
 .me-summary-num { font-size: 2.4rem; font-weight: 800; letter-spacing: -0.02em; font-variant-numeric: tabular-nums; line-height: 1.1; }
 .me-summary-num small { font-size: 1.05rem; font-weight: 600; color: var(--text3); }
@@ -365,6 +372,7 @@ const ME_CSS = `
   .me-steps { grid-template-columns: minmax(0, 1fr); }
   .me-summary { padding: var(--space-4); }
   .me-summary .ds-btn { width: 100%; justify-content: center; }
+  .me-summary > .me-summary-actions { width: 100%; flex-direction: column; }
   .me-pair { grid-template-columns: minmax(0, 1fr); }
   .me-row-head { gap: var(--space-2); padding: var(--space-3); }
   .me-n { min-width: 42px; }

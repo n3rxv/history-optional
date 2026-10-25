@@ -10,6 +10,7 @@ import MapEvaluator from '@/components/MapEvaluator';
 import EvalProgress, { ReadProgress, applyEvalStage, applyReadStage, type EvalStages, type ReadStages } from '@/components/EvalProgress';
 import { readProgress } from '@/lib/progressStream';
 import Report, { REPORT_CSS, IDEAL_WORDS, fromEntry, fromEvaluation, scoreTone, type Evaluation } from '@/components/evaluate/Report';
+import PdfButton, { downloadEvaluationPdf, downloadMapPdf } from '@/components/evaluate/PdfButton';
 
 /**
  * Get an answer marked. One answer goes through three steps: upload the
@@ -19,6 +20,27 @@ import Report, { REPORT_CSS, IDEAL_WORDS, fromEntry, fromEvaluation, scoreTone, 
  */
 
 type Mode = 'single' | 'batch' | 'map';
+
+/**
+ * Full-paper answers gathered back into their papers: by the paper id they
+ * were saved with, or, for those saved before there was one, by having been
+ * saved in the same moment (a paper's answers are all saved at once, when
+ * the last is marked). Saved last-first, so each paper is turned round to
+ * read from its first answer.
+ */
+function papersOf(list: AnswerEntry[]): AnswerEntry[][] {
+  const out: AnswerEntry[][] = [];
+  for (const e of list) {
+    const group = out[out.length - 1];
+    const prev = group?.[group.length - 1];
+    const same = prev && (e.paperId || prev.paperId
+      ? e.paperId === prev.paperId
+      : Math.abs(Date.parse(prev.date) - Date.parse(e.date)) < 10_000);
+    if (same) group.push(e);
+    else out.push([e]);
+  }
+  return out.map((g) => g.slice().reverse());
+}
 type Marks = 10 | 15 | 20;
 
 async function compressImage(file: File, maxWidth = 1600, quality = 0.82): Promise<File> {
@@ -293,6 +315,21 @@ export default function EvaluatePage() {
 
   const chatHref = (q: string) => `/chat?q=${encodeURIComponent(q)}`;
 
+  /** One past evaluation in the drawer, opened as its report. */
+  const pastRow = (e: AnswerEntry) => {
+    const p = e.marksOutOf ? e.marks / e.marksOutOf : 0;
+    return (
+      <button key={e.id} type="button" className={`ev-past${openEntry?.id === e.id ? ' on' : ''}`} onClick={() => { setOpenEntry(e); setTab('eval'); setDrawer(false); }}>
+        <span className="ev-past-top">
+          <strong style={{ color: scoreTone(p) }}>{e.label ? `${e.label} · ` : ''}{e.marks} / {e.marksOutOf}</strong>
+          <span>{new Date(e.date).toLocaleDateString('en-IN', { day: 'numeric', month: 'short' })}</span>
+        </span>
+        <span className="ev-past-q">{e.question}</span>
+        <span className="ev-past-bar"><span style={{ width: `${Math.min(100, p * 100)}%`, background: scoreTone(p) }} /></span>
+      </button>
+    );
+  };
+
   return (
     <>
       <style dangerouslySetInnerHTML={{ __html: CSS + REPORT_CSS }} />
@@ -445,19 +482,27 @@ export default function EvaluatePage() {
               <p className="ev-drawer-empty">{hi ? 'अभी कुछ नहीं जाँचा गया। आपका पहला मूल्यांकन यहाँ रहेगा।' : 'Nothing marked yet. Your evaluations will be kept here.'}</p>
             ) : (
               <div className="ev-drawer-list">
-                {modeHistory.map((e) => {
-                  const p = e.marksOutOf ? e.marks / e.marksOutOf : 0;
-                  return (
-                    <button key={e.id} type="button" className={`ev-past${openEntry?.id === e.id ? ' on' : ''}`} onClick={() => { setOpenEntry(e); setTab('eval'); setDrawer(false); }}>
-                      <span className="ev-past-top">
-                        <strong style={{ color: scoreTone(p) }}>{e.marks} / {e.marksOutOf}</strong>
-                        <span>{new Date(e.date).toLocaleDateString('en-IN', { day: 'numeric', month: 'short' })}</span>
-                      </span>
-                      <span className="ev-past-q">{e.question}</span>
-                      <span className="ev-past-bar"><span style={{ width: `${Math.min(100, p * 100)}%`, background: scoreTone(p) }} /></span>
-                    </button>
-                  );
-                })}
+                {evalMode === 'batch'
+                  ? papersOf(modeHistory).map((paper) => {
+                    const got = paper.reduce((n, e) => n + (e.marks || 0), 0);
+                    const max = paper.reduce((n, e) => n + (e.marksOutOf || 0), 0);
+                    return (
+                      <section key={paper[0].id} className="ev-paper">
+                        <div className="ev-paper-head">
+                          <span><strong style={{ color: scoreTone(max ? got / max : 0) }}>{got} / {max}</strong> · {hi ? `${paper.length} उत्तर` : `${paper.length} ${paper.length === 1 ? 'answer' : 'answers'}`} · {new Date(paper[0].date).toLocaleDateString('en-IN', { day: 'numeric', month: 'short' })}</span>
+                          <PdfButton hi={hi} className="ds-btn ds-btn-line ds-btn-sm" label="PDF"
+                            download={() => downloadEvaluationPdf(paper.map((e) => ({ ...fromEntry(e), label: e.label })), { hi, paper: paper.length > 1 })} />
+                        </div>
+                        {paper.map(pastRow)}
+                      </section>
+                    );
+                  })
+                  : modeHistory.map((e) => (e.mapResults ? (
+                    <div key={e.id} className="ev-past-wrap">
+                      {pastRow(e)}
+                      <PdfButton hi={hi} className="ds-btn ds-btn-line ds-btn-sm" label="PDF" download={() => downloadMapPdf({ ...e.mapResults!, date: e.date }, hi)} />
+                    </div>
+                  ) : pastRow(e)))}
               </div>
             )}
           </aside>
@@ -561,6 +606,11 @@ const CSS = `
 .ev-past-q { font-size: 0.9rem; line-height: 1.45; color: var(--text); display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
 .ev-past-bar { height: 3px; border-radius: var(--radius-full); background: var(--ds-soft); overflow: hidden; }
 .ev-past-bar span { display: block; height: 100%; }
+.ev-paper { margin-bottom: var(--space-3); padding: var(--space-1); border: 1px solid var(--border); border-radius: var(--radius-lg); }
+.ev-paper-head { display: flex; align-items: center; justify-content: space-between; gap: var(--space-2); padding: var(--space-2) var(--space-2) var(--space-1) var(--space-3); font-size: 0.86rem; color: var(--text3); }
+.ev-paper-head strong { font-size: 0.95rem; }
+.ev-past-wrap { display: flex; align-items: center; gap: var(--space-2); padding-right: var(--space-2); }
+.ev-past-wrap .ev-past { flex: 1; min-width: 0; }
 
 @media (max-width: 960px) {
   .ev-grid { grid-template-columns: minmax(0, 1fr); }

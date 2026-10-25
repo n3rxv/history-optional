@@ -5,6 +5,7 @@ import { saveToHistory } from '@/hooks/useAnswerHistory';
 import { getFingerprint } from '@/lib/fingerprint';
 import { useRefreshSafe } from '@/hooks/useRefreshSafe';
 import { REPORT_CSS, ReportBody, fromEvaluation, scoreTone, type Evaluation } from '@/components/evaluate/Report';
+import PdfButton, { downloadEvaluationPdf, type PdfAnswer } from '@/components/evaluate/PdfButton';
 
 /**
  * A whole answer booklet marked from one PDF: the pages are read, the answers
@@ -25,6 +26,14 @@ const Chevron = () => <svg width="16" height="16" viewBox="0 0 24 24" fill="none
 const pageRender = (page: { render: (p: never) => { promise: Promise<void> } }, canvas: HTMLCanvasElement, viewport: unknown) =>
   // pdfjs's render types want fields the runtime does not need.
   page.render({ canvasContext: canvas.getContext('2d')!, canvas, viewport } as never).promise;
+
+/** The paper for its PDF: every answer in order, one that failed listed as not marked. */
+const paperPdf = (results: QuestionResult[]): PdfAnswer[] => results.map(({ question: q, evaluation: ev }) => {
+  const text = q.text || `Question ${q.id}`;
+  return ev
+    ? { ...fromEvaluation(text, q.marks, ev), label: q.id }
+    : { question: text, allotted: q.marks, marks: 0, marksOutOf: q.marks, overall: '', demand: [], historians: [], label: q.id, notMarked: true };
+});
 
 /** One marked question of the paper, folded until opened. */
 function QuestionCard({ result, open, onToggle, onRetry, hi }: { result: QuestionResult; open: boolean; onToggle: () => void; onRetry?: () => void; hi: boolean }) {
@@ -55,7 +64,7 @@ function QuestionCard({ result, open, onToggle, onRetry, hi }: { result: Questio
               )}
             </div>
           )}
-          {ev && <ReportBody data={fromEvaluation(question.text, question.marks, ev)} tab={tab} setTab={setTab} hi={hi} compact />}
+          {ev && <ReportBody data={fromEvaluation(question.text, question.marks, ev)} tab={tab} setTab={setTab} hi={hi} compact pdf={{ label: question.id }} />}
         </div>
       )}
     </section>
@@ -198,6 +207,8 @@ export default function PDFTestEvaluator({ isPremium, onPaywall, token, paperQue
       setResults(out);
       setStage('done');
       if (out.length) setExpanded(out[0].question.id);
+      // One id for the paper, so the past evaluations can show and download it whole.
+      const paperId = `paper-${Date.now()}`;
       for (const r of out) {
         const ev = r.evaluation;
         if (!ev) continue;
@@ -217,6 +228,8 @@ export default function PDFTestEvaluator({ isPremium, onPaywall, token, paperQue
           // A question marked from a full paper is filed under full papers;
           // without this they were all listed with the single answers.
           type: 'batch',
+          paperId,
+          label: r.question.id,
         });
       }
     } catch (e) {
@@ -345,7 +358,13 @@ export default function PDFTestEvaluator({ isPremium, onPaywall, token, paperQue
             <span className="pe-summary-sub">{hi ? `${results.length} उत्तर जाँचे गए` : `${results.length} ${results.length === 1 ? 'answer' : 'answers'} marked`}</span>
           </div>
           <span className="pe-wait-bar pe-summary-bar"><span style={{ width: `${Math.min(100, pct * 100)}%`, background: scoreTone(pct) }} /></span>
-          <button type="button" className="ds-btn ds-btn-line ds-btn-sm" onClick={startOver}>{hi ? 'दूसरा पेपर जँचवाएँ' : 'Mark another paper'}</button>
+          <div className="pe-summary-actions">
+            {results.some((r) => r.evaluation) && (
+              <PdfButton hi={hi} className="ds-btn ds-btn-solid ds-btn-sm" download={() => downloadEvaluationPdf(paperPdf(results), { hi, paper: true })}
+                label={hi ? 'पूरे पेपर की PDF' : 'Download the whole paper (PDF)'} />
+            )}
+            <button type="button" className="ds-btn ds-btn-line ds-btn-sm" onClick={startOver}>{hi ? 'दूसरा पेपर जँचवाएँ' : 'Mark another paper'}</button>
+          </div>
         </div>
         <p className="pe-note">
           {hi ? 'ये अंक संकेत हैं: परीक्षक एक-दो अंक कम दे सकता है। हर उत्तर की प्रतिक्रिया ही असली काम की चीज़ है।' : 'These marks are indicative: an examiner may give a mark or two less. The feedback on each answer is the useful part.'}
@@ -473,6 +492,7 @@ const PE_CSS = `
 .pe-summary-num small { font-size: 1.1rem; font-weight: 600; color: var(--text3); }
 .pe-summary-sub { font-size: 0.88rem; color: var(--text2); }
 .pe-summary-bar { flex: 1; min-width: 160px; max-width: none; }
+.pe-summary-actions { display: flex; flex-wrap: wrap; gap: var(--space-2); }
 .pe-note { margin: var(--space-3) 0; padding: var(--space-3) var(--space-4); border-radius: var(--radius-lg); background: var(--ds-soft); font-size: 0.88rem; line-height: 1.55; color: var(--text2); }
 .pe-qs { display: flex; flex-direction: column; gap: var(--space-3); }
 .pe-q { border: 1px solid var(--border); border-radius: var(--radius-xl); background: var(--ds-card); overflow: hidden; }
@@ -504,5 +524,7 @@ const PE_CSS = `
   .pe-actions .ds-btn { width: 100%; justify-content: center; }
   .pe-q-head { padding: var(--space-3) var(--space-4); }
   .pe-q-body { padding: 0 var(--space-3) var(--space-4); }
+  .pe-summary-actions { width: 100%; flex-direction: column; }
+  .pe-summary-actions .ds-btn { width: 100%; justify-content: center; }
 }
 `;

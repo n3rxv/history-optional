@@ -227,7 +227,7 @@ function AIMentorPanel({ question, marks, isPremium, onPaywall, hi }: { question
             <span><span className="ts-score-num" style={{ color: scoreTone(pct) }}>{evalData.marks}</span><span className="ts-score-of"> / {evalData.marks_out_of}</span></span>
             <span className="ts-mentor-note">The number is a guide; the feedback is the useful part.</span>
           </div>
-          <div className="ts-mentor-report"><ReportBody data={fromEvaluation(question, marks, evalData)} tab={tab} setTab={setTab} hi={hi} compact /></div>
+          <div className="ts-mentor-report"><ReportBody data={fromEvaluation(question, marks, evalData)} tab={tab} setTab={setTab} hi={hi} compact pdf={{}} /></div>
           <button type="button" className="ds-btn ds-btn-ghost ds-btn-sm" onClick={reset}>Check a different answer</button>
         </div>
       )}
