@@ -19,7 +19,9 @@ import Razorpay from 'razorpay';
  * remaining half of the job.
  */
 
-export const TOPPER_AMOUNT_PAISE = 79900;
+export const TOPPER_AMOUNT_PAISE = 64900;
+/** The price until 29 Oct 2026. A checkout opened at it before the change still verifies. */
+export const TOPPER_OLD_AMOUNT_PAISE = 79900;
 export const MAP_AMOUNT_PAISE = 4900;
 
 export type ClaimResult =
@@ -49,7 +51,8 @@ export async function claimPayment(opts: {
   expectedUid: string;
   /** Distinguishes this payment's purpose in the ledger. */
   kind: 'topper' | 'map';
-  expectedAmountPaise: number;
+  /** The order's amount must be one of these. */
+  expectedAmountPaise: number | readonly number[];
 }): Promise<ClaimResult> {
   const { orderId, paymentId, expectedUid, kind, expectedAmountPaise } = opts;
   const log = (msg: string, ...rest: unknown[]) =>
@@ -74,8 +77,9 @@ export async function claimPayment(opts: {
   }
 
   const orderAmount = Number(order.amount);
-  if (orderAmount !== expectedAmountPaise) {
-    log(`amount ${orderAmount} != expected ${expectedAmountPaise}`);
+  const accepted = ([] as number[]).concat(expectedAmountPaise);
+  if (!accepted.includes(orderAmount)) {
+    log(`amount ${orderAmount} not in ${accepted.join('/')}`);
     return { ok: false, status: 400, error: 'Order amount does not match' };
   }
 

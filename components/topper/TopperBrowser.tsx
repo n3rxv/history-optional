@@ -7,6 +7,7 @@ import { useLoginPrompt } from '@/hooks/useLoginPrompt';
 import LoginPromptModal from '@/components/LoginPromptModal';
 import OwlLoader from '@/components/OwlLoader';
 import TopperLocked from '@/components/TopperLocked';
+import { TOPPER_PRICE } from '@/lib/features';
 import CompareIcon from '@/components/CompareIcon';
 import { SECTIONS, sectionByName } from '@/components/notes/sections';
 import { tintFor } from '@/components/pyq/sections';
@@ -234,7 +235,7 @@ export default function TopperBrowser({ notes, years }: { notes: NoteMeta[]; yea
               ) : (
                 <>
                   <strong>{freeLeft ? `${freeLeft} of ${FREE_VIEWS} free copies left` : 'Free copies used'}</strong>
-                  <span>Every copy for a year: ₹799, paid once</span>
+                  <span>Every copy for a year: <s>₹{TOPPER_PRICE.was}</s> ₹{TOPPER_PRICE.now} ({TOPPER_PRICE.off}% off), paid once</span>
                   <button type="button" className="ds-btn ds-btn-line ds-btn-sm" onClick={() => setPaywall(true)}>Unlock every copy</button>
                 </>
               )}

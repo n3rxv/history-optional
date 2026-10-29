@@ -6,7 +6,7 @@ import { createPortal } from 'react-dom';
 import { auth, signInWithGoogle } from '@/lib/firebase';
 import { SubscribeCard } from '@/components/SubscribeCard';
 import Mascot from '@/components/Mascot';
-import { FEATURES, ONE_OFF } from '@/lib/features';
+import { FEATURES, ONE_OFF, TOPPER_PRICE } from '@/lib/features';
 import { daysToMains, NEXT_MAINS } from '@/lib/examDates';
 import { PLANS, PLAN_DURATION, planPriceLabel, type PlanId } from '@/lib/plans';
 import { toast } from '@/components/ui/Toast';
@@ -234,6 +234,7 @@ export default function PricingClient() {
                   <span className={`pr-badge${o.inPremium ? ' in' : ''}`}>{o.inPremium ? 'Also in Premium' : 'Per map'}</span>
                 </div>
                 <div className="pr-price small"><span className="pr-rs">₹</span>{(o.pricePaise / 100).toLocaleString('en-IN')}<span className="pr-unit">{o.inPremium ? '/year' : ''}</span></div>
+                {o.inPremium && <div className="pr-was"><s>₹{TOPPER_PRICE.was}</s><span className="pr-off">{TOPPER_PRICE.off}% off</span></div>}
                 <p className="pr-blurb">{o.inPremium ? `Answers scanned from toppers’ copies, question by question. A free account opens ${count('Topper copies')} of them.` : 'Your filled map checked place by place: the name for 1.5 marks and your note for 1. Paid when you upload it.'}</p>
                 {/* Map checks cannot be bought here: the ₹49 is charged
                     against an uploaded map, so this card goes to where the
@@ -341,6 +342,8 @@ const CSS = `
 .pr-fine { margin: var(--space-2) 0 0; font-size: 0.84rem; line-height: 1.5; color: var(--text3); }
 .pr-badge { padding: 2px 10px; border-radius: var(--radius-full); background: var(--ds-soft); color: var(--text2); font-size: 0.78rem; font-weight: 700; white-space: nowrap; }
 .pr-badge.in { background: var(--success-wash); color: var(--success-text); }
+.pr-was { display: flex; align-items: center; gap: var(--space-2); margin-top: var(--space-2); font-size: 0.96rem; color: var(--text3); }
+.pr-off { padding: 2px var(--space-2); border-radius: var(--radius-full); background: var(--premium-wash); color: var(--premium-text); font-size: 0.78rem; font-weight: 700; }
 .pr-note { margin: var(--space-4) 0 0; padding: var(--space-3) var(--space-4); border-radius: var(--radius-lg); background: var(--warning-wash); font-size: 0.92rem; line-height: 1.55; }
 .pr-rzp { margin: var(--space-4) 0 0; max-width: 820px; font-size: 0.86rem; line-height: 1.55; color: var(--text3); }
 

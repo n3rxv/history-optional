@@ -2,10 +2,11 @@ import { NextRequest, NextResponse } from "next/server";
 import crypto from "crypto";
 import { createClient } from "@supabase/supabase-js";
 import { verifyFirebaseToken } from "@/lib/verifyFirebaseToken";
-import { claimPayment, TOPPER_AMOUNT_PAISE } from "@/lib/paymentClaim";
+import { claimPayment, TOPPER_AMOUNT_PAISE, TOPPER_OLD_AMOUNT_PAISE } from "@/lib/paymentClaim";
 
 /**
- * Grants a year of topper-copy access for a completed ₹799 payment.
+ * Grants a year of topper-copy access for a completed ₹649 payment (₹799
+ * for a checkout opened before the price fell on 29 Oct 2026).
  *
  * This previously granted on a valid signature alone. A signature is a static
  * value the browser already holds, so replaying the same request re-upserted a
@@ -56,7 +57,7 @@ export async function POST(req: NextRequest) {
     paymentId: razorpay_payment_id,
     expectedUid: user.uid,
     kind: "topper",
-    expectedAmountPaise: TOPPER_AMOUNT_PAISE,
+    expectedAmountPaise: [TOPPER_AMOUNT_PAISE, TOPPER_OLD_AMOUNT_PAISE],
   });
 
   if (!claim.ok) {

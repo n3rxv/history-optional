@@ -2,6 +2,7 @@
 import Script from 'next/script';
 import { auth } from '@/lib/firebase';
 import { toast } from '@/components/ui/Toast';
+import { TOPPER_PRICE } from '@/lib/features';
 
 type Props = {
   /** Called once a Topper Copies purchase is verified. */
@@ -13,7 +14,7 @@ type Props = {
 };
 
 /**
- * The Topper Copies paywall: the ₹799/year unlock, paid through Razorpay.
+ * The Topper Copies paywall: the one-year unlock, paid through Razorpay.
  * Shown by the copy viewer and by each pane of the Compare page.
  */
 export default function TopperLocked({ onUnlocked, onDismiss, message }: Props) {
@@ -63,8 +64,11 @@ export default function TopperLocked({ onUnlocked, onDismiss, message }: Props) 
       </span>
       <h3 className="tl-title">Topper copies are locked</h3>
       <p className="tl-text">{message ?? 'One payment opens every topper copy for a year, and the side-by-side comparisons.'}</p>
-      <div className="tl-price"><strong>₹799</strong><span>for a year, paid once</span></div>
-      <button type="button" className="ds-btn ds-btn-solid ds-btn-block" onClick={unlock}>Unlock for ₹799</button>
+      <div className="tl-price">
+        <s>₹{TOPPER_PRICE.was}</s><strong>₹{TOPPER_PRICE.now}</strong><span className="tl-off">{TOPPER_PRICE.off}% off</span>
+        <span className="tl-per">for a year, paid once</span>
+      </div>
+      <button type="button" className="ds-btn ds-btn-solid ds-btn-block" onClick={unlock}>Unlock for ₹{TOPPER_PRICE.now}</button>
       {onDismiss && <button type="button" className="ds-btn ds-btn-ghost ds-btn-sm tl-later" onClick={onDismiss}>Maybe later</button>}
       <Script src="https://checkout.razorpay.com/v1/checkout.js" strategy="afterInteractive" />
     </div>
@@ -76,8 +80,10 @@ const TL_CSS = `
 .tl-icon { width: 52px; height: 52px; margin: 0 auto var(--space-4); display: flex; align-items: center; justify-content: center; border-radius: 50%; background: var(--premium-wash); color: var(--premium-text); }
 .tl-title { margin: 0 0 var(--space-2); font-size: 1.25rem; font-weight: 800; letter-spacing: -0.01em; }
 .tl-text { margin: 0 0 var(--space-4); font-size: 0.92rem; line-height: 1.55; color: var(--text2); }
-.tl-price { display: flex; align-items: baseline; justify-content: center; gap: var(--space-2); margin-bottom: var(--space-5); padding: var(--space-3); border-radius: var(--radius-lg); background: var(--ds-soft); }
+.tl-price { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: center; gap: var(--space-1) var(--space-2); margin-bottom: var(--space-5); padding: var(--space-3); border-radius: var(--radius-lg); background: var(--ds-soft); }
 .tl-price strong { font-size: 1.5rem; font-weight: 800; color: var(--text); }
-.tl-price span { font-size: 0.86rem; color: var(--text3); }
+.tl-price s { font-size: 1rem; color: var(--text3); }
+.tl-price .tl-off { align-self: center; padding: 2px var(--space-2); border-radius: var(--radius-full); background: var(--premium-wash); color: var(--premium-text); font-size: 0.78rem; font-weight: 700; }
+.tl-price .tl-per { flex-basis: 100%; font-size: 0.86rem; color: var(--text3); }
 .tl-later { margin-top: var(--space-2); }
 `;

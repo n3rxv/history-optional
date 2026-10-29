@@ -11,7 +11,7 @@ import SearchModal from './SearchModal';
 import { auth } from '@/lib/firebase';
 import { onAuthStateChanged, signOut as firebaseSignOut, User } from 'firebase/auth';
 import { SubscribeCard } from '@/components/SubscribeCard';
-import { FEATURES } from '@/lib/features';
+import { FEATURES, TOPPER_PRICE } from '@/lib/features';
 import { daysToMains } from '@/lib/examDates';
 import { PLANS, PLAN_ORDER, DEFAULT_PLAN, planPriceLabel, addPlanDuration, isPlanId, type PlanId } from '@/lib/plans';
 import { toast } from '@/components/ui/Toast';
@@ -63,7 +63,7 @@ function PremiumModal({ onClose, noSubFound, isLoggedIn, onPaymentSuccess }: { o
     { title: 'Answer checking without limits', body: `Free covers ${evalFree} answer. Premium checks every answer you write, and whole test papers too.` },
     { title: 'The AI tutor, unlimited', body: `Past the ${chatFree} free chats, with Books, PDF, Brainstorm and Mentor modes.` },
     { title: 'Model answers for every PYQ', body: 'See how a question could be answered before you write your own.' },
-    { title: 'Topper copies', body: 'Real answer sheets from toppers, which sell for ₹799 on their own.' },
+    { title: 'Topper copies', body: `Real answer sheets from toppers, which sell for ₹${TOPPER_PRICE.now} on their own.` },
     { title: 'Prelims analysis', body: 'Every Prelims PYQ, sorted by what keeps coming back.' },
   ];
 

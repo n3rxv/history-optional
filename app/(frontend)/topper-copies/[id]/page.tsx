@@ -14,7 +14,7 @@ import { initials, parseNote } from '@/components/topper/note';
  * opening it is what spends a free view, and the server does that when
  * TopperPdf fetches it, so nothing here counts.
  *
- * Signed out, this showed the ₹799 unlock card, whose button needs an
+ * Signed out, this showed the unlock card, whose button needs an
  * account and so did nothing: a reader arriving from a link was stuck. They
  * are asked to sign in now, which is what their five free copies need.
  */
