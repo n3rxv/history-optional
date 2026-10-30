@@ -48,6 +48,14 @@ function isRateLimited(visitorId: string): boolean {
   return false;
 }
 
+/**
+ * Only visits from India are recorded. The country is Vercel's reading of the
+ * visitor's IP; a request without one is not recorded either, which also keeps
+ * local development out of the table.
+ */
+const RECORDED_COUNTRY = 'IN';
+const fromIndia = (req: NextRequest) => req.headers.get('x-vercel-ip-country') === RECORDED_COUNTRY;
+
 function db() {
   return createClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -69,6 +77,7 @@ export async function PATCH(req: NextRequest) {
     if (BOT_UA.test(req.headers.get('user-agent') ?? '')) {
       return NextResponse.json({ ok: false, reason: 'bot' });
     }
+    if (!fromIndia(req)) return NextResponse.json({ ok: false, reason: 'outside_india' });
     const { visitor_id } = await req.json();
     const visitorId = field(visitor_id, 128);
     if (!visitorId) return NextResponse.json({ ok: false });
@@ -85,6 +94,7 @@ export async function POST(req: NextRequest) {
     if (BOT_UA.test(req.headers.get('user-agent') ?? '')) {
       return NextResponse.json({ ok: false, reason: 'bot' });
     }
+    if (!fromIndia(req)) return NextResponse.json({ ok: false, reason: 'outside_india' });
 
     const body = await req.json();
     const visitorId = field(body.visitor_id, 128);
