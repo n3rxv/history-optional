@@ -1,5 +1,5 @@
 'use client';
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import dynamic from 'next/dynamic';
 import Link from 'next/link';
 import type { MapChapter, MapChapterSites, MapSite } from '@/lib/mapBook';
@@ -292,6 +292,102 @@ const BaseSeg = ({ value, onChange, hi }: { value: MapBase; onChange: (b: MapBas
   </div>
 );
 
+/** The chapter keys a quiz source stands for: null for every chapter or a past paper, else the chapters picked. */
+const quizKeys = (source: string) => (source === 'all' || source.startsWith('y-') ? null : source.split(',').filter(Boolean));
+
+/**
+ * What the quiz asks from: every chapter, one past paper, or any mix of
+ * chapters, so a reader revising a part can take all its chapters at once.
+ * Choices are a draft until Start, so the quiz isn't restarted on every tick.
+ */
+function ChapterPicker({ value, onChange, chapters, places, hi }: { value: string; onChange: (v: string) => void; chapters: MapChapter[]; places: (source: string) => number; hi: boolean }) {
+  const T = (en: string, h: string) => (hi ? h : en);
+  const [open, setOpen] = useState(false);
+  const [draft, setDraft] = useState(value);
+  const startRef = useRef<HTMLButtonElement>(null);
+  const name = (c: MapChapter) => `${c.number > 0 ? `${c.number}. ` : ''}${hi && c.topicHi ? c.topicHi : c.topic}`;
+  const parts = PARTS.map((p) => ({ ...p, chapters: chapters.filter((c) => c.part === p.key) })).filter((p) => p.chapters.length);
+
+  const label = (() => {
+    if (value === 'all') return T('Every chapter', 'सभी अध्याय');
+    const yr = /^y-(\d{4})$/.exec(value);
+    if (yr) return T(`${yr[1]} paper`, `${yr[1]} प्रश्नपत्र`);
+    const keys = quizKeys(value) ?? [];
+    if (keys.length === 1) { const c = chapters.find((ch) => ch.key === keys[0]); if (c) return name(c); }
+    const whole = parts.find((p) => p.chapters.length === keys.length && p.chapters.every((c) => keys.includes(c.key)));
+    if (whole) return T(`All ${whole.en}`, `पूरा ${whole.hi}`);
+    return T(`${keys.length} chapters`, `${keys.length} अध्याय`);
+  })();
+
+  const picked = quizKeys(draft) ?? [];
+  const setKeys = (keys: string[]) => setDraft(keys.length ? chapters.filter((c) => keys.includes(c.key)).map((c) => c.key).join(',') : 'all');
+  const toggle = (key: string) => setKeys(picked.includes(key) ? picked.filter((k) => k !== key) : [...picked, key]);
+  const togglePart = (keys: string[]) => setKeys(keys.every((k) => picked.includes(k)) ? picked.filter((k) => !keys.includes(k)) : [...new Set([...picked, ...keys])]);
+  const count = open ? places(draft) : 0;
+
+  const show = () => { setDraft(value); setOpen(true); };
+  useEffect(() => {
+    if (!open) return;
+    startRef.current?.focus();
+    const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') setOpen(false); };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [open]);
+
+  return (
+    <>
+      <button type="button" className={`mp-select mp-pick${value !== 'all' ? ' set' : ''}`} onClick={show} aria-haspopup="dialog">{label}</button>
+      {open && (
+        <div className="ds-overlay" onClick={() => setOpen(false)}>
+          <div className="ds-modal mp-cp" role="dialog" aria-modal="true" aria-labelledby="mp-cp-title" onClick={(e) => e.stopPropagation()}>
+            <div className="mp-cp-head">
+              <h2 id="mp-cp-title" className="ds-modal-title">{T('Choose what to practise', 'अभ्यास के लिए चुनें')}</h2>
+              <p className="ds-modal-text">{T('Tick as many chapters as you like, or a whole part, and they go into one quiz.', 'जितने चाहें उतने अध्याय या पूरा भाग चुनें, सब एक ही क्विज़ में आएँगे।')}</p>
+            </div>
+            <div className="mp-cp-body">
+              <div className="mp-cp-quick">
+                <button type="button" className={`mp-cp-chip${draft === 'all' ? ' on' : ''}`} aria-pressed={draft === 'all'} onClick={() => setDraft('all')}>{T('Every chapter', 'सभी अध्याय')}</button>
+                <select className={`mp-select${draft.startsWith('y-') ? ' set' : ''}`} value={draft.startsWith('y-') ? draft : ''} onChange={(e) => setDraft(e.target.value || 'all')} aria-label={T('A past paper', 'पिछला प्रश्नपत्र')}>
+                  <option value="">{T('A past paper', 'पिछला प्रश्नपत्र')}</option>
+                  {paperYears.map((y) => <option key={y} value={`y-${y}`}>{T(`${y} paper`, `${y} प्रश्नपत्र`)}</option>)}
+                </select>
+              </div>
+              {parts.map((p) => {
+                const keys = p.chapters.map((c) => c.key);
+                const all = keys.every((k) => picked.includes(k)), some = keys.some((k) => picked.includes(k));
+                return (
+                  <fieldset key={p.key} className="mp-cp-part">
+                    <legend className="mp-cp-legend">
+                      <label className="mp-cp-row part">
+                        <input type="checkbox" checked={all} ref={(el) => { if (el) el.indeterminate = some && !all; }} onChange={() => togglePart(keys)} />
+                        <span>{hi ? p.hi : p.en}</span>
+                        <span className="mp-cp-n">{T(`${keys.length} chapter${keys.length === 1 ? '' : 's'}`, `${keys.length} अध्याय`)}</span>
+                      </label>
+                    </legend>
+                    {p.chapters.map((c) => (
+                      <label key={c.key} className="mp-cp-row">
+                        <input type="checkbox" checked={picked.includes(c.key)} onChange={() => toggle(c.key)} />
+                        <span>{name(c)}</span>
+                        <span className="mp-cp-n">{c.count}</span>
+                      </label>
+                    ))}
+                  </fieldset>
+                );
+              })}
+            </div>
+            <div className="mp-cp-foot">
+              <button type="button" className="ds-btn ds-btn-line" onClick={() => setOpen(false)}>{T('Cancel', 'रद्द करें')}</button>
+              <button type="button" ref={startRef} className="ds-btn ds-btn-solid" disabled={count < 4} onClick={() => { onChange(draft); setOpen(false); }}>
+                {count < 4 ? T('Too few places', 'स्थल बहुत कम हैं') : T(`Start quiz, ${count} places`, `क्विज़ शुरू करें, ${count} स्थल`)}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+    </>
+  );
+}
+
 /** The map book's notes for a past paper's answer, when the book has the place within about 100 km of the paper's pin. */
 function noteFor(p: { answer: string; lat: number; lng: number }, all: MapSite[]) {
   const b = bookEntry(p, all);
@@ -541,17 +637,25 @@ export default function MapBrowser({ chapters }: { chapters: MapChapter[] }) {
   }, [search, byKey, chapters]);
 
   // A past paper's quiz: its twenty places, with UPSC's own hint as the clue.
-  const quizPool = useMemo(() => {
-    const yr = /^y-(\d{4})$/.exec(quizChapter);
+  // Chapters picked together are merged, a place in two of them asked once.
+  const poolFor = useCallback((source: string): MapSite[] => {
+    const yr = /^y-(\d{4})$/.exec(source);
     if (yr) {
       return paper(Number(yr[1])).map((p) => {
         const b = noteFor(p, all);
         return { name: p.answer, label: (hi && b?.label) || p.answer, place: b?.place ?? '', about: p.hint, asked: p.askedIn, lat: p.lat, lng: p.lng, region: '' };
       });
     }
-    const src = quizChapter === 'all' ? all : (byKey?.[quizChapter] ?? []);
+    const keys = quizKeys(source);
+    let src = all;
+    if (keys) {
+      const seen = new Map<string, MapSite>();
+      for (const k of keys) for (const s of byKey?.[k] ?? []) if (!seen.has(s.name)) seen.set(s.name, s);
+      src = [...seen.values()];
+    }
     return src.filter((s) => !quizAsked || s.asked.length > 0);
-  }, [all, byKey, quizChapter, quizAsked, hi]);
+  }, [all, byKey, quizAsked, hi]);
+  const quizPool = useMemo(() => poolFor(quizChapter), [poolFor, quizChapter]);
 
   const toggle = (key: string) => {
     if (!requireLogin('Sign in free to explore the Map Reference.')) return;
@@ -660,15 +764,7 @@ export default function MapBrowser({ chapters }: { chapters: MapChapter[] }) {
                 <button type="button" role="radio" aria-checked={quizFormat === 'pick'} className={quizFormat === 'pick' ? 'on' : ''} onClick={() => setQuizFormat('pick')}>{T('Four options', 'चार विकल्प')}</button>
                 <button type="button" role="radio" aria-checked={quizFormat === 'type'} className={quizFormat === 'type' ? 'on' : ''} onClick={() => setQuizFormat('type')}>{T('Type the name', 'नाम लिखें')}</button>
               </div>
-              <select className={`mp-select${quizChapter !== 'all' ? ' set' : ''}`} value={quizChapter} onChange={(e) => setQuizChapter(e.target.value)} aria-label={T('Chapter', 'अध्याय')}>
-                <option value="all">{T('Every chapter', 'सभी अध्याय')}</option>
-                <optgroup label={T('A past paper', 'पिछला प्रश्नपत्र')}>
-                  {paperYears.map((y) => <option key={y} value={`y-${y}`}>{T(`${y} paper`, `${y} प्रश्नपत्र`)}</option>)}
-                </optgroup>
-                <optgroup label={T('A chapter', 'अध्याय')}>
-                  {chapters.map((c) => <option key={c.key} value={c.key}>{c.number > 0 ? `${c.number}. ` : ''}{hi && c.topicHi ? c.topicHi : c.topic}</option>)}
-                </optgroup>
-              </select>
+              <ChapterPicker value={quizChapter} onChange={setQuizChapter} chapters={chapters} places={(source) => poolFor(source).length} hi={hi} />
               {!quizChapter.startsWith('y-') && <Switch on={quizAsked} onClick={() => setQuizAsked((v) => !v)} tone="amber">{T('Only those asked', 'केवल पूछे गए')}</Switch>}
               <BaseSeg value={quizBase} onChange={setQuizBase} hi={hi} />
               <Switch on={grid} onClick={() => setGrid((v) => !v)}>{T('Grid', 'ग्रिड')}</Switch>
@@ -810,6 +906,24 @@ const CSS = `
 
 .mp-filters { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-2) var(--space-3); margin-bottom: var(--space-4); }
 .mp-filters .mp-select { height: 40px; max-width: 280px; background-color: var(--ds-card); }
+.mp-pick { overflow: hidden; white-space: nowrap; text-align: left; }
+/* The chapter picker: a dialog whose list scrolls between a fixed head and foot. */
+.mp-cp { max-width: 540px; padding: 0; display: flex; flex-direction: column; overflow: hidden; }
+.mp-cp-head { padding: var(--space-6) var(--space-6) var(--space-4); }
+.mp-cp-body { flex: 1; min-height: 0; overflow-y: auto; padding: 0 var(--space-6) var(--space-4); }
+.mp-cp-quick { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-2); }
+.mp-cp-quick .mp-select { height: 36px; background-color: var(--ds-card); }
+.mp-cp-chip { height: 36px; padding: 0 14px; border: 1px solid var(--border2); border-radius: var(--radius-full); background: var(--ds-card); color: var(--text); font: inherit; font-size: 0.88rem; font-weight: 600; cursor: pointer; }
+.mp-cp-chip.on { border-color: color-mix(in srgb, var(--accent) 50%, transparent); background: var(--accent-dim); color: var(--accent-text); }
+.mp-cp-part { margin: var(--space-4) 0 0; padding: 0; border: none; min-width: 0; }
+.mp-cp-legend { width: 100%; padding: 0; }
+.mp-cp-row { display: flex; align-items: center; gap: var(--space-3); min-height: 40px; padding: 2px 0; font-size: 0.92rem; color: var(--text); cursor: pointer; }
+.mp-cp-row.part { font-weight: 700; border-bottom: 1px solid var(--border); margin-bottom: 2px; }
+.mp-cp-row input { width: 18px; height: 18px; margin: 0; flex-shrink: 0; accent-color: var(--accent); cursor: pointer; }
+.mp-cp-n { margin-left: auto; padding-left: var(--space-2); flex-shrink: 0; color: var(--text3); font-size: 0.8rem; font-weight: 500; font-variant-numeric: tabular-nums; }
+.mp-cp-foot { display: flex; gap: var(--space-3); padding: var(--space-4) var(--space-6); border-top: 1px solid var(--border); background: var(--ds-card); }
+.mp-cp-foot .ds-btn { flex: 1; min-height: 44px; border-radius: var(--radius-md); }
+.mp-cp-foot .ds-btn-solid { flex: 2; }
 .mp-seg { display: inline-flex; gap: 4px; padding: 4px; border-radius: var(--radius-full); background: var(--ds-soft); border: 1px solid var(--border); }
 .mp-seg button { padding: 7px 14px; border: none; border-radius: var(--radius-full); background: none; color: var(--text2); font: inherit; font-size: 0.9rem; font-weight: 700; cursor: pointer; white-space: nowrap; }
 .mp-seg button.on { background: var(--ds-card); color: var(--text); box-shadow: var(--elev-1); }
@@ -904,6 +1018,9 @@ const CSS = `
   .mp-filters .mp-seg { display: flex; width: 100%; }
   .mp-filters .mp-seg button { flex: 1; }
   .mp-filters .mp-select { flex: 1; max-width: none; }
+  .mp-cp-head { padding: var(--space-5) var(--space-5) var(--space-3); }
+  .mp-cp-body { padding: 0 var(--space-5) var(--space-3); }
+  .mp-cp-foot { padding: var(--space-3) var(--space-5); }
   .mp-options { grid-template-columns: minmax(0, 1fr); }
   .mp-answer { padding: var(--space-4); }
 }
