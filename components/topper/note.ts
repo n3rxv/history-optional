@@ -73,3 +73,6 @@ export function sameAsSig(sig: string | undefined, text: string): boolean {
   const union = ones((a0 | b0) >>> 0) + ones((a1 | b1) >>> 0);
   return union > 0 && (ones((a0 & b0) >>> 0) + ones((a1 & b1) >>> 0)) / union >= 0.45;
 }
+
+/** A copy's question as the key of its Hindi in lib/topperQuestionsHi.ts. */
+export const questionKey = (question: string) => question.replace(/\s+/g, ' ').trim();

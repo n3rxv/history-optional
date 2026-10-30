@@ -9,7 +9,8 @@ import CompareIcon from '@/components/CompareIcon';
 import LoginPromptModal from '@/components/LoginPromptModal';
 import { useLoginPrompt } from '@/hooks/useLoginPrompt';
 import { pyqSection, tintFor, topicName } from './sections';
-import { initials, parseNote, sameQuestion, topperOf } from '@/components/topper/note';
+import { initials, parseNote, questionKey, sameQuestion, topperOf } from '@/components/topper/note';
+import { useTopperQuestionsHi } from '@/components/topper/useTopperQuestionsHi';
 import { useLang } from '@/lib/i18n/LangContext';
 import { usePyqHi, topicLabel } from '@/lib/pyqHi';
 
@@ -65,8 +66,9 @@ export default function PyqCompare({ pyq }: { pyq: Question }) {
   const pyqHi = usePyqHi(langHi);
   const L = (en: string, hi: string) => (langHi ? hi : en);
   const qHi = pyqHi?.q[pyq.id];
-  /** A copy's question: the PYQ's Hindi when the copy answers it as asked, else its own words. */
-  const askedHi = (c: Copy) => (qHi && sameQuestion(c.question, pyq.question) ? qHi : undefined);
+  /** A copy's question in Hindi: its own, else the PYQ's when the copy answers it as asked. */
+  const ownHi = useTopperQuestionsHi(langHi);
+  const askedHi = (c: Copy) => ownHi?.[questionKey(c.question)] ?? (qHi && sameQuestion(c.question, pyq.question) ? qHi : undefined);
   const [copies, setCopies] = useState<Copy[] | null>(null);
   const [picks, setPicks] = useState<Picks | null>(null);
   const [access, setAccess] = useState<'checking' | 'signed-out' | 'locked' | 'open'>('checking');
@@ -139,7 +141,7 @@ export default function PyqCompare({ pyq }: { pyq: Question }) {
   const optionLabel = (c: Copy) => {
     const { name, rank, year } = parseNote(c.note);
     const who = [name, rank, year].filter(Boolean).join(' · ');
-    return sameTopper(c) ? `${who}: ${c.question.slice(0, 40)}…` : who;
+    return sameTopper(c) ? `${who}: ${(askedHi(c) ?? c.question).slice(0, 40)}…` : who;
   };
 
   const pane = (side: Side) => {

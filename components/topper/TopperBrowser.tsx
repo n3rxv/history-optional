@@ -11,7 +11,8 @@ import { TOPPER_PRICE } from '@/lib/features';
 import CompareIcon from '@/components/CompareIcon';
 import { SECTIONS, sectionByName } from '@/components/notes/sections';
 import { tintFor } from '@/components/pyq/sections';
-import { initials, parseNote, rankOf, sameAsSig, topperOf } from './note';
+import { initials, parseNote, questionKey, rankOf, sameAsSig, topperOf } from './note';
+import { useTopperQuestionsHi } from './useTopperQuestionsHi';
 import { useLang } from '@/lib/i18n/LangContext';
 import { usePyqHi } from '@/lib/pyqHi';
 import { noteTitle as noteTitleHi, sectionName } from '@/lib/notesHi';
@@ -84,7 +85,15 @@ export default function TopperBrowser({ notes, years, sigs }: { notes: NoteMeta[
    * otherwise, and keep their own (see sameAsSig).
    */
   const asked = useMemo(() => new Map((copies ?? []).map((c) => [c.id, c.pyq_ids.find((id) => sameAsSig(sigs[id], c.question))])), [copies, sigs]);
-  const hiQuestionOf = (c: Copy) => { const id = asked.get(c.id); return id === undefined ? undefined : pyqHi?.q[id]; };
+  // A copy's own question in Hindi; for a copy that answers a PYQ word for
+  // word, that PYQ's official Hindi.
+  const ownHi = useTopperQuestionsHi(langHi);
+  const hiQuestionOf = (c: Copy) => {
+    const own = ownHi?.[questionKey(c.question)];
+    if (own) return own;
+    const id = asked.get(c.id);
+    return id === undefined ? undefined : pyqHi?.q[id];
+  };
   const copyHref = (c: Copy) => { const id = asked.get(c.id); return `/topper-copies/${c.id}${id !== undefined ? `?pyq=${id}` : ''}`; };
   const noteSection = useMemo(() => new Map(notes.map((n) => [n.slug, n.section])), [notes]);
   const noteOrder = useMemo(() => new Map(notes.map((n, i) => [n.slug, i])), [notes]);
@@ -160,7 +169,7 @@ export default function TopperBrowser({ notes, years, sigs }: { notes: NoteMeta[
         || (hiQuestionOf(c)?.includes(s) ?? false);
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [copies, who, f.q, asked, pyqHi]);
+  }, [copies, who, f.q, asked, pyqHi, ownHi]);
   const inSection = (c: Copy, section: string) => !section || c.topics.some((t) => noteSection.get(t) === section);
 
   const topicGroups = useMemo(() => {

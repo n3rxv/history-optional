@@ -7,7 +7,8 @@ import TopperPdf, { type TopperCopyDetail } from '@/components/TopperPdf';
 import TopperLocked from '@/components/TopperLocked';
 import OwlLoader from '@/components/OwlLoader';
 import Mascot from '@/components/Mascot';
-import { initials, parseNote } from '@/components/topper/note';
+import { initials, parseNote, questionKey } from '@/components/topper/note';
+import { useTopperQuestionsHi } from '@/components/topper/useTopperQuestionsHi';
 import { useLang } from '@/lib/i18n/LangContext';
 import { usePyqHi } from '@/lib/pyqHi';
 
@@ -22,10 +23,9 @@ const noSubscribe = () => () => {};
  * account and so did nothing: a reader arriving from a link was stuck. They
  * are asked to sign in now, which is what their five free copies need.
  *
- * ?pyq= names the PYQ this copy answers as asked, when the page linking here
- * knows it does: Hindi mode then shows that PYQ's Hindi for the question.
- * Without it the copy's own question stays, since a copy linked to a PYQ
- * has often answered a differently worded question on its theme.
+ * In Hindi mode the question shows in Hindi: the copy's own question from
+ * lib/topperQuestionsHi.ts, or, when ?pyq= names the PYQ this copy answers
+ * word for word, that PYQ's official Hindi.
  */
 export default function TopperCopyPage() {
   const { id } = useParams<{ id: string }>();
@@ -33,8 +33,11 @@ export default function TopperCopyPage() {
   const { langHi } = useLang();
   const L = (en: string, hi: string) => (langHi ? hi : en);
   const pyqId = useSyncExternalStore(noSubscribe, () => new URLSearchParams(window.location.search).get('pyq') ?? '', () => '');
-  const questionHi = usePyqHi(langHi && /^\d+$/.test(pyqId))?.q[pyqId];
+  const pyqHi = usePyqHi(langHi && /^\d+$/.test(pyqId))?.q[pyqId];
+  const ownHi = useTopperQuestionsHi(langHi);
   const [copy, setCopy] = useState<TopperCopyDetail | null>(null);
+  // The copy's own question in Hindi, else the official Hindi of the PYQ it answers word for word.
+  const questionHi = (copy && ownHi?.[questionKey(copy.question)]) || pyqHi;
   const [state, setState] = useState<'checking' | 'signed-out' | 'locked' | 'open'>('checking');
 
   // Kept subscribed, so signing in from the card below opens the copy.
