@@ -3,6 +3,9 @@ import { useEffect, useMemo, useRef, useState, useSyncExternalStore } from 'reac
 import Link from 'next/link';
 import type { DailyQuestion } from '@/lib/dailyQuestions';
 import { istDay } from '@/lib/istDay';
+import { useLang } from '@/lib/i18n/LangContext';
+import { usePyqHi } from '@/lib/pyqHi';
+import { pyqSection } from '@/components/pyq/sections';
 
 /**
  * Today's five questions, the same for everyone that day (IST), with an
@@ -25,6 +28,9 @@ function tintOf(section: string): string {
 }
 
 export default function TodayPractice({ questions: built, day }: { questions: DailyQuestion[]; day: string }) {
+  const { langHi } = useLang();
+  // The questions in Hindi come from the Hindi bank, loaded only in Hindi mode.
+  const pyqHi = usePyqHi(langHi);
   const [questions, setQuestions] = useState(built);
   useEffect(() => {
     const today = istDay();
@@ -72,42 +78,49 @@ export default function TodayPractice({ questions: built, day }: { questions: Da
     <div className="tp ds-card">
       <div className="tp-head">
         <div>
-          <h3>{all ? 'Today\u2019s five questions' : 'Today\u2019s question'}</h3>
-          <p>{all ? `The same set for everyone today. About ${totalMins} minutes for all five.` : 'One of five set for everyone today. Write it, and get it checked.'}</p>
+          <h3>{langHi ? (all ? 'आज के पाँच प्रश्न' : 'आज का प्रश्न') : (all ? 'Today\u2019s five questions' : 'Today\u2019s question')}</h3>
+          <p>{langHi
+            ? (all ? `आज सबके लिए यही प्रश्न हैं। पाँचों के लिए लगभग ${totalMins} मिनट।` : 'आज सबके लिए तय पाँच प्रश्नों में से एक। इसे लिखें और जँचवाएँ।')
+            : (all ? `The same set for everyone today. About ${totalMins} minutes for all five.` : 'One of five set for everyone today. Write it, and get it checked.')}</p>
         </div>
         {!all ? null : started ? (
           <div className={`tp-clock${low ? ' low' : ''}`} role="timer" aria-live="off">
-            {finished ? 'Time up' : `${pad(Math.floor(secsLeft / 60))}:${pad(secsLeft % 60)}`}
+            {finished ? (langHi ? 'समय समाप्त' : 'Time up') : `${pad(Math.floor(secsLeft / 60))}:${pad(secsLeft % 60)}`}
           </div>
         ) : (
           <button className="ds-btn ds-btn-line ds-btn-sm" onClick={() => { setSecsLeft(totalMins * 60); setStarted(true); }}>
             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><circle cx="12" cy="13" r="8" /><path d="M12 9v4l2 2M9 2h6" /></svg>
-            Start a {totalMins}-minute timer
+            {langHi ? `${totalMins} मिनट का टाइमर शुरू करें` : `Start a ${totalMins}-minute timer`}
           </button>
         )}
       </div>
       {started && <div className="tp-bar" aria-hidden="true"><span className={low ? 'low' : ''} style={{ width: `${pct}%` }} /></div>}
 
       <ol className="tp-list">
-        {shown.map((q, i) => (
-          <li key={q.id} className="tp-q" style={{ ['--t' as string]: `var(--tint-${tintOf(q.section)})` }}>
-            <span className="tp-n">{i + 1}</span>
-            <div className="tp-body">
-              <p>{q.question}</p>
-              <span className="tp-meta">
-                <span className="tp-dot" aria-hidden="true" />
-                {q.section.replace(/^Paper I+ - /, '')} · {q.year} · {q.marks} marks
-              </span>
-            </div>
-            <Link className="tp-write" href={`/evaluate?q=${encodeURIComponent(q.question)}&marks=${q.marks}`} aria-label={`Write an answer to question ${i + 1}`}>
-              Write
-            </Link>
-          </li>
-        ))}
+        {shown.map((q, i) => {
+          const text = pyqHi?.q[q.id] ?? q.question;
+          const section = langHi ? (pyqSection(q.section)?.nameHi ?? q.section) : q.section.replace(/^Paper I+ - /, '');
+          return (
+            <li key={q.id} className="tp-q" style={{ ['--t' as string]: `var(--tint-${tintOf(q.section)})` }}>
+              <span className="tp-n">{i + 1}</span>
+              <div className="tp-body">
+                <p>{text}</p>
+                <span className="tp-meta">
+                  <span className="tp-dot" aria-hidden="true" />
+                  {section} · {q.year} · {q.marks} {langHi ? 'अंक' : 'marks'}
+                </span>
+              </div>
+              {/* ?question= is what the evaluate page reads; it starts a fresh answer with it filled in. */}
+              <Link className="tp-write" href={`/evaluate?question=${encodeURIComponent(text)}&marks=${q.marks}`} aria-label={langHi ? `प्रश्न ${i + 1} का उत्तर लिखें` : `Write an answer to question ${i + 1}`}>
+                {langHi ? 'लिखें' : 'Write'}
+              </Link>
+            </li>
+          );
+        })}
       </ol>
       {!all && questions.length > 1 && (
         <button className="tp-more" onClick={() => setAll(true)}>
-          Show all five, with a timer
+          {langHi ? 'पाँचों दिखाएँ, टाइमर के साथ' : 'Show all five, with a timer'}
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6" /></svg>
         </button>
       )}

@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState, useCallback } from 'react';
 import { confirmDialog } from '@/components/ui/ConfirmDialog';
+import { useLang } from '@/lib/i18n/LangContext';
 
 interface Point { x: number; y: number; }
 interface Stroke {
@@ -16,18 +17,18 @@ interface Stroke {
 // when the site-wide light-mode change swapped these for tokens every pen but
 // white stopped drawing in colour.
 const PEN_COLORS = [
-  { label: 'Black',  value: '#111111' },
-  { label: 'White',  value: '#f0f0f0' },
-  { label: 'Gold',   value: '#d4a843' },
-  { label: 'Cyan',   value: '#4ecdc4' },
-  { label: 'Pink',   value: '#ff6b9d' },
-  { label: 'Green',  value: '#51cf66' },
+  { label: 'Black',  labelHi: 'काला',    value: '#111111' },
+  { label: 'White',  labelHi: 'सफ़ेद',    value: '#f0f0f0' },
+  { label: 'Gold',   labelHi: 'सुनहरा',   value: '#d4a843' },
+  { label: 'Cyan',   labelHi: 'फ़िरोज़ी',  value: '#4ecdc4' },
+  { label: 'Pink',   labelHi: 'गुलाबी',   value: '#ff6b9d' },
+  { label: 'Green',  labelHi: 'हरा',     value: '#51cf66' },
 ];
 const HL_COLORS = [
-  { label: 'Yellow', value: 'rgba(255,235,0,0.4)'    },
-  { label: 'Cyan',   value: 'rgba(0,220,220,0.35)'   },
-  { label: 'Pink',   value: 'rgba(255,100,160,0.35)' },
-  { label: 'Green',  value: 'rgba(80,220,100,0.35)'  },
+  { label: 'Yellow', labelHi: 'पीला',    value: 'rgba(255,235,0,0.4)'    },
+  { label: 'Cyan',   labelHi: 'फ़िरोज़ी',  value: 'rgba(0,220,220,0.35)'   },
+  { label: 'Pink',   labelHi: 'गुलाबी',   value: 'rgba(255,100,160,0.35)' },
+  { label: 'Green',  labelHi: 'हरा',     value: 'rgba(80,220,100,0.35)'  },
 ];
 
 /** Strokes saved while the colours were tokens, mapped back to what they meant. */
@@ -55,6 +56,8 @@ export default function NoteAnnotationCanvas({ noteSlug, active, onToggle }: Pro
   const currentRef = useRef<Stroke | null>(null);
   const isDrawing  = useRef(false);
   const storageKey = `annotations_v3_${noteSlug}`;
+  const { langHi } = useLang();
+  const L = (en: string, hi: string) => (langHi ? hi : en);
 
   const [tool,      setTool]      = useState<'pen' | 'highlighter' | 'eraser'>('pen');
   // Dark ink on the light theme, light ink on the dark one.
@@ -207,9 +210,9 @@ export default function NoteAnnotationCanvas({ noteSlug, active, onToggle }: Pro
   };
 
   const tools: { id: typeof tool; label: string; icon: React.ReactNode }[] = [
-    { id: 'pen', label: 'Pen', icon: <path d="M12 20h9M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z" /> },
-    { id: 'highlighter', label: 'Marker', icon: <path d="M9 11l-6 6v3h9l3-3M22 12l-4.6 4.6a2 2 0 0 1-2.8 0l-5.2-5.2a2 2 0 0 1 0-2.8L14 4" /> },
-    { id: 'eraser', label: 'Eraser', icon: <path d="M20 20H9L4 15a2 2 0 0 1 0-3l8-8a2 2 0 0 1 3 0l5 5a2 2 0 0 1 0 3l-7 7M6 13l6 6" /> },
+    { id: 'pen', label: L('Pen', 'पेन'), icon: <path d="M12 20h9M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z" /> },
+    { id: 'highlighter', label: L('Marker', 'मार्कर'), icon: <path d="M9 11l-6 6v3h9l3-3M22 12l-4.6 4.6a2 2 0 0 1-2.8 0l-5.2-5.2a2 2 0 0 1 0-2.8L14 4" /> },
+    { id: 'eraser', label: L('Eraser', 'रबड़'), icon: <path d="M20 20H9L4 15a2 2 0 0 1 0-3l8-8a2 2 0 0 1 3 0l5 5a2 2 0 0 1 0 3l-7 7M6 13l6 6" /> },
   ];
   const colours = tool === 'pen' ? PEN_COLORS : tool === 'highlighter' ? HL_COLORS : [];
   const current = tool === 'pen' ? penColor : hlColor;
@@ -244,7 +247,7 @@ export default function NoteAnnotationCanvas({ noteSlug, active, onToggle }: Pro
       )}
 
       {active && (
-        <div className="nac-bar ds" role="toolbar" aria-label="Drawing">
+        <div className="nac-bar ds" role="toolbar" aria-label={L('Drawing', 'चित्र बनाने के साधन')}>
           <div className="nac-tools">
             {tools.map(t => (
               <button key={t.id} type="button" className={tool === t.id ? 'on' : ''} onClick={() => setTool(t.id)} title={t.label} aria-label={t.label} aria-pressed={tool === t.id}>
@@ -255,7 +258,7 @@ export default function NoteAnnotationCanvas({ noteSlug, active, onToggle }: Pro
           {colours.length > 0 && (
             <div className="nac-colours">
               {colours.map(c => (
-                <button key={c.value} type="button" title={c.label} aria-label={c.label} aria-pressed={current === c.value}
+                <button key={c.value} type="button" title={L(c.label, c.labelHi)} aria-label={L(c.label, c.labelHi)} aria-pressed={current === c.value}
                   className={`nac-swatch${current === c.value ? ' on' : ''}${tool === 'highlighter' ? ' wide' : ''}`}
                   style={{ ['--sw' as string]: tool === 'highlighter' ? c.value.replace(/[\d.]+\)$/, '0.85)') : c.value }}
                   onClick={() => (tool === 'pen' ? setPenColor(c.value) : setHlColor(c.value))} />
@@ -263,17 +266,22 @@ export default function NoteAnnotationCanvas({ noteSlug, active, onToggle }: Pro
             </div>
           )}
           <label className="nac-size">
-            <span>Size</span>
+            <span>{L('Size', 'आकार')}</span>
             <input type="range" min={1} max={10} value={penWidth} onChange={e => setPenWidth(+e.target.value)} />
           </label>
           <div className="nac-actions">
-            <button type="button" className="nac-btn" onClick={undo} title="Undo" aria-label="Undo">
+            <button type="button" className="nac-btn" onClick={undo} title={L('Undo', 'पूर्ववत करें')} aria-label={L('Undo', 'पूर्ववत करें')}>
               <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M3 7v6h6" /><path d="M21 17a9 9 0 0 0-15-6.7L3 13" /></svg>
             </button>
-            <button type="button" className="nac-btn danger" onClick={async () => { if (await confirmDialog({ title: 'Rub out every drawing on this note?', text: 'This cannot be undone.', confirmLabel: 'Rub out', tone: 'danger' })) clearAll(); }} title="Clear all" aria-label="Clear all">
+            <button type="button" className="nac-btn danger" onClick={async () => {
+              const ok = await confirmDialog(langHi
+                ? { title: 'इस नोट पर बने सभी चित्र मिटाएँ?', text: 'यह वापस नहीं होगा।', confirmLabel: 'मिटाएँ', cancelLabel: 'रद्द करें', tone: 'danger' }
+                : { title: 'Rub out every drawing on this note?', text: 'This cannot be undone.', confirmLabel: 'Rub out', tone: 'danger' });
+              if (ok) clearAll();
+            }} title={L('Clear all', 'सब मिटाएँ')} aria-label={L('Clear all', 'सब मिटाएँ')}>
               <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M3 6h18M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6M10 11v6M14 11v6" /></svg>
             </button>
-            <button type="button" className="ds-btn ds-btn-solid ds-btn-sm" onClick={onToggle}>Done</button>
+            <button type="button" className="ds-btn ds-btn-solid ds-btn-sm" onClick={onToggle}>{L('Done', 'हो गया')}</button>
           </div>
         </div>
       )}

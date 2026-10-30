@@ -4,6 +4,7 @@ import { MapContainer, TileLayer, GeoJSON, CircleMarker, Tooltip, Pane, useMap }
 import type { GeoJsonObject } from 'geojson';
 import type { MapSite } from '@/lib/mapBook';
 import { bookBasemap, physicalBasemap } from '@/lib/basemap';
+import { useLang } from '@/lib/i18n/LangContext';
 import 'leaflet/dist/leaflet.css';
 
 /** Political: the tiles with state lines. Physical: relief and rivers. Outline: the exam's plain map. */
@@ -54,7 +55,7 @@ function Frame({ sites, selected, fixed }: { sites: MapSite[]; selected: string 
 }
 
 /** Lines of latitude and longitude every 4°, and the Tropic of Cancer, as on the exam's outline map. */
-function Graticule() {
+function Graticule({ hi }: { hi: boolean }) {
   const map = useMap();
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const redraw = useCallback(() => {
@@ -84,8 +85,8 @@ function Graticule() {
     }
     const t1 = map.latLngToContainerPoint([23.5, 60]), t2 = map.latLngToContainerPoint([23.5, 104]);
     ctx.beginPath(); ctx.setLineDash([8, 4]); ctx.lineWidth = 1.2; ctx.moveTo(t1.x, t1.y); ctx.lineTo(t2.x, t2.y); ctx.stroke(); ctx.setLineDash([]);
-    ctx.textBaseline = 'bottom'; ctx.textAlign = 'left'; ctx.fillText('Tropic of Cancer (23½°N)', t1.x + 4, t1.y - 2);
-  }, [map]);
+    ctx.textBaseline = 'bottom'; ctx.textAlign = 'left'; ctx.fillText(hi ? 'कर्क रेखा (23½°N)' : 'Tropic of Cancer (23½°N)', t1.x + 4, t1.y - 2);
+  }, [map, hi]);
   useEffect(() => {
     const box = map.getContainer();
     const layer = document.createElement('div');
@@ -124,6 +125,7 @@ export default function MappingMap({ sites, selected, onPick, outline = false, b
   /** No names on hover (the quiz, and testing yourself on a paper). */
   quiet?: boolean;
 }) {
+  const { langHi: hi } = useLang();
   const base: MapBase = baseProp ?? (outline ? 'outline' : 'political');
   const plain = base === 'outline';
   const states = useGeo('states', base === 'political');
@@ -149,7 +151,7 @@ export default function MappingMap({ sites, selected, onPick, outline = false, b
         </Pane>
         {!plain && <TileLayer url={tiles.url} maxNativeZoom={tiles.maxNativeZoom} maxZoom={19} attribution={tiles.attribution} />}
         <Frame sites={sites} selected={selected} fixed={fixed} />
-        {grid && <Graticule />}
+        {grid && <Graticule hi={hi} />}
         {sites.map((s) => {
           const on = selected === s.name;
           const asked = s.asked.length > 0;
@@ -192,7 +194,7 @@ export default function MappingMap({ sites, selected, onPick, outline = false, b
                   <Tooltip direction="top" offset={[0, -6]} className="mm-tip">
                     <strong>{s.label}</strong>
                     <span>{s.place}</span>
-                    {asked && <em>Asked {s.asked.join(', ')}</em>}
+                    {asked && <em>{hi ? 'UPSC ने पूछा' : 'Asked'} {s.asked.join(', ')}</em>}
                   </Tooltip>
                 )}
               </CircleMarker>

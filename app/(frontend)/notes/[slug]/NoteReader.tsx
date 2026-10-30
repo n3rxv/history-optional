@@ -45,11 +45,11 @@ type TocEntry = { id: string; text: string; level: 2 | 3 };
 
 const SESSION_KEY = 'histopt_admin_v2';
 
-const HIGHLIGHT_COLORS: { id: Color; label: string; color: string }[] = [
-  { id: 'yellow', label: 'Gold', color: '#c9a84c' },
-  { id: 'green', label: 'Mint', color: '#4cad7a' },
-  { id: 'red', label: 'Rose', color: '#c94c4c' },
-  { id: 'blue', label: 'Sky', color: '#4c8bc9' },
+const HIGHLIGHT_COLORS: { id: Color; label: string; labelHi: string; color: string }[] = [
+  { id: 'yellow', label: 'Gold', labelHi: 'सुनहरा', color: '#c9a84c' },
+  { id: 'green', label: 'Mint', labelHi: 'हरा', color: '#4cad7a' },
+  { id: 'red', label: 'Rose', labelHi: 'गुलाबी', color: '#c94c4c' },
+  { id: 'blue', label: 'Sky', labelHi: 'आसमानी', color: '#4c8bc9' },
 ];
 
 // Below this width the sidebar floats over the note instead of sitting beside it.
@@ -336,7 +336,7 @@ function ScrollRail({ entries }: { entries: TocEntry[] }) {
             </button>
           </div>
           <div className="nr-rail-progress"><div style={{ width: `${pct * 100}%` }} /></div>
-          <nav className="nr-rail-list" aria-label="Headings">
+          <nav className="nr-rail-list" aria-label={langHi ? 'शीर्षक' : 'Headings'}>
             {entries.map(t => (
               <button key={t.id} type="button"
                 className={'nr-rail-link' + (t.level === 3 ? ' sub' : '') + (activeId === t.id ? ' on' : '')}
@@ -347,7 +347,7 @@ function ScrollRail({ entries }: { entries: TocEntry[] }) {
               </button>
             ))}
           </nav>
-          <div className="nr-rail-foot"><span>Read</span><span>{Math.round(pct * 100)}%</span></div>
+          <div className="nr-rail-foot"><span>{langHi ? 'पढ़ा' : 'Read'}</span><span>{Math.round(pct * 100)}%</span></div>
         </div>
       )}
     </div>
@@ -681,9 +681,9 @@ export default function NoteReader({
 
       {/* ── Sidebar ── */}
       <div className="nr-backdrop" onClick={closeSidebar} aria-hidden="true" />
-      <aside className="nr-sidebar" aria-label="About this note">
+      <aside className="nr-sidebar" aria-label={L('About this note', 'इस नोट के बारे में')}>
         <div className="nr-sidebar-inner">
-          <button type="button" className="nr-sb-close" onClick={closeSidebar} aria-label="Close the sidebar">
+          <button type="button" className="nr-sb-close" onClick={closeSidebar} aria-label={L('Close the sidebar', 'साइडबार बंद करें')}>
             <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round"><path d="M4 4l8 8M12 4l-8 8" /></svg>
           </button>
           <div className="sb-head">
@@ -740,7 +740,7 @@ export default function NoteReader({
             {Icon.contents}<span>{L('Contents', 'विषय-सूची')}</span>
           </button>
 
-          <nav className="nr-crumbs" aria-label="Breadcrumb">
+          <nav className="nr-crumbs" aria-label={L('Breadcrumb', 'आप यहाँ हैं')}>
             <Link href={notesHref}>{L('Notes', 'नोट्स')}</Link>
             {meta && <><span aria-hidden="true">›</span><Link href={meta.href}>{view.section}</Link></>}
           </nav>
@@ -808,18 +808,18 @@ export default function NoteReader({
           <div className="nr-float" style={{ left: float.x, top: float.y }}>
             {HIGHLIGHT_COLORS.map(c => (
               <button key={c.id} type="button" onMouseDown={e => e.preventDefault()} onClick={() => applyHighlight(c.id)}
-                title={c.label} aria-label={`Highlight in ${c.label}`} className="nr-float-swatch" style={{ ['--sw' as string]: c.color }} />
+                title={L(c.label, c.labelHi)} aria-label={L(`Highlight in ${c.label}`, `${c.labelHi} रंग से हाइलाइट करें`)} className="nr-float-swatch" style={{ ['--sw' as string]: c.color }} />
             ))}
             {overHighlight && (
               <>
                 <span className="nr-float-rule" />
-                <button type="button" onMouseDown={e => e.preventDefault()} onClick={removeSelectedHighlight} title="Remove highlight" aria-label="Remove highlight" className="nr-float-btn">
+                <button type="button" onMouseDown={e => e.preventDefault()} onClick={removeSelectedHighlight} title={L('Remove highlight', 'हाइलाइट हटाएँ')} aria-label={L('Remove highlight', 'हाइलाइट हटाएँ')} className="nr-float-btn">
                   <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M20 20H9L4 15a2 2 0 0 1 0-3l8-8a2 2 0 0 1 3 0l5 5a2 2 0 0 1 0 3l-7 7" /><path d="M6 13l6 6" /></svg>
                 </button>
               </>
             )}
             <span className="nr-float-rule" />
-            <button type="button" onClick={() => setFloat(null)} className="nr-float-btn" aria-label="Close">{Icon.x}</button>
+            <button type="button" onClick={() => setFloat(null)} className="nr-float-btn" aria-label={L('Close', 'बंद करें')}>{Icon.x}</button>
           </div>
         )}
 
@@ -857,16 +857,16 @@ export default function NoteReader({
                 <div className="nr-body">
                   {hindiLoading && <OwlLoader label="नोट्स लोड हो रहे हैं" />}
                   <div ref={noteRef} className="note-content" lang={langHi ? 'hi' : 'en'}
-                    dangerouslySetInnerHTML={{ __html: hindiLoading ? '' : (display || '<p class="nr-empty">These notes are on their way. Check back soon.</p>') }}
+                    dangerouslySetInnerHTML={{ __html: hindiLoading ? '' : (display || `<p class="nr-empty">${L('These notes are on their way. Check back soon.', 'ये नोट्स जल्द आ रहे हैं। थोड़ी देर बाद फिर देखें।')}</p>`) }}
                     style={gated ? { maxHeight: '140vh', overflow: 'hidden', pointerEvents: 'none', userSelect: 'none' } : undefined}
                   />
                   {gated && display && (
                     <div className="nr-gate">
                       <div className="nr-gate-card">
                         <Mascot pose="reading" width={76} />
-                        <div className="nr-gate-title">Sign in to keep reading</div>
-                        <p>A free account opens every note, and keeps your highlights and progress with you.</p>
-                        <button type="button" onClick={handleSignIn} className="ds-btn ds-btn-solid nr-gate-btn">Sign in free</button>
+                        <div className="nr-gate-title">{L('Sign in to keep reading', 'आगे पढ़ने के लिए साइन इन करें')}</div>
+                        <p>{L('A free account opens every note, and keeps your highlights and progress with you.', 'निःशुल्क खाते से हर नोट खुलता है, और आपके हाइलाइट और प्रगति आपके साथ रहते हैं।')}</p>
+                        <button type="button" onClick={handleSignIn} className="ds-btn ds-btn-solid nr-gate-btn">{L('Sign in free', 'निःशुल्क साइन इन करें')}</button>
                       </div>
                     </div>
                   )}
@@ -879,18 +879,20 @@ export default function NoteReader({
                 {showDone && (
                   <div className={`nr-finish${isDone ? ' done' : ''}`}>
                     <span className="nr-finish-text">
-                      <strong>{isDone ? 'Marked as studied' : 'Finished this topic?'}</strong>
-                      <span>{isDone ? 'It counts towards your syllabus on the notes page and your dashboard.' : 'Tick it off and it counts towards your syllabus.'}</span>
+                      <strong>{isDone ? L('Marked as studied', 'पढ़ा हुआ चिह्नित') : L('Finished this topic?', 'यह विषय पूरा हो गया?')}</strong>
+                      <span>{isDone
+                        ? L('It counts towards your syllabus on the notes page and your dashboard.', 'यह नोट्स पेज और आपके डैशबोर्ड पर आपकी पाठ्यक्रम प्रगति में गिना जाता है।')
+                        : L('Tick it off and it counts towards your syllabus.', 'इसे चिह्नित करें, यह आपकी पाठ्यक्रम प्रगति में जुड़ जाएगा।')}</span>
                     </span>
                     <button type="button" className={`ds-btn ds-btn-sm ${isDone ? 'ds-btn-ghost' : 'ds-btn-solid'}`} onClick={() => tracker.toggle(slug)}>
-                      {isDone ? 'Untick' : 'Mark as studied'}
+                      {isDone ? L('Untick', 'चिह्न हटाएँ') : L('Mark as studied', 'पढ़ा हुआ चिह्नित करें')}
                     </button>
                   </div>
                 )}
                 <Link href={askHref} className="nr-ask">
                   <span className="nr-ask-text">
-                    <strong>Still unsure about something here?</strong>
-                    <span>Ask the AI. It answers from the standard books and shows you where.</span>
+                    <strong>{L('Still unsure about something here?', 'यहाँ कुछ अब भी स्पष्ट नहीं?')}</strong>
+                    <span>{L('Ask the AI. It answers from the standard books and shows you where.', 'AI से पूछें। वह मानक पुस्तकों से उत्तर देता है और बताता है कि कहाँ से।')}</span>
                   </span>
                   <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" /></svg>
                 </Link>
@@ -898,17 +900,17 @@ export default function NoteReader({
             )}
 
             {!editing && (prev || next) && (
-              <nav className="nr-pager" aria-label="More notes">
+              <nav className="nr-pager" aria-label={L('More notes', 'और नोट्स')}>
                 {prev ? (
                   <Link href={`/notes/${prev.slug}`} className="nr-pager-link">
-                    <span className="nr-pager-dir">← Previous</span>
-                    <span className="nr-pager-title">{prev.title}</span>
+                    <span className="nr-pager-dir">← {L('Previous', 'पिछला')}</span>
+                    <span className="nr-pager-title">{noteTitle(prev.slug, prev.title, langHi)}</span>
                   </Link>
                 ) : <span />}
                 {next ? (
                   <Link href={`/notes/${next.slug}`} className="nr-pager-link next">
-                    <span className="nr-pager-dir">Next →</span>
-                    <span className="nr-pager-title">{next.title}</span>
+                    <span className="nr-pager-dir">{L('Next', 'अगला')} →</span>
+                    <span className="nr-pager-title">{noteTitle(next.slug, next.title, langHi)}</span>
                   </Link>
                 ) : <span />}
               </nav>
@@ -918,8 +920,8 @@ export default function NoteReader({
           {/* Sticky notes, pinned where the reader tapped. */}
           {!gated && !editing && stickies.map(s => (
             <div key={s.id} className="nr-sticky" style={{ left: `min(${s.x}px, calc(100% - 228px))`, top: s.y }} onClick={e => e.stopPropagation()} onMouseUp={e => e.stopPropagation()}>
-              <button type="button" className="nr-sticky-x" onClick={() => setStickies(p => p.filter(x => x.id !== s.id))} aria-label="Remove this sticky note">{Icon.x}</button>
-              <textarea value={s.text} aria-label="Sticky note"
+              <button type="button" className="nr-sticky-x" onClick={() => setStickies(p => p.filter(x => x.id !== s.id))} aria-label={L('Remove this sticky note', 'यह स्टिकी नोट हटाएँ')}>{Icon.x}</button>
+              <textarea value={s.text} aria-label={L('Sticky note', 'स्टिकी नोट')}
                 onChange={e => setStickies(p => p.map(x => x.id === s.id ? { ...x, text: e.target.value } : x))} />
             </div>
           ))}
@@ -928,20 +930,20 @@ export default function NoteReader({
         {/* ── A new sticky note ── */}
         {stickyDraft && (
           <div className="ds-overlay" onClick={() => setStickyDraft(null)}>
-            <div className="ds-modal nr-sticky-modal" role="dialog" aria-label="New sticky note" onClick={e => e.stopPropagation()}>
+            <div className="ds-modal nr-sticky-modal" role="dialog" aria-label={L('New sticky note', 'नया स्टिकी नोट')} onClick={e => e.stopPropagation()}>
               <div className="ds-modal-head">
-                <h2>New sticky note</h2>
-                <button type="button" className="ds-x" onClick={() => setStickyDraft(null)} aria-label="Close">{Icon.x}</button>
+                <h2>{L('New sticky note', 'नया स्टिकी नोट')}</h2>
+                <button type="button" className="ds-x" onClick={() => setStickyDraft(null)} aria-label={L('Close', 'बंद करें')}>{Icon.x}</button>
               </div>
-              <textarea className="ds-input nr-sticky-input" autoFocus value={stickyDraft.text} placeholder="Write your note"
+              <textarea className="ds-input nr-sticky-input" autoFocus value={stickyDraft.text} placeholder={L('Write your note', 'अपना नोट लिखें')}
                 onChange={e => setStickyDraft(d => d && { ...d, text: e.target.value })} />
               <div className="nr-sticky-actions">
-                <button type="button" className="ds-btn ds-btn-ghost" onClick={() => setStickyDraft(null)}>Cancel</button>
+                <button type="button" className="ds-btn ds-btn-ghost" onClick={() => setStickyDraft(null)}>{L('Cancel', 'रद्द करें')}</button>
                 <button type="button" className="ds-btn ds-btn-solid" disabled={!stickyDraft.text.trim()} onClick={() => {
                   const { x, y, text } = stickyDraft;
                   setStickies(p => [...p, { id: Date.now().toString(), text: text.trim(), x, y }]);
                   setStickyDraft(null);
-                }}>Pin it</button>
+                }}>{L('Pin it', 'लगाएँ')}</button>
               </div>
             </div>
           </div>
@@ -957,20 +959,20 @@ export default function NoteReader({
             </svg>
             <input autoFocus value={noteSearch.query} onChange={e => noteSearch.setQuery(e.target.value)}
               onKeyDown={e => { if (e.key === 'Enter') noteSearch.jump(e.shiftKey ? -1 : 1); if (e.key === 'Escape') noteSearch.close(); }}
-              placeholder="Find in this note" aria-label="Find in this note" />
-            {noteSearch.total > 0 && <span className="nr-find-count">{noteSearch.current} of {noteSearch.total}</span>}
-            {noteSearch.query.length >= 2 && noteSearch.total === 0 && <span className="nr-find-none">Not found</span>}
+              placeholder={L('Find in this note', 'इस नोट में खोजें')} aria-label={L('Find in this note', 'इस नोट में खोजें')} />
+            {noteSearch.total > 0 && <span className="nr-find-count">{noteSearch.current} {L('of', '/')} {noteSearch.total}</span>}
+            {noteSearch.query.length >= 2 && noteSearch.total === 0 && <span className="nr-find-none">{L('Not found', 'नहीं मिला')}</span>}
             <div className="nr-find-nav">
-              <button type="button" onClick={() => noteSearch.jump(-1)} disabled={noteSearch.total === 0} title="Previous (Shift+Enter)" aria-label="Previous match" className="nr-find-step">↑</button>
-              <button type="button" onClick={() => noteSearch.jump(1)} disabled={noteSearch.total === 0} title="Next (Enter)" aria-label="Next match" className="nr-find-step">↓</button>
+              <button type="button" onClick={() => noteSearch.jump(-1)} disabled={noteSearch.total === 0} title={L('Previous (Shift+Enter)', 'पिछला (Shift+Enter)')} aria-label={L('Previous match', 'पिछला परिणाम')} className="nr-find-step">↑</button>
+              <button type="button" onClick={() => noteSearch.jump(1)} disabled={noteSearch.total === 0} title={L('Next (Enter)', 'अगला (Enter)')} aria-label={L('Next match', 'अगला परिणाम')} className="nr-find-step">↓</button>
             </div>
-            <button type="button" onClick={noteSearch.close} className="nr-find-esc" aria-label="Close">{Icon.x}</button>
+            <button type="button" onClick={noteSearch.close} className="nr-find-esc" aria-label={L('Close', 'बंद करें')}>{Icon.x}</button>
           </div>
         )}
         {!noteSearch.open && !gated && !editing && !drawing && display && (
-          <button type="button" onClick={() => noteSearch.setOpen(true)} title="Find in this note (⌘F)" className={`nr-find-fab${footerInView ? ' away' : ''}`} tabIndex={footerInView ? -1 : undefined}>
+          <button type="button" onClick={() => noteSearch.setOpen(true)} title={L('Find in this note (⌘F)', 'इस नोट में खोजें (⌘F)')} className={`nr-find-fab${footerInView ? ' away' : ''}`} tabIndex={footerInView ? -1 : undefined}>
             <svg width="15" height="15" viewBox="0 0 20 20" fill="none" aria-hidden="true"><circle cx="9" cy="9" r="7" stroke="currentColor" strokeWidth="2" /><path d="M14.5 14.5L18 18" stroke="currentColor" strokeWidth="2" strokeLinecap="round" /></svg>
-            <span>Find</span>
+            <span>{L('Find', 'खोजें')}</span>
             <kbd>⌘F</kbd>
           </button>
         )}

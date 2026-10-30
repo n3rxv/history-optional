@@ -114,7 +114,7 @@ export default function ChatSidebar(p: Props) {
     other: langHi ? 'अन्य प्रश्न' : 'Other questions',
     none: langHi ? 'अभी कोई चैट नहीं। आपकी पहली चैट यहाँ दिखेगी।' : 'No chats yet. Your first one will appear here.',
     noMatch: langHi ? 'कोई चैट नहीं मिली।' : 'No chats match that.',
-    flashcards: langHi ? 'फ्लैशकार्ड' : 'Flashcards',
+    flashcards: langHi ? 'फ़्लैशकार्ड' : 'Flashcards',
     pyqs: 'PYQs',
     dashboard: langHi ? 'डैशबोर्ड' : 'Dashboard',
     coverage: langHi ? 'पाठ्यक्रम कवरेज' : 'Syllabus coverage',
@@ -204,7 +204,7 @@ export default function ChatSidebar(p: Props) {
       <nav className="ch-side-nav">
         <Link href="/flashcards">
           {Icon.cards}<span>{L.flashcards}</span>
-          {p.flashDue > 0 && <span className="ch-side-badge" title={langHi ? 'दोहराने के लिए बाकी' : 'Due for review'}>{p.flashDue}</span>}
+          {p.flashDue > 0 && <span className="ch-side-badge" title={langHi ? 'दोहराने के लिए बाक़ी' : 'Due for review'}>{p.flashDue}</span>}
         </Link>
         <Link href="/pyqs">{Icon.pyq}<span>{L.pyqs}</span></Link>
         <Link href="/dashboard">{Icon.dash}<span>{L.dashboard}</span></Link>

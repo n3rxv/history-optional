@@ -1,35 +1,53 @@
+'use client';
 import type { ReactNode } from 'react';
 import Link from 'next/link';
+import { useLang } from '@/lib/i18n/LangContext';
 
 const DOCS = [
-  { id: 'privacy', label: 'Privacy', href: '/privacy' },
-  { id: 'terms', label: 'Terms', href: '/terms' },
-  { id: 'refund', label: 'Refunds', href: '/refund' },
+  { id: 'privacy', label: 'Privacy', labelHi: 'गोपनीयता', href: '/privacy' },
+  { id: 'terms', label: 'Terms', labelHi: 'शर्तें', href: '/terms' },
+  { id: 'refund', label: 'Refunds', labelHi: 'रिफ़ंड', href: '/refund' },
 ] as const;
 
 /**
  * The frame for the three policy pages: their own tabs, the title and dates,
  * and one readable style for the text. They used to share a block of global
  * styles with serif titles and yellow section headings.
+ *
+ * The pages stay on the server and hand over both versions of the text. The
+ * server draws the English, which is what search engines read, and in Hindi
+ * mode the reader sees the Hindi translation under a note that the English
+ * version prevails.
  */
-export default function LegalDoc({ current, title, updated, children }: {
+export default function LegalDoc({ current, title, titleHi, updated, updatedHi, children, hi }: {
   current: (typeof DOCS)[number]['id'];
   title: string;
+  titleHi: string;
   updated: string;
+  updatedHi: string;
   children: ReactNode;
+  hi: ReactNode;
 }) {
+  const { langHi } = useLang();
   return (
     <main className="lgd ds">
       <style dangerouslySetInnerHTML={{ __html: CSS }} />
       <div className="lgd-inner">
-        <nav className="lgd-tabs" aria-label="Policies">
+        <nav className="lgd-tabs" aria-label={langHi ? 'नीतियाँ' : 'Policies'}>
           {DOCS.map(d => (
-            <Link key={d.id} href={d.href} className={`lgd-tab${d.id === current ? ' on' : ''}`} aria-current={d.id === current ? 'page' : undefined}>{d.label}</Link>
+            <Link key={d.id} href={d.href} className={`lgd-tab${d.id === current ? ' on' : ''}`} aria-current={d.id === current ? 'page' : undefined}>{langHi ? d.labelHi : d.label}</Link>
           ))}
         </nav>
-        <h1 className="lgd-title">{title}</h1>
-        <p className="lgd-meta">{updated}</p>
-        <article className="lgd-body">{children}</article>
+        <h1 className="lgd-title">{langHi ? titleHi : title}</h1>
+        <p className="lgd-meta">{langHi ? updatedHi : updated}</p>
+        {langHi ? (
+          <article className="lgd-body" lang="hi">
+            <p className="lgd-note">यह हिंदी अनुवाद सुविधा के लिए है। किसी भी अंतर या विवाद की स्थिति में अंग्रेज़ी संस्करण मान्य होगा।</p>
+            {hi}
+          </article>
+        ) : (
+          <article className="lgd-body">{children}</article>
+        )}
       </div>
     </main>
   );
@@ -53,5 +71,6 @@ const CSS = `
 .lgd-body li::marker { color: var(--text3); }
 .lgd-body strong { color: var(--text); font-weight: 700; }
 .lgd-body a { color: var(--accent-text); text-decoration: underline; text-underline-offset: 3px; }
+.lgd-body .lgd-note { margin: 0 0 var(--space-6); padding: var(--space-3) var(--space-4); border: 1px solid var(--border); border-radius: var(--radius-lg); background: var(--ds-soft); font-size: 0.92rem; line-height: 1.6; color: var(--text2); }
 @media (max-width: 640px) { .lgd-body { font-size: 0.96rem; } }
 `;

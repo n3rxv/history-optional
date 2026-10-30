@@ -183,7 +183,7 @@ export default function MapEvaluator({ onLoginRequired }: { onLoginRequired: () 
             <span className="me-tally">
               <span className="ok">{T(`${count('correct')} right`, `${count('correct')} सही`)}</span>
               {count('partial') > 0 && <span className="part">{T(`${count('partial')} in part`, `${count('partial')} आंशिक`)}</span>}
-              <span className="no">{T(`${count('wrong')} wrong`, `${count('wrong')} गलत`)}</span>
+              <span className="no">{T(`${count('wrong')} wrong`, `${count('wrong')} ग़लत`)}</span>
               {count('blank') > 0 && <span className="blank">{T(`${count('blank')} left blank`, `${count('blank')} खाली`)}</span>}
             </span>
           </div>

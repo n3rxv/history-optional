@@ -30,7 +30,7 @@ export default function SessionComplete({
             ? `आपने सभी ${reviewed} कार्ड दोहराए और ${recalled} याद थे।`
             : `You went through all ${reviewed} card${reviewed === 1 ? '' : 's'} and knew ${recalled} of them.`}
           {missed > 0 && (langHi
-            ? ` बाकी ${missed} जल्दी फिर सामने आएँगे।`
+            ? ` बाक़ी ${missed} जल्दी फिर सामने आएँगे।`
             : ` The other ${missed} will come round again sooner.`)}
         </p>
         <div className="sdone-actions">

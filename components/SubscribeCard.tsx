@@ -15,6 +15,9 @@ function GoogleIcon() {
   );
 }
 
+/** Plan names in Hindi, as the pricing page shows them. */
+const NAME_HI: Record<PlanId, string> = { yearly: 'एक साल', sixmonths: '6 महीने', weekly: 'साप्ताहिक', daily: 'एक दिन' };
+
 export type SubscribeStep = 'idle' | 'signing_in' | 'paying' | 'success';
 
 interface SubscribeCardProps {
@@ -134,7 +137,7 @@ export function SubscribeCard({
         currency: orderData.currency,
         order_id: orderData.orderId,
         name: 'History Optional',
-        description: `Unlimited Access · ${currentPlan.label}`,
+        description: langHi ? `असीमित पहुँच · ${NAME_HI[planOverride ?? selectedPlan]}` : `Unlimited Access · ${currentPlan.label}`,
         image: '/favicon.svg',
         prefill: { email },
         theme: { color: 'var(--premium-text)' },
@@ -179,14 +182,16 @@ export function SubscribeCard({
         <span className="sc-done-mark" aria-hidden="true">
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round"><path d="M20 6 9 17l-5-5" /></svg>
         </span>
-        <h3>You&rsquo;re on Premium</h3>
+        <h3>{langHi ? 'आप अब प्रीमियम पर हैं' : <>You&rsquo;re on Premium</>}</h3>
         <p>
           {existingPlan
-            ? 'Your subscription was already active, so nothing was charged.'
-            : `The ${currentPlan.label.toLowerCase()} plan is active. Everything is open to you now.`}
+            ? (langHi ? 'आपकी सदस्यता पहले से चालू थी, इसलिए कोई शुल्क नहीं लिया गया।' : 'Your subscription was already active, so nothing was charged.')
+            : langHi
+              ? `${NAME_HI[selectedPlan]} वाला प्लान चालू है। अब सब कुछ आपके लिए खुला है।`
+              : `The ${currentPlan.label.toLowerCase()} plan is active. Everything is open to you now.`}
         </p>
         <button className="ds-btn ds-btn-solid ds-btn-block" onClick={() => { onClose?.(); onSuccess?.(); }}>
-          Start studying
+          {langHi ? 'पढ़ाई शुरू करें' : 'Start studying'}
         </button>
       </div>
     );
@@ -197,7 +202,7 @@ export function SubscribeCard({
       <div className="sc ds sc-wait">
         <style dangerouslySetInnerHTML={{ __html: SC_CSS }} />
         <span className="sc-spin" aria-hidden="true" />
-        Taking you to Google…
+        {langHi ? 'Google पर ले जा रहे हैं…' : 'Taking you to Google…'}
       </div>
     );
   }
@@ -224,7 +229,7 @@ export function SubscribeCard({
     ? { yearly: '', sixmonths: '', weekly: '', daily: '24 घंटे सब कुछ खुला' }
     : { yearly: '', sixmonths: '', weekly: '', daily: 'Everything open for 24 hours' };
   const NAME: Record<PlanId, string> = langHi
-    ? { yearly: 'सालाना', sixmonths: '6 महीने', weekly: 'साप्ताहिक', daily: 'एक दिन' }
+    ? NAME_HI
     : { yearly: 'A year', sixmonths: '6 months', weekly: 'Weekly', daily: 'A day' };
   const selPrice = planPriceLabel(selectedPlan);
 

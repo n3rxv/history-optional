@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
 import Mascot from '@/components/Mascot';
 import { useFirebaseAuth } from '@/hooks/useFirebaseAuth';
+import { useLang } from '@/lib/i18n/LangContext';
 import { SUPPORT_EMAIL, SUPPORT_MAILTO, TELEGRAM_URL } from '@/lib/contact';
 
 /**
@@ -13,11 +14,18 @@ import { SUPPORT_EMAIL, SUPPORT_MAILTO, TELEGRAM_URL } from '@/lib/contact';
  * matching one, as links elsewhere expect.
  */
 type Kind = 'contact' | 'bug' | 'feature';
-const KINDS: { key: Kind; label: string }[] = [
-  { key: 'contact', label: 'A question' },
-  { key: 'bug', label: 'Something broke' },
-  { key: 'feature', label: 'An idea' },
+const KINDS: { key: Kind; label: string; labelHi: string }[] = [
+  { key: 'contact', label: 'A question', labelHi: 'एक प्रश्न' },
+  { key: 'bug', label: 'Something broke', labelHi: 'कुछ ख़राब हुआ' },
+  { key: 'feature', label: 'An idea', labelHi: 'एक सुझाव' },
 ];
+/** The route's messages are English; in Hindi mode the known ones are shown in Hindi. */
+const ERROR_HI: Record<string, string> = {
+  'Too many submissions. Please wait a moment.': 'बहुत सारे संदेश भेजे गए। कृपया थोड़ी देर रुकें।',
+  'Invalid email address': 'यह ईमेल पता सही नहीं है।',
+  'Missing required fields': 'कुछ ज़रूरी जानकारी छूट गई है।',
+  'Missing fields': 'कुछ ज़रूरी जानकारी छूट गई है।',
+};
 const MIN_WORDS = 5;
 const words = (s: string) => s.trim().split(/\s+/).filter(Boolean).length;
 
@@ -29,6 +37,7 @@ function ContactForm() {
   const [status, setStatus] = useState<'idle' | 'sending' | 'done' | 'error'>('idle');
   const [errorText, setErrorText] = useState('');
   const { user } = useFirebaseAuth();
+  const { langHi } = useLang();
 
   // A signed-in reader should not have to type who they are.
   useEffect(() => {
@@ -80,8 +89,8 @@ function ContactForm() {
       <style dangerouslySetInnerHTML={{ __html: CSS }} />
       <header className="ct-hero">
         <div className="ds-container">
-          <h1 className="ds-h1 ct-h1">Get in touch</h1>
-          <p className="ds-lede ct-lede">Write to us about a bug, a payment, or something you’d like to see on the site. A person reads every message.</p>
+          <h1 className="ds-h1 ct-h1">{langHi ? 'संपर्क करें' : 'Get in touch'}</h1>
+          <p className="ds-lede ct-lede">{langHi ? 'किसी गड़बड़ी, भुगतान या साइट पर जो आप देखना चाहते हैं, उसके बारे में हमें लिखें। हर संदेश कोई व्यक्ति पढ़ता है।' : 'Write to us about a bug, a payment, or something you’d like to see on the site. A person reads every message.'}</p>
         </div>
       </header>
 
@@ -90,61 +99,71 @@ function ContactForm() {
           {status === 'done' ? (
             <div className="ct-done">
               <Mascot pose="celebrate" width={110} />
-              <h2>Thanks, we’ve got it</h2>
-              <p>{kind === 'contact' ? `We’ll reply to ${form.email || 'your email'}.` : kind === 'bug' ? 'We’ll look into it, and write to you if we need more.' : 'We read every idea, and we’ll write to you if it ships.'}</p>
-              <button type="button" className="ds-btn ds-btn-line" onClick={() => setStatus('idle')}>Send another</button>
+              <h2>{langHi ? 'धन्यवाद, हमें आपका संदेश मिल गया' : 'Thanks, we’ve got it'}</h2>
+              <p>{langHi
+                ? (kind === 'contact' ? `हम ${form.email || 'आपके ईमेल'} पर उत्तर देंगे।` : kind === 'bug' ? 'हम इसे देखेंगे, और ज़रूरत पड़ी तो आपको लिखेंगे।' : 'हम हर सुझाव पढ़ते हैं, और इसके लागू होने पर आपको लिखेंगे।')
+                : (kind === 'contact' ? `We’ll reply to ${form.email || 'your email'}.` : kind === 'bug' ? 'We’ll look into it, and write to you if we need more.' : 'We read every idea, and we’ll write to you if it ships.')}</p>
+              <button type="button" className="ds-btn ds-btn-line" onClick={() => setStatus('idle')}>{langHi ? 'एक और भेजें' : 'Send another'}</button>
             </div>
           ) : (
             <form className="ct-form" onSubmit={submit} noValidate>
               <div className="ct-field">
-                <span className="ct-label" id="ct-kind">What is it about?</span>
+                <span className="ct-label" id="ct-kind">{langHi ? 'यह किस बारे में है?' : 'What is it about?'}</span>
                 <div className="ct-kinds" role="radiogroup" aria-labelledby="ct-kind">
                   {KINDS.map(k => (
-                    <button key={k.key} type="button" role="radio" aria-checked={kind === k.key} className={`ct-kind${kind === k.key ? ' on' : ''}`} onClick={() => { setKind(k.key); setStatus('idle'); }}>{k.label}</button>
+                    <button key={k.key} type="button" role="radio" aria-checked={kind === k.key} className={`ct-kind${kind === k.key ? ' on' : ''}`} onClick={() => { setKind(k.key); setStatus('idle'); }}>{langHi ? k.labelHi : k.label}</button>
                   ))}
                 </div>
               </div>
 
               {status === 'error' && (
                 <p className="ct-error" role="alert">
-                  {errorText || 'Something went wrong.'} You can also email us at <a href={SUPPORT_MAILTO}>{SUPPORT_EMAIL}</a>.
+                  {langHi
+                    ? <>{ERROR_HI[errorText] ?? 'कुछ गड़बड़ हो गई।'} आप हमें <a href={SUPPORT_MAILTO}>{SUPPORT_EMAIL}</a> पर ईमेल भी कर सकते हैं।</>
+                    : <>{errorText || 'Something went wrong.'} You can also email us at <a href={SUPPORT_MAILTO}>{SUPPORT_EMAIL}</a>.</>}
                 </p>
               )}
 
               {kind === 'contact' && (
                 <label className="ct-field">
-                  <span className="ct-label">Name</span>
-                  <input className="ct-input" autoComplete="name" placeholder="Your name" value={form.name} onChange={set('name')} />
+                  <span className="ct-label">{langHi ? 'नाम' : 'Name'}</span>
+                  <input className="ct-input" autoComplete="name" placeholder={langHi ? 'आपका नाम' : 'Your name'} value={form.name} onChange={set('name')} />
                 </label>
               )}
               {kind === 'bug' && (
                 <label className="ct-field">
-                  <span className="ct-label">Where did it happen?</span>
-                  <input className="ct-input" placeholder="The page or feature, say the PYQ list or answer checking" value={form.page} onChange={set('page')} />
+                  <span className="ct-label">{langHi ? 'यह कहाँ हुआ?' : 'Where did it happen?'}</span>
+                  <input className="ct-input" placeholder={langHi ? 'पेज या सुविधा, जैसे PYQ सूची या उत्तर जाँच' : 'The page or feature, say the PYQ list or answer checking'} value={form.page} onChange={set('page')} />
                 </label>
               )}
               {kind === 'feature' && (
                 <label className="ct-field">
-                  <span className="ct-label">Your idea, in a line</span>
-                  <input className="ct-input" placeholder="Say, download the notes as a PDF" value={form.title} onChange={set('title')} />
+                  <span className="ct-label">{langHi ? 'आपका सुझाव, एक पंक्ति में' : 'Your idea, in a line'}</span>
+                  <input className="ct-input" placeholder={langHi ? 'जैसे, नोट्स को PDF के रूप में डाउनलोड करना' : 'Say, download the notes as a PDF'} value={form.title} onChange={set('title')} />
                 </label>
               )}
 
               <label className="ct-field">
-                <span className="ct-label">{kind === 'contact' ? 'Message' : kind === 'bug' ? 'What happened?' : 'Tell us more'}</span>
+                <span className="ct-label">{langHi
+                  ? (kind === 'contact' ? 'संदेश' : kind === 'bug' ? 'क्या हुआ?' : 'थोड़ा और बताएँ')
+                  : (kind === 'contact' ? 'Message' : kind === 'bug' ? 'What happened?' : 'Tell us more')}</span>
                 <textarea className="ct-input ct-textarea" value={form.message} onChange={set('message')}
-                  placeholder={kind === 'contact' ? 'Ask away' : kind === 'bug' ? 'What you did, what you expected, and what happened instead' : 'What should it do, and how would it help your preparation?'} />
-                {form.message.trim() && !enough && <span className="ct-hint">{left} more {left === 1 ? 'word' : 'words'}, please</span>}
+                  placeholder={langHi
+                    ? (kind === 'contact' ? 'बेझिझक पूछें' : kind === 'bug' ? 'आपने क्या किया, आप क्या उम्मीद कर रहे थे, और इसके बजाय क्या हुआ' : 'इसे क्या करना चाहिए, और इससे आपकी तैयारी में कैसे मदद मिलेगी?')
+                    : (kind === 'contact' ? 'Ask away' : kind === 'bug' ? 'What you did, what you expected, and what happened instead' : 'What should it do, and how would it help your preparation?')} />
+                {form.message.trim() && !enough && <span className="ct-hint">{langHi ? `कृपया ${left} शब्द और लिखें` : `${left} more ${left === 1 ? 'word' : 'words'}, please`}</span>}
               </label>
 
               <label className="ct-field">
-                <span className="ct-label">Email</span>
+                <span className="ct-label">{langHi ? 'ईमेल' : 'Email'}</span>
                 <input className="ct-input" type="email" autoComplete="email" placeholder="you@email.com" value={form.email} onChange={set('email')} />
-                {kind !== 'contact' && <span className="ct-hint">So we can follow up</span>}
+                {kind !== 'contact' && <span className="ct-hint">{langHi ? 'ताकि हम आपसे आगे बात कर सकें' : 'So we can follow up'}</span>}
               </label>
 
               <button type="submit" className="ds-btn ds-btn-solid ct-send" disabled={status === 'sending' || !ready}>
-                {status === 'sending' ? 'Sending…' : kind === 'contact' ? 'Send message' : kind === 'bug' ? 'Send report' : 'Send idea'}
+                {langHi
+                  ? (status === 'sending' ? 'भेजा जा रहा है…' : kind === 'contact' ? 'संदेश भेजें' : kind === 'bug' ? 'रिपोर्ट भेजें' : 'सुझाव भेजें')
+                  : (status === 'sending' ? 'Sending…' : kind === 'contact' ? 'Send message' : kind === 'bug' ? 'Send report' : 'Send idea')}
               </button>
             </form>
           )}
@@ -156,9 +175,9 @@ function ContactForm() {
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><rect x="2" y="4" width="20" height="16" rx="3" /><path d="m2 7 10 7 10-7" /></svg>
             </span>
             <div>
-              <h3>Email</h3>
+              <h3>{langHi ? 'ईमेल' : 'Email'}</h3>
               <a href={SUPPORT_MAILTO}>{SUPPORT_EMAIL}</a>
-              <p>For anything about your account or a payment.</p>
+              <p>{langHi ? 'आपके खाते या किसी भुगतान से जुड़ी किसी भी बात के लिए।' : 'For anything about your account or a payment.'}</p>
             </div>
           </div>
           <div className="ct-way">
@@ -166,9 +185,9 @@ function ContactForm() {
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z" /></svg>
             </span>
             <div>
-              <h3>Telegram</h3>
+              <h3>{langHi ? 'टेलीग्राम' : 'Telegram'}</h3>
               <a href={TELEGRAM_URL} target="_blank" rel="noopener noreferrer">t.me/historyoptionalxyz</a>
-              <p>Updates, discussion and quick questions.</p>
+              <p>{langHi ? 'अपडेट, चर्चा और छोटे-मोटे प्रश्न।' : 'Updates, discussion and quick questions.'}</p>
             </div>
           </div>
           <div className="ct-way">
@@ -176,9 +195,11 @@ function ContactForm() {
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><rect x="2" y="5" width="20" height="14" rx="2.5" /><path d="M2 10h20M6 15h4" /></svg>
             </span>
             <div>
-              <h3>A problem with a payment</h3>
-              <span className="ct-way-value">Write within 7 days of paying</span>
-              <p>Duplicate charges and long outages are covered. <Link href="/refund">The refund policy</Link> has the details.</p>
+              <h3>{langHi ? 'भुगतान में कोई समस्या' : 'A problem with a payment'}</h3>
+              <span className="ct-way-value">{langHi ? 'भुगतान के 7 दिनों के भीतर लिखें' : 'Write within 7 days of paying'}</span>
+              <p>{langHi
+                ? <>दोहरा शुल्क और लंबी सेवा बाधा इसमें शामिल हैं। पूरी जानकारी <Link href="/refund">रिफ़ंड नीति</Link> में देखें।</>
+                : <>Duplicate charges and long outages are covered. <Link href="/refund">The refund policy</Link> has the details.</>}</p>
             </div>
           </div>
         </aside>

@@ -20,6 +20,7 @@ import { PYQ_SECTION_TOTALS, sectionForPyq } from '@/lib/pyqSectionRanges';
 import { SECTIONS, type SectionKey } from '@/components/notes/sections';
 import { pyqSection, tintFor } from '@/components/pyq/sections';
 import { usePyqHi } from '@/lib/pyqHi';
+import { noteTitle, sectionName } from '@/lib/notesHi';
 
 /**
  * The reader's own page: what to do today, how far they have come, and the
@@ -63,7 +64,8 @@ function lastChat(): { id: string; title: string; updatedAt: number } | null {
     const list = JSON.parse(localStorage.getItem(CHAT_HISTORY_KEY) ?? '[]') as { id: string; title: string; updatedAt: number; messages?: unknown[] }[];
     if (!Array.isArray(list) || !list.length) return null;
     const c = [...list].filter((x) => x?.id).sort((a, b) => (b.updatedAt || 0) - (a.updatedAt || 0))[0];
-    return c ? { id: c.id, title: c.title || 'Your last chat', updatedAt: c.updatedAt || 0 } : null;
+    // An untitled chat gets its name where it is shown, in the reader's language.
+    return c ? { id: c.id, title: c.title || '', updatedAt: c.updatedAt || 0 } : null;
   } catch { return null; }
 }
 
@@ -91,9 +93,11 @@ function ago(ms: number, hi: boolean) {
   if (days <= 0) return hi ? 'आज' : 'today';
   if (days === 1) return hi ? 'कल' : 'yesterday';
   if (days < 30) return hi ? `${days} दिन पहले` : `${days} days ago`;
-  return new Date(ms).toLocaleDateString('en-IN', { day: 'numeric', month: 'short' });
+  return new Date(ms).toLocaleDateString(hi ? 'hi-IN' : 'en-IN', { day: 'numeric', month: 'short' });
 }
-const fmtDate = (iso: string | null) => (iso ? new Date(iso).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' }) : null);
+const fmtDate = (iso: string | null, hi = false) => (iso ? new Date(iso).toLocaleDateString(hi ? 'hi-IN' : 'en-IN', { day: 'numeric', month: 'short', year: 'numeric' }) : null);
+/** A subscriber's plan, named in Hindi, from the plan id the status route returns. */
+const PLAN_HI: Record<string, string> = { yearly: 'सालाना प्लान', sixmonths: '6 महीने का प्लान', weekly: 'साप्ताहिक प्लान', daily: 'एक दिन का प्लान' };
 const tone = (pct: number) => (pct >= 70 ? 'var(--success-text)' : pct >= 50 ? 'var(--warning-text)' : 'var(--danger-text)');
 
 const noop = () => () => {};
@@ -138,6 +142,9 @@ function Bar({ label, value, total, style, color }: { label: string; value: numb
 export default function Dashboard({ day, question: built }: { day: string; question: DailyQuestion | null }) {
   const { langHi: hi } = useLang();
   const T = (en: string, h: string) => (hi ? h : en);
+  /** Topic and section names in the reader's language. */
+  const topic = (slug: string, title: string) => noteTitle(slug, title, hi);
+  const part = (name: string) => sectionName(name, hi);
   // Today's question in Hindi too, once the Hindi question bank has loaded.
   const pyqHi = usePyqHi(hi);
   const inBrowser = useInBrowser();
@@ -229,11 +236,11 @@ export default function Dashboard({ day, question: built }: { day: string; quest
   // padding it out with advice when nothing is due would teach readers to
   // stop reading it.
   const extras: { key: string; icon: string; title: string; sub: string; href: string }[] = [];
-  if (local && local.flash.due > 0) extras.push({ key: 'cards', icon: 'cards', title: T(`${local.flash.due} flashcards to review`, `${local.flash.due} फ्लैशकार्ड दोहराने हैं`), sub: T('They have come round again', 'इनका समय फिर आ गया है'), href: '/flashcards' });
-  if (coldNote) extras.push({ key: 'cold', icon: 'notes', title: T(`Revise ${coldNote.n.title}`, `${coldNote.n.title} दोहराएँ`), sub: T(`Finished ${ago(new Date(coldNote.at).getTime(), false)}`, `${ago(new Date(coldNote.at).getTime(), true)} पूरा किया`), href: `/notes/${coldNote.n.slug}` });
+  if (local && local.flash.due > 0) extras.push({ key: 'cards', icon: 'cards', title: T(`${local.flash.due} flashcards to review`, `${local.flash.due} फ़्लैशकार्ड दोहराने हैं`), sub: T('They have come round again', 'इनका समय फिर आ गया है'), href: '/flashcards' });
+  if (coldNote) extras.push({ key: 'cold', icon: 'notes', title: T(`Revise ${coldNote.n.title}`, `${topic(coldNote.n.slug, coldNote.n.title)} दोहराएँ`), sub: T(`Finished ${ago(new Date(coldNote.at).getTime(), false)}`, `${ago(new Date(coldNote.at).getTime(), true)} पूरा किया`), href: `/notes/${coldNote.n.slug}` });
   if (answers?.weakest && answers.weakest.avg < 0.6) extras.push({ key: 'weak', icon: 'evaluate', title: T(`Work on your ${partName[answers.weakest.part].toLowerCase()}`, `अपनी ${partName[answers.weakest.part]} सुधारें`), sub: T(`It averages ${Math.round(answers.weakest.avg * 100)}% across your answers`, `आपके उत्तरों में औसत ${Math.round(answers.weakest.avg * 100)}%`), href: '/evaluate' });
-  if (ready && pyqDone > 0 && untouched[0]) extras.push({ key: 'pyq', icon: 'pyq', title: T(`Try a past question in ${untouched[0].name}`, `${untouched[0].name} का कोई PYQ हल करें`), sub: T('None attempted there yet', 'वहाँ अभी कोई हल नहीं किया'), href: `/pyqs/${untouched[0].key === 'ancient' ? 'ancient-india' : untouched[0].key === 'medieval' ? 'medieval-india' : untouched[0].key === 'modern' ? 'modern-india' : 'world-history'}` });
-  if (nextNote && doneNotes.length > 0) extras.push({ key: 'next', icon: 'notes', title: T(`Next in the syllabus: ${nextNote.title}`, `सिलेबस में अगला: ${nextNote.title}`), sub: `${nextNote.section} · ${T('topic', 'विषय')} ${nextNote.topic}`, href: `/notes/${nextNote.slug}` });
+  if (ready && pyqDone > 0 && untouched[0]) extras.push({ key: 'pyq', icon: 'pyq', title: T(`Try a past question in ${untouched[0].name}`, `${part(untouched[0].name)} का कोई PYQ हल करें`), sub: T('None attempted there yet', 'वहाँ अभी कोई हल नहीं किया'), href: `/pyqs/${untouched[0].key === 'ancient' ? 'ancient-india' : untouched[0].key === 'medieval' ? 'medieval-india' : untouched[0].key === 'modern' ? 'modern-india' : 'world-history'}` });
+  if (nextNote && doneNotes.length > 0) extras.push({ key: 'next', icon: 'notes', title: T(`Next in the syllabus: ${nextNote.title}`, `पाठ्यक्रम में अगला: ${topic(nextNote.slug, nextNote.title)}`), sub: `${part(nextNote.section)} · ${T('topic', 'विषय')} ${nextNote.topic}`, href: `/notes/${nextNote.slug}` });
   const resume = (local?.note ? 1 : 0) + (local?.chat ? 1 : 0);
   const shownExtras = extras.slice(0, Math.max(1, 4 - resume));
 
@@ -247,20 +254,20 @@ export default function Dashboard({ day, question: built }: { day: string; quest
 
   const syllabusLine = !ready ? '' : doneNotes.length === 0
     ? T('Tick topics off in the notes as you finish them, and they add up here.', 'नोट्स में विषय पूरे होते ही उन्हें चिह्नित करें, वे यहाँ जुड़ते जाएँगे।')
-    : doneNotes.length === ALL_NOTES.length ? T('The whole syllabus is done. Time to revise.', 'पूरा सिलेबस हो गया। अब दोहराने का समय है।')
-    : T(`${ALL_NOTES.length - doneNotes.length} topics to go.`, `${ALL_NOTES.length - doneNotes.length} विषय बाकी हैं।`);
+    : doneNotes.length === ALL_NOTES.length ? T('The whole syllabus is done. Time to revise.', 'पूरा पाठ्यक्रम हो गया। अब दोहराने का समय है।')
+    : T(`${ALL_NOTES.length - doneNotes.length} topics to go.`, `${ALL_NOTES.length - doneNotes.length} विषय बाक़ी हैं।`);
   const pyqLine = !ready ? '' : pyqDone === 0
     ? T('Mark questions attempted when you answer them, and your coverage shows here.', 'प्रश्न हल करने पर उन्हें चिह्नित करें, आपकी कवरेज यहाँ दिखेगी।')
-    : untouched.length ? T(`Not started yet: ${untouched.map((s) => s.name).join(', ')}.`, `अभी शुरू नहीं: ${untouched.map((s) => s.name).join(', ')}।`)
+    : untouched.length ? T(`Not started yet: ${untouched.map((s) => s.name).join(', ')}.`, `अभी शुरू नहीं: ${untouched.map((s) => part(s.name)).join(', ')}।`)
     : T('Every part has at least one question attempted.', 'हर भाग में कम से कम एक प्रश्न हल किया है।');
 
   const tools = [
-    { key: 'notes', title: T('Notes', 'नोट्स'), count: `${ALL_NOTES.length} ${T('topics', 'विषय')}`, desc: T('Every topic in the syllabus, with the historians who argue it.', 'सिलेबस का हर विषय, उस पर बहस करने वाले इतिहासकारों के साथ।'), href: '/notes' },
-    { key: 'pyq', title: 'PYQs', count: `${pyqTotal.toLocaleString('en-IN')} ${T('questions', 'प्रश्न')}`, desc: T('By year, section and topic, each one ready to answer.', 'वर्ष, भाग और विषय के अनुसार, हर एक उत्तर के लिए तैयार।'), href: '/pyqs' },
+    { key: 'notes', title: T('Notes', 'नोट्स'), count: `${ALL_NOTES.length} ${T('topics', 'विषय')}`, desc: T('Every topic in the syllabus, with the historians who argue it.', 'पाठ्यक्रम का हर विषय, उस पर बहस करने वाले इतिहासकारों के साथ।'), href: '/notes' },
+    { key: 'pyq', title: T('PYQs', 'पिछले प्रश्न'), count: `${pyqTotal.toLocaleString('en-IN')} ${T('questions', 'प्रश्न')}`, desc: T('By year, section and topic, each one ready to answer.', 'वर्ष, भाग और विषय के अनुसार, हर एक उत्तर के लिए तैयार।'), href: '/pyqs' },
     { key: 'chat', title: T('AI chat', 'AI चैट'), count: null, desc: T('Ask anything. It answers from the standard books and shows where.', 'कुछ भी पूछें। यह मानक पुस्तकों से उत्तर देता है और स्रोत दिखाता है।'), href: '/chat' },
     { key: 'evaluate', title: T('Evaluate', 'मूल्यांकन'), count: null, desc: T('Upload a handwritten answer and get it marked, part by part.', 'हस्तलिखित उत्तर अपलोड करें और हर भाग के अंक पाएँ।'), href: '/evaluate' },
-    { key: 'test', title: T('Test papers', 'टेस्ट पेपर'), count: null, desc: T('Timed papers in the Mains format, from past questions.', 'पिछले प्रश्नों से बने, मेन्स प्रारूप में समयबद्ध पेपर।'), href: '/test' },
-    { key: 'map', title: T('Map practice', 'मैप अभ्यास'), count: null, desc: T('All 992 places in the map syllabus, and a quiz.', 'मैप सिलेबस के सभी 992 स्थल, और एक क्विज़।'), href: '/mapping' },
+    { key: 'test', title: T('Test papers', 'टेस्ट पेपर'), count: null, desc: T('Timed papers in the Mains format, from past questions.', 'पिछले प्रश्नों से बने, मुख्य परीक्षा के प्रारूप में समयबद्ध पेपर।'), href: '/test' },
+    { key: 'map', title: T('Map practice', 'मैप अभ्यास'), count: null, desc: T('All 992 places in the map syllabus, and a quiz.', 'मैप पाठ्यक्रम के सभी 992 स्थल, और एक क्विज़।'), href: '/mapping' },
   ];
 
   return (
@@ -270,8 +277,8 @@ export default function Dashboard({ day, question: built }: { day: string; quest
         <div className="ds-container">
           <h1 className="ds-h1 db-h1">{greeting}</h1>
           <div className="db-chips">
-            {mainsDays !== null && <span className="db-chip">{T(`Mains ${NEXT_MAINS.slice(0, 4)} in ${mainsDays} days`, `मेन्स ${NEXT_MAINS.slice(0, 4)}: ${mainsDays} दिन`)}</span>}
-            {user && !usageLoading && <span className={`db-chip${premium ? ' gold' : ''}`}>{premium ? 'Premium' : T('Free plan', 'फ्री प्लान')}</span>}
+            {mainsDays !== null && <span className="db-chip">{T(`Mains ${NEXT_MAINS.slice(0, 4)} in ${mainsDays} days`, `मुख्य परीक्षा ${NEXT_MAINS.slice(0, 4)} में ${mainsDays} दिन बाक़ी`)}</span>}
+            {user && !usageLoading && <span className={`db-chip${premium ? ' gold' : ''}`}>{premium ? T('Premium', 'प्रीमियम') : T('Free plan', 'निःशुल्क प्लान')}</span>}
             {local && local.streak > 1 && <span className="db-chip streak">{T(`${local.streak}-day streak`, `${local.streak} दिन लगातार`)}</span>}
           </div>
         </div>
@@ -290,7 +297,7 @@ export default function Dashboard({ day, question: built }: { day: string; quest
                 <Link href={`/pyqs/${question.id}`} className="db-today-q" lang={pyqHi?.q[question.id] ? 'hi' : undefined}>{pyqHi?.q[question.id] ?? question.question}</Link>
                 <div className="db-today-actions">
                   <Link href={`/evaluate?question=${encodeURIComponent(pyqHi?.q[question.id] ?? question.question)}&marks=${question.marks}`} className="ds-btn ds-btn-solid ds-btn-sm">{T('Write an answer', 'उत्तर लिखें')}</Link>
-                  <Link href={`/chat?q=${encodeURIComponent(`How should I approach this question? ${question.question}`)}`} className="ds-btn ds-btn-line ds-btn-sm">{T('Ask the AI how to approach it', 'AI से तरीका पूछें')}</Link>
+                  <Link href={`/chat?q=${encodeURIComponent(hi ? `इस प्रश्न का उत्तर कैसे लिखूँ? ${pyqHi?.q[question.id] ?? question.question}` : `How should I approach this question? ${question.question}`)}`} className="ds-btn ds-btn-line ds-btn-sm">{T('Ask the AI how to approach it', 'AI से तरीक़ा पूछें')}</Link>
                   <Link href="/#daily-answer" className="db-more">{T('All five for today', 'आज के सभी पाँच')} <Arrow /></Link>
                 </div>
               </article>
@@ -300,14 +307,14 @@ export default function Dashboard({ day, question: built }: { day: string; quest
                 {local.note && (
                   <Link href={`/notes/${local.note.slug}`} className="db-resume-item">
                     <span className="db-resume-icon"><Glyph name="notes" /></span>
-                    <span className="db-resume-text"><strong>{T(`Pick up ${local.note.title}`, `${local.note.title} जारी रखें`)}</strong><span>{local.note.section ? `${local.note.section} · ` : ''}{T('opened', 'खोला')} {ago(local.note.at, hi)}</span></span>
+                    <span className="db-resume-text"><strong>{T(`Pick up ${local.note.title}`, `${topic(local.note.slug, local.note.title)} जारी रखें`)}</strong><span>{local.note.section ? `${part(local.note.section)} · ` : ''}{T('opened', 'खोला')} {ago(local.note.at, hi)}</span></span>
                     <Arrow />
                   </Link>
                 )}
                 {local.chat && (
                   <Link href={`/chat?c=${encodeURIComponent(local.chat.id)}`} className="db-resume-item">
                     <span className="db-resume-icon"><Glyph name="chat" /></span>
-                    <span className="db-resume-text"><strong>{T(`Carry on with “${local.chat.title}”`, `“${local.chat.title}” जारी रखें`)}</strong><span>{T('Your last chat', 'आपकी पिछली चैट')} · {ago(local.chat.updatedAt, hi)}</span></span>
+                    <span className="db-resume-text"><strong>{T(`Carry on with “${local.chat.title || 'Your last chat'}”`, `“${local.chat.title || 'आपकी पिछली चैट'}” जारी रखें`)}</strong><span>{T('Your last chat', 'आपकी पिछली चैट')} · {ago(local.chat.updatedAt, hi)}</span></span>
                     <Arrow />
                   </Link>
                 )}
@@ -332,11 +339,11 @@ export default function Dashboard({ day, question: built }: { day: string; quest
                 <div className="db-pcard-top">
                   <Ring value={doneNotes.length} total={ALL_NOTES.length} />
                   <div>
-                    <h3>{T('Syllabus', 'सिलेबस')}</h3>
+                    <h3>{T('Syllabus', 'पाठ्यक्रम')}</h3>
                     <p className="db-pcard-big">{ready ? T(`${doneNotes.length} of ${ALL_NOTES.length} topics done`, `${ALL_NOTES.length} में से ${doneNotes.length} विषय पूरे`) : '…'}</p>
                   </div>
                 </div>
-                {bySection.map((s) => <Bar key={s.key} label={s.name} value={s.done} total={s.total} style={tintFor(s.key)} color="var(--t)" />)}
+                {bySection.map((s) => <Bar key={s.key} label={part(s.name)} value={s.done} total={s.total} style={tintFor(s.key)} color="var(--t)" />)}
                 <p className="db-pcard-line">{syllabusLine}</p>
                 <Link href="/notes" className="db-link">{T('Open the notes', 'नोट्स खोलें')} <Arrow /></Link>
               </div>
@@ -348,7 +355,7 @@ export default function Dashboard({ day, question: built }: { day: string; quest
                     <p className="db-pcard-big">{ready ? T(`${pyqDone.toLocaleString('en-IN')} of ${pyqTotal.toLocaleString('en-IN')} attempted`, `${pyqTotal.toLocaleString('en-IN')} में से ${pyqDone.toLocaleString('en-IN')} हल किए`) : '…'}</p>
                   </div>
                 </div>
-                {SECTIONS.map((s) => <Bar key={s.key} label={s.name} value={pyqBy[s.key].done} total={pyqBy[s.key].total} style={tintFor(s.key)} color="var(--t)" />)}
+                {SECTIONS.map((s) => <Bar key={s.key} label={part(s.name)} value={pyqBy[s.key].done} total={pyqBy[s.key].total} style={tintFor(s.key)} color="var(--t)" />)}
                 <p className="db-pcard-line">{pyqLine}</p>
                 <Link href="/pyqs" className="db-link">{T('Open the PYQs', 'PYQ खोलें')} <Arrow /></Link>
               </div>
@@ -381,20 +388,20 @@ export default function Dashboard({ day, question: built }: { day: string; quest
                 )}
               </div>
               <div className="db-pcard">
-                <h3>{T('Flashcards', 'फ्लैशकार्ड')}</h3>
+                <h3>{T('Flashcards', 'फ़्लैशकार्ड')}</h3>
                 {local && local.flash.reviewed > 0 ? (
                   <>
                     <div className="db-stats">
-                      <div><strong style={{ color: local.flash.due ? 'var(--warning-text)' : 'var(--success-text)' }}>{local.flash.due}</strong><span>{T('due now', 'अभी बाकी')}</span></div>
+                      <div><strong style={{ color: local.flash.due ? 'var(--warning-text)' : 'var(--success-text)' }}>{local.flash.due}</strong><span>{T('due now', 'अभी बाक़ी')}</span></div>
                       <div><strong>{local.flash.reviewed}</strong><span>{T('cards seen', 'कार्ड देखे')}</span></div>
                       <div><strong style={{ color: local.flash.recall === null ? undefined : tone(local.flash.recall) }}>{local.flash.recall === null ? '-' : `${local.flash.recall}%`}</strong><span>{T('remembered', 'याद रहे')}</span></div>
                     </div>
-                    <Link href="/flashcards" className="db-link">{local.flash.due ? T(`Review the ${local.flash.due} due`, `${local.flash.due} दोहराएँ`) : T('Open the flashcards', 'फ्लैशकार्ड खोलें')} <Arrow /></Link>
+                    <Link href="/flashcards" className="db-link">{local.flash.due ? T(`Review the ${local.flash.due} due`, `${local.flash.due} दोहराएँ`) : T('Open the flashcards', 'फ़्लैशकार्ड खोलें')} <Arrow /></Link>
                   </>
                 ) : (
                   <>
                     <p className="db-pcard-line">{local ? T('Historians’ arguments, causes and comparisons, brought back just before you would forget them.', 'इतिहासकारों के तर्क, कारण और तुलनाएँ, भूलने से ठीक पहले फिर सामने।') : ''}</p>
-                    <Link href="/flashcards" className="db-link">{T('Start the flashcards', 'फ्लैशकार्ड शुरू करें')} <Arrow /></Link>
+                    <Link href="/flashcards" className="db-link">{T('Start the flashcards', 'फ़्लैशकार्ड शुरू करें')} <Arrow /></Link>
                   </>
                 )}
               </div>
@@ -424,14 +431,14 @@ export default function Dashboard({ day, question: built }: { day: string; quest
               <>
                 <h2 className="db-card-title">{T('Sign in to keep going', 'आगे बढ़ने के लिए साइन इन करें')}</h2>
                 <p className="db-card-text">{T('Your progress here is saved in this browser. Sign in, free, for the AI chat and answer checking.', 'आपकी प्रगति इसी ब्राउज़र में सहेजी है। AI चैट और उत्तर जाँच के लिए मुफ़्त साइन इन करें।')}</p>
-                <button type="button" className="ds-btn ds-btn-solid db-card-btn" onClick={() => requireLogin('Sign in free to use the AI chat and get answers checked.')}>{T('Sign in', 'साइन इन')}</button>
+                <button type="button" className="ds-btn ds-btn-solid db-card-btn" onClick={() => requireLogin(T('Sign in free to use the AI chat and get answers checked.', 'AI चैट और उत्तर जाँच के लिए निःशुल्क साइन इन करें।'))}>{T('Sign in', 'साइन इन')}</button>
               </>
             ) : premium ? (
               <>
-                <div className="db-plan-row"><h2 className="db-card-title">Premium</h2><span className="db-active">{T('Active', 'सक्रिय')}</span></div>
+                <div className="db-plan-row"><h2 className="db-card-title">{T('Premium', 'प्रीमियम')}</h2><span className="db-active">{T('Active', 'सक्रिय')}</span></div>
                 <p className="db-card-text">
-                  {sub?.plan ? T(`${sub.plan.charAt(0).toUpperCase()}${sub.plan.slice(1)} plan`, `${sub.plan} प्लान`) : T('Your plan', 'आपका प्लान')}
-                  {fmtDate(sub?.expiresAt ?? null) ? T(`, until ${fmtDate(sub?.expiresAt ?? null)}.`, `, ${fmtDate(sub?.expiresAt ?? null)} तक।`) : '.'}
+                  {sub?.plan ? T(`${sub.plan.charAt(0).toUpperCase()}${sub.plan.slice(1)} plan`, PLAN_HI[sub.plan] ?? 'आपका प्लान') : T('Your plan', 'आपका प्लान')}
+                  {fmtDate(sub?.expiresAt ?? null) ? T(`, until ${fmtDate(sub?.expiresAt ?? null)}.`, `, ${fmtDate(sub?.expiresAt ?? null, true)} तक।`) : T('.', '।')}
                   {' '}{T('Unlimited chats and answer checks, whole papers marked, and the chat’s book and mentor modes.', 'असीमित चैट और उत्तर जाँच, पूरे पेपर की जाँच, और चैट के बुक व मेंटर मोड।')}
                 </p>
                 {/* As in the account menu: a plan that renews by itself is not
@@ -442,15 +449,15 @@ export default function Dashboard({ day, question: built }: { day: string; quest
               </>
             ) : (
               <>
-                <h2 className="db-card-title">{T('Free plan', 'फ्री प्लान')}</h2>
+                <h2 className="db-card-title">{T('Free plan', 'निःशुल्क प्लान')}</h2>
                 {!usageLoading && usage && (
                   <div className="db-usage">
-                    <div className="db-usage-row"><span>{T('AI chats', 'AI चैट')}</span><span>{chatsLeft === 0 ? T('All used', 'सब उपयोग हो गईं') : T(`${chatsLeft} of ${FREE_CHAT_LIMIT} left`, `${FREE_CHAT_LIMIT} में से ${chatsLeft} बाकी`)}</span></div>
+                    <div className="db-usage-row"><span>{T('AI chats', 'AI चैट')}</span><span>{chatsLeft === 0 ? T('All used', 'सब उपयोग हो गईं') : T(`${chatsLeft} of ${FREE_CHAT_LIMIT} left`, `${FREE_CHAT_LIMIT} में से ${chatsLeft} बाक़ी`)}</span></div>
                     <div className="db-bar"><span style={{ width: `${Math.min(100, ((usage.chat_count ?? 0) / FREE_CHAT_LIMIT) * 100)}%` }} className={chatsLeft === 0 ? 'full' : ''} /></div>
-                    <div className="db-usage-row"><span>{T('Answer checks', 'उत्तर जाँच')}</span><span>{(usage.eval_count ?? 0) >= FREE_EVAL_LIMIT ? T('Used', 'उपयोग हो गई') : T(`${FREE_EVAL_LIMIT} free, not used yet`, `${FREE_EVAL_LIMIT} मुफ़्त, अभी बाकी`)}</span></div>
+                    <div className="db-usage-row"><span>{T('Answer checks', 'उत्तर जाँच')}</span><span>{(usage.eval_count ?? 0) >= FREE_EVAL_LIMIT ? T('Used', 'उपयोग हो गई') : T(`${FREE_EVAL_LIMIT} free, not used yet`, `${FREE_EVAL_LIMIT} मुफ़्त, अभी बाक़ी`)}</span></div>
                   </div>
                 )}
-                <p className="db-card-text">{T('Premium checks every answer you write and opens the chat without limits.', 'Premium हर उत्तर जाँचता है और चैट असीमित खोलता है।')}</p>
+                <p className="db-card-text">{T('Premium checks every answer you write and opens the chat without limits.', 'प्रीमियम आपका हर उत्तर जाँचता है और चैट बिना किसी सीमा के खोल देता है।')}</p>
                 <Link href="/pricing" className="ds-btn ds-btn-premium db-card-btn">{T('See the plans', 'प्लान देखें')}</Link>
               </>
             )}

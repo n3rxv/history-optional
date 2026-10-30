@@ -10,7 +10,8 @@ import ModelAnswerModal from '@/components/ModelAnswerModal';
 import TopperLocked from '@/components/TopperLocked';
 import CompareIcon from '@/components/CompareIcon';
 import { LIST_KEY } from './PyqBrowser';
-import { pyqSection, tintFor, topicName } from './sections';
+import { pyqSection, sourceLabel, tintFor, topicName } from './sections';
+import { sameQuestion } from '@/components/topper/note';
 import { useLang } from '@/lib/i18n/LangContext';
 import { usePyqHi, topicLabel } from '@/lib/pyqHi';
 
@@ -149,7 +150,7 @@ export default function PyqDetail({ pyq, related, prev, next, topicCount }: {
                 <span className="pd-sec">{(langHi ? meta?.nameHi : meta?.name) ?? pyq.section}</span>
                 <span>{L('Paper', 'प्रश्नपत्र')} {meta?.paper === 2 ? 'II' : 'I'}</span>
                 <span>{pyq.year}</span>
-                {pyq.source !== 'UPSC' && <span className="pd-src">{pyq.source}</span>}
+                {pyq.source !== 'UPSC' && <span className="pd-src">{sourceLabel(pyq.source, langHi)}</span>}
                 <span className="pd-marks">{pyq.marks} {L('marks', 'अंक')}</span>
               </div>
               <h1 className="pd-question" lang={qHi ? 'hi' : undefined}>{shown}</h1>
@@ -178,7 +179,7 @@ export default function PyqDetail({ pyq, related, prev, next, topicCount }: {
               <Link href={`/chat?q=${encodeURIComponent(shown)}`} className="ds-btn ds-btn-line">{L('Ask the AI how to approach it', 'AI से पूछें कि इसे कैसे हल करें')}</Link>
               <button type="button" className="ds-btn ds-btn-ghost" onClick={() => (subscribed ? setShowModel(true) : showChatLimitModal())}>
                 {L('Show a model answer', 'आदर्श उत्तर देखें')}
-                {!subscribed && <span className="pd-pro">Premium</span>}
+                {!subscribed && <span className="pd-pro">{L('Premium', 'प्रीमियम')}</span>}
               </button>
             </div>
 
@@ -274,12 +275,18 @@ export default function PyqDetail({ pyq, related, prev, next, topicCount }: {
                     </button>
                   )}
                   <div className="pd-copies">
-                    {copies.map((c) => (
-                      <button key={c.id} type="button" className="pd-copy" onClick={() => openCopy(`/topper-copies/${c.id}`)}>
-                        <span className="pd-copy-who">{c.note || L('Topper copy', 'टॉपर कॉपी')}</span>
-                        <span className="pd-copy-q">{short(c.question, 110)}</span>
-                      </button>
-                    ))}
+                    {copies.map((c) => {
+                      // Most copies answer a question on this one's theme in
+                      // other words; only one answering it as asked takes its Hindi.
+                      const same = sameQuestion(c.question, pyq.question);
+                      const cHi = same ? qHi : undefined;
+                      return (
+                        <button key={c.id} type="button" className="pd-copy" onClick={() => openCopy(`/topper-copies/${c.id}${same ? `?pyq=${pyq.id}` : ''}`)}>
+                          <span className="pd-copy-who">{c.note || L('Topper copy', 'टॉपर कॉपी')}</span>
+                          <span className="pd-copy-q" lang={cHi ? 'hi' : undefined}>{short(cHi ?? c.question, 110)}</span>
+                        </button>
+                      );
+                    })}
                   </div>
                 </>
               )}

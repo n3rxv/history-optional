@@ -128,7 +128,7 @@ export function useSubscriptionGate(onEvaluate: () => void) {
     if (loading) return null;
     if (usage?.subscribed) return (
       <div style={{ fontFamily:'var(--font-mono)', fontSize:'0.62rem', color:'#51cf66', letterSpacing:'0.08em', marginBottom:12 }}>
-        ✦ Unlimited access
+        ✦ {langHi ? 'असीमित पहुँच' : 'Unlimited access'}
       </div>
     );
     const remaining = FREE_EVAL_LIMIT - (usage?.eval_count ?? 0);
@@ -138,7 +138,9 @@ export function useSubscriptionGate(onEvaluate: () => void) {
     const color = remaining <= 0 ? 'var(--danger-text)' : 'var(--text)';
     return (
       <div style={{ fontFamily:'var(--font-mono)', fontSize:'0.68rem', fontWeight:600, color, letterSpacing:'0.08em', marginBottom:12 }}>
-        {remaining <= 0 ? 'Free evaluations used · subscribe for unlimited' : `${remaining} of ${FREE_EVAL_LIMIT} free evaluations remaining`}
+        {langHi
+          ? (remaining <= 0 ? 'निःशुल्क मूल्यांकन पूरे · असीमित के लिए सदस्यता लें' : `${FREE_EVAL_LIMIT} में से ${remaining} निःशुल्क मूल्यांकन बाक़ी`)
+          : (remaining <= 0 ? 'Free evaluations used · subscribe for unlimited' : `${remaining} of ${FREE_EVAL_LIMIT} free evaluations remaining`)}
       </div>
     );
   };

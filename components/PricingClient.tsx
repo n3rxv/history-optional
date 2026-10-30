@@ -11,6 +11,7 @@ import { daysToMains, NEXT_MAINS } from '@/lib/examDates';
 import { PLANS, PLAN_DURATION, planPriceLabel, type PlanId } from '@/lib/plans';
 import { toast } from '@/components/ui/Toast';
 import { confirmDialog } from '@/components/ui/ConfirmDialog';
+import { useLang } from '@/lib/i18n/LangContext';
 
 /**
  * The plans, grouped by what each is for, as in the Go Premium panel: the
@@ -37,14 +38,71 @@ const BLURB: Record<Sold, string> = {
 };
 const CTA: Record<Sold, string> = { yearly: 'Get a year', sixmonths: 'Get 6 months', daily: 'Get a day' };
 const EXTEND: Record<Sold, string> = { yearly: 'Extend by a year', sixmonths: 'Extend by 6 months', daily: 'Extend by a day' };
+const NAME: Record<Sold, string> = { yearly: 'A year', sixmonths: '6 months', daily: 'A day' };
 
-const Check = () => <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round" aria-label="Included"><path d="M20 6 9 17l-5-5" /></svg>;
+/** The same plan copy in Hindi. Prices and allowances are still read from lib/plans.ts and lib/features.ts. */
+const PER_HI: Record<Sold, string> = {
+  yearly: `लगभग ₹${Math.round(rupees('yearly') / 12)} प्रति माह`,
+  sixmonths: `लगभग ₹${Math.round(rupees('sixmonths') / 6)} प्रति माह`,
+  daily: '24 घंटे के लिए',
+};
+const BLURB_HI: Record<Sold, string> = {
+  yearly: 'पूरा एक साल: मुख्य परीक्षा तक की पूरी तैयारी के लिए काफ़ी, दोहराने के समय के साथ।',
+  sixmonths: 'मुख्य परीक्षा तक एक केंद्रित दौर।',
+  daily: 'एक दिन के लिए सब कुछ खुला: टेस्ट वाले दिन के लिए, या लंबे प्लान से पहले मूल्यांकन ठीक से देखने के लिए।',
+};
+const CTA_HI: Record<Sold, string> = { yearly: 'एक साल लें', sixmonths: '6 महीने लें', daily: 'एक दिन लें' };
+const EXTEND_HI: Record<Sold, string> = { yearly: 'एक साल बढ़ाएँ', sixmonths: '6 महीने बढ़ाएँ', daily: 'एक दिन बढ़ाएँ' };
+const NAME_HI: Record<PlanId, string> = { yearly: 'एक साल', sixmonths: '6 महीने', weekly: 'साप्ताहिक', daily: 'एक दिन' };
+
+/**
+ * The comparison table in Hindi, keyed by the English name in lib/features.ts
+ * (another file's table, read here and not edited). A row missing from this
+ * map falls back to its English.
+ */
+const FEATURE_HI: Record<string, { name: string; detail: string }> = {
+  'Notes (Paper I & II)': { name: 'नोट्स (प्रश्नपत्र I और II)', detail: 'दोनों प्रश्नपत्रों के पूरे पाठ्यक्रम के नोट्स।' },
+  'PYQ bank': { name: 'पिछले प्रश्नों का संग्रह', detail: 'हर पिछला प्रश्नपत्र, विषय और वर्ष के अनुसार।' },
+  'Timeline & Historiography': { name: 'समयरेखा और इतिहास-लेखन', detail: 'घटनाक्रम और इतिहासकारों की बहसें, संदर्भ के लिए।' },
+  'Answer evaluation': { name: 'उत्तर मूल्यांकन', detail: 'लिखे गए उत्तर UPSC की अंक-योजना पर जाँचे जाते हैं, अंक और ठीक-ठीक सुधारों के साथ।' },
+  'AI Chat': { name: 'AI चैट', detail: 'पाठ्यक्रम पर कुछ भी पूछें और स्रोत पुस्तकों पर आधारित उत्तर पाएँ।' },
+  'Model answers': { name: 'आदर्श उत्तर', detail: 'किसी भी प्रश्न का पूरे अंकों वाला उत्तर, जिसे सामने रखकर आप लिख सकें।' },
+  'Prelims PYQ analysis': { name: 'प्रिलिम्स PYQ विश्लेषण', detail: 'प्रश्नों का अभ्यास सबके लिए खुला है। उनका गहरा विश्लेषण नहीं: चरण-दर-चरण हल, उस तरह के प्रश्न को खोलने वाली विलोपन तकनीक, उसके पीछे की अवधारणाएँ, और सच में पता न हो तो समझदारी से अनुमान लगाने का तरीक़ा।' },
+  'Chat with Books': { name: 'पुस्तकों से चैट', detail: 'मानक पुस्तकों से प्रश्न पूछें और वह अंश पाएँ जहाँ से उत्तर आता है।' },
+  'Map evaluation': { name: 'मैप मूल्यांकन', detail: 'अलग से बिकता है, किसी प्लान में शामिल नहीं। भरा हुआ मैप अपलोड करें, ₹49 दें, और अंकन जँचवाएँ।' },
+  'FLT / Full paper eval': { name: 'FLT / पूरे पेपर का मूल्यांकन', detail: 'पूरा पेपर एक बार में जाँचा जाता है, एक-एक प्रश्न करके नहीं।' },
+  'PDF upload & chat': { name: 'PDF अपलोड और चैट', detail: 'अपने नोट्स लाएँ और उनसे भी इसी तरह प्रश्न पूछें।' },
+  'Brainstorm mode': { name: 'ब्रेनस्टॉर्म मोड', detail: 'लिखने से पहले उत्तर का ढाँचा तय करें।' },
+  'Mentor mode': { name: 'मेंटर मोड', detail: 'आपके प्रश्न पर TADA फ़्रेमवर्क, और लिखने के लिए 350 शब्दों की योजना।' },
+  'Flashcards': { name: 'फ़्लैशकार्ड', detail: 'हर कार्ड का सामने वाला हिस्सा खुला है, और पहले सौ उत्तर निःशुल्क हैं।' },
+  'Topper copies': { name: 'टॉपर कॉपियाँ', detail: 'टॉपरों की उत्तर पुस्तिकाओं से स्कैन किए गए उत्तर, प्रश्न-दर-प्रश्न।' },
+};
+/** A table value in Hindi: "1 total", "100 answers", "Unlimited", "₹49 each". The figures come from the table itself. */
+const valueHi = (v: string) => {
+  if (v === 'Unlimited') return 'असीमित';
+  let m = v.match(/^(\d+) total$/);
+  if (m) return `कुल ${m[1]}`;
+  m = v.match(/^(\d+) answers$/);
+  if (m) return `${m[1]} उत्तर`;
+  m = v.match(/^(\d+) copies$/);
+  if (m) return `${m[1]} कॉपियाँ`;
+  m = v.match(/^(₹[\d,]+) each$/);
+  if (m) return `${m[1]} प्रति मैप`;
+  return v;
+};
+
+const Check = ({ label }: { label: string }) => <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round" aria-label={label}><path d="M20 6 9 17l-5-5" /></svg>;
 const Arrow = () => <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" /></svg>;
-const cell = (v: string) => (v === '✓' ? <Check /> : v === '—' ? <span className="pr-none" aria-label="Not included">-</span> : v);
-const fmtLong = (iso: string) => new Date(iso).toLocaleDateString('en-IN', { day: 'numeric', month: 'long', year: 'numeric' });
+const cell = (v: string, hi: boolean) => (v === '✓'
+  ? <Check label={hi ? 'शामिल' : 'Included'} />
+  : v === '—' ? <span className="pr-none" aria-label={hi ? 'शामिल नहीं' : 'Not included'}>-</span>
+  : hi ? valueHi(v) : v);
+const fmtLong = (iso: string, hi: boolean) => new Date(iso).toLocaleDateString(hi ? 'hi-IN' : 'en-IN', { day: 'numeric', month: 'long', year: 'numeric' });
 const noop = () => () => {};
 
 export default function PricingClient() {
+  const { langHi } = useLang();
+  const L = (en: string, hi: string) => (langHi ? hi : en);
   const [fingerprint, setFingerprint] = useState<string | null>(null);
   const [checkoutPlan, setCheckoutPlan] = useState<PlanId | null>(null);
   const [status, setStatus] = useState<Status | null>(null);
@@ -94,20 +152,21 @@ export default function PricingClient() {
     const user = auth.currentUser;
     if (!user) { await signInWithGoogle().catch(() => {}); return; }
     const RZP = (window as unknown as { Razorpay?: new (o: unknown) => { open: () => void } }).Razorpay;
-    if (!RZP) { toast('Payment is still loading. Give it a moment and try again.', 'error'); return; }
+    if (!RZP) { toast(L('Payment is still loading. Give it a moment and try again.', 'भुगतान अभी लोड हो रहा है। थोड़ा रुककर फिर कोशिश करें।'), 'error'); return; }
     setTopperBusy(true);
     try {
       const token = await user.getIdToken();
       const res = await fetch('/api/razorpay/topper-order', { method: 'POST', headers: { 'x-user-token': token } });
       const order = await res.json();
-      if (!res.ok) { toast(order.error || 'Could not start the payment.', 'error'); setTopperBusy(false); return; }
+      // The route's own words are English and technical, so Hindi mode shows a plain line instead.
+      if (!res.ok) { toast(langHi ? 'भुगतान शुरू नहीं हो सका। फिर कोशिश करें।' : order.error || 'Could not start the payment.', 'error'); setTopperBusy(false); return; }
       new RZP({
         key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
         amount: order.amount,
         currency: order.currency,
         order_id: order.orderId,
         name: 'History Optional',
-        description: 'Topper copies, one year',
+        description: L('Topper copies, one year', 'टॉपर कॉपियाँ, एक साल'),
         theme: { color: '#4c6ae2' },
         handler: async (response: unknown) => {
           const v = await fetch('/api/razorpay/topper-verify', {
@@ -119,18 +178,20 @@ export default function PricingClient() {
         modal: { ondismiss: () => setTopperBusy(false) },
       }).open();
     } catch {
-      toast('Could not start the payment.', 'error');
+      toast(L('Could not start the payment.', 'भुगतान शुरू नहीं हो सका। फिर कोशिश करें।'), 'error');
       setTopperBusy(false);
     }
   };
 
   const cancelRenewal = async () => {
     if (!auth.currentUser) return;
-    if (!(await confirmDialog({ title: 'Stop the weekly renewal?', text: 'You keep access for the days you’ve already paid for.', confirmLabel: 'Stop renewal', cancelLabel: 'Keep it', tone: 'danger' }))) return;
+    if (!(await confirmDialog(langHi
+      ? { title: 'साप्ताहिक रिन्यूअल रोकें?', text: 'जिन दिनों का भुगतान हो चुका है, उनकी पहुँच बनी रहेगी।', confirmLabel: 'रिन्यूअल रोकें', cancelLabel: 'चालू रखें', tone: 'danger' }
+      : { title: 'Stop the weekly renewal?', text: 'You keep access for the days you’ve already paid for.', confirmLabel: 'Stop renewal', cancelLabel: 'Keep it', tone: 'danger' }))) return;
     const token = await auth.currentUser.getIdToken();
     const res = await fetch('/api/razorpay/subscription/cancel', { method: 'POST', headers: { 'x-user-token': token } });
-    if (res.ok) { setStatus((s) => (s ? { ...s, autoRenew: false, canResubscribe: true } : s)); toast('Weekly renewal stopped'); }
-    else toast('That did not go through. Try again in a moment.', 'error');
+    if (res.ok) { setStatus((s) => (s ? { ...s, autoRenew: false, canResubscribe: true } : s)); toast(L('Weekly renewal stopped', 'साप्ताहिक रिन्यूअल रोक दिया गया')); }
+    else toast(L('That did not go through. Try again in a moment.', 'यह नहीं हो सका। थोड़ी देर में फिर कोशिश करें।'), 'error');
   };
 
   const premium = Boolean(status?.isPremium);
@@ -143,18 +204,18 @@ export default function PricingClient() {
   /** A one-time plan's button. A purchase on top of a live mandate would push the end date out while the weekly kept debiting; the order route refuses it too. */
   const oneTime = (id: Sold, solid: boolean) => (
     <button type="button" className={`ds-btn ${solid ? 'ds-btn-solid' : 'ds-btn-line'} pr-buy`} disabled={onAutopay} onClick={() => setCheckoutPlan(id)}>
-      {onAutopay ? 'You’re on the weekly plan' : premium ? EXTEND[id] : CTA[id]}
+      {onAutopay ? L('You’re on the weekly plan', 'आप साप्ताहिक प्लान पर हैं') : premium ? (langHi ? EXTEND_HI : EXTEND)[id] : (langHi ? CTA_HI : CTA)[id]}
     </button>
   );
   const plan = (id: Sold, opts: { featured?: boolean; unit?: string } = {}) => (
     <article className={`pr-plan${opts.featured ? ' featured' : ''}`}>
       <div className="pr-plan-top">
-        <h3 className="pr-plan-name">{id === 'yearly' ? 'A year' : id === 'sixmonths' ? '6 months' : 'A day'}</h3>
-        {opts.featured && <span className="pr-tag">Most chosen</span>}
+        <h3 className="pr-plan-name">{langHi ? NAME_HI[id] : NAME[id]}</h3>
+        {opts.featured && <span className="pr-tag">{L('Most chosen', 'सबसे ज़्यादा चुना गया')}</span>}
       </div>
       <div className="pr-price"><span className="pr-rs">₹</span>{rupees(id).toLocaleString('en-IN')}<span className="pr-unit">{opts.unit ?? ''}</span></div>
-      <div className="pr-period">{PER[id]}</div>
-      <p className="pr-blurb">{BLURB[id]}</p>
+      <div className="pr-period">{(langHi ? PER_HI : PER)[id]}</div>
+      <p className="pr-blurb">{(langHi ? BLURB_HI : BLURB)[id]}</p>
       {oneTime(id, Boolean(opts.featured))}
     </article>
   );
@@ -164,11 +225,14 @@ export default function PricingClient() {
       <style dangerouslySetInnerHTML={{ __html: CSS }} />
       <header className="pr-hero">
         <div className="ds-container">
-          <h1 className="ds-h1 pr-h1">Plans and pricing</h1>
+          <h1 className="ds-h1 pr-h1">{L('Plans and pricing', 'प्लान और क़ीमतें')}</h1>
           <p className="ds-lede pr-lede">
-            Everything you read here is free once you sign in. Premium is for practice, when you want every answer checked and the AI tutor without limits.
+            {L('Everything you read here is free once you sign in. Premium is for practice, when you want every answer checked and the AI tutor without limits.',
+              'साइन इन करने के बाद यहाँ पढ़ने की हर चीज़ निःशुल्क है। प्रीमियम अभ्यास के लिए है, जब आप हर उत्तर जँचवाना चाहें और AI ट्यूटर बिना किसी सीमा के।')}
           </p>
-          {days !== null && days > 0 && <span className="pr-chip">{days.toLocaleString('en-IN')} days to Mains {NEXT_MAINS.slice(0, 4)}</span>}
+          {days !== null && days > 0 && <span className="pr-chip">{langHi
+            ? `मुख्य परीक्षा ${NEXT_MAINS.slice(0, 4)} में ${days.toLocaleString('en-IN')} दिन बाक़ी`
+            : `${days.toLocaleString('en-IN')} days to Mains ${NEXT_MAINS.slice(0, 4)}`}</span>}
         </div>
       </header>
 
@@ -176,19 +240,21 @@ export default function PricingClient() {
         {premium && (
           <div className="pr-have" role="status">
             <div>
-              <strong>You’re on Premium.</strong>{' '}
-              {status?.expires_at && <span>{onAutopay ? 'It renews weekly; this week runs to' : 'It runs to'} {fmtLong(status.expires_at)}.</span>}{' '}
-              {!onAutopay && <span>Buying again adds the time on top.</span>}
+              <strong>{L('You’re on Premium.', 'आप प्रीमियम पर हैं।')}</strong>{' '}
+              {status?.expires_at && (langHi
+                ? <span>{onAutopay ? `यह हर हफ़्ते रिन्यू होता है, यह हफ़्ता ${fmtLong(status.expires_at, true)} तक चलेगा।` : `यह ${fmtLong(status.expires_at, true)} तक चलेगा।`}</span>
+                : <span>{onAutopay ? 'It renews weekly; this week runs to' : 'It runs to'} {fmtLong(status.expires_at, false)}.</span>)}{' '}
+              {!onAutopay && <span>{L('Buying again adds the time on top.', 'फिर से ख़रीदने पर समय आगे जुड़ जाता है।')}</span>}
             </div>
             <div className="pr-have-actions">
-              {onAutopay && <button type="button" className="ds-btn ds-btn-ghost ds-btn-sm" onClick={cancelRenewal}>Cancel the renewal</button>}
-              <Link href="/evaluate" className="ds-btn ds-btn-line ds-btn-sm">Check an answer <Arrow /></Link>
+              {onAutopay && <button type="button" className="ds-btn ds-btn-ghost ds-btn-sm" onClick={cancelRenewal}>{L('Cancel the renewal', 'रिन्यूअल रद्द करें')}</button>}
+              <Link href="/evaluate" className="ds-btn ds-btn-line ds-btn-sm">{L('Check an answer', 'उत्तर जँचवाएँ')} <Arrow /></Link>
             </div>
           </div>
         )}
 
         <section className="pr-group" aria-labelledby="pr-g1">
-          <div className="pr-group-head"><h2 id="pr-g1" className="pr-h2">For your whole preparation</h2><span>Paid once, never renews</span></div>
+          <div className="pr-group-head"><h2 id="pr-g1" className="pr-h2">{L('For your whole preparation', 'पूरी तैयारी के लिए')}</h2><span>{L('Paid once, never renews', 'एक बार भुगतान, अपने-आप रिन्यू नहीं होता')}</span></div>
           <div className="pr-pair">
             {plan('yearly', { featured: true })}
             {plan('sixmonths')}
@@ -197,54 +263,62 @@ export default function PricingClient() {
 
         <div className="pr-pair pr-rest">
           <section className="pr-group" aria-labelledby="pr-g3">
-            <div className="pr-group-head"><h2 id="pr-g3" className="pr-h2">Just to try it</h2><span>24 hours, paid once</span></div>
+            <div className="pr-group-head"><h2 id="pr-g3" className="pr-h2">{L('Just to try it', 'बस आज़माने के लिए')}</h2><span>{L('24 hours, paid once', '24 घंटे, एक बार भुगतान')}</span></div>
             {plan('daily')}
           </section>
         </div>
 
-        {onAutopay && <p className="pr-note">You’re on the weekly plan, which is no longer sold, so the one-time plans are switched off. Cancel the renewal and they open up once your paid days run out.</p>}
-        <p className="pr-rzp">Payments go through Razorpay: UPI, cards and net banking. Every plan is a single payment, and nothing renews on its own.</p>
+        {onAutopay && <p className="pr-note">{L('You’re on the weekly plan, which is no longer sold, so the one-time plans are switched off. Cancel the renewal and they open up once your paid days run out.',
+          'आप साप्ताहिक प्लान पर हैं, जो अब नहीं बिकता, इसलिए एक बार वाले प्लान बंद हैं। रिन्यूअल रद्द करें, और आपके भुगतान वाले दिन ख़त्म होते ही वे खुल जाएँगे।')}</p>}
+        <p className="pr-rzp">{L('Payments go through Razorpay: UPI, cards and net banking. Every plan is a single payment, and nothing renews on its own.',
+          'भुगतान Razorpay से होता है: UPI, कार्ड और नेट बैंकिंग। हर प्लान एक बार का भुगतान है, और कुछ भी अपने-आप रिन्यू नहीं होता।')}</p>
 
         <section className="pr-section" aria-labelledby="pr-compare">
-          <h2 id="pr-compare" className="pr-h2">Free account and Premium</h2>
-          <div className="pr-compare" role="table" aria-label="Free account and Premium compared">
+          <h2 id="pr-compare" className="pr-h2">{L('Free account and Premium', 'निःशुल्क खाता और प्रीमियम')}</h2>
+          <div className="pr-compare" role="table" aria-label={L('Free account and Premium compared', 'निःशुल्क खाते और प्रीमियम की तुलना')}>
             <div className="pr-row pr-row-head" role="row">
-              <span role="columnheader">What you get</span>
-              <span role="columnheader">Free</span>
-              <span role="columnheader" className="pr-col-premium">Premium</span>
+              <span role="columnheader">{L('What you get', 'आपको क्या मिलता है')}</span>
+              <span role="columnheader">{L('Free', 'निःशुल्क')}</span>
+              <span role="columnheader" className="pr-col-premium">{L('Premium', 'प्रीमियम')}</span>
             </div>
-            {FEATURES.map((f) => (
-              <div key={f.name} className="pr-row" role="row">
-                <span role="cell" className="pr-what"><strong>{f.name}</strong>{f.detail && <small>{f.detail}</small>}</span>
-                <span role="cell" className="pr-val">{cell(f.free)}</span>
-                <span role="cell" className="pr-val pr-col-premium">{cell(f.premium)}</span>
-              </div>
-            ))}
+            {FEATURES.map((f) => {
+              const hi = langHi ? FEATURE_HI[f.name] : undefined;
+              return (
+                <div key={f.name} className="pr-row" role="row">
+                  <span role="cell" className="pr-what"><strong>{hi?.name ?? f.name}</strong>{f.detail && <small>{hi?.detail ?? f.detail}</small>}</span>
+                  <span role="cell" className="pr-val">{cell(f.free, langHi)}</span>
+                  <span role="cell" className="pr-val pr-col-premium">{cell(f.premium, langHi)}</span>
+                </div>
+              );
+            })}
           </div>
         </section>
 
         <section className="pr-section" aria-labelledby="pr-once">
-          <h2 id="pr-once" className="pr-h2">Bought on their own</h2>
-          <p className="pr-section-lede">Every plan includes topper copies, or you can buy them on their own. Map checks are paid per map and aren’t part of any plan.</p>
+          <h2 id="pr-once" className="pr-h2">{L('Bought on their own', 'अलग से ख़रीदें')}</h2>
+          <p className="pr-section-lede">{L('Every plan includes topper copies, or you can buy them on their own. Map checks are paid per map and aren’t part of any plan.',
+            'हर प्लान में टॉपर कॉपियाँ शामिल हैं, या आप उन्हें अलग से ख़रीद सकते हैं। मैप जाँच का भुगतान हर मैप का अलग होता है, और यह किसी प्लान का हिस्सा नहीं है।')}</p>
           <div className="pr-pair">
             {ONE_OFF.map((o) => (
               <article key={o.name} className="pr-plan pr-one">
                 <div className="pr-plan-top">
-                  <h3 className="pr-plan-name">{o.name === 'Map evaluation' ? 'A map check' : o.name}</h3>
-                  <span className={`pr-badge${o.inPremium ? ' in' : ''}`}>{o.inPremium ? 'Also in Premium' : 'Per map'}</span>
+                  <h3 className="pr-plan-name">{o.name === 'Map evaluation' ? L('A map check', 'एक मैप जाँच') : langHi ? (FEATURE_HI[o.name]?.name ?? o.name) : o.name}</h3>
+                  <span className={`pr-badge${o.inPremium ? ' in' : ''}`}>{o.inPremium ? L('Also in Premium', 'प्रीमियम में भी') : L('Per map', 'प्रति मैप')}</span>
                 </div>
-                <div className="pr-price small"><span className="pr-rs">₹</span>{(o.pricePaise / 100).toLocaleString('en-IN')}<span className="pr-unit">{o.inPremium ? '/year' : ''}</span></div>
-                {o.inPremium && <div className="pr-was"><s>₹{TOPPER_PRICE.was}</s><span className="pr-off">{TOPPER_PRICE.off}% off</span></div>}
-                <p className="pr-blurb">{o.inPremium ? `Answers scanned from toppers’ copies, question by question. A free account opens ${count('Topper copies')} of them.` : 'Your filled map checked place by place: the name for 1.5 marks and your note for 1. Paid when you upload it.'}</p>
+                <div className="pr-price small"><span className="pr-rs">₹</span>{(o.pricePaise / 100).toLocaleString('en-IN')}<span className="pr-unit">{o.inPremium ? L('/year', '/साल') : ''}</span></div>
+                {o.inPremium && <div className="pr-was"><s>₹{TOPPER_PRICE.was}</s><span className="pr-off">{TOPPER_PRICE.off}% {L('off', 'छूट')}</span></div>}
+                <p className="pr-blurb">{o.inPremium
+                  ? L(`Answers scanned from toppers’ copies, question by question. A free account opens ${count('Topper copies')} of them.`, `टॉपरों की कॉपियों से स्कैन किए गए उत्तर, प्रश्न-दर-प्रश्न। निःशुल्क खाते में इनमें से ${count('Topper copies')} खुलती हैं।`)
+                  : L('Your filled map checked place by place: the name for 1.5 marks and your note for 1. Paid when you upload it.', 'आपका भरा हुआ मैप हर स्थान पर जाँचा जाता है: नाम के 1.5 अंक और आपकी टिप्पणी का 1 अंक। भुगतान अपलोड करते समय होता है।')}</p>
                 {/* Map checks cannot be bought here: the ₹49 is charged
                     against an uploaded map, so this card goes to where the
                     map is uploaded. */}
                 {o.inPremium ? (
                   <button type="button" className="ds-btn ds-btn-line pr-buy" onClick={buyTopper} disabled={topperOwned === true || topperBusy}>
-                    {topperOwned === true ? 'You have these already' : topperBusy ? 'Opening the payment…' : `Buy for ₹${(o.pricePaise / 100).toLocaleString('en-IN')}`}
+                    {topperOwned === true ? L('You have these already', 'ये आपके पास पहले से हैं') : topperBusy ? L('Opening the payment…', 'भुगतान खुल रहा है…') : langHi ? `₹${(o.pricePaise / 100).toLocaleString('en-IN')} में ख़रीदें` : `Buy for ₹${(o.pricePaise / 100).toLocaleString('en-IN')}`}
                   </button>
                 ) : (
-                  <Link href="/evaluate?mode=map" className="ds-btn ds-btn-line pr-buy">Check a map <Arrow /></Link>
+                  <Link href="/evaluate?mode=map" className="ds-btn ds-btn-line pr-buy">{L('Check a map', 'मैप जँचवाएँ')} <Arrow /></Link>
                 )}
               </article>
             ))}
@@ -252,16 +326,23 @@ export default function PricingClient() {
         </section>
 
         <section className="pr-section" aria-labelledby="pr-faq">
-          <h2 id="pr-faq" className="pr-h2">Before you pay</h2>
+          <h2 id="pr-faq" className="pr-h2">{L('Before you pay', 'भुगतान से पहले')}</h2>
           <div className="pr-faq-list">
-            {[
+            {(langHi ? [
+              { q: 'क्या यह अपने-आप रिन्यू होता है?', a: <>नहीं। एक दिन, 6 महीने और एक साल के प्लान एक बार के भुगतान हैं। प्लान ख़त्म होने पर पहुँच बस रुक जाती है, जब तक आप फिर से न ख़रीदें।</> },
+              { q: 'क्या भुगतान से पहले मूल्यांकन देखा जा सकता है?', a: <>हाँ। निःशुल्क खाते में <strong>{free('Answer evaluation')} उत्तर जाँच</strong> और <strong>{free('AI Chat')} चैट</strong> मिलती हैं, यह परखने के लिए काफ़ी कि प्रतिक्रिया काम की है या नहीं। {planPriceLabel('daily')} का एक दिन 24 घंटे के लिए सब कुछ खोल देता है।</> },
+              { q: 'प्लान चलते हुए ख़रीदें तो क्या होगा?', a: <>नया समय मौजूदा प्लान के अंत में जुड़ जाता है। जिन दिनों का भुगतान हो चुका है, वे नहीं जाते।</> },
+              { q: 'क्या मैप जाँच शामिल है?', a: <>नहीं। मैप जाँच {`₹${ONE_OFF[1].pricePaise / 100}`} प्रति मैप है, सदस्यता हो या न हो। टॉपर कॉपियाँ इसका उल्टा हैं: हर प्लान में शामिल हैं, और अलग से {`₹${(ONE_OFF[0].pricePaise / 100).toLocaleString('en-IN')}`} में ख़रीदी जा सकती हैं।</> },
+              { q: 'क्या रिफ़ंड मिलता है?', a: <>ख़रीद अंतिम है, दो अपवादों के साथ: दोहरा भुगतान और साइट का लंबे समय तक बंद रहना। पूरी जानकारी <Link href="/refund">रिफ़ंड नीति</Link> में है, और बाक़ी सब <Link href="/terms">शर्तों</Link> में।</> },
+              { q: 'भुगतान में कोई गड़बड़ हुई?', a: <>Razorpay पेमेंट ID के साथ <Link href="/contact">संपर्क पेज</Link> से हमें लिखें, और इसे सुलझा दिया जाएगा।</> },
+            ] : [
               { q: 'Does it renew on its own?', a: <>No. The day, 6-month and yearly plans are single payments. When one runs out, access simply stops until you buy again.</> },
               { q: 'Can I see the marking before I pay?', a: <>Yes. A free account gets <strong>{free('Answer evaluation')} answer check</strong> and <strong>{free('AI Chat')} chats</strong>, enough to judge whether the feedback is worth having. A day at {planPriceLabel('daily')} opens everything for 24 hours.</> },
               { q: 'What happens if I buy while a plan is running?', a: <>The new time is added to the end of the current plan. You don’t lose the days already paid for.</> },
               { q: 'Is the map check included?', a: <>No. Map checks are {`₹${ONE_OFF[1].pricePaise / 100}`} each, whether or not you subscribe. Topper copies are the other way round: every plan includes them, and they can be bought on their own for {`₹${(ONE_OFF[0].pricePaise / 100).toLocaleString('en-IN')}`}.</> },
               { q: 'Are refunds available?', a: <>Purchases are final, with two exceptions: a duplicate payment and an extended outage. The <Link href="/refund">refund policy</Link> has the details and the <Link href="/terms">terms</Link> cover the rest.</> },
               { q: 'Something went wrong with a payment?', a: <>Write to us from the <Link href="/contact">contact page</Link> with the Razorpay payment id, and it will be sorted out.</> },
-            ].map((f) => (
+            ]).map((f) => (
               <details key={f.q} className="pr-faq-item">
                 <summary>{f.q}</summary>
                 <p>{f.a}</p>
@@ -273,12 +354,14 @@ export default function PricingClient() {
         <section className="pr-close">
           <Mascot pose="peek" width={92} />
           <div className="pr-close-text">
-            <h2>Not sure yet?</h2>
-            <p>Start with the free account: every note and past question, {count('AI Chat')} chats, {count('Answer evaluation')} answer check, {count('Topper copies')} topper copies and {count('Flashcards')} flashcard answers.</p>
+            <h2>{L('Not sure yet?', 'अभी तय नहीं कर पाए?')}</h2>
+            {langHi
+              ? <p>निःशुल्क खाते से शुरू करें: हर नोट और हर पिछला प्रश्न, {count('AI Chat')} चैट, {count('Answer evaluation')} उत्तर जाँच, {count('Topper copies')} टॉपर कॉपियाँ और {count('Flashcards')} फ़्लैशकार्ड उत्तर।</p>
+              : <p>Start with the free account: every note and past question, {count('AI Chat')} chats, {count('Answer evaluation')} answer check, {count('Topper copies')} topper copies and {count('Flashcards')} flashcard answers.</p>}
           </div>
           {signedIn
-            ? <Link href="/dashboard" className="ds-btn ds-btn-line">Go to your dashboard</Link>
-            : <button type="button" className="ds-btn ds-btn-line" onClick={() => signInWithGoogle().catch(() => {})}>Sign in free</button>}
+            ? <Link href="/dashboard" className="ds-btn ds-btn-line">{L('Go to your dashboard', 'अपने डैशबोर्ड पर जाएँ')}</Link>
+            : <button type="button" className="ds-btn ds-btn-line" onClick={() => signInWithGoogle().catch(() => {})}>{L('Sign in free', 'निःशुल्क साइन इन करें')}</button>}
         </section>
       </div>
 
@@ -289,6 +372,7 @@ export default function PricingClient() {
 
 /** Checkout stays in SubscribeCard, the same card as the Go Premium panel, rather than being forked here. */
 function CheckoutModal({ plan, fingerprint, onClose }: { plan: PlanId; fingerprint: string | null; onClose: () => void }) {
+  const { langHi } = useLang();
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') onClose(); };
     window.addEventListener('keydown', onKey);
@@ -299,7 +383,7 @@ function CheckoutModal({ plan, fingerprint, onClose }: { plan: PlanId; fingerpri
   if (typeof document === 'undefined') return null;
   return createPortal(
     <div className="ds ds-overlay pr-checkout-overlay" onClick={(e) => { if (e.target === e.currentTarget) onClose(); }}>
-      <div className="ds-modal pr-checkout" role="dialog" aria-modal="true" aria-label={`Checkout, ${PLANS[plan].label} (${PLAN_DURATION[plan]})`}>
+      <div className="ds-modal pr-checkout" role="dialog" aria-modal="true" aria-label={langHi ? `चेकआउट, ${NAME_HI[plan]}` : `Checkout, ${PLANS[plan].label} (${PLAN_DURATION[plan]})`}>
         <SubscribeCard fingerprint={fingerprint} initialPlan={plan} onClose={onClose} />
       </div>
     </div>,

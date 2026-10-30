@@ -19,14 +19,17 @@ import { confirmDialog } from '@/components/ui/ConfirmDialog';
 import UserAvatar from '@/components/ui/UserAvatar';
 import { loadAspirantProfile, PROFILE_EVENT, type AspirantProfile } from '@/lib/aspirantProfile';
 
+/** Plan names in Hindi mode, as the subscribe card writes them. */
+const PLAN_HI: Record<PlanId, string> = { daily: 'एक दिन', weekly: 'साप्ताहिक', sixmonths: '6 महीने', yearly: 'सालाना' };
+
 /** A stored plan id shown to the reader. Falls back to the raw value for
  *  rows written before the id set settled. */
-function planLabel(plan: string): string {
-  return isPlanId(plan) ? PLANS[plan].label : plan;
+function planLabel(plan: string, langHi = false): string {
+  return isPlanId(plan) ? (langHi ? PLAN_HI[plan] : PLANS[plan].label) : plan;
 }
 
-const fmtDate = (iso: string, month: 'short' | 'long' = 'short') =>
-  new Date(iso).toLocaleDateString('en-IN', { day: 'numeric', month, year: 'numeric' });
+const fmtDate = (iso: string, month: 'short' | 'long' = 'short', langHi = false) =>
+  new Date(iso).toLocaleDateString(langHi ? 'hi-IN' : 'en-IN', { day: 'numeric', month, year: 'numeric' });
 
 const Icon = {
   close: <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12" /></svg>,
@@ -44,6 +47,8 @@ const Icon = {
 };
 
 function PremiumModal({ onClose, noSubFound, isLoggedIn, onPaymentSuccess }: { onClose: () => void; noSubFound?: boolean; isLoggedIn?: boolean; onPaymentSuccess?: () => void }) {
+  const { langHi } = useLang();
+  const T = (en: string, hi: string) => (langHi ? hi : en);
   const [fingerprint, setFingerprint] = React.useState<string | null>(null);
 
   React.useEffect(() => {
@@ -59,7 +64,13 @@ function PremiumModal({ onClose, noSubFound, isLoggedIn, onPaymentSuccess }: { o
   const freeOf = (name: string) => FEATURES.find(f => f.name === name)?.free ?? '';
   const evalFree = freeOf('Answer evaluation').replace(' total', '');
   const chatFree = freeOf('AI Chat').replace(' total', '');
-  const gains = [
+  const gains = langHi ? [
+    { title: 'बिना किसी सीमा के उत्तर मूल्यांकन', body: `निःशुल्क में ${evalFree} उत्तर की जाँच होती है। प्रीमियम आपका लिखा हर उत्तर जाँचता है, और पूरे टेस्ट पेपर भी।` },
+    { title: 'AI ट्यूटर, असीमित', body: `${chatFree} निःशुल्क चैट के बाद भी, पुस्तकें, PDF, ब्रेनस्टॉर्म और मेंटर मोड के साथ।` },
+    { title: 'हर PYQ का आदर्श उत्तर', body: 'अपना उत्तर लिखने से पहले देखें कि प्रश्न का उत्तर कैसे लिखा जा सकता है।' },
+    { title: 'टॉपर कॉपियाँ', body: `टॉपरों की असली उत्तर पुस्तिकाएँ, जो अलग से ₹${TOPPER_PRICE.now} में बिकती हैं।` },
+    { title: 'प्रिलिम्स विश्लेषण', body: 'प्रिलिम्स का हर PYQ, इस हिसाब से छँटा हुआ कि क्या बार-बार आता है।' },
+  ] : [
     { title: 'Answer checking without limits', body: `Free covers ${evalFree} answer. Premium checks every answer you write, and whole test papers too.` },
     { title: 'The AI tutor, unlimited', body: `Past the ${chatFree} free chats, with Books, PDF, Brainstorm and Mentor modes.` },
     { title: 'Model answers for every PYQ', body: 'See how a question could be answered before you write your own.' },
@@ -71,12 +82,12 @@ function PremiumModal({ onClose, noSubFound, isLoggedIn, onPaymentSuccess }: { o
     <div className="ds ds-overlay nb-up-overlay" onClick={onClose}>
       <div className="nb-up" role="dialog" aria-modal="true" aria-labelledby="nb-up-title" onClick={e => e.stopPropagation()}>
         <span className="nb-up-grab" aria-hidden="true" />
-        <button className="ds-x nb-up-x" onClick={onClose} aria-label="Close">{Icon.close}</button>
+        <button className="ds-x nb-up-x" onClick={onClose} aria-label={T('Close', 'बंद करें')}>{Icon.close}</button>
 
         <div className="nb-up-why">
           <Image src="/mascot/owl-celebrate.svg" alt="" width={64} height={60} className="nb-up-owl" />
-          <h2 id="nb-up-title">Go Premium</h2>
-          <p className="nb-up-lede">Notes and PYQs stay free. Premium gets your answers checked and the AI tutor with no limits.</p>
+          <h2 id="nb-up-title">{T('Go Premium', 'प्रीमियम लें')}</h2>
+          <p className="nb-up-lede">{T('Notes and PYQs stay free. Premium gets your answers checked and the AI tutor with no limits.', 'नोट्स और PYQ निःशुल्क रहते हैं। प्रीमियम में आपके उत्तर जँचते हैं और AI ट्यूटर बिना किसी सीमा के मिलता है।')}</p>
           <ul className="nb-up-gains">
             {gains.map(g => (
               <li key={g.title}>
@@ -85,12 +96,12 @@ function PremiumModal({ onClose, noSubFound, isLoggedIn, onPaymentSuccess }: { o
               </li>
             ))}
           </ul>
-          <Link href="/pricing" className="nb-up-more" onClick={onClose}>Compare Free and Premium in full {Icon.arrow}</Link>
+          <Link href="/pricing" className="nb-up-more" onClick={onClose}>{T('Compare Free and Premium in full', 'निःशुल्क और प्रीमियम की पूरी तुलना देखें')} {Icon.arrow}</Link>
         </div>
 
         <div className="nb-up-buy">
-          <h3>Choose how long</h3>
-          {noSubFound && <div className="nb-alert">No active subscription found for this account.</div>}
+          <h3>{T('Choose how long', 'अवधि चुनें')}</h3>
+          {noSubFound && <div className="nb-alert">{T('No active subscription found for this account.', 'इस खाते पर कोई सक्रिय सदस्यता नहीं मिली।')}</div>}
           <SubscribeCard
             fingerprint={fingerprint}
             onClose={onClose}
@@ -105,7 +116,7 @@ function PremiumModal({ onClose, noSubFound, isLoggedIn, onPaymentSuccess }: { o
                 await signInWithGoogle();
               }}
             >
-              Already on Premium? Sign in
+              {T('Already on Premium? Sign in', 'पहले से प्रीमियम पर हैं? साइन इन करें')}
             </button>
           )}
         </div>
@@ -126,6 +137,8 @@ function ExtendModal({
   onClose: () => void;
   onSuccess: (newExpiry: string, plan: PlanId) => void;
 }) {
+  const { langHi } = useLang();
+  const T = (en: string, hi: string) => (langHi ? hi : en);
   const [selectedPlan, setSelectedPlan] = useState<PlanId>(DEFAULT_PLAN);
   const [loading, setLoading] = useState(false);
 
@@ -135,7 +148,7 @@ function ExtendModal({
   // fell back to yearly: the button said ₹1,999, Razorpay charged ₹2,999,
   // and the reader was granted a year instead of the week or month shown.
   const plans = PLAN_ORDER.map(id => ({
-    id, label: PLANS[id].label, price: planPriceLabel(id),
+    id, label: PLANS[id].label, shown: planLabel(id, langHi), price: planPriceLabel(id),
   }));
 
   // addPlanDuration is the same function /api/razorpay/verify uses to set
@@ -220,35 +233,35 @@ function ExtendModal({
       <div className="ds-modal nb-extend" role="dialog" aria-modal="true" aria-labelledby="nb-extend-title">
         <div className="ds-modal-head">
           <div>
-            <h2 id="nb-extend-title">{subData ? 'Extend your plan' : 'Choose a plan'}</h2>
-            <p>{subData ? 'The new time is added after your current plan ends.' : 'Pick how long you want Premium for.'}</p>
+            <h2 id="nb-extend-title">{subData ? T('Extend your plan', 'अपना प्लान बढ़ाएँ') : T('Choose a plan', 'प्लान चुनें')}</h2>
+            <p>{subData ? T('The new time is added after your current plan ends.', 'नया समय आपके मौजूदा प्लान के ख़त्म होने के बाद जुड़ता है।') : T('Pick how long you want Premium for.', 'चुनें कि प्रीमियम कितने समय के लिए चाहिए।')}</p>
           </div>
-          <button className="ds-x" onClick={onClose} aria-label="Close">{Icon.close}</button>
+          <button className="ds-x" onClick={onClose} aria-label={T('Close', 'बंद करें')}>{Icon.close}</button>
         </div>
 
         {subData && (
           <div className="nb-extend-row">
-            <span>Your plan ends</span>
-            <strong>{fmtDate(subData.expires_at)}</strong>
+            <span>{T('Your plan ends', 'आपका प्लान ख़त्म होगा')}</span>
+            <strong>{fmtDate(subData.expires_at, 'short', langHi)}</strong>
           </div>
         )}
 
         <div className="nb-plans" style={{ gridTemplateColumns: `repeat(${plans.length}, minmax(0, 1fr))` }}>
           {plans.map(p => (
             <button key={p.id} className={`nb-plan${selectedPlan === p.id ? ' on' : ''}`} onClick={() => setSelectedPlan(p.id)} aria-pressed={selectedPlan === p.id}>
-              <span>{p.label}</span>
+              <span>{p.shown}</span>
               <strong>{p.price}</strong>
             </button>
           ))}
         </div>
 
         <div className="nb-extend-row good">
-          <span>After paying, Premium runs until</span>
-          <strong>{fmtDate(newExpiry.toISOString(), 'long')}</strong>
+          <span>{T('After paying, Premium runs until', 'भुगतान के बाद प्रीमियम इस तारीख़ तक चलेगा')}</span>
+          <strong>{fmtDate(newExpiry.toISOString(), 'long', langHi)}</strong>
         </div>
 
         <button className="ds-btn ds-btn-solid ds-btn-lg ds-btn-block" onClick={handlePay} disabled={loading}>
-          {loading ? 'Opening Razorpay…' : `Pay ${cur.price}`}
+          {loading ? T('Opening Razorpay…', 'Razorpay खुल रहा है…') : langHi ? `भुगतान करें ${cur.price}` : `Pay ${cur.price}`}
         </button>
       </div>
     </div>,
@@ -316,15 +329,17 @@ export default function Navbar() {
   /** Stops future weekly debits. Access already paid for is untouched. */
   async function handleCancelAutopay() {
     if (!auth.currentUser) return;
-    if (!(await confirmDialog({ title: 'Stop the weekly renewal?', text: 'You keep access for the remaining days you’ve already paid for.', confirmLabel: 'Stop renewal', cancelLabel: 'Keep it', tone: 'danger' }))) return;
+    if (!(await confirmDialog(langHi
+      ? { title: 'साप्ताहिक नवीनीकरण बंद करें?', text: 'जिन दिनों का भुगतान आप कर चुके हैं, उनमें पहुँच बनी रहेगी।', confirmLabel: 'नवीनीकरण बंद करें', cancelLabel: 'रहने दें', tone: 'danger' }
+      : { title: 'Stop the weekly renewal?', text: 'You keep access for the remaining days you’ve already paid for.', confirmLabel: 'Stop renewal', cancelLabel: 'Keep it', tone: 'danger' }))) return;
     setCancelling(true);
     try {
       const token = await auth.currentUser.getIdToken();
       const res = await fetch('/api/razorpay/subscription/cancel', {
         method: 'POST', headers: { 'x-user-token': token },
       });
-      if (res.ok) { setSubData(prev => (prev ? { ...prev, autoRenew: false } : prev)); toast('Weekly renewal stopped'); }
-      else toast('That did not go through. Try again in a moment.', 'error');
+      if (res.ok) { setSubData(prev => (prev ? { ...prev, autoRenew: false } : prev)); toast(langHi ? 'साप्ताहिक नवीनीकरण बंद हो गया' : 'Weekly renewal stopped'); }
+      else toast(langHi ? 'यह नहीं हो पाया। थोड़ी देर में फिर कोशिश करें।' : 'That did not go through. Try again in a moment.', 'error');
     } finally {
       setCancelling(false);
     }
@@ -499,7 +514,7 @@ export default function Navbar() {
     { href: '/prelims', label: tr(t.prelims, langHi) },
     { href: '/timeline', label: langHi ? 'समयरेखा' : 'Timeline' },
     { href: '/historiography', label: langHi ? 'इतिहास-लेखन' : 'Historiography' },
-    { href: '/flashcards', label: langHi ? 'फ्लैशकार्ड' : 'Flashcards' },
+    { href: '/flashcards', label: langHi ? 'फ़्लैशकार्ड' : 'Flashcards' },
     { href: '/current-affairs', label: langHi ? 'समसामयिकी' : 'Current affairs' },
     { href: '/resources', label: tr(t.resources, langHi) },
     { href: '/#daily-answer', label: langHi ? 'दैनिक उत्तर लेखन' : 'Daily answer writing' },
@@ -512,7 +527,7 @@ export default function Navbar() {
   const flatLinks: (MenuItem & { accent?: boolean })[] = [
     { href: '/evaluate', label: tr(t.evaluate, langHi) },
     { href: '/mapping', label: tr(t.mapping, langHi) },
-    { href: '/pricing', label: langHi ? 'कीमतें' : 'Pricing' },
+    { href: '/pricing', label: langHi ? 'क़ीमतें' : 'Pricing' },
     { href: '/chat', label: tr(t.chat, langHi), accent: true },
   ];
   const notesActive = ['/notes', '/prelims', '/timeline', '/historiography', '/current-affairs', '/flashcards', '/resources'].some(p => pathname.startsWith(p));
@@ -522,9 +537,9 @@ export default function Navbar() {
   // Mains 2026 or Prelims 2027, for a reader who has set a target year.
   const target = aspirantYear.trim();
   const exam = target === '2026'
-    ? { label: 'Mains 2026', when: '21 Aug 2026', days: daysToMains() }
+    ? { label: langHi ? 'मुख्य परीक्षा 2026' : 'Mains 2026', when: langHi ? '21 अगस्त 2026' : '21 Aug 2026', days: daysToMains() }
     : target === '2027'
-      ? { label: 'Prelims 2027', when: '23 May 2027', days: Math.max(0, Math.ceil((new Date('2027-05-23T00:00:00').getTime() - Date.now()) / 86400000)) }
+      ? { label: langHi ? 'प्रिलिम्स 2027' : 'Prelims 2027', when: langHi ? '23 मई 2027' : '23 May 2027', days: Math.max(0, Math.ceil((new Date('2027-05-23T00:00:00').getTime() - Date.now()) / 86400000)) }
       : null;
 
   const langToggle = (
@@ -536,37 +551,37 @@ export default function Navbar() {
 
   const planBlock = subData ? (() => {
     const days = Math.ceil((new Date(subData.expires_at).getTime() - Date.now()) / 86400000);
-    const on = fmtDate(subData.expires_at);
+    const on = fmtDate(subData.expires_at, 'short', langHi);
     return (
       <div className="nb-plan-block">
         <div className="nb-plan-line">
-          <strong>{planLabel(subData.plan)}{subData.autoRenew && ' · renewing'}</strong>
-          <span>{days <= 0 ? 'Expired' : `${days} day${days === 1 ? '' : 's'} left`}</span>
+          <strong>{planLabel(subData.plan, langHi)}{subData.autoRenew && (langHi ? ' · नवीनीकरण चालू' : ' · renewing')}</strong>
+          <span>{days <= 0 ? (langHi ? 'समाप्त' : 'Expired') : langHi ? `${days} दिन शेष` : `${days} day${days === 1 ? '' : 's'} left`}</span>
         </div>
-        <p>{subData.autoRenew ? 'Renews' : 'Ends'} {on}</p>
+        <p>{langHi ? `${on} को ${subData.autoRenew ? 'नवीनीकरण' : 'समाप्त'}` : `${subData.autoRenew ? 'Renews' : 'Ends'} ${on}`}</p>
         {/* Extending a running mandate would stack one-time days onto a
             subscription that already renews on its own, so it is offered
             only to one-time plans. */}
         {!subData.autoRenew && (
           <button className="ds-btn ds-btn-line ds-btn-sm ds-btn-block" onClick={() => { setShowExtendModal(true); setUserMenuOpen(false); setOpen(false); }}>
-            Extend plan
+            {langHi ? 'प्लान बढ़ाएँ' : 'Extend plan'}
           </button>
         )}
         {subData.autoRenew && (
           <>
             <button className="ds-btn ds-btn-line ds-btn-sm ds-btn-block" onClick={handleCancelAutopay} disabled={cancelling}>
-              {cancelling ? 'Cancelling…' : 'Cancel renewal'}
+              {cancelling ? (langHi ? 'रद्द हो रहा है…' : 'Cancelling…') : (langHi ? 'नवीनीकरण रद्द करें' : 'Cancel renewal')}
             </button>
-            <p className="nb-fine">Stops future charges. You keep access until {on}.</p>
+            <p className="nb-fine">{langHi ? `आगे कोई राशि नहीं कटेगी। ${on} तक पहुँच बनी रहेगी।` : `Stops future charges. You keep access until ${on}.`}</p>
           </>
         )}
       </div>
     );
   })() : (
     <div className="nb-plan-block">
-      <div className="nb-plan-line"><strong>Free plan</strong><span>{FEATURES.find(f => f.name === 'Answer evaluation')?.free.replace(' total', '')} answer check, {FEATURES.find(f => f.name === 'AI Chat')?.free.replace(' total', '')} chats</span></div>
+      <div className="nb-plan-line"><strong>{langHi ? 'निःशुल्क प्लान' : 'Free plan'}</strong><span>{FEATURES.find(f => f.name === 'Answer evaluation')?.free.replace(' total', '')} {langHi ? 'उत्तर जाँच' : 'answer check'}, {FEATURES.find(f => f.name === 'AI Chat')?.free.replace(' total', '')} {langHi ? 'चैट' : 'chats'}</span></div>
       <button className="ds-btn ds-btn-solid ds-btn-sm ds-btn-block" onClick={() => { setShowPremiumModal(true); setUserMenuOpen(false); setOpen(false); }}>
-        Go Premium
+        {langHi ? 'प्रीमियम लें' : 'Go Premium'}
       </button>
     </div>
   );
@@ -574,9 +589,9 @@ export default function Navbar() {
   return (
     <>
       <style dangerouslySetInnerHTML={{ __html: NAV_CSS }} />
-      <nav className="nb ds" aria-label="Main">
+      <nav className="nb ds" aria-label={langHi ? 'मुख्य' : 'Main'}>
         <div className="nb-inner">
-          <Link href="/" className="nb-brand" aria-label="History Optional, home">
+          <Link href="/" className="nb-brand" aria-label={langHi ? 'History Optional, होम' : 'History Optional, home'}>
             <Image src="/mascot/owl.svg" alt="" width={30} height={28} priority />
             <span>History Optional</span>
           </Link>
@@ -584,7 +599,7 @@ export default function Navbar() {
           <div className="nb-links">
             <NavMenu label={tr(t.notes, langHi)} items={notesItems} active={notesActive} pathname={pathname}
               open={notesMenuOpen} onToggle={() => { setNotesMenuOpen(o => !o); setPyqsMenuOpen(false); }} onClose={() => setNotesMenuOpen(false)} menuRef={notesRef} />
-            <NavMenu label="PYQs" items={pyqItems} active={pyqsActive} pathname={pathname}
+            <NavMenu label={langHi ? 'PYQ' : 'PYQs'} items={pyqItems} active={pyqsActive} pathname={pathname}
               open={pyqsMenuOpen} onToggle={() => { setPyqsMenuOpen(o => !o); setNotesMenuOpen(false); }} onClose={() => setPyqsMenuOpen(false)} menuRef={pyqsRef} />
             {flatLinks.map(l => (
               <Link key={l.href} href={l.href} className={`nb-link${l.accent ? ' accent' : ''}${isActive(l.href) ? ' on' : ''}`} aria-current={isActive(l.href) ? 'page' : undefined}>
@@ -596,17 +611,17 @@ export default function Navbar() {
           <div className="nb-right">
             <span className="nb-search-wrap"><SearchModal label={langHi ? 'खोजें' : 'Search'} /></span>
             <span className="nb-wide">{langToggle}</span>
-            <button className="nb-icon nb-wide" onClick={toggleTheme} aria-label={isDark ? 'Switch to light mode' : 'Switch to dark mode'} title={isDark ? 'Light mode' : 'Dark mode'}>
+            <button className="nb-icon nb-wide" onClick={toggleTheme} aria-label={langHi ? (isDark ? 'लाइट मोड पर जाएँ' : 'डार्क मोड पर जाएँ') : (isDark ? 'Switch to light mode' : 'Switch to dark mode')} title={langHi ? (isDark ? 'लाइट मोड' : 'डार्क मोड') : (isDark ? 'Light mode' : 'Dark mode')}>
               {isDark ? Icon.sun : Icon.moon}
             </button>
 
             {user ? (
               <>
                 {!subData && (
-                  <button className="nb-premium" onClick={() => setShowPremiumModal(true)}><svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3.5 8.2 8 12l4-7 4 7 4.5-3.8L18.8 18H5.2L3.5 8.2Z" /><rect x="5.2" y="19.2" width="13.6" height="1.8" rx="0.9" /></svg>Upgrade</button>
+                  <button className="nb-premium" onClick={() => setShowPremiumModal(true)}><svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3.5 8.2 8 12l4-7 4 7 4.5-3.8L18.8 18H5.2L3.5 8.2Z" /><rect x="5.2" y="19.2" width="13.6" height="1.8" rx="0.9" /></svg>{langHi ? 'अपग्रेड' : 'Upgrade'}</button>
                 )}
                 <div ref={accountRef} className="nb-account nb-wide">
-                  <button className="nb-avatar" onClick={() => setUserMenuOpen(o => !o)} aria-label="Your account" aria-expanded={userMenuOpen} aria-haspopup="menu" title={user.email ?? undefined}>
+                  <button className="nb-avatar" onClick={() => setUserMenuOpen(o => !o)} aria-label={langHi ? 'आपका खाता' : 'Your account'} aria-expanded={userMenuOpen} aria-haspopup="menu" title={user.email ?? undefined}>
                     <UserAvatar email={user.email ?? ''} name={aspirantName} photoURL={user.photoURL} size={34} />
                   </button>
                   {userMenuOpen && (
@@ -614,7 +629,7 @@ export default function Navbar() {
                       <div className="nb-menu-head">
                         <UserAvatar email={user.email ?? ''} name={aspirantName} photoURL={user.photoURL} size={40} />
                         <div className="nb-menu-who">
-                          <strong>{aspirantName || 'Your account'}</strong>
+                          <strong>{aspirantName || (langHi ? 'आपका खाता' : 'Your account')}</strong>
                           <span>{user.email}</span>
                         </div>
                       </div>
@@ -622,24 +637,24 @@ export default function Navbar() {
                       {exam && (
                         <div className="nb-exam">
                           <span><strong>{exam.label}</strong> · {exam.when}</span>
-                          <span className="nb-exam-days"><strong>{exam.days}</strong> days</span>
+                          <span className="nb-exam-days"><strong>{exam.days}</strong> {langHi ? 'दिन' : 'days'}</span>
                         </div>
                       )}
                       <div className="nb-menu-links">
-                        <Link href="/dashboard" className="nb-menu-item" role="menuitem">{Icon.dash}Dashboard</Link>
-                        <Link href="/profile" className="nb-menu-item" role="menuitem" onClick={() => setUserMenuOpen(false)}>{Icon.edit}Profile and settings</Link>
-                        <Link href="/pricing" className="nb-menu-item" role="menuitem">{Icon.plans}Plans</Link>
-                        <button className="nb-menu-item danger" role="menuitem" onClick={handleSignOut}>{Icon.out}Sign out</button>
+                        <Link href="/dashboard" className="nb-menu-item" role="menuitem">{Icon.dash}{langHi ? 'डैशबोर्ड' : 'Dashboard'}</Link>
+                        <Link href="/profile" className="nb-menu-item" role="menuitem" onClick={() => setUserMenuOpen(false)}>{Icon.edit}{langHi ? 'प्रोफ़ाइल और सेटिंग्स' : 'Profile and settings'}</Link>
+                        <Link href="/pricing" className="nb-menu-item" role="menuitem">{Icon.plans}{langHi ? 'प्लान' : 'Plans'}</Link>
+                        <button className="nb-menu-item danger" role="menuitem" onClick={handleSignOut}>{Icon.out}{langHi ? 'साइन आउट करें' : 'Sign out'}</button>
                       </div>
                     </div>
                   )}
                 </div>
               </>
             ) : (
-              <button className="nb-premium" onClick={() => setShowPremiumModal(true)}><svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3.5 8.2 8 12l4-7 4 7 4.5-3.8L18.8 18H5.2L3.5 8.2Z" /><rect x="5.2" y="19.2" width="13.6" height="1.8" rx="0.9" /></svg>Premium</button>
+              <button className="nb-premium" onClick={() => setShowPremiumModal(true)}><svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3.5 8.2 8 12l4-7 4 7 4.5-3.8L18.8 18H5.2L3.5 8.2Z" /><rect x="5.2" y="19.2" width="13.6" height="1.8" rx="0.9" /></svg>{langHi ? 'प्रीमियम' : 'Premium'}</button>
             )}
 
-            <button className={`nb-icon nb-burger${open ? ' open' : ''}`} onClick={() => setOpen(o => !o)} aria-label={open ? 'Close menu' : 'Open menu'} aria-expanded={open}>
+            <button className={`nb-icon nb-burger${open ? ' open' : ''}`} onClick={() => setOpen(o => !o)} aria-label={langHi ? (open ? 'मेनू बंद करें' : 'मेनू खोलें') : (open ? 'Close menu' : 'Open menu')} aria-expanded={open}>
               <span /><span /><span />
             </button>
           </div>
@@ -648,12 +663,12 @@ export default function Navbar() {
 
       <div className={`nb-sheet ds${open ? ' open' : ''}`} aria-hidden={!open}>
         <button className="nb-sheet-search" onClick={() => { setOpen(false); window.dispatchEvent(new Event('open-search')); }}>
-          {Icon.search}{langHi ? 'नोट्स, PYQs, इतिहासकार खोजें' : 'Search notes, PYQs and historians'}
+          {Icon.search}{langHi ? 'नोट्स, PYQ और इतिहासकार खोजें' : 'Search notes, PYQs and historians'}
         </button>
 
         {([
           { title: tr(t.notes, langHi), items: notesItems },
-          { title: 'PYQs', items: pyqItems },
+          { title: tr(t.pyqs, langHi), items: pyqItems },
           { title: langHi ? 'टूल्स' : 'Tools', items: [...flatLinks, { href: '/dashboard', label: tr(t.dashboard, langHi) }] },
         ] as { title: string; items: (MenuItem & { accent?: boolean })[] }[]).map(group => (
           <div key={group.title} className="nb-sheet-group">
@@ -674,7 +689,7 @@ export default function Navbar() {
             <div className="nb-sheet-user">
               <UserAvatar email={user.email ?? ''} name={aspirantName} photoURL={user.photoURL} size={38} />
               <div>
-                <strong>{aspirantName || 'UPSC aspirant'}</strong>
+                <strong>{aspirantName || (langHi ? 'UPSC अभ्यर्थी' : 'UPSC aspirant')}</strong>
                 <span>{user.email}</span>
               </div>
             </div>
@@ -682,9 +697,9 @@ export default function Navbar() {
           {user && planBlock}
           <div className="nb-sheet-actions">
             {langToggle}
-            <button className="ds-btn ds-btn-line ds-btn-sm" onClick={toggleTheme}>{isDark ? Icon.sun : Icon.moon}{isDark ? 'Light' : 'Dark'}</button>
-            {user && <Link href="/profile" className="ds-btn ds-btn-line ds-btn-sm" onClick={() => setOpen(false)}>{Icon.edit}Profile</Link>}
-            {user && <button className="ds-btn ds-btn-line ds-btn-sm nb-danger" onClick={handleSignOut}>{Icon.out}Sign out</button>}
+            <button className="ds-btn ds-btn-line ds-btn-sm" onClick={toggleTheme}>{isDark ? Icon.sun : Icon.moon}{langHi ? (isDark ? 'लाइट' : 'डार्क') : (isDark ? 'Light' : 'Dark')}</button>
+            {user && <Link href="/profile" className="ds-btn ds-btn-line ds-btn-sm" onClick={() => setOpen(false)}>{Icon.edit}{langHi ? 'प्रोफ़ाइल' : 'Profile'}</Link>}
+            {user && <button className="ds-btn ds-btn-line ds-btn-sm nb-danger" onClick={handleSignOut}>{Icon.out}{langHi ? 'साइन आउट' : 'Sign out'}</button>}
           </div>
         </div>
       </div>

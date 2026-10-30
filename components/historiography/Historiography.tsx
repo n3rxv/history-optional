@@ -182,8 +182,8 @@ export default function Historiography({ initialDebates }: { initialDebates: Deb
                 <button key={k} type="button" role="radio" aria-checked={kind === k} className={kind === k ? 'on' : ''} onClick={() => setKind(k)}>{label}</button>
               ))}
             </div>
-            <div className="hg-seg" role="radiogroup" aria-label={T('Paper', 'पेपर')}>
-              {([['all', T('Both papers', 'दोनों पेपर')], ['Paper I', T('Paper I', 'पेपर I')], ['Paper II', T('Paper II', 'पेपर II')]] as const).map(([k, label]) => (
+            <div className="hg-seg" role="radiogroup" aria-label={T('Paper', 'प्रश्नपत्र')}>
+              {([['all', T('Both papers', 'दोनों प्रश्नपत्र')], ['Paper I', T('Paper I', 'प्रश्नपत्र I')], ['Paper II', T('Paper II', 'प्रश्नपत्र II')]] as const).map(([k, label]) => (
                 <button key={k} type="button" role="radio" aria-checked={paper === k} className={paper === k ? 'on' : ''} onClick={() => setPaper(k)}>{label}</button>
               ))}
             </div>
@@ -222,7 +222,7 @@ export default function Historiography({ initialDebates }: { initialDebates: Deb
                     <span className="hg-badges">
                       <span className={`hg-kind ${d.type}`}>{d.type === 'debate' ? T('Debate', 'बहस') : T('Reading', 'पाठ')}</span>
                       <span className="hg-period">{hi ? PERIODS_HI[d.period] ?? d.period : d.period}</span>
-                      <span className="hg-paper">{d.paper}</span>
+                      <span className="hg-paper">{T(d.paper, d.paper.replace('Paper', 'प्रश्नपत्र'))}</span>
                     </span>
                     <span className="hg-title">{hi && d.title_hi ? d.title_hi : d.title}</span>
                     <span className="hg-meta">

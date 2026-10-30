@@ -66,7 +66,7 @@ export default function BottomNav() {
   };
 
   return (
-    <nav className="bn ds" aria-label="Primary">
+    <nav className="bn ds" aria-label={langHi ? 'मुख्य' : 'Primary'}>
       <style dangerouslySetInnerHTML={{ __html: BN_CSS }} />
       {open && <div className="bn-scrim" onClick={() => setOpen(false)} />}
       <div className="bn-pill">

@@ -55,7 +55,7 @@ export default async function CurrentAffairsPage() {
       <header className="ca-hero">
         <div className="ds-container">
           <h1 id="ca-title" className="ds-h1 ca-h1"><HiText en="Current affairs" hi="समसामयिकी" /></h1>
-          <p className="ds-lede ca-lede"><HiText en="History in the news, like a new excavation or an anniversary, and how you can use it in your answers." hi="ख़बरों में इतिहास, जैसे कोई नई खुदाई या कोई वर्षगाँठ, और आप इसे अपने उत्तरों में कैसे इस्तेमाल कर सकते हैं।" /></p>
+          <p className="ds-lede ca-lede"><HiText en="History in the news, like a new excavation or an anniversary, and how you can use it in your answers." hi="ख़बरों में इतिहास, जैसे कोई नई ख़ुदाई या कोई वर्षगाँठ, और आप इसे अपने उत्तरों में कैसे इस्तेमाल कर सकते हैं।" /></p>
         </div>
       </header>
       <div className="ds-container">

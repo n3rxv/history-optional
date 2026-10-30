@@ -7,6 +7,7 @@ import { auth } from '@/lib/firebase';
 import { getFingerprint } from '@/lib/fingerprint';
 import { PhoneModal } from '@/components/PhoneModal';
 import { toast } from '@/components/ui/Toast';
+import { useLang } from '@/lib/i18n/LangContext';
 
 /**
  * Asks for a phone number, at a strength that depends on who is asking.
@@ -60,6 +61,7 @@ export default function PhoneGate() {
   const [show, setShow] = useState(false);
   const [mandatory, setMandatory] = useState(false);
   const pathname = usePathname();
+  const { langHi } = useLang();
 
   /**
    * Stops re-checking once the answer is settled.
@@ -138,7 +140,7 @@ export default function PhoneGate() {
       initialFirstName={known.first}
       initialLastName={known.last}
       email={authed ? user?.email ?? null : null}
-      onDone={() => { setShow(false); toast('Your profile is saved'); }}
+      onDone={() => { setShow(false); toast(langHi ? 'आपकी प्रोफ़ाइल सहेज ली गई' : 'Your profile is saved'); }}
       onCancel={
         mandatory
           ? undefined

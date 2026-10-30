@@ -1,6 +1,8 @@
 import Link from 'next/link';
 import { allNotes } from '@/lib/notes';
-import NotesBrowser, { type BrowserNote } from './NotesBrowser';
+import { SECTION_HI } from '@/lib/notesHi';
+import { HiText } from '@/components/ui/HiText';
+import NotesBrowser, { SectionLinks, type BrowserNote } from './NotesBrowser';
 import StudiedRing from './StudiedRing';
 import { SECTIONS, SectionIcon, type SectionKey } from './sections';
 
@@ -23,14 +25,29 @@ export default function NotesIndex({ variant }: { variant: Variant }) {
   }));
   const section = SECTIONS.find((s) => s.key === variant);
 
+  // The English is what the server sends and search engines read; HiText
+  // swaps in the Hindi for a reader in Hindi mode.
   const head = section
-    ? {
-        back: { href: section.paper === 1 ? '/notes' : '/notes?paper=2', label: `Paper ${section.paper === 1 ? 'I' : 'II'}` },
-        title: `${section.name} notes`,
-        lede: `${section.sub}, in ${notes.filter((n) => n.section === section.name).length} topics. Read them in order, or jump to the one you need.`,
-        icon: section.key,
-      }
-    : { back: { href: '/', label: 'Home' }, title: 'Notes', lede: `Every topic in both papers. The historians and their arguments are worked into each one, so you don't need a separate book for them.`, icon: 'notes' as const };
+    ? (() => {
+        const roman = section.paper === 1 ? 'I' : 'II';
+        const count = notes.filter((n) => n.section === section.name).length;
+        return {
+          back: { href: section.paper === 1 ? '/notes' : '/notes?paper=2', label: <HiText en={`Paper ${roman}`} hi={`प्रश्नपत्र ${roman}`} /> },
+          title: <HiText en={`${section.name} notes`} hi={`${SECTION_HI[section.name] ?? section.name} नोट्स`} />,
+          lede: <HiText
+            en={`${section.sub}, in ${count} topics. Read them in order, or jump to the one you need.`}
+            hi={`${section.subHi}, ${count} विषयों में। इन्हें क्रम से पढ़ें, या सीधे उस विषय पर जाएँ जिसकी आपको ज़रूरत है।`} />,
+          icon: section.key,
+        };
+      })()
+    : {
+        back: { href: '/', label: <HiText en="Home" hi="होम" /> },
+        title: <HiText en="Notes" hi="नोट्स" />,
+        lede: <HiText
+          en={`Every topic in both papers. The historians and their arguments are worked into each one, so you don't need a separate book for them.`}
+          hi="दोनों प्रश्नपत्रों का हर विषय। हर विषय में इतिहासकार और उनके तर्क शामिल हैं, इसलिए उनके लिए अलग किताब की ज़रूरत नहीं।" />,
+        icon: 'notes' as const,
+      };
 
   const tint = section ? { ['--t' as string]: `var(--tint-${section.key})`, ['--w' as string]: `var(--wash-${section.key})` } : { ['--t' as string]: 'var(--accent-text)', ['--w' as string]: 'var(--accent-wash)' };
 
@@ -47,13 +64,7 @@ export default function NotesIndex({ variant }: { variant: Variant }) {
               <h1 className="ds-h1">{head.title}</h1>
             </div>
             <p className="ds-lede ni-lede">{head.lede}</p>
-            {section && (
-              <nav className="ni-siblings" aria-label="Other parts of the syllabus">
-                {SECTIONS.filter((s) => s.key !== section.key).map((s) => (
-                  <Link key={s.key} href={s.href} style={{ ['--st' as string]: `var(--tint-${s.key})` }}><span aria-hidden="true" />{s.name}</Link>
-                ))}
-              </nav>
-            )}
+            {section && <SectionLinks current={section.key} />}
             </div>
             <div className="ni-hero-side">
               <StudiedRing slugs={(section ? notes.filter((n) => n.section === section.name) : notes).map((n) => n.slug)} />

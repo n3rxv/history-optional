@@ -1,6 +1,7 @@
 'use client';
 import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
+import { useLang } from '@/lib/i18n/LangContext';
 
 /**
  * The tools, one at a time: a row of tabs and one large panel that says what
@@ -32,7 +33,22 @@ function Frame({ title, children }: { title: string; children: React.ReactNode }
   );
 }
 
-function ChatPreview() {
+function ChatPreview({ hi }: { hi: boolean }) {
+  if (hi) {
+    return (
+      <Frame title="AI चैट · इतिहास वैकल्पिक">
+        <div className="sw-ask">मुग़ल कृषि संकट पर इरफ़ान हबीब का क्या तर्क था?</div>
+        <div className="sw-trace">7 सेकंड में शोध किया ›</div>
+        <p className="sw-p">हबीब ने संकट की जड़ <b>जागीर व्यवस्था</b> में देखी: जागीरदार हर कुछ साल में बदल दिए जाते थे, इसलिए जब तक ज़मीन उनके पास रहती, वे किसानों से जितना हो सके उतना वसूल लेते थे <span className="sw-cite"><Book />हबीब</span></p>
+        <p className="sw-p">उनके अनुसार, इसके बाद किसानों के पलायन और विद्रोह ने साम्राज्य को नीचे से खोखला कर दिया <span className="sw-cite"><Book />सतीश चंद्र</span></p>
+        <div className="sw-sources">
+          <span className="sw-sources-n">7 पुस्तक अंश</span>
+          <span className="sw-sources-from">इरफ़ान हबीब, सतीश चंद्र और IGNOU इतिहास से</span>
+        </div>
+        <div className="sw-compose"><span>आगे का प्रश्न पूछें…</span><i>↑</i></div>
+      </Frame>
+    );
+  }
   return (
     <Frame title="AI Chat · History Optional">
       <div className="sw-ask">What did Irfan Habib argue about the Mughal agrarian crisis?</div>
@@ -48,30 +64,46 @@ function ChatPreview() {
   );
 }
 
-function EvalPreview() {
+function EvalPreview({ hi }: { hi: boolean }) {
   const r = 30, c = 2 * Math.PI * r;
   return (
-    <Frame title="Evaluation · 15 marks">
+    <Frame title={hi ? 'मूल्यांकन · 15 अंक' : 'Evaluation · 15 marks'}>
       <div className="sw-score">
         <svg width="78" height="78" viewBox="0 0 78 78">
           <circle cx="39" cy="39" r={r} fill="none" stroke="var(--sw-track)" strokeWidth="7" />
           <circle cx="39" cy="39" r={r} fill="none" stroke="var(--success-text)" strokeWidth="7" strokeLinecap="round" strokeDasharray={`${c * (10 / 15)} ${c}`} transform="rotate(-90 39 39)" />
         </svg>
-        <div><strong>10<small>/15</small></strong><span>A good answer</span></div>
+        <div><strong>10<small>/15</small></strong><span>{hi ? 'अच्छा उत्तर' : 'A good answer'}</span></div>
       </div>
       <div className="sw-bars">
-        <div><em>Introduction</em><i style={{ width: '80%' }} /></div>
-        <div><em>Body</em><i style={{ width: '70%' }} /></div>
-        <div><em>Historians</em><i style={{ width: '48%' }} /></div>
+        <div><em>{hi ? 'भूमिका' : 'Introduction'}</em><i style={{ width: '80%' }} /></div>
+        <div><em>{hi ? 'मुख्य भाग' : 'Body'}</em><i style={{ width: '70%' }} /></div>
+        <div><em>{hi ? 'इतिहासकार' : 'Historians'}</em><i style={{ width: '48%' }} /></div>
       </div>
-      <div className="sw-fb ok"><Tick />Opens with the feudalism debate itself</div>
-      <div className="sw-fb ok"><Tick />Sets R.S. Sharma against Harbans Mukhia</div>
-      <div className="sw-fb add"><Plus />Bring in the land grant inscriptions as evidence</div>
+      <div className="sw-fb ok"><Tick />{hi ? 'सीधे सामंतवाद की बहस से शुरुआत करता है' : 'Opens with the feudalism debate itself'}</div>
+      <div className="sw-fb ok"><Tick />{hi ? 'आर.एस. शर्मा को हरबंस मुखिया के सामने रखता है' : 'Sets R.S. Sharma against Harbans Mukhia'}</div>
+      <div className="sw-fb add"><Plus />{hi ? 'साक्ष्य के रूप में भूमि-अनुदान के अभिलेख जोड़ें' : 'Bring in the land grant inscriptions as evidence'}</div>
     </Frame>
   );
 }
 
-function NotesPreview() {
+function NotesPreview({ hi }: { hi: boolean }) {
+  if (hi) {
+    return (
+      <Frame title="नोट्स · प्रश्नपत्र I">
+        <div className="sw-crumb">मध्यकालीन भारत · प्रारंभिक मध्यकालीन भारत</div>
+        <div className="sw-h">सामंतवाद की बहस</div>
+        <p className="sw-p">आर.एस. शर्मा के अनुसार, ब्राह्मणों और अधिकारियों को दिए गए भूमि-अनुदानों ने राज्य को <mark>अपने-अपने राजस्व वाले स्थानीय सामंतों</mark> में बाँट दिया, लगभग वैसे ही जैसे मध्यकालीन यूरोप में हुआ।</p>
+        <div className="sw-sub">किसने क्या कहा</div>
+        <ul className="sw-list">
+          <li><b>आर.एस. शर्मा:</b> भारतीय सामंतवाद, जो भूमि-अनुदानों और व्यापार के पतन पर टिका था।</li>
+          <li><b>हरबंस मुखिया:</b> यूरोप जैसी कृषि-दासता नहीं थी, इसलिए सामंतवाद भी नहीं।</li>
+          <li><b>बर्टन स्टाइन:</b> इसके बजाय चोल राज्य एक खंडीय राज्य था।</li>
+        </ul>
+        <div className="sw-terms"><span>भूमि-अनुदान</span><span>सामंत</span><span>खंडीय राज्य</span></div>
+      </Frame>
+    );
+  }
   return (
     <Frame title="Notes · Paper I">
       <div className="sw-crumb">Medieval India · Early medieval India</div>
@@ -88,55 +120,58 @@ function NotesPreview() {
   );
 }
 
-function PyqPreview() {
+function PyqPreview({ hi }: { hi: boolean }) {
+  // UPSC's own Hindi wording of the same three questions (lib/pyqDataHi.ts).
   const rows = [
-    { year: 2023, marks: 10, q: 'Discuss the various proponents of Indian feudalism.' },
-    { year: 2021, marks: 10, q: 'Discuss the different stages of Indian feudalism and analyze its impact on Indian political system.' },
-    { year: 2015, marks: 15, q: 'Do the evidences of land ownership at our disposal support the theory of the prevalence of feudalism in early medieval India?' },
+    { year: 2023, marks: 10, q: 'Discuss the various proponents of Indian feudalism.', qHi: 'भारतीय सामंतवाद के विभिन्न समर्थक तत्त्वों की विवेचना कीजिए।' },
+    { year: 2021, marks: 10, q: 'Discuss the different stages of Indian feudalism and analyze its impact on Indian political system.', qHi: 'भारतीय सामंतवाद के विविध चरणों की विवेचना करते हुए भारतीय राजनैतिक व्यवस्था पर इसके प्रभाव का विश्लेषण कीजिए।' },
+    { year: 2015, marks: 15, q: 'Do the evidences of land ownership at our disposal support the theory of the prevalence of feudalism in early medieval India?', qHi: 'क्या हमारे पास उपलब्ध भू-स्वामित्व के साक्ष्य पूर्व मध्यकालीन भारत में सामंतवाद के प्रचलन के सिद्धांत का समर्थन करते हैं?' },
   ];
   return (
-    <Frame title="PYQs · History Optional">
-      <div className="sw-filters"><span>Paper I</span><span className="on">Feudalism</span><span>All marks</span></div>
+    <Frame title={hi ? 'PYQ · इतिहास वैकल्पिक' : 'PYQs · History Optional'}>
+      <div className="sw-filters"><span>{hi ? 'प्रश्नपत्र I' : 'Paper I'}</span><span className="on">{hi ? 'सामंतवाद' : 'Feudalism'}</span><span>{hi ? 'सभी अंक' : 'All marks'}</span></div>
       {rows.map((r) => (
         <div key={r.year} className="sw-pyq">
-          <div className="sw-pyq-meta"><b>{r.year}</b> · {r.marks} marks</div>
-          <div className="sw-pyq-q">{r.q}</div>
+          <div className="sw-pyq-meta"><b>{r.year}</b> · {r.marks} {hi ? 'अंक' : 'marks'}</div>
+          <div className="sw-pyq-q">{hi ? r.qHi : r.q}</div>
         </div>
       ))}
     </Frame>
   );
 }
 
-function TopperPreview() {
+function TopperPreview({ hi }: { hi: boolean }) {
+  // The handwritten line stays as it is: the copies are scans of real
+  // answer sheets, written in English.
   return (
-    <Frame title="Topper copies · Medieval India">
+    <Frame title={hi ? 'टॉपर कॉपियाँ · मध्यकालीन भारत' : 'Topper copies · Medieval India'}>
       <div className="sw-sheet">
-        <div className="sw-sheet-q">2015 · 15 marks · Do the evidences of land ownership support the theory of feudalism?</div>
+        <div className="sw-sheet-q">{hi ? '2015 · 15 अंक · क्या भू-स्वामित्व के साक्ष्य सामंतवाद के सिद्धांत का समर्थन करते हैं?' : '2015 · 15 marks · Do the evidences of land ownership support the theory of feudalism?'}</div>
         <div className="sw-hand">
           The debate on <u>Indian feudalism</u>, opened by D.D. Kosambi and carried forward by R.S. Sharma, rests on the copper-plate land grants…
         </div>
       </div>
-      <div className="sw-note"><Tick />Opens with the historiography in the first line</div>
-      <div className="sw-note"><Tick />Weighs the evidence for and against</div>
+      <div className="sw-note"><Tick />{hi ? 'पहली ही पंक्ति में इतिहास-लेखन से शुरुआत' : 'Opens with the historiography in the first line'}</div>
+      <div className="sw-note"><Tick />{hi ? 'पक्ष और विपक्ष, दोनों के साक्ष्य तौलता है' : 'Weighs the evidence for and against'}</div>
     </Frame>
   );
 }
 
-function CardsPreview() {
+function CardsPreview({ hi }: { hi: boolean }) {
   return (
-    <Frame title="Flashcards · Mughal Empire">
-      <div className="sw-progress"><span>Card 4 of 20</span><span className="sw-streak">6 in a row</span></div>
+    <Frame title={hi ? 'फ़्लैशकार्ड · मुग़ल साम्राज्य' : 'Flashcards · Mughal Empire'}>
+      <div className="sw-progress"><span>{hi ? '20 में से कार्ड 4' : 'Card 4 of 20'}</span><span className="sw-streak">{hi ? 'लगातार 6 सही' : '6 in a row'}</span></div>
       <div className="sw-track"><i style={{ width: '20%' }} /></div>
-      <div className="sw-card"><small>Question</small><b>Who called the Mughal state a &lsquo;patrimonial-bureaucratic&rsquo; empire?</b></div>
-      <div className="sw-card back"><small>Answer</small><b>Stephen Blake, in 1979</b></div>
-      <div className="sw-rate"><span>Again</span><span>Hard</span><span className="on">Got it</span></div>
+      <div className="sw-card"><small>{hi ? 'प्रश्न' : 'Question'}</small><b>{hi ? <>मुग़ल राज्य को &lsquo;पैतृक-नौकरशाही&rsquo; साम्राज्य किसने कहा?</> : <>Who called the Mughal state a &lsquo;patrimonial-bureaucratic&rsquo; empire?</>}</b></div>
+      <div className="sw-card back"><small>{hi ? 'उत्तर' : 'Answer'}</small><b>{hi ? 'स्टीफ़न ब्लेक, 1979 में' : 'Stephen Blake, in 1979'}</b></div>
+      <div className="sw-rate"><span>{hi ? 'फिर से' : 'Again'}</span><span>{hi ? 'कठिन' : 'Hard'}</span><span className="on">{hi ? 'याद आया' : 'Got it'}</span></div>
     </Frame>
   );
 }
 
-type Tab = {
-  key: string; tab: string; title: string; text: string; points: string[];
-  cta: string; href: string; wash: string; preview: React.ReactNode;
+type Copy = { tab: string; title: string; text: string; points: string[]; cta: string };
+type Tab = Copy & {
+  key: string; hi: Copy; href: string; wash: string; Preview: (p: { hi: boolean }) => React.ReactNode;
 };
 
 const TABS: Tab[] = [
@@ -144,37 +179,79 @@ const TABS: Tab[] = [
     key: 'chat', tab: 'AI Chat', title: 'Stuck on a historian at 11 PM? Ask us.',
     text: 'It answers from the standard books and marks each line with the book it came from, so you can open the page and check for yourself.',
     points: ['It names the historians behind each view', 'Ask for a proper Mains answer when you want one', 'Mentor mode, for when you want to be marked hard'],
-    cta: 'Open AI Chat', href: '/chat', wash: 'var(--accent-wash)', preview: <ChatPreview />,
+    cta: 'Open AI Chat',
+    hi: {
+      tab: 'AI चैट', title: 'रात 11 बजे किसी इतिहासकार पर अटके हैं? हमसे पूछें।',
+      text: 'यह मानक पुस्तकों से उत्तर देता है और हर पंक्ति के साथ उस पुस्तक का नाम देता है जहाँ से वह आई है, ताकि आप वह पन्ना खोलकर ख़ुद जाँच सकें।',
+      points: ['हर मत के पीछे के इतिहासकारों के नाम बताता है', 'जब चाहें, मुख्य परीक्षा का पूरा उत्तर माँगें', 'मेंटर मोड, जब आप कड़ी जाँच चाहें'],
+      cta: 'AI चैट खोलें',
+    },
+    href: '/chat', wash: 'var(--accent-wash)', Preview: ChatPreview,
   },
   {
     key: 'eval', tab: 'Evaluation', title: 'Write the way you would in the exam hall.',
     text: 'Snap a photo of your answer sheet and upload it. You’ll see your marks, the historians you missed, and a model answer for the same question.',
     points: ['Marks for the introduction, body and conclusion', 'A model answer to set beside yours', 'It reads handwriting fine'],
-    cta: 'Check an answer', href: '/evaluate', wash: 'var(--success-wash)', preview: <EvalPreview />,
+    cta: 'Check an answer',
+    hi: {
+      tab: 'मूल्यांकन', title: 'वैसे ही लिखें, जैसे परीक्षा हॉल में लिखते हैं।',
+      text: 'अपनी उत्तर पुस्तिका की फ़ोटो खींचकर अपलोड करें। आपको अपने अंक, छूटे हुए इतिहासकार, और उसी प्रश्न का एक आदर्श उत्तर दिखेगा।',
+      points: ['भूमिका, मुख्य भाग और निष्कर्ष के अलग-अलग अंक', 'अपने उत्तर से मिलाने के लिए एक आदर्श उत्तर', 'हाथ की लिखावट ठीक से पढ़ लेता है'],
+      cta: 'उत्तर जँचवाएँ',
+    },
+    href: '/evaluate', wash: 'var(--success-wash)', Preview: EvalPreview,
   },
   {
     key: 'notes', tab: 'Notes', title: 'Notes that carry the debates.',
     text: 'Every topic in both papers, with who argued what worked right into the notes, so the debates are there when you need them.',
     points: ['Laid out the way the syllabus is', 'Highlight and write on them, on any device', 'Ask the AI about anything you are reading'],
-    cta: 'Read the notes', href: '/notes', wash: 'var(--wash-ancient)', preview: <NotesPreview />,
+    cta: 'Read the notes',
+    hi: {
+      tab: 'नोट्स', title: 'ऐसे नोट्स, जिनमें बहसें भी हैं।',
+      text: 'दोनों प्रश्नपत्रों का हर विषय, और किसने क्या तर्क दिया, यह नोट्स में ही बुना हुआ है, ताकि ज़रूरत पड़ने पर बहसें सामने हों।',
+      points: ['पाठ्यक्रम के क्रम में ही सजे हुए', 'किसी भी डिवाइस पर हाइलाइट करें और उन पर लिखें', 'जो भी पढ़ रहे हों, उसके बारे में AI से पूछें'],
+      cta: 'नोट्स पढ़ें',
+    },
+    href: '/notes', wash: 'var(--wash-ancient)', Preview: NotesPreview,
   },
   {
     key: 'pyq', tab: 'PYQs', title: 'See what UPSC keeps asking.',
     text: 'Every History Optional question since 1979, sorted by topic. Pick one, see how a good answer goes, then write your own.',
     points: ['Filter by year, paper, topic and marks', 'Model answers when you want one', 'Topper copies for many of them'],
-    cta: 'Browse PYQs', href: '/pyqs', wash: 'var(--warning-wash)', preview: <PyqPreview />,
+    cta: 'Browse PYQs',
+    hi: {
+      tab: 'PYQ', title: 'देखें कि UPSC बार-बार क्या पूछता है।',
+      text: '1979 से अब तक इतिहास वैकल्पिक का हर प्रश्न, विषय के अनुसार। कोई एक चुनें, देखें कि अच्छा उत्तर कैसे लिखा जाता है, फिर अपना लिखें।',
+      points: ['वर्ष, प्रश्नपत्र, विषय और अंकों से छाँटें', 'जब चाहें, आदर्श उत्तर', 'कई प्रश्नों की टॉपर कॉपियाँ'],
+      cta: 'पिछले प्रश्न देखें',
+    },
+    href: '/pyqs', wash: 'var(--warning-wash)', Preview: PyqPreview,
   },
   {
     key: 'topper', tab: 'Topper copies', title: 'Read how toppers actually wrote it.',
     text: 'Real answer sheets from toppers, matched to the questions they answer, so you can see what a high-scoring answer looks like on paper.',
     points: ['Matched to the PYQ they answer', 'Compare two answers side by side', 'Diagrams and maps as drawn in the exam'],
-    cta: 'See topper copies', href: '/topper-copies', wash: 'var(--premium-wash)', preview: <TopperPreview />,
+    cta: 'See topper copies',
+    hi: {
+      tab: 'टॉपर कॉपियाँ', title: 'पढ़ें कि टॉपरों ने असल में कैसे लिखा।',
+      text: 'टॉपरों की असली उत्तर पुस्तिकाएँ, उन्हीं प्रश्नों के साथ जिनका वे उत्तर हैं, ताकि आप देख सकें कि ऊँचे अंकों वाला उत्तर काग़ज़ पर कैसा दिखता है।',
+      points: ['जिस PYQ का उत्तर है, उसी के साथ', 'दो उत्तरों को साथ-साथ रखकर तुलना करें', 'आरेख और मानचित्र, जैसे परीक्षा में बनाए गए'],
+      cta: 'टॉपर कॉपियाँ देखें',
+    },
+    href: '/topper-copies', wash: 'var(--premium-wash)', Preview: TopperPreview,
   },
   {
     key: 'cards', tab: 'Flashcards', title: 'The dates and names that slip away.',
     text: 'Short cards for the facts you need to have at your fingertips, topic by topic, with the ones you miss coming back sooner.',
     points: ['Every topic in both papers', 'In English and Hindi', 'Your progress, kept for you'],
-    cta: 'Start revising', href: '/flashcards', wash: 'var(--wash-modern)', preview: <CardsPreview />,
+    cta: 'Start revising',
+    hi: {
+      tab: 'फ़्लैशकार्ड', title: 'वे तिथियाँ और नाम, जो याद से फिसल जाते हैं।',
+      text: 'उन तथ्यों के छोटे कार्ड जो आपको ज़बानी याद होने चाहिए, विषय दर विषय, और जो कार्ड छूट जाते हैं वे जल्दी लौटकर आते हैं।',
+      points: ['दोनों प्रश्नपत्रों का हर विषय', 'अंग्रेज़ी और हिंदी में', 'आपकी प्रगति, आपके लिए सहेजी हुई'],
+      cta: 'दोहराना शुरू करें',
+    },
+    href: '/flashcards', wash: 'var(--wash-modern)', Preview: CardsPreview,
   },
 ];
 
@@ -182,10 +259,12 @@ const TABS: Tab[] = [
 const DWELL_MS = 60_000;
 
 export default function HomeShowcase() {
+  const { langHi } = useLang();
   const [active, setActive] = useState(0);
   const tabsRef = useRef<HTMLDivElement>(null);
   const rootRef = useRef<HTMLDivElement>(null);
   const t = TABS[active];
+  const copy = langHi ? t.hi : t;
 
   // The tabs move on by themselves every minute. A line under the chosen
   // tab fills over that time and its end opens the next, so the two cannot
@@ -227,7 +306,7 @@ export default function HomeShowcase() {
       onFocus={(e) => { if ((e.target as HTMLElement).matches(':focus-visible')) setFocused(true); }}
       onBlur={(e) => { if (!e.currentTarget.contains(e.relatedTarget as Node | null)) setFocused(false); }}>
       <style dangerouslySetInnerHTML={{ __html: HS_CSS }} />
-      <div className="hs-tabs" role="tablist" aria-label="What is inside" ref={tabsRef} onKeyDown={onKey}>
+      <div className="hs-tabs" role="tablist" aria-label={langHi ? 'इसमें क्या है' : 'What is inside'} ref={tabsRef} onKeyDown={onKey}>
         {TABS.map((x, i) => (
           <button
             key={x.key}
@@ -240,21 +319,21 @@ export default function HomeShowcase() {
             onClick={() => setActive(i)}
             onAnimationEnd={(e) => { if (i === active && e.animationName === 'hs-dwell') setActive((active + 1) % TABS.length); }}
           >
-            {x.tab}
+            {langHi ? x.hi.tab : x.tab}
           </button>
         ))}
       </div>
 
       <div className="hs-panel" id="hs-panel" role="tabpanel" aria-labelledby={`hs-tab-${t.key}`} style={{ ['--hs-wash' as string]: t.wash }}>
         <div className="hs-copy" key={`copy-${t.key}`}>
-          <h3 className="hs-title">{t.title}</h3>
-          <p className="hs-text">{t.text}</p>
+          <h3 className="hs-title">{copy.title}</h3>
+          <p className="hs-text">{copy.text}</p>
           <ul className="hs-points">
-            {t.points.map((p) => <li key={p}>{p}</li>)}
+            {copy.points.map((p) => <li key={p}>{p}</li>)}
           </ul>
-          <Link href={t.href} className="ds-btn ds-btn-solid">{t.cta}<Arrow /></Link>
+          <Link href={t.href} className="ds-btn ds-btn-solid">{copy.cta}<Arrow /></Link>
         </div>
-        <div className="hs-shot" key={`shot-${t.key}`}>{t.preview}</div>
+        <div className="hs-shot" key={`shot-${t.key}`}><t.Preview hi={langHi} /></div>
       </div>
     </div>
   );

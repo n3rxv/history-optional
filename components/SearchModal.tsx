@@ -5,6 +5,10 @@ import { useRouter } from 'next/navigation';
 import { allNotes, type Note } from '@/lib/notes';
 import { SECTIONS, SectionIcon } from '@/components/notes/sections';
 import type { PyqHit, DebateHit } from '@/app/api/search/route';
+import { useLang } from '@/lib/i18n/LangContext';
+import { NOTE_HI, SECTION_HI } from '@/lib/notesHi';
+import { usePyqHi } from '@/lib/pyqHi';
+import { pyqSection } from '@/components/pyq/sections';
 
 /**
  * The site search: pages, notes, debates and PYQs, or the words handed to the
@@ -22,6 +26,9 @@ type Item = {
   key: string;
   label: string;
   hint?: string;
+  /** label and hint in Hindi mode, for the fixed pages. */
+  labelHi?: string;
+  hintHi?: string;
   href: string;
   group: 'Ask' | 'Notes' | 'Debates' | 'PYQs' | 'Go to';
   icon: React.ReactNode;
@@ -49,21 +56,21 @@ const G = {
 };
 
 const PAGES: Item[] = [
-  { key: 'chat', label: 'AI Chat', hint: 'Your personal tutor for the syllabus', href: '/chat', group: 'Go to', icon: <Glyph d={G.chat} /> },
-  { key: 'notes', label: 'Notes', hint: 'Every topic in both papers', href: '/notes', group: 'Go to', icon: <Glyph d={G.notes} /> },
-  { key: 'pyqs', label: 'PYQs', hint: 'Every question since 1979', href: '/pyqs', group: 'Go to', icon: <Glyph d={G.pyq} /> },
-  { key: 'evaluate', label: 'Get an answer checked', hint: 'Upload a handwritten answer', href: '/evaluate', group: 'Go to', icon: <Glyph d={G.pen} /> },
-  { key: 'test', label: 'Test papers', hint: 'Timed papers in the Mains format', href: '/test', group: 'Go to', icon: <Glyph d={G.test} /> },
-  { key: 'mapping', label: 'Map practice', hint: 'Every place on the map syllabus', href: '/mapping', group: 'Go to', icon: <Glyph d={G.map} /> },
-  { key: 'historiography', label: 'Historiography', hint: 'Who argued what, and in which book', href: '/historiography', group: 'Go to', icon: <Glyph d={G.debate} /> },
-  { key: 'timeline', label: 'Timeline', hint: 'Indian and world history side by side', href: '/timeline', group: 'Go to', icon: <Glyph d={G.time} /> },
-  { key: 'topper', label: 'Topper copies', hint: 'Real answer sheets, by topic', href: '/topper-copies', group: 'Go to', icon: <Glyph d={G.copy} /> },
-  { key: 'flashcards', label: 'Flashcards', hint: 'The facts that slip away', href: '/flashcards', group: 'Go to', icon: <Glyph d={G.cards} /> },
-  { key: 'prelims', label: 'Prelims practice', hint: 'History MCQs, topic by topic', href: '/prelims', group: 'Go to', icon: <Glyph d={G.prelims} /> },
-  { key: 'current', label: 'Current affairs', hint: 'History in the news', href: '/current-affairs', group: 'Go to', icon: <Glyph d={G.news} /> },
-  { key: 'books', label: 'Books', hint: 'The standard reading list', href: '/resources', group: 'Go to', icon: <Glyph d={G.book} /> },
-  { key: 'dashboard', label: 'Dashboard', hint: 'Your progress', href: '/dashboard', group: 'Go to', icon: <Glyph d={G.dash} /> },
-  { key: 'pricing', label: 'Plans and pricing', href: '/pricing', group: 'Go to', icon: <Glyph d={G.plans} /> },
+  { key: 'chat', label: 'AI Chat', hint: 'Your personal tutor for the syllabus', labelHi: 'AI चैट', hintHi: 'पाठ्यक्रम के लिए आपका निजी ट्यूटर', href: '/chat', group: 'Go to', icon: <Glyph d={G.chat} /> },
+  { key: 'notes', label: 'Notes', hint: 'Every topic in both papers', labelHi: 'नोट्स', hintHi: 'दोनों प्रश्नपत्रों का हर विषय', href: '/notes', group: 'Go to', icon: <Glyph d={G.notes} /> },
+  { key: 'pyqs', label: 'PYQs', hint: 'Every question since 1979', labelHi: 'पिछले प्रश्न', hintHi: '1979 से अब तक का हर प्रश्न', href: '/pyqs', group: 'Go to', icon: <Glyph d={G.pyq} /> },
+  { key: 'evaluate', label: 'Get an answer checked', hint: 'Upload a handwritten answer', labelHi: 'उत्तर जँचवाएँ', hintHi: 'हाथ से लिखा उत्तर अपलोड करें', href: '/evaluate', group: 'Go to', icon: <Glyph d={G.pen} /> },
+  { key: 'test', label: 'Test papers', hint: 'Timed papers in the Mains format', labelHi: 'टेस्ट पेपर', hintHi: 'मुख्य परीक्षा के प्रारूप में समयबद्ध प्रश्नपत्र', href: '/test', group: 'Go to', icon: <Glyph d={G.test} /> },
+  { key: 'mapping', label: 'Map practice', hint: 'Every place on the map syllabus', labelHi: 'मानचित्र अभ्यास', hintHi: 'मानचित्र पाठ्यक्रम का हर स्थान', href: '/mapping', group: 'Go to', icon: <Glyph d={G.map} /> },
+  { key: 'historiography', label: 'Historiography', hint: 'Who argued what, and in which book', labelHi: 'इतिहास-लेखन', hintHi: 'किसने क्या तर्क दिया, और किस पुस्तक में', href: '/historiography', group: 'Go to', icon: <Glyph d={G.debate} /> },
+  { key: 'timeline', label: 'Timeline', hint: 'Indian and world history side by side', labelHi: 'समयरेखा', hintHi: 'भारतीय और विश्व इतिहास साथ-साथ', href: '/timeline', group: 'Go to', icon: <Glyph d={G.time} /> },
+  { key: 'topper', label: 'Topper copies', hint: 'Real answer sheets, by topic', labelHi: 'टॉपर कॉपियाँ', hintHi: 'असली उत्तर पुस्तिकाएँ, विषय के अनुसार', href: '/topper-copies', group: 'Go to', icon: <Glyph d={G.copy} /> },
+  { key: 'flashcards', label: 'Flashcards', hint: 'The facts that slip away', labelHi: 'फ़्लैशकार्ड', hintHi: 'वे तथ्य जो याद से फिसल जाते हैं', href: '/flashcards', group: 'Go to', icon: <Glyph d={G.cards} /> },
+  { key: 'prelims', label: 'Prelims practice', hint: 'History MCQs, topic by topic', labelHi: 'प्रिलिम्स अभ्यास', hintHi: 'इतिहास के MCQ, विषय दर विषय', href: '/prelims', group: 'Go to', icon: <Glyph d={G.prelims} /> },
+  { key: 'current', label: 'Current affairs', hint: 'History in the news', labelHi: 'समसामयिकी', hintHi: 'ख़बरों में इतिहास', href: '/current-affairs', group: 'Go to', icon: <Glyph d={G.news} /> },
+  { key: 'books', label: 'Books', hint: 'The standard reading list', labelHi: 'पुस्तकें', hintHi: 'मानक पठन-सूची', href: '/resources', group: 'Go to', icon: <Glyph d={G.book} /> },
+  { key: 'dashboard', label: 'Dashboard', hint: 'Your progress', labelHi: 'डैशबोर्ड', hintHi: 'आपकी प्रगति', href: '/dashboard', group: 'Go to', icon: <Glyph d={G.dash} /> },
+  { key: 'pricing', label: 'Plans and pricing', labelHi: 'प्लान और क़ीमतें', href: '/pricing', group: 'Go to', icon: <Glyph d={G.plans} /> },
 ];
 
 const SECTION_KEY = Object.fromEntries(SECTIONS.map((s) => [s.name, s.key]));
@@ -75,8 +82,19 @@ function noteScore(n: Note, q: string): number {
   if (t.includes(q)) return 80;
   if ((n.subtopics ?? []).some((s) => s.toLowerCase().includes(q))) return 60;
   if (n.description.toLowerCase().includes(q)) return 30;
+  // A reader in Hindi mode may type the Hindi name.
+  const hi = NOTE_HI[n.slug];
+  if (hi) {
+    if (hi.title.startsWith(q)) return 100;
+    if (hi.title.includes(q)) return 80;
+    if (hi.subtopics.some((s) => s.includes(q))) return 60;
+    if (hi.description.includes(q)) return 30;
+  }
   return 0;
 }
+
+const GROUP_HI: Record<Item['group'], string> = { Ask: 'पूछें', Notes: 'नोट्स', Debates: 'बहसें', PYQs: 'पिछले प्रश्न', 'Go to': 'यहाँ जाएँ' };
+const PERIOD_HI: Record<string, string> = { 'Ancient India': 'प्राचीन भारत', 'Early Medieval': 'प्रारंभिक मध्यकाल', 'Medieval India': 'मध्यकालीन भारत', '18th Century / Early Modern': '18वीं सदी / प्रारंभिक आधुनिक', 'Modern India': 'आधुनिक भारत', 'World History': 'विश्व इतिहास' };
 
 /** The label with the words searched for marked. */
 function Marked({ text, q }: { text: string; q: string }) {
@@ -85,9 +103,13 @@ function Marked({ text, q }: { text: string; q: string }) {
   return <>{text.slice(0, at)}<mark className="cp-mark">{text.slice(at, at + q.length)}</mark>{text.slice(at + q.length)}</>;
 }
 
-export default function SearchModal({ label = 'Search notes, PYQs and historians', trigger = true }: { label?: string; trigger?: boolean } = {}) {
+export default function SearchModal({ label, trigger = true }: { label?: string; trigger?: boolean } = {}) {
   const router = useRouter();
+  const { langHi } = useLang();
+  const T = (en: string, hi: string) => (langHi ? hi : en);
   const [open, setOpen] = useState(false);
+  // PYQ results in Hindi, from the Hindi bank, fetched the first time the box opens in Hindi mode.
+  const pyqHi = usePyqHi(langHi && open);
   const [query, setQuery] = useState('');
   const [active, setActive] = useState(0);
   const [remote, setRemote] = useState<{ q: string; snippets: Record<string, string>; pyqs: PyqHit[]; debates: DebateHit[] } | null>(null);
@@ -141,9 +163,10 @@ export default function SearchModal({ label = 'Search notes, PYQs and historians
   const searching = q.length >= 2 && !server;
 
   const items = useMemo<Item[]>(() => {
-    if (!q) return PAGES.slice(0, 9);
+    const local = (it: Item): Item => (langHi ? { ...it, label: it.labelHi ?? it.label, hint: it.hintHi ?? it.hint } : it);
+    if (!q) return PAGES.slice(0, 9).map(local);
     const words = query.trim();
-    const ask: Item = { key: 'ask', label: `Ask the AI: “${words}”`, hint: 'Your personal tutor answers from the standard books', href: `/chat?q=${encodeURIComponent(words)}&send=1`, group: 'Ask', icon: <Glyph d={G.chat} /> };
+    const ask: Item = { key: 'ask', label: langHi ? `AI से पूछें: “${words}”` : `Ask the AI: “${words}”`, hint: langHi ? 'आपका निजी ट्यूटर मानक पुस्तकों से उत्तर देता है' : 'Your personal tutor answers from the standard books', href: `/chat?q=${encodeURIComponent(words)}&send=1`, group: 'Ask', icon: <Glyph d={G.chat} /> };
     const snippets = server?.snippets ?? {};
     const notes: Item[] = allNotes
       .map((n) => ({ n, score: Math.max(noteScore(n, q), snippets[n.slug] ? 20 : 0) }))
@@ -152,8 +175,11 @@ export default function SearchModal({ label = 'Search notes, PYQs and historians
       .slice(0, 5)
       .map(({ n }) => ({
         key: `note-${n.slug}`,
-        label: n.title,
-        hint: snippets[n.slug] ?? `Paper ${n.paper === 1 ? 'I' : 'II'} · ${n.section}`,
+        label: (langHi && NOTE_HI[n.slug]?.title) || n.title,
+        // The matched passage is from the English note, so Hindi mode shows where the note sits instead.
+        hint: langHi
+          ? `प्रश्नपत्र ${n.paper === 1 ? 'I' : 'II'} · ${SECTION_HI[n.section] ?? n.section}`
+          : snippets[n.slug] ?? `Paper ${n.paper === 1 ? 'I' : 'II'} · ${n.section}`,
         // Opens scrolled to the match: the reader searched for a word, not a document.
         href: `/notes/${n.slug}?q=${encodeURIComponent(words)}`,
         group: 'Notes' as const,
@@ -162,7 +188,7 @@ export default function SearchModal({ label = 'Search notes, PYQs and historians
     const debates: Item[] = (server?.debates ?? []).map((d) => ({
       key: `debate-${d.id}`,
       label: d.title,
-      hint: d.matched.length ? d.matched.join(', ') : `${d.period} · ${d.historians.slice(0, 3).join(', ')}`,
+      hint: d.matched.length ? d.matched.join(', ') : `${(langHi && PERIOD_HI[d.period]) || d.period} · ${d.historians.slice(0, 3).join(', ')}`,
       href: `/historiography?q=${encodeURIComponent(d.title)}`,
       group: 'Debates' as const,
       icon: <Glyph d={G.debate} />,
@@ -171,17 +197,19 @@ export default function SearchModal({ label = 'Search notes, PYQs and historians
     // still asks a signed-out reader to sign in, as it always has.
     const pyqs: Item[] = (server?.pyqs ?? []).map((p) => ({
       key: `pyq-${p.id}`,
-      label: p.question,
-      hint: `${p.year} · ${p.marks} marks · ${p.section.replace(/^Paper I+ - /, '')}`,
+      label: pyqHi?.q[p.id] ?? p.question,
+      hint: langHi
+        ? `${p.year} · ${p.marks} अंक · ${pyqSection(p.section)?.nameHi ?? p.section}`
+        : `${p.year} · ${p.marks} marks · ${p.section.replace(/^Paper I+ - /, '')}`,
       href: `/pyqs?q=${encodeURIComponent(words)}`,
       group: 'PYQs' as const,
       icon: <Glyph d={G.pyq} />,
     }));
-    const pages = PAGES.filter((p) => p.label.toLowerCase().includes(q) || p.hint?.toLowerCase().includes(q));
+    const pages = PAGES.filter((p) => [p.label, p.hint, p.labelHi, p.hintHi].some((x) => x?.toLowerCase().includes(q))).map(local);
     // Something that reads as a question goes to the AI first.
-    const asking = /\?|^(why|how|what|explain|discuss|compare|examine|critically|who|when|is|does|did|evaluate|assess)\b/.test(q);
+    const asking = /\?|^(why|how|what|explain|discuss|compare|examine|critically|who|when|is|does|did|evaluate|assess)\b|^(क्या|क्यों|कैसे|कौन|कब|किस)/.test(q);
     return asking ? [ask, ...notes, ...debates, ...pyqs, ...pages] : [...pages, ...notes, ...debates, ...pyqs, ask];
-  }, [q, query, server]);
+  }, [q, query, server, langHi, pyqHi]);
 
   // Keep the chosen row in view as the arrows move it.
   useEffect(() => {
@@ -196,9 +224,9 @@ export default function SearchModal({ label = 'Search notes, PYQs and historians
 
   // The trigger is styled by the navbar (.nb-search), its only host.
   if (!open) return trigger ? (
-    <button className="nb-search" onClick={() => setOpen(true)} aria-label="Search the site">
+    <button className="nb-search" onClick={() => setOpen(true)} aria-label={T('Search the site', 'साइट में खोजें')}>
       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7" /><path d="M20 20l-3.5-3.5" /></svg>
-      <span className="nb-search-text">{label}</span>
+      <span className="nb-search-text">{label ?? T('Search notes, PYQs and historians', 'नोट्स, PYQ और इतिहासकार खोजें')}</span>
       <kbd>⌘K</kbd>
     </button>
   ) : null;
@@ -210,7 +238,7 @@ export default function SearchModal({ label = 'Search notes, PYQs and historians
   return createPortal(
     <div className="cp-scrim ds" onMouseDown={() => setOpen(false)}>
       <style dangerouslySetInnerHTML={{ __html: CP_CSS }} />
-      <div className="cp" role="dialog" aria-modal="true" aria-label="Search" onMouseDown={(e) => e.stopPropagation()}>
+      <div className="cp" role="dialog" aria-modal="true" aria-label={T('Search', 'खोज')} onMouseDown={(e) => e.stopPropagation()}>
         <div className="cp-input">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7" /><path d="M20 20l-3.5-3.5" /></svg>
           <input
@@ -224,8 +252,8 @@ export default function SearchModal({ label = 'Search notes, PYQs and historians
               else if (e.key === 'Enter') { e.preventDefault(); go(items[active]); }
               else if (e.key === 'Escape') { e.preventDefault(); setOpen(false); }
             }}
-            placeholder="Search a topic, a historian or a question"
-            aria-label="Search"
+            placeholder={T('Search a topic, a historian or a question', 'कोई विषय, इतिहासकार या प्रश्न खोजें')}
+            aria-label={T('Search', 'खोजें')}
             role="combobox"
             aria-expanded="true"
             aria-controls="cp-list"
@@ -238,7 +266,7 @@ export default function SearchModal({ label = 'Search notes, PYQs and historians
             const head = i === 0 || items[i - 1].group !== it.group ? it.group : null;
             return (
               <div key={it.key}>
-                {head && <div className="cp-group">{head}</div>}
+                {head && <div className="cp-group">{langHi ? GROUP_HI[head] : head}</div>}
                 <button id={`cp-${it.key}`} data-i={i} role="option" aria-selected={i === active} className={`cp-item${i === active ? ' on' : ''}`}
                   onMouseMove={() => setActive(i)} onClick={() => go(it)}>
                   <span className="cp-icon">{it.icon}</span>
@@ -251,12 +279,12 @@ export default function SearchModal({ label = 'Search notes, PYQs and historians
               </div>
             );
           })}
-          {searching && <div className="cp-searching" aria-live="polite">Looking through the notes, PYQs and debates…</div>}
+          {searching && <div className="cp-searching" aria-live="polite">{T('Looking through the notes, PYQs and debates…', 'नोट्स, PYQ और बहसों में खोज रहे हैं…')}</div>}
         </div>
         <div className="cp-foot">
-          <span><kbd>↑</kbd><kbd>↓</kbd> to move</span>
-          <span><kbd>↵</kbd> to open</span>
-          <span><kbd>esc</kbd> to close</span>
+          <span><kbd>↑</kbd><kbd>↓</kbd> {T('to move', 'से ऊपर-नीचे')}</span>
+          <span><kbd>↵</kbd> {T('to open', 'से खोलें')}</span>
+          <span><kbd>esc</kbd> {T('to close', 'से बंद करें')}</span>
         </div>
       </div>
     </div>,

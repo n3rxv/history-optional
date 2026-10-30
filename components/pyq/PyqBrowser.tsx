@@ -6,7 +6,7 @@ import { useAttemptedPyqs } from '@/hooks/useAttemptedPyqs';
 import { useLoginPrompt } from '@/hooks/useLoginPrompt';
 import LoginPromptModal from '@/components/LoginPromptModal';
 import { SECTIONS, type SectionKey } from '@/components/notes/sections';
-import { PYQ_SECTIONS, pyqSection, tintFor, topicName, type ListPyq } from './sections';
+import { PYQ_SECTIONS, pyqSection, sourceLabel, tintFor, topicName, type ListPyq } from './sections';
 import { useLang } from '@/lib/i18n/LangContext';
 import { usePyqHi, topicLabel } from '@/lib/pyqHi';
 
@@ -328,7 +328,7 @@ export default function PyqBrowser({ questions, syllabus }: { questions: ListPyq
       <article key={x.id} className={`pq-card${done ? ' done' : ''}`} style={view === 'year' ? tintFor(meta?.key) : undefined}>
         <div className="pq-meta">
           {view === 'year' ? <span className="pq-sec">{(langHi ? meta?.shortHi : meta?.short) ?? x.section}</span> : <span className="pq-year-tag">{x.year}</span>}
-          {x.source !== 'UPSC' && <span className="pq-src">{x.source}</span>}
+          {x.source !== 'UPSC' && <span className="pq-src">{sourceLabel(x.source, langHi)}</span>}
           <span className="pq-marks">{x.marks} {L('marks', 'अंक')}</span>
         </div>
         <h3 className="pq-q">
@@ -501,7 +501,7 @@ export default function PyqBrowser({ questions, syllabus }: { questions: ListPyq
           {shown < ordered.length && (
             <div ref={sentinel} className="pq-more">
               <button type="button" className="ds-btn ds-btn-line ds-btn-sm" onClick={() => setShown((s) => s + BATCH)}>
-                {L('Show more', 'और दिखाएँ')} ({(ordered.length - shown).toLocaleString('en-IN')} {L('left', 'बाकी')})
+                {L('Show more', 'और दिखाएँ')} ({(ordered.length - shown).toLocaleString('en-IN')} {L('left', 'बाक़ी')})
               </button>
             </div>
           )}

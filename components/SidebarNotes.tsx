@@ -118,7 +118,7 @@ export default function SidebarNotes({ slug, langHi = false }: { slug: string; l
             aria-label={langHi ? 'नोट' : 'Note'}
           />
           <div className="sb-note-foot">
-            <span>{new Date(n.updatedAt).toLocaleDateString('en-IN', { day: 'numeric', month: 'short' })}</span>
+            <span>{new Date(n.updatedAt).toLocaleDateString(langHi ? 'hi-IN' : 'en-IN', { day: 'numeric', month: 'short' })}</span>
             {confirmingId === n.id ? (
               <span className="sb-note-confirm">
                 <button type="button" onClick={() => remove(n.id)}>{langHi ? 'हटाएँ' : 'Delete'}</button>

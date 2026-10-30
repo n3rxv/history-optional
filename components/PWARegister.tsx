@@ -92,7 +92,7 @@ export default function PWARegister() {
   if (pathname?.startsWith('/chat')) return null;
 
   return (
-    <div className="ho-pwa-banner ds" role="dialog" aria-label="Install the app">
+    <div className="ho-pwa-banner ds" role="dialog" aria-label={langHi ? 'ऐप इंस्टॉल करें' : 'Install the app'}>
       <span className="ho-pwa-banner-icon">
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img src="/mascot/owl.svg" alt="" width={30} height={28} />
@@ -104,7 +104,7 @@ export default function PWARegister() {
         <div className="ho-pwa-banner-sub">
           {showIosBanner
             ? (langHi
-                ? 'शेयर बटन दबाएं, फिर "होम स्क्रीन पर जोड़ें"'
+                ? 'शेयर बटन दबाएँ, फिर "होम स्क्रीन पर जोड़ें" चुनें'
                 : 'Tap Share, then "Add to Home Screen"')
             : (langHi
                 ? 'एक टैप में खुलता है, पूरी स्क्रीन पर'
@@ -116,7 +116,7 @@ export default function PWARegister() {
           {langHi ? 'जोड़ें' : 'Add'}
         </button>
       )}
-      <button className="ds-x" onClick={dismiss} aria-label="Dismiss">
+      <button className="ds-x" onClick={dismiss} aria-label={langHi ? 'बंद करें' : 'Dismiss'}>
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12" /></svg>
       </button>
     </div>

@@ -8,7 +8,7 @@ export default function NotFoundBody() {
   const { langHi } = useLang();
   const links = [
     { href: '/notes', label: langHi ? 'नोट्स' : 'Notes' },
-    { href: '/pyqs', label: 'PYQs' },
+    { href: '/pyqs', label: langHi ? 'पिछले प्रश्न' : 'PYQs' },
     { href: '/chat', label: langHi ? 'AI चैट' : 'AI Chat' },
     { href: '/evaluate', label: langHi ? 'उत्तर जँचवाएँ' : 'Get an answer checked' },
   ];
@@ -19,7 +19,7 @@ export default function NotFoundBody() {
       <h1>{langHi ? 'यह पन्ना पाठ्यक्रम में नहीं है' : 'This page isn’t in the syllabus'}</h1>
       <p>
         {langHi
-          ? 'हमने हर पेपर में ढूँढा, पर यह पन्ना नहीं मिला। शायद यह हट गया है, या लिंक में कोई गलती है।'
+          ? 'हमने हर पेपर में ढूँढा, पर यह पन्ना नहीं मिला। शायद यह हट गया है, या लिंक में कोई ग़लती है।'
           : 'We searched every paper and couldn’t find it. It may have moved, or the link may have a typo in it.'}
       </p>
       <Link href="/" className="ds-btn ds-btn-solid">{langHi ? 'होम पर जाएँ' : 'Back to the home page'}</Link>

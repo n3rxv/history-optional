@@ -11,7 +11,10 @@ import { TOPPER_PRICE } from '@/lib/features';
 import CompareIcon from '@/components/CompareIcon';
 import { SECTIONS, sectionByName } from '@/components/notes/sections';
 import { tintFor } from '@/components/pyq/sections';
-import { initials, parseNote, rankOf, topperOf } from './note';
+import { initials, parseNote, rankOf, sameAsSig, topperOf } from './note';
+import { useLang } from '@/lib/i18n/LangContext';
+import { usePyqHi } from '@/lib/pyqHi';
+import { noteTitle as noteTitleHi, sectionName } from '@/lib/notesHi';
 
 type Copy = { id: string; question: string; note: string | null; pyq_ids: number[]; topics: string[] };
 type Access = { access: boolean; clicks: number; isPremium?: boolean; hasTopperAccess?: boolean };
@@ -20,6 +23,8 @@ type Filters = { section: string; topic: string; topper: string; q: string };
 
 /** Matches the allowance in /api/topper-copies/[id]. */
 const FREE_VIEWS = 5;
+
+const SECTION_SHORT_HI: Record<string, string> = { ancient: 'प्राचीन', medieval: 'मध्यकालीन', modern: 'आधुनिक', world: 'विश्व' };
 
 /**
  * The filters as the address gives them. tsection and ttopic are the names
@@ -50,8 +55,15 @@ const MEDAL = <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke
  * one of a free reader's five free views (the copy endpoint counts it, not
  * this page). The panel at the top says where the reader stands.
  */
-export default function TopperBrowser({ notes, years }: { notes: NoteMeta[]; years: Record<number, number> }) {
+export default function TopperBrowser({ notes, years, sigs }: { notes: NoteMeta[]; years: Record<number, number>; sigs: Record<number, string> }) {
   const router = useRouter();
+  // Hindi mode: the page's own words, the topics and, where a copy answers a
+  // PYQ as asked, the question in Hindi. Toppers' names and the scanned
+  // answers stay as they are.
+  const { langHi } = useLang();
+  const pyqHi = usePyqHi(langHi);
+  const L = (en: string, hi: string) => (langHi ? hi : en);
+  const signInMsg = L('Sign in to read topper copies. Your first 5 are free.', 'टॉपर कॉपियाँ पढ़ने के लिए साइन इन करें। पहली 5 कॉपियाँ निःशुल्क हैं।');
   const [copies, setCopies] = useState<Copy[] | null>(null);
   const urlSearch = useSyncExternalStore(subscribeUrl, () => window.location.search, () => '');
   const fromUrl = useMemo(() => parse(urlSearch), [urlSearch]);
@@ -65,6 +77,15 @@ export default function TopperBrowser({ notes, years }: { notes: NoteMeta[]; yea
   const { isOpen: loginOpen, message: loginMsg, requireLogin, closeModal: closeLogin } = useLoginPrompt();
 
   const noteTitle = useMemo(() => new Map(notes.map((n) => [n.slug, n.title])), [notes]);
+  const titleOf = (slug: string) => noteTitleHi(slug, noteTitle.get(slug) ?? slug, langHi);
+  /**
+   * The PYQ each copy answers as asked, if any: its Hindi can stand for the
+   * copy's question. Most copies answer a question on the same theme worded
+   * otherwise, and keep their own (see sameAsSig).
+   */
+  const asked = useMemo(() => new Map((copies ?? []).map((c) => [c.id, c.pyq_ids.find((id) => sameAsSig(sigs[id], c.question))])), [copies, sigs]);
+  const hiQuestionOf = (c: Copy) => { const id = asked.get(c.id); return id === undefined ? undefined : pyqHi?.q[id]; };
+  const copyHref = (c: Copy) => { const id = asked.get(c.id); return `/topper-copies/${c.id}${id !== undefined ? `?pyq=${id}` : ''}`; };
   const noteSection = useMemo(() => new Map(notes.map((n) => [n.slug, n.section])), [notes]);
   const noteOrder = useMemo(() => new Map(notes.map((n, i) => [n.slug, i])), [notes]);
   const order = (slug: string) => noteOrder.get(slug) ?? notes.length;
@@ -134,9 +155,12 @@ export default function TopperBrowser({ notes, years }: { notes: NoteMeta[]; yea
     return (copies ?? []).filter((c) => {
       if (who && topperOf(c.note) !== who) return false;
       if (!s) return true;
-      return c.question.toLowerCase().includes(s) || (c.note?.toLowerCase().includes(s) ?? false);
+      return c.question.toLowerCase().includes(s) || (c.note?.toLowerCase().includes(s) ?? false)
+        // In Hindi mode the Hindi question is searched too.
+        || (hiQuestionOf(c)?.includes(s) ?? false);
     });
-  }, [copies, who, f.q]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [copies, who, f.q, asked, pyqHi]);
   const inSection = (c: Copy, section: string) => !section || c.topics.some((t) => noteSection.get(t) === section);
 
   const topicGroups = useMemo(() => {
@@ -191,7 +215,7 @@ export default function TopperBrowser({ notes, years }: { notes: NoteMeta[]; yea
   // when the last answer was no, since the reader may have bought since.
   const open = async (href: string) => {
     const user = auth.currentUser;
-    if (!user) { requireLogin('Sign in to read topper copies. Your first 5 are free.'); return; }
+    if (!user) { requireLogin(signInMsg); return; }
     let a = access && access !== 'signed-out' ? access : null;
     if (!a?.access) {
       const token = await user.getIdToken();
@@ -210,33 +234,34 @@ export default function TopperBrowser({ notes, years }: { notes: NoteMeta[]; yea
       <section className="tc-hero">
         <div className="ds-container tc-hero-row">
           <div className="tc-hero-main">
-            <Link href="/pyqs" className="ds-back">{BACK}PYQs</Link>
+            <Link href="/pyqs" className="ds-back">{BACK}{L('PYQs', 'पिछले प्रश्न')}</Link>
             <div className="tc-title">
               <span className="tc-icon" aria-hidden="true">{MEDAL}</span>
-              <h1 className="ds-h1">Topper copies</h1>
+              <h1 className="ds-h1">{L('Topper copies', 'टॉपर कॉपियाँ')}</h1>
             </div>
             <p className="ds-lede tc-lede">
-              Real answer sheets from UPSC toppers, sorted by topic, so you can see what a high-scoring answer looks like on paper.
+              {L('Real answer sheets from UPSC toppers, sorted by topic, so you can see what a high-scoring answer looks like on paper.',
+                'UPSC टॉपरों की असली उत्तर पुस्तिकाएँ, विषय के अनुसार, ताकि आप देख सकें कि ज़्यादा अंक पाने वाला उत्तर काग़ज़ पर कैसा दिखता है।')}
             </p>
           </div>
           {access !== null && (
             <div className="tc-access">
               {access === 'signed-out' ? (
                 <>
-                  <strong>{FREE_VIEWS} copies free</strong>
-                  <span>with a free account</span>
-                  <button type="button" className="ds-btn ds-btn-solid ds-btn-sm" onClick={() => requireLogin('Sign in to read topper copies. Your first 5 are free.')}>Sign in</button>
+                  <strong>{L(`${FREE_VIEWS} copies free`, `${FREE_VIEWS} कॉपियाँ निःशुल्क`)}</strong>
+                  <span>{L('with a free account', 'निःशुल्क खाते के साथ')}</span>
+                  <button type="button" className="ds-btn ds-btn-solid ds-btn-sm" onClick={() => requireLogin(signInMsg)}>{L('Sign in', 'साइन इन करें')}</button>
                 </>
               ) : unlimited ? (
                 <>
-                  <strong>Every copy open</strong>
-                  <span>{access.isPremium ? 'With your Premium' : 'Topper copies unlocked'}</span>
+                  <strong>{L('Every copy open', 'हर कॉपी खुली है')}</strong>
+                  <span>{access.isPremium ? L('With your Premium', 'आपके प्रीमियम के साथ') : L('Topper copies unlocked', 'टॉपर कॉपियाँ खुल गई हैं')}</span>
                 </>
               ) : (
                 <>
-                  <strong>{freeLeft ? `${freeLeft} of ${FREE_VIEWS} free copies left` : 'Free copies used'}</strong>
-                  <span>Every copy for a year: <s>₹{TOPPER_PRICE.was}</s> ₹{TOPPER_PRICE.now} ({TOPPER_PRICE.off}% off), paid once</span>
-                  <button type="button" className="ds-btn ds-btn-line ds-btn-sm" onClick={() => setPaywall(true)}>Unlock every copy</button>
+                  <strong>{freeLeft ? L(`${freeLeft} of ${FREE_VIEWS} free copies left`, `${FREE_VIEWS} में से ${freeLeft} निःशुल्क कॉपियाँ बाक़ी`) : L('Free copies used', 'निःशुल्क कॉपियाँ इस्तेमाल हो चुकीं')}</strong>
+                  <span>{L('Every copy for a year:', 'साल भर हर कॉपी:')} <s>₹{TOPPER_PRICE.was}</s> ₹{TOPPER_PRICE.now} ({TOPPER_PRICE.off}% {L('off', 'छूट')}), {L('paid once', 'एक बार भुगतान')}</span>
+                  <button type="button" className="ds-btn ds-btn-line ds-btn-sm" onClick={() => setPaywall(true)}>{L('Unlock every copy', 'हर कॉपी खोलें')}</button>
                 </>
               )}
             </div>
@@ -249,53 +274,60 @@ export default function TopperBrowser({ notes, years }: { notes: NoteMeta[]; yea
           <div className="tc-bar">
             <label className="tc-search">
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7" /><path d="M20 20l-3.5-3.5" /></svg>
-              <input type="search" value={f.q} onChange={(e) => update({ q: e.target.value })} placeholder="Search the questions or a topper's name" aria-label="Search topper copies" />
-              {f.q && <button type="button" className="tc-clear" onClick={() => update({ q: '' })} aria-label="Clear search">✕</button>}
+              <input type="search" value={f.q} onChange={(e) => update({ q: e.target.value })} placeholder={L("Search the questions or a topper's name", 'प्रश्न या टॉपर का नाम खोजें')} aria-label={L('Search topper copies', 'टॉपर कॉपियाँ खोजें')} />
+              {f.q && <button type="button" className="tc-clear" onClick={() => update({ q: '' })} aria-label={L('Clear search', 'खोज हटाएँ')}>✕</button>}
             </label>
-            <div className="tc-tabs" role="tablist" aria-label="Part of the syllabus">
-              <button type="button" role="tab" aria-selected={!f.section} className={`tc-tab${!f.section ? ' on' : ''}`} onClick={() => update({ section: '' })}>All</button>
+            <div className="tc-tabs" role="tablist" aria-label={L('Part of the syllabus', 'पाठ्यक्रम का भाग')}>
+              <button type="button" role="tab" aria-selected={!f.section} className={`tc-tab${!f.section ? ' on' : ''}`} onClick={() => update({ section: '' })}>{L('All', 'सभी')}</button>
               {SECTIONS.map((s) => (
                 <button key={s.key} type="button" role="tab" aria-selected={f.section === s.name} style={tintFor(s.key)}
                   className={`tc-tab${f.section === s.name ? ' on' : ''}`} onClick={() => update({ section: s.name })}>
-                  {s.name.replace(' India', '').replace(' History', '')}{copies && <span>{pool.filter((c) => inSection(c, s.name)).length}</span>}
+                  {langHi ? SECTION_SHORT_HI[s.key] : s.name.replace(' India', '').replace(' History', '')}{copies && <span>{pool.filter((c) => inSection(c, s.name)).length}</span>}
                 </button>
               ))}
             </div>
             <div className="tc-selects">
-              <select className={`tc-select tc-select-topic${topic ? ' set' : ''}`} value={topic} onChange={(e) => update({ topic: e.target.value })} aria-label="Topic">
-                <option value="">Every topic</option>
+              <select className={`tc-select tc-select-topic${topic ? ' set' : ''}`} value={topic} onChange={(e) => update({ topic: e.target.value })} aria-label={L('Topic', 'विषय')}>
+                <option value="">{L('Every topic', 'सभी विषय')}</option>
                 {topicGroups.map((g) => (
-                  <optgroup key={g.section} label={g.section}>
-                    {g.topics.map((t) => <option key={t.slug} value={t.slug}>{t.title} ({t.count})</option>)}
+                  <optgroup key={g.section} label={sectionName(g.section, langHi)}>
+                    {g.topics.map((t) => <option key={t.slug} value={t.slug}>{noteTitleHi(t.slug, t.title, langHi)} ({t.count})</option>)}
                   </optgroup>
                 ))}
               </select>
-              <select className={`tc-select${who ? ' set' : ''}`} value={who} onChange={(e) => update({ topper: e.target.value })} aria-label="Topper">
-                <option value="">Every topper</option>
+              <select className={`tc-select${who ? ' set' : ''}`} value={who} onChange={(e) => update({ topper: e.target.value })} aria-label={L('Topper', 'टॉपर')}>
+                <option value="">{L('Every topper', 'सभी टॉपर')}</option>
                 {toppers.map((t) => <option key={t.name} value={t.name}>{[t.name, parseNote(t.note).rank, parseNote(t.note).year].filter(Boolean).join(' · ')} ({t.count})</option>)}
               </select>
             </div>
           </div>
 
-          {copies === null && <OwlLoader label="Loading topper copies" />}
-          {copies !== null && copies.length === 0 && <p className="tc-empty">No topper copies are up yet. Check back soon.</p>}
+          {copies === null && <OwlLoader label={L('Loading topper copies', 'टॉपर कॉपियाँ लोड हो रही हैं')} />}
+          {copies !== null && copies.length === 0 && <p className="tc-empty">{L('No topper copies are up yet. Check back soon.', 'अभी कोई टॉपर कॉपी नहीं जुड़ी है। जल्द ही फिर देखें।')}</p>}
 
           {copies !== null && copies.length > 0 && (
             <>
               <div className="tc-status" aria-live="polite">
-                <span>{(() => { const nq = groups.reduce((n, g) => n + g.questions.length, 0); return `${nq.toLocaleString('en-IN')} ${nq === 1 ? 'question' : 'questions'}, ${shown.length === copies.length ? `${copies.length} copies` : `${shown.length} of ${copies.length} copies`}`; })()}</span>
-                {filtered && <button type="button" className="tc-reset" onClick={() => update({ section: '', topic: '', topper: '', q: '' })}>Clear filters</button>}
+                <span>{(() => {
+                  const nq = groups.reduce((n, g) => n + g.questions.length, 0);
+                  return langHi
+                    ? `${nq.toLocaleString('en-IN')} प्रश्न, ${shown.length === copies.length ? `${copies.length} कॉपियाँ` : `${copies.length} में से ${shown.length} कॉपियाँ`}`
+                    : `${nq.toLocaleString('en-IN')} ${nq === 1 ? 'question' : 'questions'}, ${shown.length === copies.length ? `${copies.length} copies` : `${shown.length} of ${copies.length} copies`}`;
+                })()}</span>
+                {filtered && <button type="button" className="tc-reset" onClick={() => update({ section: '', topic: '', topper: '', q: '' })}>{L('Clear filters', 'फ़िल्टर हटाएँ')}</button>}
               </div>
-              {shown.length === 0 && <p className="tc-empty">No copy matches all of that. Try fewer filters, or a shorter search.</p>}
+              {shown.length === 0 && <p className="tc-empty">{L('No copy matches all of that. Try fewer filters, or a shorter search.', 'इन सभी से मेल खाती कोई कॉपी नहीं मिली। कम फ़िल्टर या छोटी खोज आज़माएँ।')}</p>}
 
               {groups.map((g) => {
                 const meta = sectionByName(noteSection.get(g.slug) ?? '');
                 return (
                   <section key={g.slug || '-'} className="tc-group" style={tintFor(meta?.key)}>
                     <div className="tc-group-head">
-                      <h2>{g.slug ? noteTitle.get(g.slug) ?? g.slug : 'Other copies'}</h2>
-                      <span className="tc-group-count">{g.questions.length} {g.questions.length === 1 ? 'question' : 'questions'}, {g.copies.length} {g.copies.length === 1 ? 'copy' : 'copies'}{!f.section && meta ? ` · ${meta.name}` : ''}</span>
-                      {g.slug && <Link href={`/notes/${g.slug}`} className="tc-notes">Read the notes {ARROW}</Link>}
+                      <h2>{g.slug ? titleOf(g.slug) : L('Other copies', 'अन्य कॉपियाँ')}</h2>
+                      <span className="tc-group-count">{langHi
+                        ? `${g.questions.length} प्रश्न, ${g.copies.length} ${g.copies.length === 1 ? 'कॉपी' : 'कॉपियाँ'}`
+                        : `${g.questions.length} ${g.questions.length === 1 ? 'question' : 'questions'}, ${g.copies.length} ${g.copies.length === 1 ? 'copy' : 'copies'}`}{!f.section && meta ? ` · ${sectionName(meta.name, langHi)}` : ''}</span>
+                      {g.slug && <Link href={`/notes/${g.slug}`} className="tc-notes">{L('Read the notes', 'नोट्स पढ़ें')} {ARROW}</Link>}
                     </div>
                     <div className="tc-cards">
                       {g.questions.map((q) => {
@@ -305,36 +337,41 @@ export default function TopperBrowser({ notes, years }: { notes: NoteMeta[]; yea
                         const onCmp = cmp === undefined ? 0 : toppersByPyq.get(cmp)?.size ?? 0;
                         const mine = new Set(q.copies.map((c) => topperOf(c.note))).size;
                         const open3 = expanded.has(q.key) ? q.copies : q.copies.slice(0, 3);
+                        const askedHi = q.copies.map(hiQuestionOf).find(Boolean);
                         return (
                           <article key={q.key} className="tc-card">
-                            <h3 className="tc-q">{q.question}</h3>
+                            <h3 className="tc-q" lang={askedHi ? 'hi' : undefined}>{askedHi ?? q.question}</h3>
                             {(q.pyq_ids.length > 0 || q.topics.length > 1) && (
                               <div className="tc-chips">
                                 {q.pyq_ids.map((id) => <Link key={id} href={`/pyqs/${id}`} className="tc-chip pyq">PYQ {years[id] ?? ''}</Link>)}
-                                {q.topics.filter((t) => t !== g.slug).map((t) => <Link key={t} href={`/notes/${t}`} className="tc-chip">{noteTitle.get(t) ?? t}</Link>)}
+                                {q.topics.filter((t) => t !== g.slug).map((t) => <Link key={t} href={`/notes/${t}`} className="tc-chip">{titleOf(t)}</Link>)}
                               </div>
                             )}
-                            <div className="tc-by">{q.copies.length === 1 ? 'Answered by' : `Answered by ${mine} ${mine === 1 ? 'topper' : 'toppers'}`}</div>
+                            <div className="tc-by">{langHi
+                              ? (q.copies.length === 1 ? 'इनका उत्तर' : `${mine} ${mine === 1 ? 'टॉपर का उत्तर' : 'टॉपरों के उत्तर'}`)
+                              : (q.copies.length === 1 ? 'Answered by' : `Answered by ${mine} ${mine === 1 ? 'topper' : 'toppers'}`)}</div>
                             <div className="tc-toppers">
                               {open3.map((c) => {
                                 const { name, rank, year } = parseNote(c.note);
                                 return (
-                                  <button key={c.id} type="button" className="tc-topper" onClick={() => open(`/topper-copies/${c.id}`)} aria-label={`Read ${name}'s answer`}>
+                                  <button key={c.id} type="button" className="tc-topper" onClick={() => open(copyHref(c))} aria-label={L(`Read ${name}'s answer`, `${name} का उत्तर पढ़ें`)}>
                                     <span className="tc-avatar" aria-hidden="true">{initials(name)}</span>
                                     <span className="tc-who-text"><strong>{name}</strong><span>{[rank, year].filter(Boolean).join(' · ')}</span></span>
-                                    <span className="tc-go">Read {ARROW}</span>
+                                    <span className="tc-go">{L('Read', 'पढ़ें')} {ARROW}</span>
                                   </button>
                                 );
                               })}
                               {q.copies.length > 3 && !expanded.has(q.key) && (
                                 <button type="button" className="tc-more" onClick={() => setExpanded((x) => new Set(x).add(q.key))}>
-                                  {q.copies.length - 3} more {q.copies.length - 3 === 1 ? 'answer' : 'answers'}
+                                  {langHi ? `${q.copies.length - 3} और उत्तर` : `${q.copies.length - 3} more ${q.copies.length - 3 === 1 ? 'answer' : 'answers'}`}
                                 </button>
                               )}
                             </div>
                             {onCmp >= 2 && (
                               <button type="button" className="tc-compare" onClick={() => open(`/pyqs/${cmp}/compare?a=${q.copies[0].id}${q.copies[1] ? `&b=${q.copies[1].id}` : ''}`)}>
-                                <CompareIcon size={14} /> {mine >= 2 ? 'Compare these answers side by side' : `Compare with ${onCmp - 1} other ${onCmp - 1 === 1 ? 'topper' : 'toppers'}`}
+                                <CompareIcon size={14} /> {mine >= 2
+                                  ? L('Compare these answers side by side', 'इन उत्तरों की आमने-सामने तुलना करें')
+                                  : L(`Compare with ${onCmp - 1} other ${onCmp - 1 === 1 ? 'topper' : 'toppers'}`, `${onCmp - 1} ${onCmp - 1 === 1 ? 'और टॉपर' : 'और टॉपरों'} से तुलना करें`)}
                               </button>
                             )}
                           </article>
@@ -355,7 +392,7 @@ export default function TopperBrowser({ notes, years }: { notes: NoteMeta[]; yea
             <TopperLocked
               onUnlocked={() => { setAccess({ access: true, clicks: 0, hasTopperAccess: true }); setPaywall(false); }}
               onDismiss={() => setPaywall(false)}
-              message={freeLeft ? undefined : `Your ${FREE_VIEWS} free copies are used. One payment opens every copy for a year.`}
+              message={freeLeft ? undefined : L(`Your ${FREE_VIEWS} free copies are used. One payment opens every copy for a year.`, `आपकी ${FREE_VIEWS} निःशुल्क कॉपियाँ इस्तेमाल हो चुकी हैं। एक भुगतान से हर कॉपी एक साल के लिए खुल जाती है।`)}
             />
           </div>
         </div>

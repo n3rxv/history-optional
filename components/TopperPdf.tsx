@@ -2,6 +2,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { auth } from '@/lib/firebase';
 import OwlLoader from '@/components/OwlLoader';
+import { useLang } from '@/lib/i18n/LangContext';
 
 export interface TopperCopyDetail {
   id: string;
@@ -14,7 +15,8 @@ export interface TopperCopyDetail {
   start_page?: number | null;
 }
 
-type Fetched = { copy: TopperCopyDetail } | { denied: true } | { error: string };
+/** What went wrong, said in the reader's language where it is drawn. */
+type Fetched = { copy: TopperCopyDetail } | { denied: true } | { error: 'not-found' | 'failed' };
 
 // pdf.js has no types here; it is loaded from the CDN at runtime.
 /* eslint-disable @typescript-eslint/no-explicit-any */
@@ -47,9 +49,9 @@ async function fetchCopy(id: string): Promise<Fetched> {
     const r = await fetch(`/api/topper-copies/${id}`, { headers: { 'x-user-token': token } });
     if (r.status === 403) return { denied: true };
     const d = await r.json();
-    return d.data ? { copy: d.data } : { error: 'Copy not found.' };
+    return d.data ? { copy: d.data } : { error: 'not-found' };
   } catch {
-    return { error: 'Failed to load.' };
+    return { error: 'failed' };
   }
 }
 
@@ -112,9 +114,11 @@ type Props = {
  * the one-request rule below simple.
  */
 export default function TopperPdf({ copyId, height, onLoad, onDenied, embedded = false }: Props) {
+  const { langHi } = useLang();
+  const L = (en: string, hi: string) => (langHi ? hi : en);
   const [copy, setCopy] = useState<TopperCopyDetail | null>(null);
   const [status, setStatus] = useState<'loading' | 'ready' | 'denied' | 'error'>('loading');
-  const [error, setError] = useState('');
+  const [error, setError] = useState<'not-found' | 'failed'>('failed');
   const [numPages, setNumPages] = useState(0);
   const [pdfLoading, setPdfLoading] = useState(true);
   // The PDF itself failed (a network error, or a browser refusing the file),
@@ -197,30 +201,30 @@ export default function TopperPdf({ copyId, height, onLoad, onDenied, embedded =
   };
 
   if (status === 'denied') return null;
-  if (status === 'error') return <div className="tp-msg error">{error}</div>;
-  if (status === 'loading') return <OwlLoader label="Loading the topper copy" />;
+  if (status === 'error') return <div className="tp-msg error">{error === 'not-found' ? L('Copy not found.', 'कॉपी नहीं मिली।') : L('Failed to load.', 'लोड नहीं हो सका।')}</div>;
+  if (status === 'loading') return <OwlLoader label={L('Loading the topper copy', 'टॉपर कॉपी लोड हो रही है')} />;
 
   return (
     <div className={`tp ds${embedded ? ' embedded' : ''}`}>
       <style>{TP_CSS}</style>
       <div className="tp-bar">
-        <span className="tp-pages">{numPages > 0 ? `${numPages} ${numPages === 1 ? 'page' : 'pages'}` : ''}{!embedded && numPages > 0 ? ', handwritten' : ''}</span>
+        <span className="tp-pages">{numPages > 0 ? L(`${numPages} ${numPages === 1 ? 'page' : 'pages'}`, `${numPages} पृष्ठ`) : ''}{!embedded && numPages > 0 ? L(', handwritten', ', हस्तलिखित') : ''}</span>
         <div className="tp-tools">
           {!pdfLoading && !pdfFailed && (
             <div className="tp-zoom">
-              <button type="button" onClick={() => zoom(-0.25)} disabled={rendering} aria-label="Zoom out">−</button>
+              <button type="button" onClick={() => zoom(-0.25)} disabled={rendering} aria-label={L('Zoom out', 'छोटा करें')}>−</button>
               <span>{Math.round((scale / 1.5) * 100)}%</span>
-              <button type="button" onClick={() => zoom(0.25)} disabled={rendering} aria-label="Zoom in">+</button>
+              <button type="button" onClick={() => zoom(0.25)} disabled={rendering} aria-label={L('Zoom in', 'बड़ा करें')}>+</button>
             </div>
           )}
-          {copy && <a className="tp-open" href={copy.pdf_url} target="_blank" rel="noopener noreferrer">Open the PDF ↗</a>}
+          {copy && <a className="tp-open" href={copy.pdf_url} target="_blank" rel="noopener noreferrer">{L('Open the PDF', 'PDF खोलें')} ↗</a>}
         </div>
       </div>
-      {pdfLoading && <OwlLoader label="Loading the PDF" />}
+      {pdfLoading && <OwlLoader label={L('Loading the PDF', 'PDF लोड हो रही है')} />}
       {pdfFailed && (
         <div className="tp-msg">
-          The pages would not load here.{' '}
-          {copy && <a href={copy.pdf_url} target="_blank" rel="noopener noreferrer">Open the PDF in a new tab</a>}
+          {L('The pages would not load here.', 'पृष्ठ यहाँ लोड नहीं हो सके।')}{' '}
+          {copy && <a href={copy.pdf_url} target="_blank" rel="noopener noreferrer">{L('Open the PDF in a new tab', 'PDF नए टैब में खोलें')}</a>}
         </div>
       )}
       <div ref={boxRef} className="tp-box" style={{ height: pdfFailed ? 0 : height }} />

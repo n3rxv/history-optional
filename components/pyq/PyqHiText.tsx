@@ -11,11 +11,7 @@ import { usePyqHi, topicLabel } from '@/lib/pyqHi';
  * its Hindi once the Hindi bank has loaded.
  */
 
-/** The page's own words: English or Hindi, given both. */
-export function HiText({ en, hi }: { en: ReactNode; hi: ReactNode }) {
-  const { langHi } = useLang();
-  return <>{langHi ? hi : en}</>;
-}
+export { HiText } from '@/components/ui/HiText';
 
 /** A question's text. */
 export function PyqQ({ id, en }: { id: number; en: string }) {

@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
+import { useLang } from '@/lib/i18n/LangContext';
 
 /**
  * Short notices at the top of the window: a profile saved, a sign-in that
@@ -27,7 +28,13 @@ export function toast(message: string, kind: ToastKind = 'success') {
 /** Sign-in errors that are not failures: the reader shut the popup, or the in-app browser notice is already explaining. */
 const QUIET_SIGN_IN = new Set(['auth/popup-closed-by-user', 'auth/cancelled-popup-request', 'auth/user-cancelled', 'auth/in-app-browser']);
 
-export function toastSignInError(err: unknown, langHi = false) {
+/** The reader's language outside React, read from where LangProvider keeps it. */
+function storedLangHi(): boolean {
+  try { return localStorage.getItem('lang') === 'hi'; } catch { return false; }
+}
+
+/** Callers that know the language pass it; any that do not get the stored choice rather than English. */
+export function toastSignInError(err: unknown, langHi: boolean = storedLangHi()) {
   const code = (err as { code?: string } | null)?.code ?? '';
   if (QUIET_SIGN_IN.has(code)) return;
   toast(langHi ? 'Google साइन-इन नहीं हुआ। फिर कोशिश करें।' : 'Google sign-in failed. Try again.', 'error');
@@ -39,6 +46,7 @@ const ICON = {
 };
 
 export default function Toaster() {
+  const { langHi } = useLang();
   const [items, setItems] = useState<Item[]>([]);
   const next = useRef(1);
 
@@ -60,7 +68,7 @@ export default function Toaster() {
         <div key={t.id} className={`toast-item ${t.kind}`}>
           <span className="toast-icon">{ICON[t.kind]}</span>
           <p>{t.message}</p>
-          <button type="button" className="toast-x" onClick={() => setItems((list) => list.filter((x) => x.id !== t.id))} aria-label="Dismiss">
+          <button type="button" className="toast-x" onClick={() => setItems((list) => list.filter((x) => x.id !== t.id))} aria-label={langHi ? 'हटाएँ' : 'Dismiss'}>
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12" /></svg>
           </button>
         </div>

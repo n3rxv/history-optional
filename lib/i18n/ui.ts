@@ -7,7 +7,7 @@ export const t = {
   chat: { en: 'AI Chat', hi: 'AI चैट' },
   resources: { en: 'Books', hi: 'पुस्तकें' },
   mapping: { en: 'Mapping', hi: 'मानचित्र' },
-  flashcards: { en: 'Flashcards', hi: 'फ्लैशकार्ड' },
+  flashcards: { en: 'Flashcards', hi: 'फ़्लैशकार्ड' },
   subscribe: { en: 'Subscribe', hi: 'सदस्यता लें' },
   login: { en: 'Login', hi: 'लॉगिन' },
   logout: { en: 'Logout', hi: 'लॉगआउट' },
@@ -36,7 +36,7 @@ export const t = {
   modelAnswer: { en: 'Model Answer', hi: 'आदर्श उत्तर' },
   score: { en: 'Score', hi: 'अंक' },
   feedback: { en: 'Feedback', hi: 'प्रतिक्रिया' },
-  strengths: { en: 'Strengths', hi: 'मजबूत पक्ष' },
+  strengths: { en: 'Strengths', hi: 'मज़बूत पक्ष' },
   improvements: { en: 'Areas to Improve', hi: 'सुधार के क्षेत्र' },
   chatPlaceholderDefault: { en: 'Ask anything about History Optional…', hi: 'इतिहास वैकल्पिक के बारे में कुछ भी पूछें…' },
   chatPlaceholderBrainstorm: { en: 'Enter a topic or question to brainstorm…', hi: 'विचार-मंथन के लिए विषय या प्रश्न दर्ज करें…' },
@@ -47,7 +47,7 @@ export const t = {
   chatSuggestedLabel: { en: 'Suggested questions', hi: 'सुझाए गए प्रश्न' },
   youLabel: { en: 'You', hi: 'आप' },
   loading: { en: 'Loading…', hi: 'लोड हो रहा है…' },
-  error: { en: 'Something went wrong', hi: 'कुछ गलत हुआ' },
+  error: { en: 'Something went wrong', hi: 'कुछ ग़लत हुआ' },
   premium: { en: 'Premium Feature', hi: 'प्रीमियम सुविधा' },
   upgrade: { en: 'Upgrade to Premium', hi: 'प्रीमियम में अपग्रेड करें' },
   englishNotes: { en: 'English Notes', hi: 'English Notes' },
@@ -57,7 +57,7 @@ export const t = {
   previous: { en: 'Previous', hi: 'पिछला' },
   explanation: { en: 'Explanation', hi: 'स्पष्टीकरण' },
   correct: { en: 'Correct', hi: 'सही' },
-  incorrect: { en: 'Incorrect', hi: 'गलत' },
+  incorrect: { en: 'Incorrect', hi: 'ग़लत' },
 } as const;
 
 export type TKey = keyof typeof t;

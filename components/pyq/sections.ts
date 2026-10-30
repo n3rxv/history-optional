@@ -31,6 +31,13 @@ export const PYQ_SECTIONS: PyqSectionMeta[] = [
 
 export const pyqSection = (value: string): PyqSectionMeta | undefined => PYQ_SECTIONS.find((s) => s.value === value);
 
+/**
+ * Where a question comes from, when not the History optional papers: the
+ * book also carries Forest Service (IFoS) and General Studies questions.
+ */
+const SOURCE_HI: Record<string, string> = { 'IFoS/GS': 'IFoS/सामान्य अध्ययन' };
+export const sourceLabel = (source: string, langHi: boolean) => (langHi && SOURCE_HI[source]) || source;
+
 /** "05. Mughal Empire" without its number: the number orders, the name reads. */
 export const topicName = (topic: string) => topic.replace(/^\d+\.\s*/, '');
 

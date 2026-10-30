@@ -300,7 +300,7 @@ export default function StartFlow({ langHi, state, onChange, subscribed, onPremi
         {related.pyqs.length > shown && (
           <button type="button" className="ch-link-btn" onClick={() => setShown((n) => n + 6)}>
             {langHi
-              ? `और दिखाएँ (${related.pyqs.length - shown} बाकी)`
+              ? `और दिखाएँ (${related.pyqs.length - shown} बाक़ी)`
               : `Show more (${related.pyqs.length - shown} more)`}
           </button>
         )}

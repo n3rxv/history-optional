@@ -12,6 +12,7 @@ import { useRefreshSafe } from '@/hooks/useRefreshSafe';
 import { FLASHCARD_TYPES } from '@/lib/flashcardMeta';
 import type { StoredFlashCard } from '@/lib/flashcardStore';
 import { SECTIONS, sectionByName } from '@/components/notes/sections';
+import { NOTE_HI, SECTION_HI } from '@/lib/notesHi';
 import { tintFor } from '@/components/pyq/sections';
 
 type FlashCard = StoredFlashCard;
@@ -94,7 +95,9 @@ const CARDS = <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke
 export default function Flashcards({ notes }: { notes: NoteMeta[] }) {
   const { langHi } = useLang();
   const { isOpen: loginOpen, message: loginMsg, requireLogin, closeModal: closeLogin } = useLoginPrompt();
-  const noteTitle = useMemo(() => new Map(notes.map((n) => [n.slug, n.title])), [notes]);
+  // Topic and section names follow the language, from the notes' own Hindi.
+  const noteTitle = useMemo(() => new Map(notes.map((n) => [n.slug, (langHi && NOTE_HI[n.slug]?.title) || n.title])), [notes, langHi]);
+  const sectionName = (name: string) => (langHi && SECTION_HI[name]) || name;
   const typeLabel = (type: string) => (langHi ? TYPE[type]?.hi : TYPE[type]?.en) ?? type;
 
   const [sr, setSR] = useState<Record<string, SRData>>({});
@@ -298,7 +301,7 @@ export default function Flashcards({ notes }: { notes: NoteMeta[] }) {
       .filter((g) => g.topics.length > 0);
   }, [index, sections, filterSection, notes]);
 
-  const scopeName = filterTopic ? noteTitle.get(filterTopic) : filterSection || (langHi ? 'पूरा पाठ्यक्रम' : 'the whole syllabus');
+  const scopeName = filterTopic ? noteTitle.get(filterTopic) : (filterSection && sectionName(filterSection)) || (langHi ? 'पूरा पाठ्यक्रम' : 'the whole syllabus');
   const tone = currentCard ? TYPE[currentCard.type]?.tone ?? 'accent' : 'accent';
 
   return (
@@ -311,7 +314,7 @@ export default function Flashcards({ notes }: { notes: NoteMeta[] }) {
             <Link href="/" className="ds-back">{BACK}{langHi ? 'होम' : 'Home'}</Link>
             <div className="fc-title">
               <span className="fc-icon" aria-hidden="true">{CARDS}</span>
-              <h1 className="ds-h1">{langHi ? 'फ्लैशकार्ड' : 'Flashcards'}</h1>
+              <h1 className="ds-h1">{langHi ? 'फ़्लैशकार्ड' : 'Flashcards'}</h1>
             </div>
             <p className="ds-lede fc-lede">
               {langHi
@@ -324,7 +327,7 @@ export default function Flashcards({ notes }: { notes: NoteMeta[] }) {
               <p className={`fc-allowance${allowance.used >= allowance.limit ? ' out' : ''}`}>
                 {allowance.used >= allowance.limit
                   ? (langHi ? `${allowance.limit} निःशुल्क उत्तर पूरे हुए।` : `Your ${allowance.limit} free answers are used.`)
-                  : (langHi ? `${allowance.limit - allowance.used} / ${allowance.limit} निःशुल्क उत्तर बाकी` : `${allowance.limit - allowance.used} of ${allowance.limit} free answers left`)}
+                  : (langHi ? `${allowance.limit - allowance.used} / ${allowance.limit} निःशुल्क उत्तर बाक़ी` : `${allowance.limit - allowance.used} of ${allowance.limit} free answers left`)}
                 {allowance.used >= allowance.limit && <Link href="/pricing">{langHi ? 'सदस्यता लें' : 'See plans'}</Link>}
               </p>
             )}
@@ -343,12 +346,12 @@ export default function Flashcards({ notes }: { notes: NoteMeta[] }) {
               <strong>
                 {!mounted || indexLoading ? (langHi ? 'कार्ड आ रहे हैं' : 'Getting your cards')
                   : filteredDue.length ? (langHi ? `${filteredDue.length.toLocaleString('en-IN')} कार्ड आज दोहराने हैं` : `${filteredDue.length.toLocaleString('en-IN')} ${filteredDue.length === 1 ? 'card is' : 'cards are'} due`)
-                  : (langHi ? 'आज कुछ बाकी नहीं' : 'Nothing due right now')}
+                  : (langHi ? 'आज कुछ बाक़ी नहीं' : 'Nothing due right now')}
               </strong>
               <span>{langHi ? `${scopeName} से` : `From ${scopeName}`}</span>
             </div>
             <button type="button" className="ds-btn ds-btn-solid fc-start" disabled={!startCount}
-              onClick={() => { if (requireLogin(langHi ? 'फ्लैशकार्ड सत्र के लिए निःशुल्क साइन इन करें।' : 'Sign in free to start your flashcard session.')) buildQueue(); }}>
+              onClick={() => { if (requireLogin(langHi ? 'फ़्लैशकार्ड सत्र के लिए निःशुल्क साइन इन करें।' : 'Sign in free to start your flashcard session.')) buildQueue(); }}>
               {filteredDue.length ? (langHi ? 'दोहराना शुरू करें' : 'Start reviewing') : (langHi ? 'फिर भी दोहराएँ' : 'Review anyway')}
               {startCount > 0 && <span>{startCount.toLocaleString('en-IN')}</span>}
             </button>
@@ -359,7 +362,7 @@ export default function Flashcards({ notes }: { notes: NoteMeta[] }) {
               {([
                 { key: 'all', label: langHi ? 'कुल' : 'All cards', value: scope.length },
                 { key: 'studied', label: langHi ? 'पढ़े गए' : 'Studied', value: studiedCount },
-                { key: 'due', label: langHi ? 'आज बाकी' : 'Due today', value: dueCount },
+                { key: 'due', label: langHi ? 'आज बाक़ी' : 'Due today', value: dueCount },
                 { key: 'session', label: langHi ? 'पिछला सत्र' : 'Last session', value: lastSessionCount },
               ] as const).map((t) => {
                 const active = view === t.key;
@@ -381,7 +384,7 @@ export default function Flashcards({ notes }: { notes: NoteMeta[] }) {
               {sections.map((s) => (
                 <button key={s.key} type="button" role="tab" aria-selected={filterSection === s.name} style={tintFor(s.key)}
                   className={`fc-tab${filterSection === s.name ? ' on' : ''}`} onClick={() => { setPlace({ section: s.name, topic: '' }); resetList(); }}>
-                  {s.name.replace(' India', '').replace(' History', '')}
+                  {langHi ? SECTION_HI[s.name]?.replace(' भारत', '').replace(' इतिहास', '') ?? s.name : s.name.replace(' India', '').replace(' History', '')}
                 </button>
               ))}
             </div>
@@ -389,8 +392,8 @@ export default function Flashcards({ notes }: { notes: NoteMeta[] }) {
               <select className={`fc-select fc-select-topic${filterTopic ? ' set' : ''}`} value={filterTopic} onChange={(e) => { setPlace({ topic: e.target.value }); resetList(); }} aria-label={langHi ? 'विषय' : 'Topic'}>
                 <option value="">{langHi ? 'सभी विषय' : 'Every topic'}</option>
                 {topicGroups.map((g) => (
-                  <optgroup key={g.section} label={g.section}>
-                    {g.topics.map((t) => <option key={t.slug} value={t.slug}>{t.title} ({t.count})</option>)}
+                  <optgroup key={g.section} label={sectionName(g.section)}>
+                    {g.topics.map((t) => <option key={t.slug} value={t.slug}>{noteTitle.get(t.slug) ?? t.title} ({t.count})</option>)}
                   </optgroup>
                 ))}
               </select>
@@ -404,7 +407,7 @@ export default function Flashcards({ notes }: { notes: NoteMeta[] }) {
               </select>
               <label className={`fc-due${filterDue ? ' on' : ''}`}>
                 <input type="checkbox" checked={filterDue} onChange={(e) => setFilterDue(e.target.checked)} />
-                {langHi ? 'सत्र में केवल बाकी' : 'Only due cards in a session'}
+                {langHi ? 'सत्र में केवल बाक़ी' : 'Only due cards in a session'}
               </label>
             </div>
           </div>
@@ -428,26 +431,26 @@ export default function Flashcards({ notes }: { notes: NoteMeta[] }) {
               const t = TYPE[card.type]?.tone ?? 'accent';
               return (
                 <button key={card.id} type="button" className={`fc-row${mounted && due && s ? ' due' : ''}`}
-                  onClick={() => { if (requireLogin(langHi ? 'फ्लैशकार्ड के लिए निःशुल्क साइन इन करें।' : 'Sign in free to study flashcards.')) openFrom(card.id); }}>
+                  onClick={() => { if (requireLogin(langHi ? 'फ़्लैशकार्ड के लिए निःशुल्क साइन इन करें।' : 'Sign in free to study flashcards.')) openFrom(card.id); }}>
                   <span className={`fc-type t-${t}`}>{typeLabel(card.type)}</span>
                   <span className="fc-row-text">
                     <span className="fc-row-front">{langHi ? (card.front_hi ?? card.front) : card.front}</span>
-                    <span className="fc-row-topic">{noteTitle.get(card.topic) ?? card.section}</span>
+                    <span className="fc-row-topic">{noteTitle.get(card.topic) ?? sectionName(card.section)}</span>
                   </span>
                   {mounted && (
                     <span className="fc-row-meta">
                       {s?.lastGrade && <span className={`fc-grade g-${GRADES[s.lastGrade - 1].tone}`}>{langHi ? GRADES[s.lastGrade - 1].hi : GRADES[s.lastGrade - 1].en}</span>}
-                      <span className={`fc-when${due ? ' due' : ''}`}>{due ? (s ? (langHi ? 'बाकी' : 'Due') : (langHi ? 'नया' : 'New')) : (langHi ? `${s.interval} दिन में` : `In ${s.interval}d`)}</span>
+                      <span className={`fc-when${due ? ' due' : ''}`}>{due ? (s ? (langHi ? 'बाक़ी' : 'Due') : (langHi ? 'नया' : 'New')) : (langHi ? `${s.interval} दिन में` : `In ${s.interval}d`)}</span>
                     </span>
                   )}
                 </button>
               );
             })}
-            {deckError && <p className="fc-error">{langHi ? 'फ्लैशकार्ड लोड नहीं हो सके।' : deckError}</p>}
-            {indexLoading && !deckError && <OwlLoader label={langHi ? 'फ्लैशकार्ड लोड हो रहे हैं' : 'Loading flashcards'} />}
+            {deckError && <p className="fc-error">{langHi ? 'फ़्लैशकार्ड लोड नहीं हो सके।' : deckError}</p>}
+            {indexLoading && !deckError && <OwlLoader label={langHi ? 'फ़्लैशकार्ड लोड हो रहे हैं' : 'Loading flashcards'} />}
             {!indexLoading && !deckError && filteredIndex.length > browseLimit && (
               <button type="button" className="ds-btn ds-btn-line ds-btn-sm fc-more" onClick={() => setBrowseLimit((n) => n + 60)}>
-                {langHi ? `और दिखाएँ (${filteredIndex.length - browseLimit} बाकी)` : `Show more (${filteredIndex.length - browseLimit} left)`}
+                {langHi ? `और दिखाएँ (${filteredIndex.length - browseLimit} बाक़ी)` : `Show more (${filteredIndex.length - browseLimit} left)`}
               </button>
             )}
           </div>
@@ -456,7 +459,7 @@ export default function Flashcards({ notes }: { notes: NoteMeta[] }) {
 
       {/* ── Review ── */}
       {modalOpen && currentCard && (
-        <div className="fc-review" role="dialog" aria-modal="true" aria-label={langHi ? 'फ्लैशकार्ड सत्र' : 'Flashcard session'}
+        <div className="fc-review" role="dialog" aria-modal="true" aria-label={langHi ? 'फ़्लैशकार्ड सत्र' : 'Flashcard session'}
           onClick={(e) => { if (e.target === e.currentTarget) closeModal(); }}>
           <div className="fc-review-inner">
             <div className="fc-review-top">
@@ -472,7 +475,7 @@ export default function Flashcards({ notes }: { notes: NoteMeta[] }) {
                 <div className={`fc-face front t-${tone}`}>
                   <div className="fc-face-head">
                     <span className={`fc-type t-${tone}`}>{typeLabel(currentCard.type)}</span>
-                    <span className="fc-face-topic">{noteTitle.get(currentCard.topic) ?? currentCard.section}</span>
+                    <span className="fc-face-topic">{noteTitle.get(currentCard.topic) ?? sectionName(currentCard.section)}</span>
                   </div>
                   <div className="fc-face-text">{langHi ? (currentCard.front_hi ?? currentCard.front) : currentCard.front}</div>
                   <div className="fc-face-hint">{langHi ? 'उत्तर देखने के लिए टैप करें' : 'Tap to see the answer'}</div>

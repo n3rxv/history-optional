@@ -53,7 +53,7 @@ export default function WorthKnowing({ slug, langHi, done, onMarkDone, onShowPyq
     items.push({
       key: 'cards',
       text: langHi
-        ? `${title} पर ${cards} फ्लैशकार्ड हैं।`
+        ? `${title} पर ${cards} फ़्लैशकार्ड हैं।`
         : `${cards} flashcard${cards === 1 ? '' : 's'} cover ${title}.`,
       action: (
         <Link className="ch-btn ch-btn-line ch-btn-sm" href={`/flashcards?topic=${encodeURIComponent(note.slug)}`}>

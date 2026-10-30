@@ -3,11 +3,13 @@ import { useState, useCallback, useEffect } from 'react';
 import { auth } from '@/lib/firebase';
 import OwlLoader from '@/components/OwlLoader';
 import { toast } from '@/components/ui/Toast';
+import { useLang } from '@/lib/i18n/LangContext';
 
 /**
  * A PYQ's model answer, in a modal: generated on first open, kept in
- * localStorage under `model-answer:<cacheKey>`, with Save PDF and Regenerate.
- * Opened from the PYQ list and from each question's own page.
+ * localStorage under `model-answer:<cacheKey>` (`model-answer:hi:<cacheKey>`
+ * for one written in Hindi), with Save PDF and Regenerate. Opened from the
+ * PYQ list and from each question's own page.
  */
 
 async function downloadAnswerAsPDF(markdownText: string, questionText?: string) {
@@ -53,7 +55,7 @@ function AnswerBody({ text }: { text: string }) {
   );
 }
 
-function SavePDFButton({ answer, question }: { answer: string; question: string }) {
+function SavePDFButton({ answer, question, hi }: { answer: string; question: string; hi: boolean }) {
   const [saving, setSaving] = useState(false);
   return (
     <button
@@ -62,7 +64,7 @@ function SavePDFButton({ answer, question }: { answer: string; question: string 
       onClick={async () => {
         setSaving(true);
         try { await downloadAnswerAsPDF(answer, question); }
-        catch (e) { console.error(e); toast('The PDF could not be made. Try again in a moment.', 'error'); }
+        catch (e) { console.error(e); toast(hi ? 'PDF नहीं बन सका। फिर कोशिश करें।' : 'The PDF could not be made. Try again in a moment.', 'error'); }
         finally { setSaving(false); }
       }}
       disabled={saving}
@@ -73,7 +75,7 @@ function SavePDFButton({ answer, question }: { answer: string; question: string 
         <line x1="12" y1="18" x2="12" y2="12"/>
         <polyline points="9 15 12 18 15 15"/>
       </svg>
-      {saving ? 'Saving…' : 'Save as PDF'}
+      {saving ? (hi ? 'सहेजा जा रहा है…' : 'Saving…') : (hi ? 'PDF सहेजें' : 'Save as PDF')}
     </button>
   );
 }
@@ -86,15 +88,19 @@ export default function ModelAnswerModal({
   cacheKey: string;
   onClose: () => void;
 }) {
+  const { langHi: hi } = useLang();
+  // An answer is kept per language; the English key is as it always was, so
+  // answers saved before Hindi came in still open.
+  const storeKey = hi ? `model-answer:hi:${cacheKey}` : `model-answer:${cacheKey}`;
   const [answer, setAnswer] = useState<string | null>(() => {
-    try { return localStorage.getItem(`model-answer:${cacheKey}`); } catch { return null; }
+    try { return localStorage.getItem(storeKey); } catch { return null; }
   });
   const [loading, setLoading] = useState(!answer);
   const [error, setError] = useState<string | null>(null);
 
   const generate = useCallback(async (forceRegen = false) => {
     if (!forceRegen && answer) return;
-    if (forceRegen) { try { localStorage.removeItem(`model-answer:${cacheKey}`); } catch {} }
+    if (forceRegen) { try { localStorage.removeItem(storeKey); } catch {} }
     setLoading(true);
     setError(null);
 
@@ -105,20 +111,22 @@ export default function ModelAnswerModal({
       const res = await fetch('/api/model-answer', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ question, marks, token }),
+        body: JSON.stringify({ question, marks, token, lang: hi ? 'hi' : 'en' }),
       });
       const data = await res.json();
       if (!res.ok || data.error) {
-        setError(data.error || 'Failed to generate. Please try again.');
+        setError(hi
+          ? (data.error === 'premium_required' ? 'आदर्श उत्तर प्रीमियम में मिलते हैं।' : 'उत्तर नहीं बन सका। फिर कोशिश करें।')
+          : data.error || 'Failed to generate. Please try again.');
       } else {
         setAnswer(data.answer);
-        try { localStorage.setItem(`model-answer:${cacheKey}`, data.answer); } catch {}
+        try { localStorage.setItem(storeKey, data.answer); } catch {}
       }
     } catch {
-      setError('Network error. Please try again.');
+      setError(hi ? 'नेटवर्क की समस्या। फिर कोशिश करें।' : 'Network error. Please try again.');
     }
     setLoading(false);
-  }, [question, marks, cacheKey, answer]);
+  }, [question, marks, storeKey, answer, hi]);
 
   // Written on first open; a saved one is shown as it is.
   useEffect(() => {
@@ -139,30 +147,30 @@ export default function ModelAnswerModal({
       <div className="ds-modal ma" role="dialog" aria-modal="true" aria-labelledby="ma-title" onClick={e => e.stopPropagation()}>
         <div className="ds-modal-head">
           <div>
-            <h2 id="ma-title">Model answer <span className="ma-marks">{marks} marks</span></h2>
+            <h2 id="ma-title">{hi ? 'आदर्श उत्तर' : 'Model answer'} <span className="ma-marks">{marks} {hi ? 'अंक' : 'marks'}</span></h2>
             <p>{question.length > 160 ? question.slice(0, 160) + '…' : question}</p>
           </div>
-          <button type="button" className="ds-x" onClick={onClose} aria-label="Close">
+          <button type="button" className="ds-x" onClick={onClose} aria-label={hi ? 'बंद करें' : 'Close'}>
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18" /></svg>
           </button>
         </div>
 
         <div className="ma-main">
           {loading && (
-            <div className="ma-wait"><OwlLoader size="small" caption="Writing a model answer, which takes about a minute" /></div>
+            <div className="ma-wait"><OwlLoader size="small" caption={hi ? 'आदर्श उत्तर लिखा जा रहा है, इसमें लगभग एक मिनट लगता है' : 'Writing a model answer, which takes about a minute'} /></div>
           )}
           {error && (
             <div className="ma-error">
               <p>{error}</p>
-              <button type="button" className="ds-btn ds-btn-solid ds-btn-sm" onClick={() => generate(true)}>Try again</button>
+              <button type="button" className="ds-btn ds-btn-solid ds-btn-sm" onClick={() => generate(true)}>{hi ? 'फिर कोशिश करें' : 'Try again'}</button>
             </div>
           )}
           {answer && !loading && (
             <>
               <AnswerBody text={answer} />
               <div className="ma-actions">
-                <button type="button" className="ds-btn ds-btn-ghost ds-btn-sm" onClick={() => { setAnswer(null); generate(true); }}>Write it again</button>
-                <SavePDFButton answer={answer} question={question} />
+                <button type="button" className="ds-btn ds-btn-ghost ds-btn-sm" onClick={() => { setAnswer(null); generate(true); }}>{hi ? 'फिर से लिखें' : 'Write it again'}</button>
+                <SavePDFButton answer={answer} question={question} hi={hi} />
               </div>
             </>
           )}

@@ -1,8 +1,10 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import { useLang } from '@/lib/i18n/LangContext';
 
 export default function ThemeCustomizer() {
+  const { langHi } = useLang();
   const [isDark, setIsDark] = useState(false);
   const [mounted, setMounted] = useState(false);
 
@@ -10,6 +12,7 @@ export default function ThemeCustomizer() {
   // data-theme before paint, so read that rather than working it out again.
   // Deriving it a second time is how the two can disagree.
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setMounted(true);
     setIsDark(document.documentElement.getAttribute('data-theme') === 'dark');
   }, []);
@@ -31,7 +34,8 @@ export default function ThemeCustomizer() {
   return (
     <button
       onClick={toggle}
-      title={isDark ? 'Switch to light mode' : 'Switch to dark mode'}
+      title={langHi ? (isDark ? 'लाइट मोड पर जाएँ' : 'डार्क मोड पर जाएँ') : (isDark ? 'Switch to light mode' : 'Switch to dark mode')}
+      aria-label={langHi ? (isDark ? 'लाइट मोड पर जाएँ' : 'डार्क मोड पर जाएँ') : (isDark ? 'Switch to light mode' : 'Switch to dark mode')}
       style={{
         display: 'flex',
         alignItems: 'center',

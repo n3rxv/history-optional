@@ -2,6 +2,8 @@
 import { useSyncExternalStore } from 'react';
 import Link from 'next/link';
 import { readLastNote, type LastNote } from '@/lib/lastNote';
+import { useLang } from '@/lib/i18n/LangContext';
+import { NOTE_HI } from '@/lib/notesHi';
 
 /**
  * The hero's two buttons, which change with who is reading: a newcomer is
@@ -26,20 +28,21 @@ const subscribe = (cb: () => void) => { window.addEventListener('storage', cb); 
 
 export function HeroActions() {
   const last = useSyncExternalStore(subscribe, snapshot, () => null);
+  const { langHi } = useLang();
   if (last) {
     return (
       <div className="hm-actions">
         <Link href={`/notes/${last.slug}`} className="ds-btn ds-btn-solid ds-btn-lg hm-continue">
-          <span>Continue: {last.title}</span><Arrow />
+          <span>{langHi ? `जारी रखें: ${NOTE_HI[last.slug]?.title ?? last.title}` : `Continue: ${last.title}`}</span><Arrow />
         </Link>
-        <Link href="/dashboard" className="ds-btn ds-btn-ghost">Your dashboard</Link>
+        <Link href="/dashboard" className="ds-btn ds-btn-ghost">{langHi ? 'आपका डैशबोर्ड' : 'Your dashboard'}</Link>
       </div>
     );
   }
   return (
     <div className="hm-actions">
-      <Link href="/notes" className="ds-btn ds-btn-solid ds-btn-lg">Start studying, it&rsquo;s free<Arrow /></Link>
-      <Link href="/evaluate" className="ds-btn ds-btn-ghost">Check an answer</Link>
+      <Link href="/notes" className="ds-btn ds-btn-solid ds-btn-lg">{langHi ? 'पढ़ाई शुरू करें, यह निःशुल्क है' : <>Start studying, it&rsquo;s free</>}<Arrow /></Link>
+      <Link href="/evaluate" className="ds-btn ds-btn-ghost">{langHi ? 'उत्तर जँचवाएँ' : 'Check an answer'}</Link>
     </div>
   );
 }

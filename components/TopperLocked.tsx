@@ -3,6 +3,7 @@ import Script from 'next/script';
 import { auth } from '@/lib/firebase';
 import { toast } from '@/components/ui/Toast';
 import { TOPPER_PRICE } from '@/lib/features';
+import { useLang } from '@/lib/i18n/LangContext';
 
 type Props = {
   /** Called once a Topper Copies purchase is verified. */
@@ -18,12 +19,13 @@ type Props = {
  * Shown by the copy viewer and by each pane of the Compare page.
  */
 export default function TopperLocked({ onUnlocked, onDismiss, message }: Props) {
+  const { langHi } = useLang();
   const unlock = async () => {
     const currentUser = auth.currentUser;
     if (!currentUser) return;
     const w = window as unknown as { Razorpay?: new (opts: object) => { open: () => void } };
     if (!w.Razorpay) {
-      toast('Payment is still loading. Refresh the page and try again.', 'error');
+      toast(langHi ? 'भुगतान अभी लोड हो रहा है। पेज रीफ़्रेश करके फिर कोशिश करें।' : 'Payment is still loading. Refresh the page and try again.', 'error');
       return;
     }
     const token = await currentUser.getIdToken();
@@ -33,7 +35,8 @@ export default function TopperLocked({ onUnlocked, onDismiss, message }: Props) 
     });
     const order = await res.json();
     if (!res.ok) {
-      toast(order.error || 'Could not start the payment.', 'error');
+      // The route's own words are English and technical, so Hindi mode shows a plain line instead.
+      toast(langHi ? 'भुगतान शुरू नहीं हो सका। फिर कोशिश करें।' : order.error || 'Could not start the payment.', 'error');
       return;
     }
     const rzp = new w.Razorpay({
@@ -42,7 +45,7 @@ export default function TopperLocked({ onUnlocked, onDismiss, message }: Props) 
       currency: order.currency,
       order_id: order.orderId,
       name: 'History Optional',
-      description: 'Topper Copies Access — 1 Year',
+      description: langHi ? 'टॉपर कॉपियाँ, 1 साल' : 'Topper Copies Access — 1 Year',
       handler: async (response: object) => {
         const verifyRes = await fetch('/api/razorpay/topper-verify', {
           method: 'POST',
@@ -62,14 +65,14 @@ export default function TopperLocked({ onUnlocked, onDismiss, message }: Props) 
       <span className="tl-icon" aria-hidden="true">
         <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="4" y="11" width="16" height="10" rx="2" /><path d="M8 11V7a4 4 0 0 1 8 0v4" /></svg>
       </span>
-      <h3 className="tl-title">Topper copies are locked</h3>
-      <p className="tl-text">{message ?? 'One payment opens every topper copy for a year, and the side-by-side comparisons.'}</p>
+      <h3 className="tl-title">{langHi ? 'टॉपर कॉपियाँ लॉक हैं' : 'Topper copies are locked'}</h3>
+      <p className="tl-text">{message ?? (langHi ? 'एक भुगतान से हर टॉपर कॉपी एक साल के लिए खुल जाती है, साथ में आमने-सामने की तुलना भी।' : 'One payment opens every topper copy for a year, and the side-by-side comparisons.')}</p>
       <div className="tl-price">
-        <s>₹{TOPPER_PRICE.was}</s><strong>₹{TOPPER_PRICE.now}</strong><span className="tl-off">{TOPPER_PRICE.off}% off</span>
-        <span className="tl-per">for a year, paid once</span>
+        <s>₹{TOPPER_PRICE.was}</s><strong>₹{TOPPER_PRICE.now}</strong><span className="tl-off">{TOPPER_PRICE.off}% {langHi ? 'छूट' : 'off'}</span>
+        <span className="tl-per">{langHi ? 'एक साल के लिए, एक बार भुगतान' : 'for a year, paid once'}</span>
       </div>
-      <button type="button" className="ds-btn ds-btn-solid ds-btn-block" onClick={unlock}>Unlock for ₹{TOPPER_PRICE.now}</button>
-      {onDismiss && <button type="button" className="ds-btn ds-btn-ghost ds-btn-sm tl-later" onClick={onDismiss}>Maybe later</button>}
+      <button type="button" className="ds-btn ds-btn-solid ds-btn-block" onClick={unlock}>{langHi ? `₹${TOPPER_PRICE.now} में खोलें` : `Unlock for ₹${TOPPER_PRICE.now}`}</button>
+      {onDismiss && <button type="button" className="ds-btn ds-btn-ghost ds-btn-sm tl-later" onClick={onDismiss}>{langHi ? 'बाद में' : 'Maybe later'}</button>}
       <Script src="https://checkout.razorpay.com/v1/checkout.js" strategy="afterInteractive" />
     </div>
   );

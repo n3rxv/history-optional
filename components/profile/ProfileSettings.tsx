@@ -26,6 +26,10 @@ import { toast, toastSignInError } from '@/components/ui/Toast';
  */
 
 const ATTEMPTS = ['1st', '2nd', '3rd', '4th', '5th+'];
+/** What an attempt pill reads in Hindi. The stored value stays the English one. */
+const ATTEMPT_HI: Record<string, string> = { '1st': 'पहला', '2nd': 'दूसरा', '3rd': 'तीसरा', '4th': 'चौथा', '5th+': 'पाँचवाँ+' };
+/** The plan's name in Hindi, as the label in lib/plans.ts gives it in English. */
+const PLAN_HI: Record<string, string> = { yearly: 'सालाना', sixmonths: '6 महीने', weekly: 'साप्ताहिक', daily: 'दैनिक' };
 const NEXT_MAINS_YEAR = NEXT_MAINS.slice(0, 4);
 const YEARS = [NEXT_MAINS_YEAR, String(Number(NEXT_MAINS_YEAR) + 1), String(Number(NEXT_MAINS_YEAR) + 2)];
 const AGES = Array.from({ length: 34 }, (_, i) => String(i + 18));
@@ -139,28 +143,28 @@ export default function ProfileSettings() {
   const name = saved.name || [names.first, names.last].filter(Boolean).join(' ') || user.displayName || L('UPSC aspirant', 'UPSC अभ्यर्थी');
   const facts = [
     saved.age && L(`${saved.age} years`, `${saved.age} वर्ष`),
-    saved.attempt && L(`${saved.attempt} attempt`, `${saved.attempt} प्रयास`),
+    saved.attempt && L(`${saved.attempt} attempt`, `${ATTEMPT_HI[saved.attempt] ?? saved.attempt} प्रयास`),
     saved.year && L(`Mains ${saved.year}`, `मुख्य परीक्षा ${saved.year}`),
   ].filter(Boolean).join(' · ');
 
   const days = saved.year === NEXT_MAINS_YEAR ? daysToMains() : null;
   const banner = days !== null
-    ? { title: L(`Mains ${saved.year} is ${days} days away`, `मुख्य परीक्षा ${saved.year} में ${days} दिन बाकी`), text: L('The countdown in your menu runs to it.', 'आपके मेन्यू की उलटी गिनती इसी तक चलती है।'), tone: 'accent' }
+    ? { title: L(`Mains ${saved.year} is ${days} days away`, `मुख्य परीक्षा ${saved.year} में ${days} दिन बाक़ी`), text: L('The countdown in your menu runs to it.', 'आपके मेन्यू की उलटी गिनती इसी तक चलती है।'), tone: 'accent' }
     : !saved.year
       ? { title: L('Add your target year', 'अपना लक्ष्य वर्ष जोड़ें'), text: L('Pick it below and we’ll count down to your Mains.', 'नीचे चुनें और हम आपकी मुख्य परीक्षा तक उलटी गिनती करेंगे।'), tone: 'accent' }
       : null;
 
-  const planLabel = sub ? (isPlanId(sub.plan) ? PLANS[sub.plan].label : sub.plan) : null;
+  const planLabel = sub ? (isPlanId(sub.plan) ? (langHi ? PLAN_HI[sub.plan] : PLANS[sub.plan].label) : sub.plan) : null;
   const planDays = sub ? Math.max(0, Math.ceil((new Date(sub.expires_at).getTime() - Date.now()) / 86400000)) : 0;
 
-  const pills = (key: 'attempt' | 'year', options: string[], label: string) => (
+  const pills = (key: 'attempt' | 'year', options: string[], label: string, show: (o: string) => string = (o) => o) => (
     <div className="pf-field" role="radiogroup" aria-label={label}>
       <span className="pf-label">{label}</span>
       <div className="pf-pills">
         {options.map((o) => (
           <button key={o} type="button" role="radio" aria-checked={form[key] === o} className={`pf-pill${form[key] === o ? ' on' : ''}`}
             onClick={() => set(key, form[key] === o ? '' : o)}>
-            {o}
+            {show(o)}
           </button>
         ))}
       </div>
@@ -182,7 +186,7 @@ export default function ProfileSettings() {
             <strong>{name}</strong>
             <span>{facts || user.email}</span>
           </div>
-          <span className={`pf-plan${sub ? ' premium' : ''}`}>{sub ? planLabel : L('Free plan', 'फ़्री प्लान')}</span>
+          <span className={`pf-plan${sub ? ' premium' : ''}`}>{sub ? planLabel : L('Free plan', 'निःशुल्क प्लान')}</span>
         </header>
 
         {banner && !bannerHidden && (
@@ -215,7 +219,7 @@ export default function ProfileSettings() {
               </select>
             </label>
           </div>
-          {pills('attempt', form.attempt && !ATTEMPTS.includes(form.attempt) ? [...ATTEMPTS, form.attempt] : ATTEMPTS, L('Attempt', 'प्रयास'))}
+          {pills('attempt', form.attempt && !ATTEMPTS.includes(form.attempt) ? [...ATTEMPTS, form.attempt] : ATTEMPTS, L('Attempt', 'प्रयास'), (o) => (langHi ? ATTEMPT_HI[o] ?? o : o))}
           {pills('year', form.year && !YEARS.includes(form.year) ? [...YEARS, form.year] : YEARS, L('Target Mains', 'लक्ष्य मुख्य परीक्षा'))}
           <div className="pf-save-row">
             {dirty && <button type="button" className="ds-btn ds-btn-line pf-btn" onClick={() => setForm(saved)}>{L('Undo changes', 'बदलाव हटाएँ')}</button>}
@@ -246,8 +250,8 @@ export default function ProfileSettings() {
                 <strong>{L('Plan', 'प्लान')}</strong>
                 <span>
                   {sub === undefined ? L('Loading…', 'लोड हो रहा है…')
-                    : sub ? L(`${planLabel}, ${planDays} day${planDays === 1 ? '' : 's'} left`, `${planLabel}, ${planDays} दिन बाकी`)
-                      : L('Free plan', 'फ़्री प्लान')}
+                    : sub ? L(`${planLabel}, ${planDays} day${planDays === 1 ? '' : 's'} left`, `${planLabel}, ${planDays} दिन बाक़ी`)
+                      : L('Free plan', 'निःशुल्क प्लान')}
                 </span>
               </div>
               <Link href="/pricing" className={`ds-btn pf-btn ${sub ? 'ds-btn-line' : 'ds-btn-premium'}`}>{sub ? L('See plans', 'प्लान देखें') : L('Upgrade', 'अपग्रेड करें')}</Link>

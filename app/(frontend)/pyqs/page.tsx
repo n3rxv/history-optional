@@ -59,8 +59,8 @@ export default function PyqsPage() {
 
             {/* Real links to the section pages, which is how a crawler reaches
                 them; the tabs above only filter. */}
-            <nav className="pl-browse" aria-label="PYQs by section">
-              <h2><HiText en="Each section on a page of its own" hi="हर खंड का अपना पृष्ठ" /></h2>
+            <nav className="pl-browse" aria-labelledby="pl-browse-h">
+              <h2 id="pl-browse-h"><HiText en="Each section on a page of its own" hi="हर खंड का अपना पृष्ठ" /></h2>
               <div className="pl-chips">
                 {PYQ_SECTIONS.map((s) => (
                   <Link key={s.slug} href={`/pyqs/${s.slug}`} style={{ ['--st' as string]: `var(--tint-${s.key})` }}><span aria-hidden="true" /><HiText en={s.name} hi={s.nameHi} /></Link>

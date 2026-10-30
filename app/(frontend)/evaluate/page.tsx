@@ -367,7 +367,7 @@ export default function EvaluatePage() {
               {previews.length > 0 && <div className="ev-side"><h2>{hi ? 'आपके पेज' : 'Your pages'}</h2>{thumbs(false)}</div>}
               <div className="ev-side">
                 <h2>{hi ? 'क्या जाँचें' : 'What to check'}</h2>
-                <p>{hi ? 'हस्तलिपि पढ़ने में सबसे ज़्यादा गलती नामों में होती है, इसलिए पहले हर इतिहासकार और शासक का नाम देखें। फिर तारीखें और संख्याएँ।' : 'Names are where handwriting readers slip most, so look at every historian and ruler first. Then dates and numbers, whose digits can swap, and the terms particular to history.'}</p>
+                <p>{hi ? 'हस्तलिपि पढ़ने में सबसे ज़्यादा ग़लती नामों में होती है, इसलिए पहले हर इतिहासकार और शासक का नाम देखें। फिर तारीखें और संख्याएँ।' : 'Names are where handwriting readers slip most, so look at every historian and ruler first. Then dates and numbers, whose digits can swap, and the terms particular to history.'}</p>
               </div>
             </aside>
           </div>
@@ -437,7 +437,7 @@ export default function EvaluatePage() {
                     <p className={`ev-usage${freeLeft === 0 ? ' out' : ''}`}>
                       {usage.subscribed ? (hi ? 'असीमित मूल्यांकन, आपके Premium के साथ' : 'Unlimited evaluations with your Premium')
                         : signedOut ? (hi ? 'पहला मूल्यांकन निःशुल्क है, साइन इन के साथ' : 'Your first evaluation is free with an account')
-                        : freeLeft ? (hi ? 'आपका एक निःशुल्क मूल्यांकन बाकी है' : 'You have one free evaluation left')
+                        : freeLeft ? (hi ? 'आपका एक निःशुल्क मूल्यांकन बाक़ी है' : 'You have one free evaluation left')
                         : (hi ? 'निःशुल्क मूल्यांकन पूरा हुआ, आगे के लिए Premium लें' : 'Your free evaluation is used; Premium marks every answer')}
                     </p>
                   )}
@@ -451,13 +451,13 @@ export default function EvaluatePage() {
                     <h2>{hi ? 'यह कैसे काम करता है' : 'How it works'}</h2>
                     <ol className="ev-how">
                       <li><span>1</span><div><strong>{hi ? 'पेज अपलोड करें' : 'Upload your pages'}</strong><p>{hi ? 'फोटो या स्कैन किया PDF।' : 'Photos or a scanned PDF.'}</p></div></li>
-                      <li><span>2</span><div><strong>{hi ? 'जो पढ़ा गया, जाँचें' : 'Check what we read'}</strong><p>{hi ? 'हम हस्तलिपि पढ़ते हैं, आप गलतियाँ ठीक करते हैं।' : 'We transcribe the handwriting, and you fix anything it got wrong.'}</p></div></li>
+                      <li><span>2</span><div><strong>{hi ? 'जो पढ़ा गया, जाँचें' : 'Check what we read'}</strong><p>{hi ? 'हम हस्तलिपि पढ़ते हैं, आप ग़लतियाँ ठीक करते हैं।' : 'We transcribe the handwriting, and you fix anything it got wrong.'}</p></div></li>
                       <li><span>3</span><div><strong>{hi ? 'अंक और प्रतिक्रिया' : 'Get it marked'}</strong><p>{hi ? 'भूमिका, मुख्य भाग, निष्कर्ष और प्रस्तुति के अंक, हर भाग पर प्रतिक्रिया, और आदर्श उत्तर।' : 'Marks for the introduction, body, conclusion and presentation, feedback on each, and a model answer.'}</p></div></li>
                     </ol>
                   </div>
                   <div className="ev-side">
                     <h2>{hi ? 'साफ़ पढ़ाई के लिए' : 'For a clean read'}</h2>
-                    <p>{hi ? 'दिन की रोशनी में, ठीक ऊपर से फोटो लें, एक फोटो में एक पेज, पूरा पेज फ्रेम में। धुंधलापन और छाया में नाम गलत पढ़े जाते हैं।' : 'Shoot in daylight from straight above, one page to a photo, with the whole page in frame. Blur and shadows are where names get misread.'}</p>
+                    <p>{hi ? 'दिन की रोशनी में, ठीक ऊपर से फोटो लें, एक फोटो में एक पेज, पूरा पेज फ्रेम में। धुंधलापन और छाया में नाम ग़लत पढ़े जाते हैं।' : 'Shoot in daylight from straight above, one page to a photo, with the whole page in frame. Blur and shadows are where names get misread.'}</p>
                   </div>
                 </aside>
               </div>

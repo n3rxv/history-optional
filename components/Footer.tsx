@@ -4,6 +4,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { TELEGRAM_URL } from '@/lib/contact';
+import { useLang } from '@/lib/i18n/LangContext';
 
 /**
  * The site footer, rendered once by the frontend layout.
@@ -14,6 +15,7 @@ import { TELEGRAM_URL } from '@/lib/contact';
  */
 export default function Footer() {
   const pathname = usePathname();
+  const { langHi } = useLang();
   const ref = useRef<HTMLElement>(null);
   const isChat = pathname === '/chat';
 
@@ -32,17 +34,17 @@ export default function Footer() {
     <footer className={`ft ds site-footer${isChat ? ' site-footer--chat' : ''}`} ref={ref}>
       <style dangerouslySetInnerHTML={{ __html: FOOTER_CSS }} />
       <div className="ft-inner">
-        <a href="https://distilledcrux.com" target="_blank" rel="noopener" className="ft-brand" aria-label="Distilled Crux, opens distilledcrux.com">
+        <a href="https://distilledcrux.com" target="_blank" rel="noopener" className="ft-brand" aria-label={langHi ? 'Distilled Crux, distilledcrux.com खुलेगा' : 'Distilled Crux, opens distilledcrux.com'}>
           <Image src="/mascot/owl.svg" alt="" width={26} height={25} />
           <span>Distilled Crux</span>
         </a>
 
-        <nav className="ft-links" aria-label="Footer">
-          <Link href="/pricing">Pricing</Link>
-          <Link href="/contact">Contact</Link>
-          <Link href="/privacy">Privacy</Link>
-          <Link href="/terms">Terms</Link>
-          <Link href="/refund">Refund</Link>
+        <nav className="ft-links" aria-label={langHi ? 'फ़ुटर' : 'Footer'}>
+          <Link href="/pricing">{langHi ? 'क़ीमतें' : 'Pricing'}</Link>
+          <Link href="/contact">{langHi ? 'संपर्क' : 'Contact'}</Link>
+          <Link href="/privacy">{langHi ? 'गोपनीयता' : 'Privacy'}</Link>
+          <Link href="/terms">{langHi ? 'शर्तें' : 'Terms'}</Link>
+          <Link href="/refund">{langHi ? 'रिफ़ंड' : 'Refund'}</Link>
         </nav>
 
         <div className="ft-end">
@@ -55,8 +57,11 @@ export default function Footer() {
         </div>
       </div>
       <p className="ft-copy">
-        © {new Date().getFullYear()} historyoptional.xyz · A product of{' '}
-        <a href="https://distilledcrux.com" target="_blank" rel="noopener">DistilledCrux.com</a>
+        © {new Date().getFullYear()} historyoptional.xyz · {langHi ? (
+          <><a href="https://distilledcrux.com" target="_blank" rel="noopener">DistilledCrux.com</a> का एक उत्पाद</>
+        ) : (
+          <>A product of{' '}<a href="https://distilledcrux.com" target="_blank" rel="noopener">DistilledCrux.com</a></>
+        )}
       </p>
     </footer>
   );

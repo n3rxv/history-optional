@@ -1,5 +1,6 @@
 'use client';
 import { useState, useEffect, useRef } from 'react';
+import { useLang } from '@/lib/i18n/LangContext';
 
 const FEATURES = [
   'Answer checking',
@@ -12,9 +13,23 @@ const FEATURES = [
   'Map quiz',
   'Map answer checking',
 ];
+/** What a reader in Hindi mode sees. The report still names the part in English. */
+const FEATURES_HI: Record<string, string> = {
+  'Answer checking': 'उत्तर मूल्यांकन',
+  'Reading my handwriting': 'मेरी लिखावट पढ़ना',
+  'AI chat': 'AI चैट',
+  'Notes and historiography': 'नोट्स और इतिहास-लेखन',
+  'PYQs and timeline': 'PYQ और समयरेखा',
+  'Flashcards': 'फ़्लैशकार्ड',
+  'Prelims practice': 'प्रिलिम्स अभ्यास',
+  'Map quiz': 'मानचित्र क्विज़',
+  'Map answer checking': 'मानचित्र उत्तर मूल्यांकन',
+};
 const MIN_WORDS = 10;
 
 export default function WeeklyCheckup() {
+  const { langHi } = useLang();
+  const T = (en: string, hi: string) => (langHi ? hi : en);
   const [visible, setVisible] = useState(false);
   const [step, setStep] = useState<'ask'|'issues'|'done'>('ask');
   const [selected, setSelected] = useState<string[]>([]);
@@ -111,38 +126,38 @@ export default function WeeklyCheckup() {
         {step === 'ask' && (<>
           <div className="ds-modal-head">
             <div>
-              <h2 id="wc-title">Is everything working for you?</h2>
-              <p>We ask once a week. It helps us catch problems before they spread.</p>
+              <h2 id="wc-title">{T('Is everything working for you?', 'क्या आपके लिए सब कुछ ठीक चल रहा है?')}</h2>
+              <p>{T('We ask once a week. It helps us catch problems before they spread.', 'हम हफ़्ते में एक बार पूछते हैं। इससे हम समस्याओं को फैलने से पहले पकड़ पाते हैं।')}</p>
             </div>
-            <button type="button" className="ds-x" onClick={dismiss} aria-label="Ask me later">
+            <button type="button" className="ds-x" onClick={dismiss} aria-label={T('Ask me later', 'बाद में पूछें')}>
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18" /></svg>
             </button>
           </div>
           <div className="wc-actions">
-            <button type="button" className="ds-btn ds-btn-solid" onClick={allGood}>Yes, all good</button>
-            <button type="button" className="ds-btn ds-btn-line" onClick={() => setStep('issues')}>Something’s not right</button>
+            <button type="button" className="ds-btn ds-btn-solid" onClick={allGood}>{T('Yes, all good', 'हाँ, सब ठीक है')}</button>
+            <button type="button" className="ds-btn ds-btn-line" onClick={() => setStep('issues')}>{T('Something’s not right', 'कुछ ठीक नहीं है')}</button>
           </div>
-          <button type="button" className="wc-later" onClick={dismiss}>Ask me later</button>
+          <button type="button" className="wc-later" onClick={dismiss}>{T('Ask me later', 'बाद में पूछें')}</button>
         </>)}
 
         {step === 'issues' && (<>
           <div className="ds-modal-head">
             <div>
-              <h2 id="wc-title">What’s not working?</h2>
-              <p>Pick the parts that gave you trouble, then tell us what happened.</p>
+              <h2 id="wc-title">{T('What’s not working?', 'क्या ठीक से नहीं चल रहा?')}</h2>
+              <p>{T('Pick the parts that gave you trouble, then tell us what happened.', 'जिन हिस्सों में दिक़्क़त आई उन्हें चुनें, फिर बताएँ कि क्या हुआ।')}</p>
             </div>
           </div>
-          <div className="wc-features" role="group" aria-label="Parts of the site">
+          <div className="wc-features" role="group" aria-label={T('Parts of the site', 'साइट के हिस्से')}>
             {FEATURES.map(f => (
-              <button key={f} type="button" aria-pressed={selected.includes(f)} className={`wc-feature${selected.includes(f) ? ' on' : ''}`} onClick={() => toggle(f)}>{f}</button>
+              <button key={f} type="button" aria-pressed={selected.includes(f)} className={`wc-feature${selected.includes(f) ? ' on' : ''}`} onClick={() => toggle(f)}>{langHi ? FEATURES_HI[f] ?? f : f}</button>
             ))}
           </div>
-          <label className="wc-label" htmlFor="wc-details">What happened?</label>
-          <textarea id="wc-details" className="wc-text" placeholder="A few lines on what you saw and where." value={details} onChange={e => setDetails(e.target.value)} rows={4} />
-          <div className={`wc-count${words >= MIN_WORDS ? ' ok' : ''}`}>{words >= MIN_WORDS ? 'That’s enough to go on' : `${MIN_WORDS - words} more ${MIN_WORDS - words === 1 ? 'word' : 'words'} at least`}</div>
+          <label className="wc-label" htmlFor="wc-details">{T('What happened?', 'क्या हुआ?')}</label>
+          <textarea id="wc-details" className="wc-text" placeholder={T('A few lines on what you saw and where.', 'कुछ पंक्तियों में बताएँ कि आपने क्या देखा और कहाँ।')} value={details} onChange={e => setDetails(e.target.value)} rows={4} />
+          <div className={`wc-count${words >= MIN_WORDS ? ' ok' : ''}`}>{words >= MIN_WORDS ? T('That’s enough to go on', 'इतना काफ़ी है') : langHi ? `कम से कम ${MIN_WORDS - words} शब्द और` : `${MIN_WORDS - words} more ${MIN_WORDS - words === 1 ? 'word' : 'words'} at least`}</div>
           <div className="wc-actions">
-            <button type="button" className="ds-btn ds-btn-ghost" onClick={() => { setStep('ask'); setSelected([]); setDetails(''); }}>Back</button>
-            <button type="button" className="ds-btn ds-btn-solid" onClick={submitIssues} disabled={!canSend}>{submitting ? 'Sending…' : 'Send'}</button>
+            <button type="button" className="ds-btn ds-btn-ghost" onClick={() => { setStep('ask'); setSelected([]); setDetails(''); }}>{T('Back', 'वापस')}</button>
+            <button type="button" className="ds-btn ds-btn-solid" onClick={submitIssues} disabled={!canSend}>{submitting ? T('Sending…', 'भेज रहे हैं…') : T('Send', 'भेजें')}</button>
           </div>
         </>)}
 
@@ -151,7 +166,7 @@ export default function WeeklyCheckup() {
             <span className="wc-mark" aria-hidden="true">
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round"><path d="M20 6 9 17l-5-5" /></svg>
             </span>
-            <h2 id="wc-title">Thanks, that helps</h2>
+            <h2 id="wc-title">{T('Thanks, that helps', 'धन्यवाद, इससे मदद मिलेगी')}</h2>
           </div>
         )}
       </div>

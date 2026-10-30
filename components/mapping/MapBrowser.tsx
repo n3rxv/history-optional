@@ -640,7 +640,7 @@ export default function MapBrowser({ chapters }: { chapters: MapChapter[] }) {
                 {paperYear !== 'repeats' && (
                   <div className="mp-seg" role="radiogroup" aria-label={T('Study or test', 'पढ़ें या जाँचें')}>
                     <button type="button" role="radio" aria-checked={paperView === 'study'} className={paperView === 'study' ? 'on' : ''} onClick={() => setPaperView('study')}>{T('Study', 'पढ़ें')}</button>
-                    <button type="button" role="radio" aria-checked={paperView === 'test'} className={paperView === 'test' ? 'on' : ''} onClick={() => setPaperView('test')}>{T('Test yourself', 'खुद को जाँचें')}</button>
+                    <button type="button" role="radio" aria-checked={paperView === 'test'} className={paperView === 'test' ? 'on' : ''} onClick={() => setPaperView('test')}>{T('Test yourself', 'ख़ुद को जाँचें')}</button>
                   </div>
                 )}
                 <BaseSeg value={base} onChange={setBase} hi={hi} />

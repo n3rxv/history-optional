@@ -9,9 +9,9 @@ import CompareIcon from '@/components/CompareIcon';
 import LoginPromptModal from '@/components/LoginPromptModal';
 import { useLoginPrompt } from '@/hooks/useLoginPrompt';
 import { pyqSection, tintFor, topicName } from './sections';
-import { initials, parseNote, topperOf } from '@/components/topper/note';
+import { initials, parseNote, sameQuestion, topperOf } from '@/components/topper/note';
 import { useLang } from '@/lib/i18n/LangContext';
-import { usePyqHi } from '@/lib/pyqHi';
+import { usePyqHi, topicLabel } from '@/lib/pyqHi';
 
 type Copy = { id: string; question: string; note: string | null };
 type Side = 'a' | 'b';
@@ -63,6 +63,10 @@ export default function PyqCompare({ pyq }: { pyq: Question }) {
   const meta = pyqSection(pyq.section);
   const { langHi } = useLang();
   const pyqHi = usePyqHi(langHi);
+  const L = (en: string, hi: string) => (langHi ? hi : en);
+  const qHi = pyqHi?.q[pyq.id];
+  /** A copy's question: the PYQ's Hindi when the copy answers it as asked, else its own words. */
+  const askedHi = (c: Copy) => (qHi && sameQuestion(c.question, pyq.question) ? qHi : undefined);
   const [copies, setCopies] = useState<Copy[] | null>(null);
   const [picks, setPicks] = useState<Picks | null>(null);
   const [access, setAccess] = useState<'checking' | 'signed-out' | 'locked' | 'open'>('checking');
@@ -144,13 +148,13 @@ export default function PyqCompare({ pyq }: { pyq: Question }) {
     const otherId = picks![side === 'a' ? 'b' : 'a'];
     const { name, rank, year } = parseNote(copy?.note ?? null);
     return (
-      <section key={`${copyId}:${epoch}`} className={`cmp-pane ${side}`} data-active={active === side} aria-label={`Answer ${side.toUpperCase()}: ${name}`}>
+      <section key={`${copyId}:${epoch}`} className={`cmp-pane ${side}`} data-active={active === side} aria-label={`${L('Answer', 'उत्तर')} ${side.toUpperCase()}: ${name}`}>
         <header className="cmp-head">
           <Avatar name={name} side={side} />
           <div className="cmp-who">
             <div className="cmp-name">{name}</div>
             <div className="cmp-sub">
-              <span className="cmp-side">Answer {side.toUpperCase()}</span>
+              <span className="cmp-side">{L('Answer', 'उत्तर')} {side.toUpperCase()}</span>
               {rank && <span>{rank}</span>}
               {year && <span>{year}</span>}
             </div>
@@ -158,21 +162,21 @@ export default function PyqCompare({ pyq }: { pyq: Question }) {
           {/* A native select under a drawn button: the platform's own picker,
               which on a phone is the one readers know, in the page's look. */}
           <label className="cmp-change">
-            <span>Change topper</span>
+            <span>{L('Change topper', 'टॉपर बदलें')}</span>
             <svg width="10" height="10" viewBox="0 0 10 10" fill="none" aria-hidden="true"><path d="M2 3.5L5 6.5L8 3.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" /></svg>
-            <select value={copyId} onChange={(e) => choose(side, e.target.value)} aria-label={`Choose the topper for answer ${side.toUpperCase()}`}>
+            <select value={copyId} onChange={(e) => choose(side, e.target.value)} aria-label={L(`Choose the topper for answer ${side.toUpperCase()}`, `उत्तर ${side.toUpperCase()} के लिए टॉपर चुनें`)}>
               {list.map((c) => <option key={c.id} value={c.id} disabled={c.id === otherId}>{optionLabel(c)}</option>)}
             </select>
           </label>
         </header>
         {copy && (
           <div className="cmp-asked-box">
-            <div className="cmp-asked-label">The question they answered</div>
-            <p className="cmp-asked" title={copy.question}>{copy.question}</p>
+            <div className="cmp-asked-label">{L('The question they answered', 'जिस प्रश्न का उत्तर लिखा गया')}</div>
+            <p className="cmp-asked" title={askedHi(copy) ?? copy.question} lang={askedHi(copy) ? 'hi' : undefined}>{askedHi(copy) ?? copy.question}</p>
           </div>
         )}
         {denied[copyId] ? (
-          <div className="cmp-denied"><TopperLocked onUnlocked={unlocked} message="Your free topper-copy views are used up. Unlock to open this one." /></div>
+          <div className="cmp-denied"><TopperLocked onUnlocked={unlocked} message={L('Your free topper-copy views are used up. Unlock to open this one.', 'आपकी निःशुल्क टॉपर कॉपियाँ इस्तेमाल हो चुकी हैं। इसे खोलने के लिए अनलॉक करें।')} /></div>
         ) : (
           <TopperPdf embedded copyId={copyId} height="max(420px, calc(100vh - 260px))"
             onLoad={() => { if (freeLeft !== null) setOpened((n) => n + 1); }}
@@ -198,40 +202,44 @@ export default function PyqCompare({ pyq }: { pyq: Question }) {
       <div className="cmp-wrap">
         <Link href={`/pyqs/${pyq.id}`} className="ds-back">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M19 12H5M11 6l-6 6 6 6" /></svg>
-          The question
+          {L('The question', 'प्रश्न')}
         </Link>
 
         <div className="cmp-hero">
           <div className="cmp-hero-main">
-            <div className="cmp-kicker"><CompareIcon size={14} /> Toppers’ answers, side by side</div>
-            <h1 lang={pyqHi?.q[pyq.id] ? 'hi' : undefined}>{pyqHi?.q[pyq.id] ?? pyq.question}</h1>
+            <div className="cmp-kicker"><CompareIcon size={14} /> {L('Toppers’ answers, side by side', 'टॉपरों के उत्तर, आमने-सामने')}</div>
+            <h1 lang={qHi ? 'hi' : undefined}>{qHi ?? pyq.question}</h1>
             <div className="cmp-chips">
-              {[`UPSC ${pyq.year}`, `${pyq.marks} marks`, meta?.name ?? pyq.section, topicName(pyq.topic)].map((chip) => <span key={chip}>{chip}</span>)}
+              {[`UPSC ${pyq.year}`, `${pyq.marks} ${L('marks', 'अंक')}`, (langHi ? meta?.nameHi : meta?.name) ?? pyq.section, langHi ? topicLabel(pyq.topic, pyqHi) : topicName(pyq.topic)].map((chip) => <span key={chip}>{chip}</span>)}
             </div>
           </div>
           {list.length > 0 && (
-            <div className="cmp-count"><strong>{list.length}</strong><span>topper {list.length === 1 ? 'copy' : 'copies'}</span></div>
+            <div className="cmp-count"><strong>{list.length}</strong><span>{langHi ? `टॉपर ${list.length === 1 ? 'कॉपी' : 'कॉपियाँ'}` : `topper ${list.length === 1 ? 'copy' : 'copies'}`}</span></div>
           )}
         </div>
 
-        {(access === 'checking' || copies === null) && <OwlLoader label="Loading topper copies" />}
+        {(access === 'checking' || copies === null) && <OwlLoader label={L('Loading topper copies', 'टॉपर कॉपियाँ लोड हो रही हैं')} />}
 
         {copies !== null && copies.length === 0 && gate(
-          'No topper copies for this question yet',
-          'Copies are added as toppers’ answer booklets come in. Other questions already have several to compare.',
-          <Link href="/topper-copies" className="ds-btn ds-btn-solid">Browse topper copies</Link>,
+          L('No topper copies for this question yet', 'इस प्रश्न की अभी कोई टॉपर कॉपी नहीं है'),
+          L('Copies are added as toppers’ answer booklets come in. Other questions already have several to compare.', 'टॉपरों की उत्तर पुस्तिकाएँ आने पर कॉपियाँ जोड़ी जाती हैं। दूसरे प्रश्नों पर तुलना के लिए पहले से कई कॉपियाँ हैं।'),
+          <Link href="/topper-copies" className="ds-btn ds-btn-solid">{L('Browse topper copies', 'टॉपर कॉपियाँ देखें')}</Link>,
         )}
 
         {copies !== null && copies.length === 1 && gate(
-          'Only one topper copy so far',
-          <>There is nothing to set it beside yet, but {parseNote(copies[0].note).name}’s answer is here to read.</>,
-          <Link href={`/topper-copies/${copies[0].id}`} className="ds-btn ds-btn-solid">Read the copy</Link>,
+          L('Only one topper copy so far', 'अभी केवल एक टॉपर कॉपी है'),
+          langHi
+            ? <>अभी इसके साथ रखने को दूसरी कॉपी नहीं है, पर {parseNote(copies[0].note).name} का उत्तर यहाँ पढ़ सकते हैं।</>
+            : <>There is nothing to set it beside yet, but {parseNote(copies[0].note).name}’s answer is here to read.</>,
+          <Link href={`/topper-copies/${copies[0].id}${sameQuestion(copies[0].question, pyq.question) ? `?pyq=${pyq.id}` : ''}`} className="ds-btn ds-btn-solid">{L('Read the copy', 'कॉपी पढ़ें')}</Link>,
         )}
 
         {access === 'signed-out' && list.length >= 2 && gate(
-          'Read two toppers’ answers side by side',
-          <>{toppers.length} toppers answered this question, among them {toppers.slice(0, 2).join(' and ')}. Sign in to put any two next to each other. Your first {FREE_VIEWS} copies are free.</>,
-          <button type="button" className="ds-btn ds-btn-solid" onClick={() => requireLogin('Sign in to compare topper copies')}>Sign in to compare</button>,
+          L('Read two toppers’ answers side by side', 'दो टॉपरों के उत्तर आमने-सामने पढ़ें'),
+          langHi
+            ? <>{toppers.length} टॉपरों ने इस प्रश्न का उत्तर लिखा है, इनमें {toppers.slice(0, 2).join(' और ')} भी हैं। किन्हीं दो को साथ-साथ रखने के लिए साइन इन करें। आपकी पहली {FREE_VIEWS} कॉपियाँ निःशुल्क हैं।</>
+            : <>{toppers.length} toppers answered this question, among them {toppers.slice(0, 2).join(' and ')}. Sign in to put any two next to each other. Your first {FREE_VIEWS} copies are free.</>,
+          <button type="button" className="ds-btn ds-btn-solid" onClick={() => requireLogin(L('Sign in to compare topper copies', 'टॉपर कॉपियों की तुलना के लिए साइन इन करें'))}>{L('Sign in to compare', 'तुलना के लिए साइन इन करें')}</button>,
         )}
 
         {access === 'locked' && list.length >= 2 && <div className="cmp-locked"><TopperLocked onUnlocked={unlocked} /></div>}
@@ -240,8 +248,8 @@ export default function PyqCompare({ pyq }: { pyq: Question }) {
           <>
             {freeLeft !== null && (
               <p className="cmp-free">
-                <span>Free preview</span>
-                Each copy opened here uses one of your {FREE_VIEWS} free views. <strong>{Math.max(0, freeLeft - opened)} left</strong>
+                <span>{L('Free preview', 'निःशुल्क झलक')}</span>
+                {L(`Each copy opened here uses one of your ${FREE_VIEWS} free views.`, `यहाँ खोली गई हर कॉपी आपकी ${FREE_VIEWS} निःशुल्क कॉपियों में से एक गिनी जाती है।`)} <strong>{L(`${Math.max(0, freeLeft - opened)} left`, `${Math.max(0, freeLeft - opened)} बाक़ी`)}</strong>
               </p>
             )}
             <div className="cmp-tabs" role="tablist">
@@ -258,7 +266,7 @@ export default function PyqCompare({ pyq }: { pyq: Question }) {
             </div>
             <div className="cmp-grid">
               {pane('a')}
-              <button key="swap" type="button" className="cmp-swap" onClick={swap} aria-label="Swap the two answers" title="Swap sides"><CompareIcon size={16} /></button>
+              <button key="swap" type="button" className="cmp-swap" onClick={swap} aria-label={L('Swap the two answers', 'दोनों उत्तरों की जगह बदलें')} title={L('Swap sides', 'जगह बदलें')}><CompareIcon size={16} /></button>
               {pane('b')}
             </div>
           </>

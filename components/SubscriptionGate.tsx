@@ -4,6 +4,7 @@ import { auth, signInWithGoogle } from '@/lib/firebase';
 import { useUsageTracker } from '@/hooks/useUsageTracker';
 import { SubscribeCard } from '@/components/SubscribeCard';
 import { daysToMains } from '@/lib/examDates';
+import { useLang } from '@/lib/i18n/LangContext';
 
 const FREE_EVAL_LIMIT = 1;
 const FREE_CHAT_LIMIT = 3;
@@ -17,6 +18,7 @@ function Modal({ mode, type, fingerprint, onClose }: {
   onClose: () => void;
 }) {
   const [signingIn, setSigningIn] = useState(false);
+  const { langHi } = useLang();
   const daysLeft = daysToMains();
 
   async function handleGoogleSignIn() {
@@ -50,12 +52,19 @@ function Modal({ mode, type, fingerprint, onClose }: {
           <>
             <div style={{ marginBottom: 20 }}>
               <h2 style={{ margin: '0 0 8px', fontSize: 18, fontWeight: 700 }}>
-                Sign in to continue
+                {langHi ? 'जारी रखने के लिए साइन इन करें' : 'Sign in to continue'}
               </h2>
-              <p style={{ color: 'var(--text2)', margin: 0, fontSize: 13, lineHeight: 1.5 }}>
-                Get <strong style={{ color: 'var(--text)' }}>{FREE_EVAL_LIMIT} free evaluation</strong> and{' '}
-                <strong style={{ color: 'var(--text)' }}>{FREE_CHAT_LIMIT} free chats</strong> — or subscribe for unlimited access.
-              </p>
+              {langHi ? (
+                <p style={{ color: 'var(--text2)', margin: 0, fontSize: 13, lineHeight: 1.5 }}>
+                  <strong style={{ color: 'var(--text)' }}>{FREE_EVAL_LIMIT} निःशुल्क मूल्यांकन</strong> और{' '}
+                  <strong style={{ color: 'var(--text)' }}>{FREE_CHAT_LIMIT} निःशुल्क चैट</strong> पाएँ, या असीमित पहुँच के लिए सदस्यता लें।
+                </p>
+              ) : (
+                <p style={{ color: 'var(--text2)', margin: 0, fontSize: 13, lineHeight: 1.5 }}>
+                  Get <strong style={{ color: 'var(--text)' }}>{FREE_EVAL_LIMIT} free evaluation</strong> and{' '}
+                  <strong style={{ color: 'var(--text)' }}>{FREE_CHAT_LIMIT} free chats</strong> — or subscribe for unlimited access.
+                </p>
+              )}
             </div>
             <button
               onClick={handleGoogleSignIn}
@@ -66,14 +75,14 @@ function Modal({ mode, type, fingerprint, onClose }: {
                 fontWeight: 600, fontSize: 14, cursor: 'pointer',
                 display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8,
               }}>
-              {signingIn ? 'Signing in…' : 'Continue with Google'}
+              {signingIn ? (langHi ? 'साइन इन हो रहा है…' : 'Signing in…') : (langHi ? 'Google से जारी रखें' : 'Continue with Google')}
             </button>
             <button onClick={onClose} style={{
               marginTop: 10, width: '100%', padding: '10px', borderRadius: 8,
               background: 'transparent', color: 'var(--text3)', border: '1px solid #333',
               fontSize: 13, cursor: 'pointer',
             }}>
-              Cancel
+              {langHi ? 'रद्द करें' : 'Cancel'}
             </button>
           </>
         )}
@@ -86,12 +95,20 @@ function Modal({ mode, type, fingerprint, onClose }: {
               borderRadius: 10, padding: '12px 14px', marginBottom: 20,
             }}>
               <div style={{ fontSize: 13, fontWeight: 700, color: 'var(--warning-text)', marginBottom: 6 }}>
-                {daysLeft > 0
-                  ? `${daysLeft} days to Mains. Your free quota is done.`
-                  : 'Mains is here. Your free quota is done.'}
+                {langHi
+                  ? (daysLeft > 0
+                    ? `मुख्य परीक्षा में ${daysLeft} दिन बाक़ी। आपका निःशुल्क कोटा पूरा हो गया।`
+                    : 'मुख्य परीक्षा आ गई। आपका निःशुल्क कोटा पूरा हो गया।')
+                  : daysLeft > 0
+                    ? `${daysLeft} days to Mains. Your free quota is done.`
+                    : 'Mains is here. Your free quota is done.'}
               </div>
               <div style={{ fontSize: 12, color: 'var(--text3)', lineHeight: 1.55 }}>
-                {type === 'eval'
+                {langHi
+                  ? (type === 'eval'
+                    ? 'टॉपर रोज़ 5 से 10 उत्तर जँचवाते हैं। आपका 1 निःशुल्क मूल्यांकन हो चुका है। लेखन पर प्रतिक्रिया के बिना आप बस अंदाज़ा लगाते हैं कि परीक्षक क्या चाहता है।'
+                    : 'आपकी 3 निःशुल्क चैट हो चुकी हैं। गंभीर अभ्यर्थी इसी समय स्रोतों, इतिहास-लेखन और उत्तर के ढाँचे पर तुरंत स्पष्टता पा रहे हैं।')
+                  : type === 'eval'
                   ? "Toppers evaluate 5–10 answers daily. You've used your 1 free evaluation. Without feedback on your writing, you're guessing what the examiner wants."
                   : "You've used your 3 free chats. Serious aspirants are getting instant clarity on sources, historiography, and answer structure — right now."}
               </div>

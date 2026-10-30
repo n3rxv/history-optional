@@ -157,7 +157,7 @@ export default function Timeline() {
       <header className="tl-hero">
         <div className="ds-container">
           <h1 className="ds-h1 tl-h1">{T('Timeline', 'समयरेखा')}</h1>
-          <p className="ds-lede tl-lede">{T('Indian and world history side by side, so you can see what else was going on at the time. Handy when an answer needs context.', 'भारतीय और विश्व इतिहास साथ-साथ, ताकि दिखे कि उसी समय बाकी दुनिया में क्या चल रहा था। जब उत्तर में संदर्भ चाहिए, तब काम आता है।')}</p>
+          <p className="ds-lede tl-lede">{T('Indian and world history side by side, so you can see what else was going on at the time. Handy when an answer needs context.', 'भारतीय और विश्व इतिहास साथ-साथ, ताकि दिखे कि उसी समय बाक़ी दुनिया में क्या चल रहा था। जब उत्तर में संदर्भ चाहिए, तब काम आता है।')}</p>
         </div>
       </header>
 

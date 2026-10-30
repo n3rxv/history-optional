@@ -646,8 +646,8 @@ function ChatContent() {
   const clearPdf = () => { setPdfBase64(null); setPdfName(null); };
 
   const handlePdfUpload = useCallback((file: File) => {
-    if (!file || file.type !== 'application/pdf') { toast('That file is not a PDF. Pick a PDF to upload.', 'error'); return; }
-    if (file.size > 20 * 1024 * 1024) { toast('That PDF is over 20 MB. Try a smaller one.', 'error'); return; }
+    if (!file || file.type !== 'application/pdf') { toast(langHi ? 'यह फ़ाइल PDF नहीं है। अपलोड करने के लिए PDF चुनें।' : 'That file is not a PDF. Pick a PDF to upload.', 'error'); return; }
+    if (file.size > 20 * 1024 * 1024) { toast(langHi ? 'यह PDF 20 MB से बड़ी है। कोई छोटी फ़ाइल आज़माएँ।' : 'That PDF is over 20 MB. Try a smaller one.', 'error'); return; }
     const reader = new FileReader();
     reader.onload = (e) => {
       const base64 = (e.target?.result as string).split(',')[1];
@@ -656,7 +656,7 @@ function ChatContent() {
       inputRef.current?.focus();
     };
     reader.readAsDataURL(file);
-  }, []);
+  }, [langHi]);
 
   const handleDrop = useCallback((e: React.DragEvent) => {
     e.preventDefault();
@@ -731,7 +731,7 @@ function ChatContent() {
   const sendMessage = async (text?: string, opts: { format?: 'mains' } = {}) => {
     const q = (text ?? input).trim();
     if (!q || loading) return;
-    if (q.length > 10000) { toast('That message is over 10,000 characters. Try a shorter one.', 'error'); return; }
+    if (q.length > 10000) { toast(langHi ? 'यह संदेश 10,000 अक्षरों से लंबा है। कोई छोटा संदेश आज़माएँ।' : 'That message is over 10,000 characters. Try a shorter one.', 'error'); return; }
     if (!usage || !usage.fingerprint) { showLoginModal(); return; }
     if (!canChat) { showChatLimitModal(); return; }
 
@@ -1017,10 +1017,10 @@ function ChatContent() {
       </span>,
     );
   }
-  if (mentorMode && subscribed) tags.push(<span key="mentor" className="ch-tag">🎓 {langHi ? 'मेंटर' : 'Mentor'}<button onClick={() => setMentorMode(false)} aria-label="Remove">✕</button></span>);
-  if (brainstormMode && subscribed) tags.push(<span key="brain" className="ch-tag">💡 {langHi ? 'ब्रेनस्टॉर्म' : 'Brainstorm'}<button onClick={() => setBrainstormMode(false)} aria-label="Remove">✕</button></span>);
-  if (responseStyle !== DEFAULT_STYLE && !mentorMode && !brainstormMode) tags.push(<span key="style" className="ch-tag">{styleLabel[responseStyle]}<button onClick={() => setResponseStyle(DEFAULT_STYLE)} aria-label="Remove">✕</button></span>);
-  if (pdfName) tags.push(<span key="pdf" className="ch-tag ch-tag-pdf">📄 <span className="ch-tag-name">{pdfName}</span><button onClick={clearPdf} aria-label="Remove">✕</button></span>);
+  if (mentorMode && subscribed) tags.push(<span key="mentor" className="ch-tag">🎓 {langHi ? 'मेंटर' : 'Mentor'}<button onClick={() => setMentorMode(false)} aria-label={langHi ? 'हटाएँ' : 'Remove'}>✕</button></span>);
+  if (brainstormMode && subscribed) tags.push(<span key="brain" className="ch-tag">💡 {langHi ? 'ब्रेनस्टॉर्म' : 'Brainstorm'}<button onClick={() => setBrainstormMode(false)} aria-label={langHi ? 'हटाएँ' : 'Remove'}>✕</button></span>);
+  if (responseStyle !== DEFAULT_STYLE && !mentorMode && !brainstormMode) tags.push(<span key="style" className="ch-tag">{styleLabel[responseStyle]}<button onClick={() => setResponseStyle(DEFAULT_STYLE)} aria-label={langHi ? 'हटाएँ' : 'Remove'}>✕</button></span>);
+  if (pdfName) tags.push(<span key="pdf" className="ch-tag ch-tag-pdf">📄 <span className="ch-tag-name">{pdfName}</span><button onClick={clearPdf} aria-label={langHi ? 'हटाएँ' : 'Remove'}>✕</button></span>);
 
   const composer = (
     <div className="ch-composer">
@@ -1098,7 +1098,7 @@ function ChatContent() {
           : subscribed ? tr(t.chatUnlimited, langHi)
           : !usage?.fingerprint ? (langHi ? 'साइन इन करें और 3 निःशुल्क संदेश पाएँ' : 'Sign in for 3 free messages')
           : remaining === 0 ? <span className="ch-usage-out">{tr(t.chatFreeUsed, langHi)}</span>
-          : <>{langHi ? 'निःशुल्क संदेश बाकी:' : 'Free messages remaining:'} <strong>{remaining}</strong></>}
+          : <>{langHi ? 'निःशुल्क संदेश बाक़ी:' : 'Free messages remaining:'} <strong>{remaining}</strong></>}
       </div>
     </div>
   );

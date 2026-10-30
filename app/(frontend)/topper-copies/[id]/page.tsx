@@ -1,5 +1,5 @@
 'use client';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useSyncExternalStore } from 'react';
 import Link from 'next/link';
 import { useParams, useRouter } from 'next/navigation';
 import { auth, signInWithGoogle } from '@/lib/firebase';
@@ -8,6 +8,10 @@ import TopperLocked from '@/components/TopperLocked';
 import OwlLoader from '@/components/OwlLoader';
 import Mascot from '@/components/Mascot';
 import { initials, parseNote } from '@/components/topper/note';
+import { useLang } from '@/lib/i18n/LangContext';
+import { usePyqHi } from '@/lib/pyqHi';
+
+const noSubscribe = () => () => {};
 
 /**
  * One topper copy. Who may open it is decided before any PDF is asked for;
@@ -17,10 +21,19 @@ import { initials, parseNote } from '@/components/topper/note';
  * Signed out, this showed the unlock card, whose button needs an
  * account and so did nothing: a reader arriving from a link was stuck. They
  * are asked to sign in now, which is what their five free copies need.
+ *
+ * ?pyq= names the PYQ this copy answers as asked, when the page linking here
+ * knows it does: Hindi mode then shows that PYQ's Hindi for the question.
+ * Without it the copy's own question stays, since a copy linked to a PYQ
+ * has often answered a differently worded question on its theme.
  */
 export default function TopperCopyPage() {
   const { id } = useParams<{ id: string }>();
   const router = useRouter();
+  const { langHi } = useLang();
+  const L = (en: string, hi: string) => (langHi ? hi : en);
+  const pyqId = useSyncExternalStore(noSubscribe, () => new URLSearchParams(window.location.search).get('pyq') ?? '', () => '');
+  const questionHi = usePyqHi(langHi && /^\d+$/.test(pyqId))?.q[pyqId];
   const [copy, setCopy] = useState<TopperCopyDetail | null>(null);
   const [state, setState] = useState<'checking' | 'signed-out' | 'locked' | 'open'>('checking');
 
@@ -41,18 +54,18 @@ export default function TopperCopyPage() {
       <div className="tv-wrap">
         <button type="button" className="ds-back" onClick={back}>
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M19 12H5M11 6l-6 6 6 6" /></svg>
-          Back
+          {L('Back', 'वापस')}
         </button>
 
-        {state === 'checking' && <OwlLoader label="Checking your access" />}
+        {state === 'checking' && <OwlLoader label={L('Checking your access', 'आपकी पहुँच जाँची जा रही है')} />}
 
         {state === 'signed-out' && (
           <div className="tv-gate">
             <Mascot pose="reading" width={84} />
-            <h1>Sign in to read this copy</h1>
-            <p>A free account opens your first five topper copies, and keeps your notes and progress with you.</p>
-            <button type="button" className="ds-btn ds-btn-solid" onClick={() => signInWithGoogle().catch(() => {})}>Sign in free</button>
-            <Link href="/topper-copies" className="tv-all">See every topper copy</Link>
+            <h1>{L('Sign in to read this copy', 'यह कॉपी पढ़ने के लिए साइन इन करें')}</h1>
+            <p>{L('A free account opens your first five topper copies, and keeps your notes and progress with you.', 'निःशुल्क खाते से आपकी पहली पाँच टॉपर कॉपियाँ खुलती हैं, और आपके नोट्स व प्रगति आपके साथ रहते हैं।')}</p>
+            <button type="button" className="ds-btn ds-btn-solid" onClick={() => signInWithGoogle().catch(() => {})}>{L('Sign in free', 'निःशुल्क साइन इन करें')}</button>
+            <Link href="/topper-copies" className="tv-all">{L('See every topper copy', 'सभी टॉपर कॉपियाँ देखें')}</Link>
           </div>
         )}
 
@@ -64,8 +77,8 @@ export default function TopperCopyPage() {
           <>
             {copy && (
               <header className="tv-head">
-                <div className="tv-kicker">Topper copy</div>
-                <h1>{copy.question}</h1>
+                <div className="tv-kicker">{L('Topper copy', 'टॉपर कॉपी')}</div>
+                <h1 lang={questionHi ? 'hi' : undefined}>{questionHi ?? copy.question}</h1>
                 {copy.note && (
                   <div className="tv-who">
                     <span className="tv-avatar" aria-hidden="true">{initials(name)}</span>
@@ -75,7 +88,7 @@ export default function TopperCopyPage() {
               </header>
             )}
             <TopperPdf key={id} copyId={id} height="80vh" onLoad={setCopy} onDenied={() => setState('locked')} />
-            {copy && <div className="tv-foot"><Link href="/topper-copies" className="ds-btn ds-btn-line ds-btn-sm">All topper copies</Link></div>}
+            {copy && <div className="tv-foot"><Link href="/topper-copies" className="ds-btn ds-btn-line ds-btn-sm">{L('All topper copies', 'सभी टॉपर कॉपियाँ')}</Link></div>}
           </>
         )}
       </div>

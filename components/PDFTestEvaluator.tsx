@@ -15,7 +15,8 @@ import PdfButton, { downloadEvaluationPdf, type PdfAnswer } from '@/components/e
  * (the paper just sat, whose questions it is given).
  */
 
-interface PaperQuestion { id: string; marks: number; text: string }
+/** `text` is what is sent for marking; `shown`, when set, is the question in the reader's language, for display only. */
+interface PaperQuestion { id: string; marks: number; text: string; shown?: string }
 interface QuestionResult { question: PaperQuestion; evaluation: Evaluation | null; error?: string }
 interface Segment { questionNumber: string; marks: number; questionText: string; answerText: string }
 type Stage = 'upload' | 'loading' | 'review' | 'evaluating' | 'done';
@@ -36,7 +37,7 @@ const paperPdf = (results: QuestionResult[]): PdfAnswer[] => results.map(({ ques
 });
 
 /** One marked question of the paper, folded until opened. */
-function QuestionCard({ result, open, onToggle, onRetry, hi }: { result: QuestionResult; open: boolean; onToggle: () => void; onRetry?: () => void; hi: boolean }) {
+function QuestionCard({ result, open, onToggle, onRetry, hi, shown }: { result: QuestionResult; open: boolean; onToggle: () => void; onRetry?: () => void; hi: boolean; shown?: string }) {
   const [tab, setTab] = useState<'eval' | 'model' | 'hist'>('eval');
   const [retrying, setRetrying] = useState(false);
   const { question, evaluation: ev, error } = result;
@@ -45,7 +46,7 @@ function QuestionCard({ result, open, onToggle, onRetry, hi }: { result: Questio
     <section className={`pe-q${open ? ' open' : ''}`}>
       <button type="button" className="pe-q-head" onClick={onToggle} aria-expanded={open}>
         <span className="pe-q-id">{question.id}</span>
-        <span className="pe-q-text">{question.text || (hi ? `प्रश्न ${question.id}` : `Question ${question.id}`)}</span>
+        <span className="pe-q-text">{shown || question.text || (hi ? `प्रश्न ${question.id}` : `Question ${question.id}`)}</span>
         {ev ? <span className="pe-q-score" style={{ color: scoreTone(pct) }}>{ev.marks} / {ev.marks_out_of}</span>
           : error ? <span className="pe-q-score err">{hi ? 'नहीं हुआ' : 'Not marked'}</span>
           : <span className="pe-q-score">…</span>}
@@ -93,6 +94,7 @@ export default function PDFTestEvaluator({ isPremium, onPaywall, token, paperQue
   const [results, setResults] = useState<QuestionResult[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [expanded, setExpanded] = useState<string | null>(null);
+  const shownOf = (id: string) => paperQuestions?.find((q) => q.id === id)?.shown;
 
   // The transcript and the questions found (one paid read of the booklet)
   // and every result are kept for the tab; a step in flight falls back to
@@ -154,7 +156,7 @@ export default function PDFTestEvaluator({ isPremium, onPaywall, token, paperQue
       }
       setTranscript(text);
       setProgress(55);
-      if (!text.trim()) throw new Error(hi ? 'पेजों से कोई पाठ नहीं मिला। PDF शायद धुंधला है; साफ़ स्कैन के साथ फिर कोशिश करें।' : 'No text came off the pages. The PDF may be too faint or blurred; try a cleaner scan.');
+      if (!text.trim()) throw new Error(hi ? 'पेजों से कोई पाठ नहीं मिला। PDF शायद धुंधला है, साफ़ स्कैन के साथ फिर कोशिश करें।' : 'No text came off the pages. The PDF may be too faint or blurred; try a cleaner scan.');
 
       setStepLabel(hi ? 'उत्तर अलग किए जा रहे हैं' : 'Finding each answer');
       let found: Segment[];
@@ -250,7 +252,7 @@ export default function PDFTestEvaluator({ isPremium, onPaywall, token, paperQue
       fd.append('lang', hi ? 'hi' : 'en');
       const res = await fetch('/api/evaluate', { method: 'POST', headers: { ...(await headers()), 'x-internal': '1' }, body: fd });
       const data = await res.json();
-      if (!res.ok) throw new Error(data.error ?? 'Evaluation failed');
+      if (!res.ok) throw new Error(data.error ?? (hi ? 'मूल्यांकन नहीं हुआ' : 'Evaluation failed'));
       setResults((prev) => prev.map((x) => (x.question.id === r.question.id ? { ...x, evaluation: data } : x)));
     } catch (e) {
       setResults((prev) => prev.map((x) => (x.question.id === r.question.id ? { ...x, error: e instanceof Error ? e.message : String(e) } : x)));
@@ -274,10 +276,10 @@ export default function PDFTestEvaluator({ isPremium, onPaywall, token, paperQue
         <div className="pe-head">
           <span className="pe-icon"><PdfIcon /></span>
           <div><h3>{hi ? 'पूरा पेपर जँचवाएँ' : 'Have a whole paper marked'}</h3><p>{hi ? 'पूरी उत्तर पुस्तिका की एक PDF: हर पेज पढ़ा जाता है, हर उत्तर अलग किया जाता है, और हर एक के अंक और प्रतिक्रिया मिलती है।' : 'One PDF of the whole answer booklet: every page is read, each answer found, and every one marked with feedback.'}</p></div>
-          <span className="pe-premium">Premium</span>
+          <span className="pe-premium">{hi ? 'प्रीमियम' : 'Premium'}</span>
         </div>
         <ol className="pe-steps">{steps.map(([t, s], i) => <li key={t}><span>{i + 1}</span><div><strong>{t}</strong><p>{s}</p></div></li>)}</ol>
-        <button type="button" className="ds-btn ds-btn-premium ds-btn-block" onClick={onPaywall}>{hi ? 'Premium के साथ खोलें' : 'Unlock it with Premium'}</button>
+        <button type="button" className="ds-btn ds-btn-premium ds-btn-block" onClick={onPaywall}>{hi ? 'प्रीमियम के साथ खोलें' : 'Unlock it with Premium'}</button>
       </div>
     );
   } else if (stage === 'loading' || stage === 'evaluating') {
@@ -322,11 +324,17 @@ export default function PDFTestEvaluator({ isPremium, onPaywall, token, paperQue
                   <button type="button" className="pe-x" onClick={() => setSegments((p) => p.filter((_, j) => j !== i))} aria-label={hi ? 'यह उत्तर हटाएँ' : 'Remove this answer'}>✕</button>
                 )}
               </div>
-              <label className="pe-field">
-                <span>{hi ? 'प्रश्न (अगर पता हो)' : 'The question, if you know it'}</span>
-                <input value={seg.questionText} onChange={(e) => updateSegment(i, { questionText: e.target.value })}
-                  placeholder={hi ? 'जैसे: "15वीं सदी के भारत में भक्ति आंदोलन की भूमिका की समीक्षा करें।"' : 'e.g. "Examine the role of the Bhakti movement in fifteenth-century India."'} />
-              </label>
+              {shownOf(seg.questionNumber) ? (
+                // The paper's own question, in the reader's language; the
+                // English is what goes for marking.
+                <div className="pe-field"><span>{hi ? 'प्रश्न' : 'The question'}</span><p className="pe-seg-q">{shownOf(seg.questionNumber)}</p></div>
+              ) : (
+                <label className="pe-field">
+                  <span>{hi ? 'प्रश्न (अगर पता हो)' : 'The question, if you know it'}</span>
+                  <input value={seg.questionText} onChange={(e) => updateSegment(i, { questionText: e.target.value })}
+                    placeholder={hi ? 'जैसे: "15वीं सदी के भारत में भक्ति आंदोलन की भूमिका की समीक्षा करें।"' : 'e.g. "Examine the role of the Bhakti movement in fifteenth-century India."'} />
+                </label>
+              )}
               {expandedAnswer === i && seg.answerText && (
                 <label className="pe-field">
                   <span>{hi ? 'इस प्रश्न का उत्तर' : 'The answer we found for it'}</span>
@@ -377,7 +385,7 @@ export default function PDFTestEvaluator({ isPremium, onPaywall, token, paperQue
         )}
         <div className="pe-qs">
           {results.map((r) => (
-            <QuestionCard key={r.question.id} result={r} hi={hi} open={expanded === r.question.id}
+            <QuestionCard key={r.question.id} result={r} hi={hi} shown={shownOf(r.question.id)} open={expanded === r.question.id}
               onToggle={() => setExpanded((p) => (p === r.question.id ? null : r.question.id))}
               onRetry={r.error ? retry(r) : undefined} />
           ))}
@@ -397,7 +405,7 @@ export default function PDFTestEvaluator({ isPremium, onPaywall, token, paperQue
                 : (hi ? 'पूरी उत्तर पुस्तिका की एक PDF। हर उत्तर अलग किया जाता है, आप जाँचते हैं, फिर हर एक के अंक मिलते हैं।' : 'One PDF of the whole answer booklet. Each answer is found, you check the split, then every one is marked.')}
             </p>
           </div>
-          <span className="pe-premium">Premium</span>
+          <span className="pe-premium">{hi ? 'प्रीमियम' : 'Premium'}</span>
         </div>
         {paperQuestions && paperQuestions.length > 0 && (
           <div className="pe-chips">{paperQuestions.map((q) => <span key={q.id}>{q.id} · {q.marks} {hi ? 'अंक' : 'marks'}</span>)}</div>
@@ -480,6 +488,7 @@ const PE_CSS = `
 .pe-x:hover { color: var(--danger-text); background: var(--danger-wash); }
 .pe-field { display: block; margin-top: var(--space-2); }
 .pe-field > span { display: block; margin-bottom: 4px; font-size: 0.84rem; font-weight: 700; color: var(--text2); }
+.pe-seg-q { margin: 0; font-size: 0.94rem; line-height: 1.55; color: var(--text); }
 .pe-field input, .pe-field textarea { width: 100%; box-sizing: border-box; padding: var(--space-2) var(--space-3); border: 1.5px solid var(--border2); border-radius: var(--radius-md); background: var(--ds-card); color: var(--text); font: inherit; font-size: 0.94rem; line-height: 1.55; outline: none; resize: vertical; }
 .pe-field input:focus, .pe-field textarea:focus { border-color: color-mix(in srgb, var(--accent) 60%, transparent); box-shadow: 0 0 0 3px var(--accent-glow); }
 .pe-actions { display: flex; flex-wrap: wrap; gap: var(--space-3); margin-top: var(--space-5); }

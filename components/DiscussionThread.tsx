@@ -2,6 +2,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import { supabase } from '@/lib/supabase';
 import OwlLoader from '@/components/OwlLoader';
+import { useLang } from '@/lib/i18n/LangContext';
 
 interface Comment {
   id: string;
@@ -22,17 +23,19 @@ async function getFingerprint(): Promise<string> {
   } catch { return 'anon-' + Math.random().toString(36).slice(2); }
 }
 
-function timeAgo(iso: string): string {
+function timeAgo(iso: string, hi: boolean): string {
   const diff = Date.now() - new Date(iso).getTime();
   const m = Math.floor(diff / 60000);
-  if (m < 1) return 'just now';
-  if (m < 60) return `${m}m ago`;
+  if (m < 1) return hi ? 'अभी-अभी' : 'just now';
+  if (m < 60) return hi ? `${m} मिनट पहले` : `${m}m ago`;
   const h = Math.floor(m / 60);
-  if (h < 24) return `${h}h ago`;
-  return `${Math.floor(h / 24)}d ago`;
+  if (h < 24) return hi ? `${h} घंटे पहले` : `${h}h ago`;
+  return hi ? `${Math.floor(h / 24)} दिन पहले` : `${Math.floor(h / 24)}d ago`;
 }
 
 export default function DiscussionThread({ pyqId }: { pyqId: number }) {
+  const { langHi } = useLang();
+  const L = (en: string, hi: string) => (langHi ? hi : en);
   const [comments, setComments] = useState<Comment[]>([]);
   const [body, setBody] = useState('');
   const [name, setName] = useState('');
@@ -108,7 +111,7 @@ export default function DiscussionThread({ pyqId }: { pyqId: number }) {
         onMouseEnter={e => { const el = e.currentTarget as HTMLElement; el.style.borderColor = 'var(--accent2)'; el.style.color = 'var(--text2)'; }}
         onMouseLeave={e => { const el = e.currentTarget as HTMLElement; el.style.borderColor = 'var(--border)'; el.style.color = 'var(--text3)'; }}
       >
-        💬 Discuss {comments.length > 0 && !open ? `(${comments.length})` : ''}
+        💬 {L('Discuss', 'चर्चा करें')} {comments.length > 0 && !open ? `(${comments.length})` : ''}
       </button>
 
       {open && (
@@ -119,13 +122,13 @@ export default function DiscussionThread({ pyqId }: { pyqId: number }) {
             <input
               value={name}
               onChange={e => setName(e.target.value)}
-              placeholder="Your name (saved locally)"
+              placeholder={L('Your name (saved locally)', 'आपका नाम (इसी डिवाइस पर सहेजा जाता है)')}
               style={{ background: 'var(--bg2)', border: '1px solid var(--border)', borderRadius: 6, padding: '0.4rem 0.75rem', color: 'var(--text)', fontSize: '0.8rem', outline: 'none', fontFamily: 'var(--font-body)' }}
             />
             <textarea
               value={body}
               onChange={e => setBody(e.target.value)}
-              placeholder="Share your approach, key points, or ask a question..."
+              placeholder={L('Share your approach, key points, or ask a question...', 'अपना तरीक़ा, मुख्य बिंदु साझा करें या कोई प्रश्न पूछें...')}
               rows={3}
               style={{ background: 'var(--bg2)', border: '1px solid var(--border)', borderRadius: 6, padding: '0.5rem 0.75rem', color: 'var(--text)', fontSize: '0.82rem', outline: 'none', resize: 'vertical', fontFamily: 'var(--font-body)' }}
             />
@@ -134,15 +137,15 @@ export default function DiscussionThread({ pyqId }: { pyqId: number }) {
               disabled={submitting || !body.trim() || !name.trim()}
               style={{ alignSelf: 'flex-end', background: body.trim() && name.trim() ? 'var(--accent)' : 'var(--bg)', border: '1px solid var(--border)', borderRadius: 6, padding: '5px 14px', color: body.trim() && name.trim() ? 'var(--accent-on)' : 'var(--text3)', cursor: body.trim() && name.trim() ? 'pointer' : 'not-allowed', fontSize: '0.78rem', fontWeight: 600 }}
             >
-              {submitting ? 'Posting…' : 'Post'}
+              {submitting ? L('Posting…', 'भेजा जा रहा है…') : L('Post', 'भेजें')}
             </button>
           </div>
 
           {/* Comments list */}
           {loading ? (
-            <OwlLoader size="small" label="Loading comments" />
+            <OwlLoader size="small" label={L('Loading comments', 'टिप्पणियाँ लोड हो रही हैं')} />
           ) : comments.length === 0 ? (
-            <div style={{ color: 'var(--text3)', fontSize: '0.8rem', textAlign: 'center', padding: '0.5rem' }}>No comments yet. Be the first!</div>
+            <div style={{ color: 'var(--text3)', fontSize: '0.8rem', textAlign: 'center', padding: '0.5rem' }}>{L('No comments yet. Be the first!', 'अभी कोई टिप्पणी नहीं है। पहली टिप्पणी आप करें!')}</div>
           ) : (
             <div style={{ display: 'flex', flexDirection: 'column', gap: '0.6rem', maxHeight: 400, overflowY: 'auto' }}>
               {comments.map(c => (
@@ -150,9 +153,9 @@ export default function DiscussionThread({ pyqId }: { pyqId: number }) {
                   <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '0.4rem' }}>
                     <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
                       <span style={{ fontSize: '0.8rem', fontWeight: 600, color: 'var(--text)' }}>{c.display_name}</span>
-                      {c.fingerprint === fp && <span style={{ fontSize: '0.6rem', color: 'var(--accent)', background: 'var(--accent-dim)', padding: '1px 5px', borderRadius: 3, border: '1px solid color-mix(in srgb, var(--accent) 20%, transparent)' }}>you</span>}
+                      {c.fingerprint === fp && <span style={{ fontSize: '0.6rem', color: 'var(--accent)', background: 'var(--accent-dim)', padding: '1px 5px', borderRadius: 3, border: '1px solid color-mix(in srgb, var(--accent) 20%, transparent)' }}>{L('you', 'आप')}</span>}
                     </div>
-                    <span style={{ fontSize: '0.68rem', color: 'var(--text3)' }}>{timeAgo(c.created_at)}</span>
+                    <span style={{ fontSize: '0.68rem', color: 'var(--text3)' }}>{timeAgo(c.created_at, langHi)}</span>
                   </div>
                   <div style={{ fontSize: '0.83rem', color: 'var(--text2)', lineHeight: 1.6, marginBottom: '0.5rem' }}>{c.body}</div>
                   <button

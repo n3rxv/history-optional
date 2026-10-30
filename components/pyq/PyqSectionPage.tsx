@@ -3,7 +3,7 @@ import { pyqs, type PYQ } from '@/lib/pyqData';
 import { SectionIcon } from '@/components/notes/sections';
 import AttemptedRing from './AttemptedRing';
 import AttemptTick from './AttemptTick';
-import { PYQ_SECTIONS, tintFor } from './sections';
+import { PYQ_SECTIONS, sourceLabel, tintFor } from './sections';
 import { PYQ_HERO_CSS, PYQ_LIST_CSS } from './styles';
 import { HiText, PyqQ, PyqSub, PyqSyllabus, PyqTopic, PyqWriteLink } from './PyqHiText';
 
@@ -84,7 +84,8 @@ export default function PyqSectionPage({ slug }: { slug: string }) {
               <div className="pl-actions">
                 <Link href={`/pyqs?section=${encodeURIComponent(meta.value)}`} className="ds-btn ds-btn-line ds-btn-sm"><HiText en="Search and filter these" hi="इन्हें खोजें और छाँटें" /> {ARROW}</Link>
               </div>
-              <nav className="pl-chips pl-siblings" aria-label="The other sections">
+              <nav className="pl-chips pl-siblings" aria-labelledby="pl-siblings-label">
+                <span id="pl-siblings-label" hidden><HiText en="The other sections" hi="बाक़ी खंड" /></span>
                 {PYQ_SECTIONS.filter((s) => s.slug !== slug).map((s) => (
                   <Link key={s.slug} href={`/pyqs/${s.slug}`} style={{ ['--st' as string]: `var(--tint-${s.key})` }}><span aria-hidden="true" /><HiText en={s.name} hi={s.nameHi} /></Link>
                 ))}
@@ -115,7 +116,7 @@ export default function PyqSectionPage({ slug }: { slug: string }) {
                             <article key={q.id} className="pq-card">
                               <div className="pq-meta">
                                 <span className="pq-year-tag">{q.year}</span>
-                                {q.source !== 'UPSC' && <span className="pq-src">{q.source}</span>}
+                                {q.source !== 'UPSC' && <span className="pq-src"><HiText en={q.source} hi={sourceLabel(q.source, true)} /></span>}
                                 <span className="pq-marks">{q.marks} <HiText en="marks" hi="अंक" /></span>
                               </div>
                               <p className="pq-q"><Link href={`/pyqs/${q.id}`}><PyqQ id={q.id} en={q.question} /></Link></p>
@@ -133,7 +134,8 @@ export default function PyqSectionPage({ slug }: { slug: string }) {
                   </section>
                 ))}
               </div>
-              <aside className="pq-aside" aria-label="Topics in this section">
+              <aside className="pq-aside" aria-labelledby="pl-topics-label">
+                <span id="pl-topics-label" hidden><HiText en="Topics in this section" hi="इस खंड के विषय" /></span>
                 <div className="pq-side pq-side-jumps">
                   <h2><HiText en="Jump to a topic" hi="विषय पर जाएँ" /></h2>
                   <ol className="pq-jump">

@@ -15,15 +15,17 @@ export type SectionMeta = {
   name: string;
   paper: 1 | 2;
   sub: string;
+  /** `sub` for a reader in Hindi mode. */
+  subHi: string;
   href: string;
   pyq: string[];
 };
 
 export const SECTIONS: SectionMeta[] = [
-  { key: 'ancient', name: 'Ancient India', paper: 1, sub: 'Harappa to the Guptas and after', href: '/notes/ancient-india', pyq: ['Paper I - Ancient India'] },
-  { key: 'medieval', name: 'Medieval India', paper: 1, sub: 'The Cholas to the end of the Mughals', href: '/notes/medieval-india', pyq: ['Paper I - Early Medieval', 'Paper I - Medieval India'] },
-  { key: 'modern', name: 'Modern India', paper: 2, sub: 'Plassey to independence, and after', href: '/notes/modern-india', pyq: ['Paper II - Modern India', 'Paper II - India Since Independence'] },
-  { key: 'world', name: 'World History', paper: 2, sub: 'The Enlightenment to the Cold War', href: '/notes/world-history', pyq: ['Paper II - World History'] },
+  { key: 'ancient', name: 'Ancient India', paper: 1, sub: 'Harappa to the Guptas and after', subHi: 'हड़प्पा से गुप्तों तक, और उसके बाद', href: '/notes/ancient-india', pyq: ['Paper I - Ancient India'] },
+  { key: 'medieval', name: 'Medieval India', paper: 1, sub: 'The Cholas to the end of the Mughals', subHi: 'चोलों से मुग़लों के अंत तक', href: '/notes/medieval-india', pyq: ['Paper I - Early Medieval', 'Paper I - Medieval India'] },
+  { key: 'modern', name: 'Modern India', paper: 2, sub: 'Plassey to independence, and after', subHi: 'प्लासी से स्वतंत्रता तक, और उसके बाद', href: '/notes/modern-india', pyq: ['Paper II - Modern India', 'Paper II - India Since Independence'] },
+  { key: 'world', name: 'World History', paper: 2, sub: 'The Enlightenment to the Cold War', subHi: 'प्रबोधन से शीत युद्ध तक', href: '/notes/world-history', pyq: ['Paper II - World History'] },
 ];
 
 export function sectionByName(name: string): SectionMeta | undefined {

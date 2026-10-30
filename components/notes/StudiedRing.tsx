@@ -1,6 +1,7 @@
 'use client';
 import { useSyllabusTracker } from '@/hooks/useSyllabusTracker';
 import ProgressRing from '@/components/ProgressRing';
+import { useLang } from '@/lib/i18n/LangContext';
 
 /**
  * How many of a page's topics the reader has ticked as studied, as a ring.
@@ -9,5 +10,9 @@ import ProgressRing from '@/components/ProgressRing';
  */
 export default function StudiedRing({ slugs }: { slugs: string[] }) {
   const { countCompleted, mounted } = useSyllabusTracker();
-  return <ProgressRing done={mounted ? countCompleted(slugs) : 0} total={slugs.length} noun="topics studied" allDone="topics studied, all of them" />;
+  const { langHi } = useLang();
+  const done = mounted ? countCompleted(slugs) : 0;
+  return langHi
+    ? <ProgressRing done={done} total={slugs.length} of="/" noun="विषय पढ़े" allDone="सभी विषय पढ़ लिए" />
+    : <ProgressRing done={done} total={slugs.length} noun="topics studied" allDone="topics studied, all of them" />;
 }

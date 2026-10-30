@@ -150,7 +150,7 @@ function PartCard({ label, mark, part, model, modelLabel, hi }: { label: string;
         <div className="ev-cols">
           <div>
             <h3 className="ev-col-title good">{hi ? 'क्या अच्छा रहा' : 'What worked'}</h3>
-            <ul className="ev-points good">{strengths.length ? strengths.map((s, i) => <Tagged key={i} text={s} tone="good" />) : <li className="none">{hi ? 'यहाँ कुछ खास नहीं।' : 'Nothing stood out here yet.'}</li>}</ul>
+            <ul className="ev-points good">{strengths.length ? strengths.map((s, i) => <Tagged key={i} text={s} tone="good" />) : <li className="none">{hi ? 'यहाँ कुछ ख़ास नहीं।' : 'Nothing stood out here yet.'}</li>}</ul>
           </div>
           <div>
             <h3 className="ev-col-title fix">{hi ? 'क्या सुधारें' : 'What to fix'}</h3>
@@ -262,7 +262,7 @@ export function ReportBody({ data, tab, setTab, hi, compact, pdf }: {
     <>
       {!compact && <p className="ev-note">
         {hi
-          ? 'ये अंक संकेत हैं, सटीक नहीं: परीक्षक एक-दो अंक कम दे सकता है। अंक बढ़ाती है प्रतिक्रिया: छूटे बिंदु, उद्धृत करने लायक इतिहासकार, और उत्तर कितना विश्लेषणात्मक है।'
+          ? 'ये अंक संकेत हैं, सटीक नहीं: परीक्षक एक-दो अंक कम दे सकता है। अंक बढ़ाती है प्रतिक्रिया: छूटे बिंदु, उद्धृत करने लायक़ इतिहासकार, और उत्तर कितना विश्लेषणात्मक है।'
           : 'These marks are indicative: an examiner may give a mark or two less. What moves your score is the feedback, the points you missed, the historians you could cite, and how analytical the answer is.'}
       </p>}
 
@@ -318,7 +318,7 @@ export function ReportBody({ data, tab, setTab, hi, compact, pdf }: {
 
       {tab === 'hist' && (
         <section className="ev-block">
-          <h2>{hi ? 'इस विषय पर उद्धृत करने लायक इतिहासकार' : 'Historians to cite on this topic'}</h2>
+          <h2>{hi ? 'इस विषय पर उद्धृत करने लायक़ इतिहासकार' : 'Historians to cite on this topic'}</h2>
           <div className="ev-thinkers">
             {data.historians.map((h, i) => (
               <div key={i} className="ev-thinker">

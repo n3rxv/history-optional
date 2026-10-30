@@ -160,9 +160,16 @@ RULES:
 - Critical Assessment mandatory — name the historiographical debate
 - Do NOT use phrases like "It is important to note" or "In conclusion, we can say"`;
 
+/** Added to every model call when the reader is in Hindi mode, as the evaluate route does. */
+const HINDI_NOTE = "\n\nIMPORTANT: Write your ENTIRE response in Hindi (Devanagari script). The whole model answer, every heading, bullet, the critical assessment and the conclusion: everything in Hindi. Keep the same format, with the section headings in Hindi too.";
+
+/** For the citation auditor in Hindi mode: the answer is in Hindi, the passages in English. */
+const HINDI_AUDIT_NOTE = "\n\nThe flagged sentences are in Hindi (Devanagari script) and the source passages are in English: compare their meaning. Copy every bad bracket or sentence into the JSON exactly as it is written in the flagged sentences, in Hindi.";
+
 export async function POST(req: NextRequest) {
   try {
-    const { question, marks, token } = await req.json();
+    const { question, marks, token, lang } = await req.json();
+    const hi = lang === 'hi';
 
     if (!question) {
       return NextResponse.json({ error: 'Question is required' }, { status: 400 });
@@ -288,7 +295,7 @@ CITATION RULE: You may cite a historian ONLY if their name appears in the Source
 
 QUESTION (${marksNum} marks): ${question}
 
-Write the full model answer now:`;
+Write the full model answer now${hi ? ', entirely in Hindi (Devanagari script)' : ''}:`;
 
     const Anthropic = (await import('@anthropic-ai/sdk')).default;
     const anthropic = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
@@ -297,7 +304,7 @@ Write the full model answer now:`;
     const anthropicStream = anthropic.messages.stream({
       model: 'claude-haiku-4-5-20251001',
       max_tokens: marksNum >= 20 ? 6000 : marksNum >= 15 ? 4000 : 2500,
-      system: SYSTEM_PROMPT,
+      system: SYSTEM_PROMPT + (hi ? HINDI_NOTE : ''),
       messages: [{ role: 'user', content: prompt }],
     });
     for await (const chunk of anthropicStream) {
@@ -329,7 +336,9 @@ Write the full model answer now:`;
     const bracketPattern = /\([A-Z][a-zA-Z.\s]+?,\s*[^)]+?\)/g;
 
     try {
-      const sentences = answer.match(/[^.!?]*[.!?]+/g) ?? [answer];
+      // Hindi sentences end in a danda (।): split there too, so a stripped
+      // sentence is one sentence and not a run of them.
+      const sentences = answer.match(/[^.!?।]*[.!?।]+/g) ?? [answer];
 
       // Layer 1+2: pre-verifier — no API call
       for (const sentence of sentences) {
@@ -350,7 +359,7 @@ Write the full model answer now:`;
 
       // Layer 3: API verifier — content check against RAG passages
       if (ragContext) {
-        const updatedSentences = answer.match(/[^.!?]*[.!?]+/g) ?? [answer];
+        const updatedSentences = answer.match(/[^.!?।]*[.!?।]+/g) ?? [answer];
         const flagged = updatedSentences.filter((s: string) => {
           bracketPattern.lastIndex = 0;
           return bracketPattern.test(s) || WHITELISTED_SURNAMES.some((n: string) => s.includes(n));
@@ -366,7 +375,7 @@ Write the full model answer now:`;
               max_tokens: 800,
               stream: false,
               messages: [
-                { role: 'system', content: `You are a strict citation auditor. For each flagged sentence, check if the historian name and claim actually appear in the SOURCE PASSAGES. Respond ONLY with valid JSON: {"bad_brackets": ["..."], "bad_prose_sentences": ["..."]}. If all pass: {"bad_brackets": [], "bad_prose_sentences": []}` },
+                { role: 'system', content: `You are a strict citation auditor. For each flagged sentence, check if the historian name and claim actually appear in the SOURCE PASSAGES. Respond ONLY with valid JSON: {"bad_brackets": ["..."], "bad_prose_sentences": ["..."]}. If all pass: {"bad_brackets": [], "bad_prose_sentences": []}` + (hi ? HINDI_AUDIT_NOTE : '') },
                 { role: 'user', content: `SOURCE PASSAGES:
 ${ragContext}
 
