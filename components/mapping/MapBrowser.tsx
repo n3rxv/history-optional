@@ -309,7 +309,7 @@ function ChapterPicker({ value, onChange, chapters, places, hi }: { value: strin
   const parts = PARTS.map((p) => ({ ...p, chapters: chapters.filter((c) => c.part === p.key) })).filter((p) => p.chapters.length);
 
   const label = (() => {
-    if (value === 'all') return T('Every chapter', 'सभी अध्याय');
+    if (value === 'all') return T('All', 'सभी');
     const yr = /^y-(\d{4})$/.exec(value);
     if (yr) return T(`${yr[1]} paper`, `${yr[1]} प्रश्नपत्र`);
     const keys = quizKeys(value) ?? [];
@@ -319,8 +319,12 @@ function ChapterPicker({ value, onChange, chapters, places, hi }: { value: strin
     return T(`${keys.length} chapters`, `${keys.length} अध्याय`);
   })();
 
-  const picked = quizKeys(draft) ?? [];
-  const setKeys = (keys: string[]) => setDraft(keys.length ? chapters.filter((c) => keys.includes(c.key)).map((c) => c.key).join(',') : 'all');
+  // "All chapters" ticks every box. Unticking it clears them all, so a few can
+  // be picked from scratch. Ticking every box by hand is the same as All.
+  const allKeys = chapters.map((c) => c.key);
+  const picked = draft === 'all' ? allKeys : (quizKeys(draft) ?? []);
+  const setKeys = (keys: string[]) => setDraft(keys.length === allKeys.length ? 'all' : allKeys.filter((k) => keys.includes(k)).join(','));
+  const allOn = draft === 'all', someOn = picked.length > 0;
   const toggle = (key: string) => setKeys(picked.includes(key) ? picked.filter((k) => k !== key) : [...picked, key]);
   const togglePart = (keys: string[]) => setKeys(keys.every((k) => picked.includes(k)) ? picked.filter((k) => !keys.includes(k)) : [...new Set([...picked, ...keys])]);
   const count = open ? places(draft) : 0;
@@ -336,22 +340,31 @@ function ChapterPicker({ value, onChange, chapters, places, hi }: { value: strin
 
   return (
     <>
-      <button type="button" className={`mp-select mp-pick${value !== 'all' ? ' set' : ''}`} onClick={show} aria-haspopup="dialog">{label}</button>
+      <button type="button" className={`mp-select mp-pick${value !== 'all' ? ' set' : ''}`} onClick={show} aria-haspopup="dialog" aria-label={`${T('Choose chapters', 'अध्याय चुनें')}: ${label}`}>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M3 6l2 2 3-3M3 13l2 2 3-3M3 20l2 2 3-3M12 6h9M12 13h9M12 20h9" /></svg>
+        <span className="mp-pick-t">{T('Choose chapters', 'अध्याय चुनें')}</span>
+        <span className="mp-pick-sum">{label}</span>
+      </button>
       {open && (
         <div className="ds-overlay" onClick={() => setOpen(false)}>
           <div className="ds-modal mp-cp" role="dialog" aria-modal="true" aria-labelledby="mp-cp-title" onClick={(e) => e.stopPropagation()}>
             <div className="mp-cp-head">
               <h2 id="mp-cp-title" className="ds-modal-title">{T('Choose what to practise', 'अभ्यास के लिए चुनें')}</h2>
-              <p className="ds-modal-text">{T('Tick as many chapters as you like, or a whole part, and they go into one quiz.', 'जितने चाहें उतने अध्याय या पूरा भाग चुनें, सब एक ही क्विज़ में आएँगे।')}</p>
+              <p className="ds-modal-text">{T('Tick as many chapters as you like, a whole part, or all of them, and they go into one quiz.', 'जितने चाहें उतने अध्याय, पूरा भाग या सभी अध्याय चुनें, सब एक ही क्विज़ में आएँगे।')}</p>
             </div>
             <div className="mp-cp-body">
               <div className="mp-cp-quick">
-                <button type="button" className={`mp-cp-chip${draft === 'all' ? ' on' : ''}`} aria-pressed={draft === 'all'} onClick={() => setDraft('all')}>{T('Every chapter', 'सभी अध्याय')}</button>
+                <span className="mp-cp-or">{T('Or take a past paper', 'या पिछला प्रश्नपत्र लें')}</span>
                 <select className={`mp-select${draft.startsWith('y-') ? ' set' : ''}`} value={draft.startsWith('y-') ? draft : ''} onChange={(e) => setDraft(e.target.value || 'all')} aria-label={T('A past paper', 'पिछला प्रश्नपत्र')}>
-                  <option value="">{T('A past paper', 'पिछला प्रश्नपत्र')}</option>
+                  <option value="">{T('Choose a year', 'वर्ष चुनें')}</option>
                   {paperYears.map((y) => <option key={y} value={`y-${y}`}>{T(`${y} paper`, `${y} प्रश्नपत्र`)}</option>)}
                 </select>
               </div>
+              <label className="mp-cp-row part mp-cp-all">
+                <input type="checkbox" checked={allOn} ref={(el) => { if (el) el.indeterminate = someOn && !allOn; }} onChange={() => setDraft(allOn ? '' : 'all')} />
+                <span>{T('All chapters', 'सभी अध्याय')}</span>
+                <span className="mp-cp-n">{T(`${allKeys.length} chapters`, `${allKeys.length} अध्याय`)}</span>
+              </label>
               {parts.map((p) => {
                 const keys = p.chapters.map((c) => c.key);
                 const all = keys.every((k) => picked.includes(k)), some = keys.some((k) => picked.includes(k));
@@ -378,7 +391,7 @@ function ChapterPicker({ value, onChange, chapters, places, hi }: { value: strin
             <div className="mp-cp-foot">
               <button type="button" className="ds-btn ds-btn-line" onClick={() => setOpen(false)}>{T('Cancel', 'रद्द करें')}</button>
               <button type="button" ref={startRef} className="ds-btn ds-btn-solid" disabled={count < 4} onClick={() => { onChange(draft); setOpen(false); }}>
-                {count < 4 ? T('Too few places', 'स्थल बहुत कम हैं') : T(`Start quiz, ${count} places`, `क्विज़ शुरू करें, ${count} स्थल`)}
+                {!draft ? T('Tick a chapter', 'कोई अध्याय चुनें') : count < 4 ? T('Too few places', 'स्थल बहुत कम हैं') : T(`Start quiz, ${count} places`, `क्विज़ शुरू करें, ${count} स्थल`)}
               </button>
             </div>
           </div>
@@ -906,15 +919,21 @@ const CSS = `
 
 .mp-filters { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-2) var(--space-3); margin-bottom: var(--space-4); }
 .mp-filters .mp-select { height: 40px; max-width: 280px; background-color: var(--ds-card); }
-.mp-pick { overflow: hidden; white-space: nowrap; text-align: left; }
+.mp-pick { display: inline-flex; align-items: center; gap: 8px; min-width: 0; max-width: 380px; white-space: nowrap; text-align: left; }
+.mp-filters .mp-pick { max-width: 380px; }
+.mp-pick svg { flex-shrink: 0; }
+.mp-pick-t { flex-shrink: 0; font-weight: 600; }
+.mp-pick-sum { min-width: 0; overflow: hidden; text-overflow: ellipsis; color: var(--text3); font-weight: 500; }
+.mp-pick.set .mp-pick-sum { color: inherit; font-weight: 700; }
+.mp-pick-sum::before { content: '·'; margin-right: 8px; color: var(--text3); font-weight: 500; }
+.mp-cp-or { font-size: 0.86rem; color: var(--text2); }
+.mp-cp-all { margin-top: var(--space-4); }
 /* The chapter picker: a dialog whose list scrolls between a fixed head and foot. */
 .mp-cp { max-width: 540px; padding: 0; display: flex; flex-direction: column; overflow: hidden; }
 .mp-cp-head { padding: var(--space-6) var(--space-6) var(--space-4); }
 .mp-cp-body { flex: 1; min-height: 0; overflow-y: auto; padding: 0 var(--space-6) var(--space-4); }
 .mp-cp-quick { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-2); }
 .mp-cp-quick .mp-select { height: 36px; background-color: var(--ds-card); }
-.mp-cp-chip { height: 36px; padding: 0 14px; border: 1px solid var(--border2); border-radius: var(--radius-full); background: var(--ds-card); color: var(--text); font: inherit; font-size: 0.88rem; font-weight: 600; cursor: pointer; }
-.mp-cp-chip.on { border-color: color-mix(in srgb, var(--accent) 50%, transparent); background: var(--accent-dim); color: var(--accent-text); }
 .mp-cp-part { margin: var(--space-4) 0 0; padding: 0; border: none; min-width: 0; }
 .mp-cp-legend { width: 100%; padding: 0; }
 .mp-cp-row { display: flex; align-items: center; gap: var(--space-3); min-height: 40px; padding: 2px 0; font-size: 0.92rem; color: var(--text); cursor: pointer; }
@@ -1018,6 +1037,7 @@ const CSS = `
   .mp-filters .mp-seg { display: flex; width: 100%; }
   .mp-filters .mp-seg button { flex: 1; }
   .mp-filters .mp-select { flex: 1; max-width: none; }
+  .mp-filters .mp-pick { flex: 1 1 100%; max-width: none; }
   .mp-cp-head { padding: var(--space-5) var(--space-5) var(--space-3); }
   .mp-cp-body { padding: 0 var(--space-5) var(--space-3); }
   .mp-cp-foot { padding: var(--space-3) var(--space-5); }
