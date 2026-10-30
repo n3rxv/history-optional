@@ -2,21 +2,25 @@
 import { useState } from 'react';
 import { BOOKS, type Book } from '@/lib/readingList';
 import { tintFor } from '@/components/pyq/sections';
+import { useLang } from '@/lib/i18n/LangContext';
+import { tr, t } from '@/lib/i18n/ui';
+import { BOOK_HI } from '@/lib/readingListHi';
 
 /**
  * The reading list: the standard books for each part of the syllabus, with a
  * free copy where one exists and where to buy it.
  */
 
-const PARTS: { key: 'all' | Book['category']; label: string; tint?: 'ancient' | 'medieval' | 'modern' | 'world' }[] = [
-  { key: 'all', label: 'Every part' },
-  { key: 'Ancient', label: 'Ancient India', tint: 'ancient' },
-  { key: 'Medieval', label: 'Medieval India', tint: 'medieval' },
-  { key: 'Modern', label: 'Modern India', tint: 'modern' },
-  { key: 'World', label: 'World History', tint: 'world' },
+const PARTS: { key: 'all' | Book['category']; label: string; labelHi: string; tint?: 'ancient' | 'medieval' | 'modern' | 'world' }[] = [
+  { key: 'all', label: 'Every part', labelHi: 'सभी भाग' },
+  { key: 'Ancient', label: 'Ancient India', labelHi: 'प्राचीन भारत', tint: 'ancient' },
+  { key: 'Medieval', label: 'Medieval India', labelHi: 'मध्यकालीन भारत', tint: 'medieval' },
+  { key: 'Modern', label: 'Modern India', labelHi: 'आधुनिक भारत', tint: 'modern' },
+  { key: 'World', label: 'World History', labelHi: 'विश्व इतिहास', tint: 'world' },
 ];
 const TINT: Record<Book['category'], 'ancient' | 'medieval' | 'modern' | 'world'> = { Ancient: 'ancient', Medieval: 'medieval', Modern: 'modern', World: 'world' };
 const NAME: Record<Book['category'], string> = { Ancient: 'Ancient India', Medieval: 'Medieval India', Modern: 'Modern India', World: 'World History' };
+const NAME_HI: Record<Book['category'], string> = { Ancient: 'प्राचीन भारत', Medieval: 'मध्यकालीन भारत', Modern: 'आधुनिक भारत', World: 'विश्व इतिहास' };
 
 /** Each part of the syllabus has its own cover colour, fixed so it reads in either theme. */
 const COVER: Record<Book['category'], string> = { Ancient: '#7a4b16', Medieval: '#8a2f2b', Modern: '#3b44a3', World: '#2e6a40' };
@@ -25,11 +29,11 @@ const MOTIFS = 4;
 const motifOf = (title: string) => [...title].reduce((n, ch) => (n * 31 + ch.charCodeAt(0)) >>> 0, 7) % MOTIFS;
 
 /** A cover drawn for the list: colour by part, the title large, the author at the foot. */
-function Cover({ book }: { book: Book }) {
+function Cover({ book, langHi }: { book: Book; langHi: boolean }) {
   const size = book.title.length > 44 ? 'xs' : book.title.length > 26 ? 'sm' : '';
   return (
     <div className={`bk-cover m${motifOf(book.title)}`} style={{ ['--c' as string]: COVER[book.category] }} aria-hidden="true">
-      <span className="bk-cover-part">{NAME[book.category]}</span>
+      <span className="bk-cover-part">{(langHi ? NAME_HI : NAME)[book.category]}</span>
       <span className={`bk-cover-title ${size}`}>{book.title}</span>
       <span className="bk-cover-rule" />
       <span className="bk-cover-author">{book.author}</span>
@@ -40,6 +44,7 @@ function Cover({ book }: { book: Book }) {
 const Ext = () => <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5" /></svg>;
 
 export default function Books() {
+  const { langHi } = useLang();
   const [part, setPart] = useState<'all' | Book['category']>('all');
   const shown = part === 'all' ? BOOKS : BOOKS.filter((b) => b.category === part);
 
@@ -48,17 +53,17 @@ export default function Books() {
       <style dangerouslySetInnerHTML={{ __html: CSS }} />
       <header className="bk-hero">
         <div className="ds-container">
-          <h1 className="ds-h1 bk-h1">Books</h1>
-          <p className="ds-lede bk-lede">The standard books for each part of the syllabus, with a line on what each one is good for. Most of them you can read free online.</p>
+          <h1 className="ds-h1 bk-h1">{tr(t.resources, langHi)}</h1>
+          <p className="ds-lede bk-lede">{langHi ? 'पाठ्यक्रम के हर भाग की मानक पुस्तकें, और हर एक के साथ एक पंक्ति कि वह किस काम की है। इनमें से ज़्यादातर आप ऑनलाइन निःशुल्क पढ़ सकते हैं।' : 'The standard books for each part of the syllabus, with a line on what each one is good for. Most of them you can read free online.'}</p>
         </div>
       </header>
       <div className="ds-container">
-        <div className="bk-parts" role="radiogroup" aria-label="Part of the syllabus">
+        <div className="bk-parts" role="radiogroup" aria-label={langHi ? 'पाठ्यक्रम का भाग' : 'Part of the syllabus'}>
           {PARTS.map((p) => {
             const n = p.key === 'all' ? BOOKS.length : BOOKS.filter((b) => b.category === p.key).length;
             return (
               <button key={p.key} type="button" role="radio" aria-checked={part === p.key} className={`bk-part${part === p.key ? ' on' : ''}`} style={p.tint ? tintFor(p.tint) : undefined} onClick={() => setPart(p.key)}>
-                {p.tint && <i aria-hidden="true" />}{p.label}<span>{n}</span>
+                {p.tint && <i aria-hidden="true" />}{langHi ? p.labelHi : p.label}<span>{n}</span>
               </button>
             );
           })}
@@ -67,15 +72,15 @@ export default function Books() {
           {shown.map((b) => {
             return (
               <article key={b.title} className="bk-card" style={tintFor(TINT[b.category])}>
-                <Cover book={b} />
+                <Cover book={b} langHi={langHi} />
                 <div className="bk-text">
-                  <span className="bk-part-name">{NAME[b.category]}</span>
+                  <span className="bk-part-name">{(langHi ? NAME_HI : NAME)[b.category]}</span>
                   <h2 className="bk-title">{b.title}</h2>
                   <span className="bk-author">{b.author}</span>
-                  <p className="bk-desc">{b.description}</p>
+                  <p className="bk-desc">{(langHi && BOOK_HI[b.title]) || b.description}</p>
                   <div className="bk-actions">
-                    {b.archiveUrl && <a href={b.archiveUrl} target="_blank" rel="noopener noreferrer" className="ds-btn ds-btn-solid ds-btn-sm">Read it free <Ext /></a>}
-                    <a href={b.buyUrl} target="_blank" rel="noopener noreferrer" className="ds-btn ds-btn-line ds-btn-sm">Buy it <Ext /></a>
+                    {b.archiveUrl && <a href={b.archiveUrl} target="_blank" rel="noopener noreferrer" className="ds-btn ds-btn-solid ds-btn-sm">{langHi ? 'निःशुल्क पढ़ें' : 'Read it free'} <Ext /></a>}
+                    <a href={b.buyUrl} target="_blank" rel="noopener noreferrer" className="ds-btn ds-btn-line ds-btn-sm">{langHi ? 'ख़रीदें' : 'Buy it'} <Ext /></a>
                   </div>
                 </div>
               </article>

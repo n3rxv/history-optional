@@ -93,8 +93,9 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    // The pre-paint script below stamps data-theme on this element before React
-    // hydrates, so the server HTML and the live DOM differ by that one attribute.
+    // The pre-paint script below stamps data-theme (and lang, for a reader in
+    // Hindi mode) on this element before React hydrates, so the server HTML and
+    // the live DOM differ by those attributes.
     // suppressHydrationWarning is exactly for that case and is scoped to <html>.
     <html lang="en" data-theme="light" suppressHydrationWarning>
       <head>
@@ -117,6 +118,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               var t = localStorage.getItem('ho-theme');
               if (t !== 'light' && t !== 'dark') t = 'light';
               document.documentElement.setAttribute('data-theme', t);
+              if (localStorage.getItem('lang') === 'hi') document.documentElement.setAttribute('lang', 'hi');
             } catch(e) {
               document.documentElement.setAttribute('data-theme', 'light');
             }

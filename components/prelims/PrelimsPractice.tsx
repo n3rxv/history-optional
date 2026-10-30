@@ -5,6 +5,7 @@ import { onAuthStateChanged } from 'firebase/auth';
 import { auth } from '@/lib/firebase';
 import { prelimsQuestions, type PrelimsQuestion } from '@/lib/prelimsData';
 import { useLang } from '@/lib/i18n/LangContext';
+import { usePrelimsHi } from '@/lib/prelimsHi';
 import { useLoginPrompt } from '@/hooks/useLoginPrompt';
 import { useRefreshSafe } from '@/hooks/useRefreshSafe';
 import LoginPromptModal from '@/components/LoginPromptModal';
@@ -96,6 +97,10 @@ const noop = () => () => {};
 export default function PrelimsPractice() {
   const { langHi: hi } = useLang();
   const T = (en: string, h: string) => (hi ? h : en);
+  // The questions, options and topic names in Hindi once loaded; any without
+  // Hindi yet stay in English. Answers are checked by option index either way.
+  const phi = usePrelimsHi(hi);
+  const topicName = (t: string) => phi?.topics[t] ?? t;
   const { isOpen: loginOpen, message: loginMsg, requireLogin, closeModal: closeLogin } = useLoginPrompt();
   const states = useStates();
 
@@ -180,7 +185,7 @@ export default function PrelimsPractice() {
 
   const select = (i: number) => {
     if (!q || qs.submitted) return;
-    if (!requireLogin('Sign in free to attempt Prelims practice questions.')) return;
+    if (!requireLogin(T('Sign in free to attempt Prelims practice questions.', 'प्रिलिम्स अभ्यास प्रश्न हल करने के लिए निःशुल्क साइन इन करें।'))) return;
     update(q.id, { selected: i });
   };
   const submit = () => {
@@ -201,13 +206,16 @@ export default function PrelimsPractice() {
   const answered = correct + wrong;
   const maxScore = filtered.length * 2;
   const marked = filtered.filter((x) => states[x.id]?.marked).length;
-  const setName = filter === 'bookmarked' ? T('Bookmarked', 'बुकमार्क') : topic !== 'all' ? topic : T('All topics', 'सभी विषय');
+  const setName = filter === 'bookmarked' ? T('Bookmarked', 'बुकमार्क') : topic !== 'all' ? topicName(topic) : T('All topics', 'सभी विषय');
   const idx = q ? filtered.indexOf(q) : 0;
+  const qHi = q ? phi?.q[q.id] : undefined;
+  const qText = qHi?.q || q?.question;
+  const qOptions = q ? (qHi && qHi.o.length === q.options.length ? qHi.o : q.options) : [];
 
   const navigator = (
     <>
       <div className="pp-legend" aria-hidden="true">
-        <span><i className="ok" />{T('Right', 'सही')}</span><span><i className="no" />{T('Wrong', 'गलत')}</span><span><i className="mk" />{T('Bookmarked', 'बुकमार्क')}</span><span><i />{T('Not tried', 'बाकी')}</span>
+        <span><i className="ok" />{T('Right', 'सही')}</span><span><i className="no" />{T('Wrong', 'ग़लत')}</span><span><i className="mk" />{T('Bookmarked', 'बुकमार्क')}</span><span><i />{T('Not tried', 'बाक़ी')}</span>
       </div>
       <div className="pp-grid-nums">
         {filtered.map((fq, i) => {
@@ -221,9 +229,9 @@ export default function PrelimsPractice() {
       <dl className="pp-sum">
         <div><dt>{T('Score', 'स्कोर')}</dt><dd className={score >= 0 ? 'ok' : 'no'}>{fmt(score)}</dd></div>
         <div><dt>{T('Right', 'सही')}</dt><dd className="ok">{correct}</dd></div>
-        <div><dt>{T('Wrong', 'गलत')}</dt><dd className="no">{wrong}</dd></div>
+        <div><dt>{T('Wrong', 'ग़लत')}</dt><dd className="no">{wrong}</dd></div>
         <div><dt>{T('Bookmarked', 'बुकमार्क')}</dt><dd className="mk">{marked}</dd></div>
-        <div><dt>{T('Left', 'बाकी')}</dt><dd>{filtered.length - answered}</dd></div>
+        <div><dt>{T('Left', 'बाक़ी')}</dt><dd>{filtered.length - answered}</dd></div>
       </dl>
     </>
   );
@@ -253,7 +261,7 @@ export default function PrelimsPractice() {
         </div>
         <select className={`pp-select${topic !== 'all' ? ' set' : ''}`} value={topic} onChange={(e) => { setTopicOwn(e.target.value); refilter(); }} aria-label={T('Topic', 'विषय')}>
           <option value="all">{T('All topics', 'सभी विषय')}</option>
-          {TOPICS.map((t) => <option key={t} value={t}>{t}</option>)}
+          {TOPICS.map((t) => <option key={t} value={t}>{topicName(t)}</option>)}
         </select>
         <select className={`pp-select${year !== 'all' ? ' set' : ''}`} value={year} onChange={(e) => { setYear(e.target.value); refilter(); }} aria-label={T('Year', 'वर्ष')}>
           <option value="all">{T('Every year', 'सभी वर्ष')}</option>
@@ -279,10 +287,10 @@ export default function PrelimsPractice() {
               <div className="pp-meter"><span style={{ width: `${maxScore ? Math.max(0, (score / maxScore) * 100) : 0}%` }} /></div>
               <div className="pp-tiles">
                 <div><strong className="ok">{correct}</strong><span>{T('right', 'सही')} · +{(correct * 2).toFixed(0)}</span></div>
-                <div><strong className="no">{wrong}</strong><span>{T('wrong', 'गलत')} · −{(wrong * 0.66).toFixed(2)}</span></div>
-                <div><strong>{skipped}</strong><span>{T('not tried', 'बाकी')}</span></div>
+                <div><strong className="no">{wrong}</strong><span>{T('wrong', 'ग़लत')} · −{(wrong * 0.66).toFixed(2)}</span></div>
+                <div><strong>{skipped}</strong><span>{T('not tried', 'बाक़ी')}</span></div>
               </div>
-              <p className="pp-result-note">{T('As in the exam: +2 for a right answer, −0.66 for a wrong one, nothing for one left alone.', 'परीक्षा की तरह: सही पर +2, गलत पर −0.66, छोड़े पर कुछ नहीं।')}</p>
+              <p className="pp-result-note">{T('As in the exam: +2 for a right answer, −0.66 for a wrong one, nothing for one left alone.', 'परीक्षा की तरह: सही पर +2, ग़लत पर −0.66, छोड़े पर कुछ नहीं।')}</p>
               <div className="pp-actions">
                 <button type="button" className="ds-btn ds-btn-solid" onClick={() => setShowResult(false)}>{T('Back to the questions', 'प्रश्नों पर लौटें')}</button>
                 <button type="button" className="ds-btn ds-btn-line" onClick={() => setConfirmReset(true)}>{T('Start over', 'फिर से शुरू')}</button>
@@ -300,11 +308,11 @@ export default function PrelimsPractice() {
                 <div className="pp-meta">
                   <span className="pp-qn">{T('Question', 'प्रश्न')} {idx + 1}</span>
                   <span className={`pp-type${q.type === 'pyq' ? ' pyq' : ''}`}>{q.type === 'pyq' ? `${T('Asked in', 'पूछा गया')} ${q.year ?? ''}` : T('Practice', 'अभ्यास')}</span>
-                  <span className="pp-topic">{q.topic}</span>
+                  <span className="pp-topic">{topicName(q.topic)}</span>
                 </div>
-                <p className="pp-q">{q.question}</p>
+                <p className="pp-q">{qText}</p>
                 <div className="pp-options" role="radiogroup" aria-label={T('Options', 'विकल्प')}>
-                  {q.options.map((opt, i) => {
+                  {qOptions.map((opt, i) => {
                     const state = qs.submitted ? (i === q.correct ? ' right' : qs.selected === i ? ' wrong' : ' faded') : qs.selected === i ? ' on' : '';
                     return (
                       <button key={i} type="button" role="radio" aria-checked={qs.selected === i} className={`pp-opt${state}`} onClick={() => select(i)} disabled={qs.submitted}>
@@ -335,11 +343,11 @@ export default function PrelimsPractice() {
 
               {qs.submitted && (
                 <section className="pp-card pp-explain" aria-label={T('Explanation', 'स्पष्टीकरण')}>
-                  <div className="pp-explain-head"><strong>{T('How to reason it out', 'इसे कैसे सोचें')}</strong><span className="pp-premium">Premium</span></div>
+                  <div className="pp-explain-head"><strong>{T('How to reason it out', 'इसे कैसे सोचें')}</strong><span className="pp-premium">{T('Premium', 'प्रीमियम')}</span></div>
                   {!isPremium ? (
                     <div className="pp-lock">
                       <p>{T('The step-by-step solution, the technique that cracks this kind of question, a smart guess for when you are unsure, and the concepts it needs.', 'चरण-दर-चरण हल, ऐसे प्रश्न को खोलने की तकनीक, अनिश्चित होने पर स्मार्ट अनुमान, और ज़रूरी अवधारणाएँ।')}</p>
-                      <button type="button" className="ds-btn ds-btn-premium" onClick={() => window.dispatchEvent(new Event('open-premium-modal'))}>{T('See Premium', 'Premium देखें')}</button>
+                      <button type="button" className="ds-btn ds-btn-premium" onClick={() => window.dispatchEvent(new Event('open-premium-modal'))}>{T('See Premium', 'प्रीमियम देखें')}</button>
                     </div>
                   ) : loading.has(q.id) ? (
                     <OwlLoader size="small" caption={T('Writing the explanation', 'स्पष्टीकरण तैयार हो रहा है')} />

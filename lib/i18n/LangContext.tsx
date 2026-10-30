@@ -16,6 +16,11 @@ export function LangProvider({ children }: { children: ReactNode }) {
     if (saved === 'hi') setLangHi(true);
   }, []);
 
+  // Screen readers, hyphenation and font fallback go by the page's lang.
+  useEffect(() => {
+    document.documentElement.lang = langHi ? 'hi' : 'en';
+  }, [langHi]);
+
   const toggleLang = () => {
     setLangHi(prev => {
       const next = !prev;

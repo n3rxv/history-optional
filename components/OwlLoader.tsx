@@ -1,4 +1,5 @@
 import Mascot from '@/components/Mascot';
+import { HiText } from '@/components/ui/HiText';
 
 /**
  * The site's loading state: the owl, reading, bobbing gently over a shadow
@@ -35,7 +36,7 @@ export default function OwlLoader({
       </div>
       <span className="owl-loader-shadow" aria-hidden="true" style={{ width: Math.round(width * 0.6) }} />
       {caption && <span className="owl-loader-caption" aria-hidden="true">{caption}</span>}
-      <span className="owl-loader-sr">{label ?? caption ?? 'Loading'}</span>
+      <span className="owl-loader-sr">{label ?? caption ?? <HiText en="Loading" hi="लोड हो रहा है" />}</span>
     </div>
   );
 }

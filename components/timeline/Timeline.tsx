@@ -33,12 +33,48 @@ function eraOf(year: number): string {
   return `${ordinal(c)} century${c <= 10 ? ' CE' : ''}`;
 }
 
+/** The same headings in Hindi: "तीसरी सहस्राब्दी ईसा पूर्व", "छठी शताब्दी ईसा पूर्व", "19वीं शताब्दी". */
+const ORD_HI: Record<number, string> = { 1: 'पहली', 2: 'दूसरी', 3: 'तीसरी', 4: 'चौथी', 6: 'छठी' };
+function eraHi(era: string): string {
+  const m = era.match(/^(\d+)[a-z]{2} (millennium|century)( BCE| CE)?$/);
+  if (!m) return era;
+  const n = Number(m[1]);
+  const unit = m[2] === 'millennium' ? 'सहस्राब्दी' : 'शताब्दी';
+  const era2 = m[3] === ' BCE' ? ' ईसा पूर्व' : m[3] === ' CE' ? ' ईसवी' : '';
+  return `${ORD_HI[n] ?? `${n}वीं`} ${unit}${era2}`;
+}
+/** "2500 BCE" as "2500 ई.पू.", "320 CE" as "320 ई.". */
+const yearHi = (label: string) => label.replace(/ BCE$/, ' ई.पू.').replace(/ CE$/, ' ई.');
+
+/**
+ * The events in Hindi (lib/timelineDataHi.ts, keyed by English title), 85 KB,
+ * so it is fetched only once a reader is in Hindi mode and kept for the visit.
+ */
+type TimelineHi = { ev: Record<string, { title: string; description: string }>; cats: Record<string, string> };
+let timelineHi: Promise<TimelineHi> | null = null;
+function useTimelineHi(on: boolean): TimelineHi | null {
+  const [data, setData] = useState<TimelineHi | null>(null);
+  useEffect(() => {
+    if (!on) return;
+    let live = true;
+    timelineHi ??= import('@/lib/timelineDataHi').then((m) => ({ ev: m.TIMELINE_HI, cats: m.TIMELINE_CATEGORY_HI }));
+    timelineHi.then((d) => { if (live) setData(d); }, () => { timelineHi = null; });
+    return () => { live = false; };
+  }, [on]);
+  return on ? data : null;
+}
+
 const idOf = (era: string) => `era-${era.replace(/[^a-z0-9]+/gi, '-').toLowerCase()}`;
 const PART_KEYS = ['ancient', 'medieval', 'modern', 'world'] as const;
 
 export default function Timeline() {
   const { langHi: hi } = useLang();
   const T = (en: string, h: string) => (hi ? h : en);
+  const th = useTimelineHi(hi);
+  const titleOf = (e: TimelineEvent) => th?.ev[e.title]?.title ?? e.title;
+  const descOf = (e: TimelineEvent) => th?.ev[e.title]?.description ?? e.description;
+  const catOf = (c: string) => th?.cats[c] ?? c;
+  const eraOfShown = (era: string) => (hi ? eraHi(era) : era);
   const { isOpen: loginOpen, message: loginMsg, requireLogin, closeModal: closeLogin } = useLoginPrompt();
   const [section, setSection] = useState('all');
   const [category, setCategory] = useState('all');
@@ -48,8 +84,9 @@ export default function Timeline() {
   const shown = useMemo(() => {
     const q = search.trim().toLowerCase();
     return EVENTS.filter((e) => (section === 'all' || e.section === section) && (category === 'all' || e.category === category)
-      && (!q || e.title.toLowerCase().includes(q) || e.description.toLowerCase().includes(q) || e.yearLabel.toLowerCase().includes(q)));
-  }, [section, category, search]);
+      && (!q || e.title.toLowerCase().includes(q) || e.description.toLowerCase().includes(q) || e.yearLabel.toLowerCase().includes(q)
+        || (!!th?.ev[e.title] && (th.ev[e.title].title.includes(q) || th.ev[e.title].description.includes(q)))));
+  }, [section, category, search, th]);
   // Where a new century begins, for its heading.
   const rows = useMemo(() => shown.map((e, i) => ({ e, head: i === 0 || eraOf(shown[i - 1].year) !== eraOf(e.year) ? eraOf(e.year) : null })), [shown]);
   // The side index: each century in view, with how many events it holds
@@ -68,8 +105,8 @@ export default function Timeline() {
     const bce = eras.filter((x) => x.era.endsWith('BCE'));
     const ce = eras.filter((x) => !x.era.endsWith('BCE'));
     return [
-      { label: T('Before Common Era', 'ईसा पूर्व'), eras: bce, short: (era: string) => era.replace(/ BCE$/, '') },
-      { label: T('Common Era', 'ईसवी'), eras: ce, short: (era: string) => era.replace(/ CE$/, '') },
+      { label: T('Before Common Era', 'ईसा पूर्व'), eras: bce, short: (era: string) => (hi ? eraHi(era).replace(/ ईसा पूर्व$/, '') : era.replace(/ BCE$/, '')) },
+      { label: T('Common Era', 'ईसवी'), eras: ce, short: (era: string) => (hi ? eraHi(era).replace(/ ईसवी$/, '') : era.replace(/ CE$/, '')) },
     ].filter((g) => g.eras.length);
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [eras, hi]);
@@ -110,7 +147,7 @@ export default function Timeline() {
   const categories = section === 'all' ? CATEGORIES : [...new Set(EVENTS.filter((e) => e.section === section).map((e) => e.category))];
 
   const toggle = (e: TimelineEvent) => {
-    if (!requireLogin('Sign in free to explore the UPSC History timeline.')) return;
+    if (!requireLogin(T('Sign in free to explore the UPSC History timeline.', 'UPSC इतिहास की समयरेखा देखने के लिए निःशुल्क साइन इन करें।'))) return;
     setOpen((o) => (o === e.title ? null : e.title));
   };
 
@@ -141,7 +178,7 @@ export default function Timeline() {
             </label>
             <select className={`tl-select${category !== 'all' ? ' set' : ''}`} value={category} onChange={(e) => setCategory(e.target.value)} aria-label={T('Period', 'काल')}>
               <option value="all">{T('Every period', 'सभी काल')}</option>
-              {categories.map((c) => <option key={c} value={c}>{c}</option>)}
+              {categories.map((c) => <option key={c} value={c}>{catOf(c)}</option>)}
             </select>
             <span className="tl-count">{T(`${shown.length} events`, `${shown.length} घटनाएँ`)}</span>
           </div>
@@ -157,17 +194,17 @@ export default function Timeline() {
               const isOpen = open === e.title;
               return (
                 <li key={`${e.year}-${e.title}`} className="tl-item" style={tintFor(KEY_OF[e.section])}>
-                  {head && <h2 className="tl-era" id={idOf(head)}>{head}</h2>}
+                  {head && <h2 className="tl-era" id={idOf(head)}>{eraOfShown(head)}</h2>}
                   <div className={`tl-event${isOpen ? ' open' : ''}`}>
-                    <span className="tl-year">{e.yearLabel}</span>
+                    <span className="tl-year">{hi ? yearHi(e.yearLabel) : e.yearLabel}</span>
                     <span className="tl-dot" aria-hidden="true" />
                     <button type="button" className="tl-card" onClick={() => toggle(e)} aria-expanded={isOpen}>
                       <span className="tl-card-top">
-                        <span className="tl-year-chip">{e.yearLabel}</span>
-                        <span className="tl-cat">{e.category}</span>
+                        <span className="tl-year-chip">{hi ? yearHi(e.yearLabel) : e.yearLabel}</span>
+                        <span className="tl-cat">{catOf(e.category)}</span>
                       </span>
-                      <span className="tl-title">{e.title}</span>
-                      {isOpen && <span className="tl-desc">{e.description}</span>}
+                      <span className="tl-title">{titleOf(e)}</span>
+                      {isOpen && <span className="tl-desc">{descOf(e)}</span>}
                     </button>
                   </div>
                 </li>
@@ -187,7 +224,7 @@ export default function Timeline() {
                     {g.eras.map((x) => (
                       <li key={x.era}>
                         <a href={`#${idOf(x.era)}`} data-era={x.era} className={here === x.era ? 'on' : ''} aria-current={here === x.era ? 'location' : undefined}
-                          aria-label={T(`${x.era}, ${x.n} ${x.n === 1 ? 'event' : 'events'}`, `${x.era}, ${x.n} घटनाएँ`)} onClick={(ev) => jump(ev, x.era)}>
+                          aria-label={T(`${x.era}, ${x.n} ${x.n === 1 ? 'event' : 'events'}`, `${eraHi(x.era)}, ${x.n} ${x.n === 1 ? 'घटना' : 'घटनाएँ'}`)} onClick={(ev) => jump(ev, x.era)}>
                           <span className="tl-rail-dot" aria-hidden="true" />
                           <span className="tl-rail-name">{g.short(x.era)}</span>
                           {/* Square-root scale: a century with one event still shows, and the order stays true. */}
