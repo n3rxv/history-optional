@@ -147,8 +147,12 @@ function sentenceEnd(text: string, atEnd: boolean): number {
 export type SentenceGate = {
   /** Feed a token chunk. Emits every sentence that completes. */
   push: (chunk: string) => void;
-  /** Call once the model is done. Emits a clean tail, drops a truncated one. */
-  flush: () => void;
+  /**
+   * Call once the model is done. Emits a clean tail, drops a truncated one.
+   * `complete` says the model ended on its own, so a tail with no full stop
+   * is a closing list item, not a sentence cut off.
+   */
+  flush: (complete?: boolean) => void;
   /** Total characters actually emitted, for the empty-answer fallback. */
   emitted: () => number;
 };
@@ -180,14 +184,14 @@ export function createSentenceGate(send: (text: string) => void): SentenceGate {
       }
     },
 
-    flush() {
+    flush(complete = false) {
       const tail = pending;
       pending = '';
       if (!tail.trim()) return;
       // No terminator means the model was cut off mid-sentence. Dropping it is
       // what 572ebba's trailing-fragment trim was for, and here it falls out of
       // the design rather than needing a heuristic.
-      if (sentenceEnd(tail, true) === -1) return;
+      if (!complete && sentenceEnd(tail, true) === -1) return;
       emit(tail);
     },
 

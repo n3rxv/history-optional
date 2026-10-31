@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { claudeClient, claudeReadsPdf, claudeRequest } from '@/lib/claude';
+import { streamGeminiPdf } from '@/lib/geminiPdf';
 import { checkRateLimit, clientIp, tooManyRequests } from '@/lib/rateLimit';
 import { consumeUsage, releaseUsage } from '@/lib/usageQuota';
 import { createSentenceGate } from '@/lib/citationGate';
@@ -353,13 +354,13 @@ ${STYLE_RULE}${pdf_base64 ? "\n\nThe user has uploaded a PDF. Analyze it careful
 
           const systemPrompt = systemFor(ragContext) + (lang === 'hi' ? '\n\nCRITICAL INSTRUCTION: You MUST respond ENTIRELY in Hindi (Devanagari script) regardless of the language of the question. Every single word of your response must be in Hindi. Do NOT use English even for technical terms — transliterate them. Historical names, dates, and places should use their Hindi equivalents. The one exception is citation markers: write them exactly as [Source #1] or [Source #1, #3], in English with Western digits, never translated, so they can be linked to their passages.' : '\n\nCRITICAL INSTRUCTION: You MUST respond ENTIRELY in English regardless of the language of the question.');
 
+          let geminiDone = false;
           if (pdf_base64 && !claudeReadsPdf()) {
             // DeepSeek is standing in for Claude (lib/claude.ts) and can't
-            // read PDFs. Say so, and don't count it against the allowance.
-            await refundChat();
-            collect(lang === 'hi'
-              ? 'PDF पढ़ना कुछ दिनों के लिए रुका हुआ है। जिस हिस्से को समझना है, उसका टेक्स्ट यहाँ चिपकाएँ और फिर से पूछें।'
-              : 'Reading PDFs is paused for a few days. Paste the part you want explained as text, and ask again.');
+            // read PDFs. Gemini reads them (lib/geminiPdf.ts).
+            // Gemini often ends on a list item with no full stop, which the
+            // gate would take for a cut-off sentence and drop.
+            geminiDone = await streamGeminiPdf({ system: systemPrompt, messages, pdfBase64: pdf_base64, maxTokens, onText: collect });
           } else if (pdf_base64) {
             // PDF mode — Haiku only (DeepSeek does not support document input)
             const anthropic = claudeClient();
@@ -448,7 +449,7 @@ ${STYLE_RULE}${pdf_base64 ? "\n\nThe user has uploaded a PDF. Analyze it careful
               }
             }
           }
-          gate.flush();
+          gate.flush(geminiDone);
           if (gate.emitted() === 0) send('Something went wrong. Please try again.');
           else if (stages) {
             // Before the sources, whose JSON runs to the end of the stream.
