@@ -8,7 +8,9 @@ import { SubscribeCard } from '@/components/SubscribeCard';
 import Mascot from '@/components/Mascot';
 import { FEATURES, ONE_OFF, TOPPER_PRICE } from '@/lib/features';
 import { daysToMains, NEXT_MAINS } from '@/lib/examDates';
-import { PLANS, PLAN_DURATION, planPriceLabel, type PlanId } from '@/lib/plans';
+import { PLANS, PLAN_DURATION, planPriceLabel, planPricePaise, type PlanId } from '@/lib/plans';
+import { useOffer } from '@/hooks/useOffer';
+import { OfferNote } from '@/components/OfferPrice';
 import { toast } from '@/components/ui/Toast';
 import { confirmDialog } from '@/components/ui/ConfirmDialog';
 import { useLang } from '@/lib/i18n/LangContext';
@@ -26,11 +28,12 @@ type Status = { isPremium: boolean; plan?: string; expires_at?: string; autoRene
 /** The plans on sale. 'weekly' stays in PlanId only for subscriptions bought before it was withdrawn. */
 type Sold = Exclude<PlanId, 'weekly'>;
 const rupees = (id: PlanId) => PLANS[id].amountPaise / 100;
-const PER: Record<Sold, string> = {
-  yearly: `about ₹${Math.round(rupees('yearly') / 12)} a month`,
-  sixmonths: `about ₹${Math.round(rupees('sixmonths') / 6)} a month`,
+/** The line under the price, from the price charged now (a sale price while an offer runs). */
+const PER = (id: Sold, r: number) => ({
+  yearly: `about ₹${Math.round(r / 12)} a month`,
+  sixmonths: `about ₹${Math.round(r / 6)} a month`,
   daily: 'for 24 hours',
-};
+})[id];
 const BLURB: Record<Sold, string> = {
   yearly: 'A full year: enough for the whole run to Mains, with time to revise.',
   sixmonths: 'One focused run up to Mains.',
@@ -41,11 +44,11 @@ const EXTEND: Record<Sold, string> = { yearly: 'Extend by a year', sixmonths: 'E
 const NAME: Record<Sold, string> = { yearly: 'A year', sixmonths: '6 months', daily: 'A day' };
 
 /** The same plan copy in Hindi. Prices and allowances are still read from lib/plans.ts and lib/features.ts. */
-const PER_HI: Record<Sold, string> = {
-  yearly: `लगभग ₹${Math.round(rupees('yearly') / 12)} प्रति माह`,
-  sixmonths: `लगभग ₹${Math.round(rupees('sixmonths') / 6)} प्रति माह`,
+const PER_HI = (id: Sold, r: number) => ({
+  yearly: `लगभग ₹${Math.round(r / 12)} प्रति माह`,
+  sixmonths: `लगभग ₹${Math.round(r / 6)} प्रति माह`,
   daily: '24 घंटे के लिए',
-};
+})[id];
 const BLURB_HI: Record<Sold, string> = {
   yearly: 'पूरा एक साल: मुख्य परीक्षा तक की पूरी तैयारी के लिए काफ़ी, दोहराने के समय के साथ।',
   sixmonths: 'मुख्य परीक्षा तक एक केंद्रित दौर।',
@@ -114,6 +117,7 @@ export default function PricingClient() {
   // Read in the browser only: a count of days rendered on the server would
   // disagree with the client's after midnight.
   const days = useSyncExternalStore(noop, () => daysToMains(), () => null);
+  const offer = useOffer();
 
   useEffect(() => {
     (async () => {
@@ -207,18 +211,24 @@ export default function PricingClient() {
       {onAutopay ? L('You’re on the weekly plan', 'आप साप्ताहिक प्लान पर हैं') : premium ? (langHi ? EXTEND_HI : EXTEND)[id] : (langHi ? CTA_HI : CTA)[id]}
     </button>
   );
-  const plan = (id: Sold, opts: { featured?: boolean; unit?: string } = {}) => (
+  const plan = (id: Sold, opts: { featured?: boolean; unit?: string } = {}) => {
+    const now = planPricePaise(id, offer) / 100;
+    const sale = now !== rupees(id);
+    return (
     <article className={`pr-plan${opts.featured ? ' featured' : ''}`}>
       <div className="pr-plan-top">
         <h3 className="pr-plan-name">{langHi ? NAME_HI[id] : NAME[id]}</h3>
-        {opts.featured && <span className="pr-tag">{L('Most chosen', 'सबसे ज़्यादा चुना गया')}</span>}
+        {sale && offer ? <span className="offer-off">{L(`${offer.percentOff}% off`, `${offer.percentOff}% छूट`)}</span>
+          : opts.featured && <span className="pr-tag">{L('Most chosen', 'सबसे ज़्यादा चुना गया')}</span>}
       </div>
-      <div className="pr-price"><span className="pr-rs">₹</span>{rupees(id).toLocaleString('en-IN')}<span className="pr-unit">{opts.unit ?? ''}</span></div>
-      <div className="pr-period">{(langHi ? PER_HI : PER)[id]}</div>
+      {sale && <div className="pr-was"><s>₹{rupees(id).toLocaleString('en-IN')}</s> {offer && L(`${offer.name}, till ${offer.until}`, `${offer.nameHi}, ${offer.untilHi} तक`)}</div>}
+      <div className="pr-price"><span className="pr-rs">₹</span>{now.toLocaleString('en-IN')}<span className="pr-unit">{opts.unit ?? ''}</span></div>
+      <div className="pr-period">{(langHi ? PER_HI : PER)(id, now)}</div>
       <p className="pr-blurb">{(langHi ? BLURB_HI : BLURB)[id]}</p>
       {oneTime(id, Boolean(opts.featured))}
     </article>
-  );
+    );
+  };
 
   return (
     <div className="pr ds">
@@ -252,6 +262,8 @@ export default function PricingClient() {
             </div>
           </div>
         )}
+
+        <OfferNote className="offer-note pr-offer" />
 
         <section className="pr-group" aria-labelledby="pr-g1">
           <div className="pr-group-head"><h2 id="pr-g1" className="pr-h2">{L('For your whole preparation', 'पूरी तैयारी के लिए')}</h2><span>{L('Paid once, never renews', 'एक बार भुगतान, अपने-आप रिन्यू नहीं होता')}</span></div>
@@ -415,6 +427,9 @@ const CSS = `
 .pr-plan-top { display: flex; align-items: center; justify-content: space-between; gap: var(--space-2); margin-bottom: var(--space-3); }
 .pr-plan-name { margin: 0; font-size: 1.08rem; font-weight: 800; }
 .pr-tag { padding: 3px 12px; border-radius: var(--radius-full); background: var(--accent); color: var(--accent-on, #fff); font-size: 0.8rem; font-weight: 700; }
+.pr-was { margin-bottom: var(--space-2); font-size: 0.9rem; font-weight: 600; color: var(--premium-text); }
+.pr-was s { margin-right: var(--space-1); color: var(--text3); font-size: 1.1rem; font-weight: 700; }
+.pr-offer { margin-top: var(--space-6); }
 .pr-price { font-size: 3rem; font-weight: 800; letter-spacing: -0.04em; line-height: 1; font-variant-numeric: tabular-nums; }
 .pr-price.small { font-size: 2.4rem; }
 .pr-rs { margin-right: 2px; font-size: 0.5em; font-weight: 700; vertical-align: 0.6em; }

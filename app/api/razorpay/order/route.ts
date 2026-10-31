@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { verifyFirebaseToken } from "@/lib/verifyFirebaseToken";
 import Razorpay from "razorpay";
-import { planAmountPaise, toPlanId } from "@/lib/plans";
+import { planChargeNow, toPlanId } from "@/lib/plans";
 import { supabaseAdminClient } from "@/lib/subscriptionGrant";
 
 export async function POST(req: NextRequest) {
@@ -53,7 +53,9 @@ export async function POST(req: NextRequest) {
   // An unrecognised plan falls back to the most expensive one rather than the
   // cheapest, so a malformed request can never underbill.
   const plan = toPlanId(reqBody.plan);
-  const amount = planAmountPaise(plan);
+  // The sale price while an offer runs. Its id goes in the notes, so the
+  // grant accepts the lower amount even if the payment lands after it ends.
+  const { amountPaise: amount, offer } = planChargeNow(plan);
 
   // These notes are the only trustworthy record of who this order is for and
   // what they selected — /api/razorpay/verify reads the plan back from here
@@ -63,7 +65,7 @@ export async function POST(req: NextRequest) {
     amount,
     currency: "INR",
     receipt:  `ho_${user.uid.slice(0, 8)}_${Date.now()}`,
-    notes: { user_id: user.uid, email: user.email ?? "", plan },
+    notes: { user_id: user.uid, email: user.email ?? "", plan, ...(offer ? { offer: offer.id } : {}) },
   });
 
   return NextResponse.json({ orderId: order.id, amount: order.amount, currency: order.currency });

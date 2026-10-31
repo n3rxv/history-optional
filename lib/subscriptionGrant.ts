@@ -1,6 +1,6 @@
 import { createClient, type SupabaseClient } from "@supabase/supabase-js";
 import Razorpay from "razorpay";
-import { addPlanDuration, isPlanId, planAmountPaise, type PlanId } from "@/lib/plans";
+import { addPlanDuration, isPlanId, orderAmountOk, planAmountPaise, type PlanId } from "@/lib/plans";
 
 /**
  * The one place a Razorpay payment turns into subscription access.
@@ -90,9 +90,11 @@ export async function applySubscriptionPayment(opts: {
   }
   const plan: PlanId = notes.plan;
 
+  // The list price, or the sale price of the offer the order route wrote in
+  // the notes, which holds after the offer ends for an order made during it.
   const orderAmount = Number(order.amount);
-  if (orderAmount !== planAmountPaise(plan)) {
-    log(`order amount ${orderAmount} != ${plan} price ${planAmountPaise(plan)}`);
+  if (!orderAmountOk(plan, orderAmount, notes.offer)) {
+    log(`order amount ${orderAmount} != ${plan} price ${planAmountPaise(plan)} (offer ${String(notes.offer ?? "none")})`);
     return { ok: false, status: 400, error: "Order amount does not match plan" };
   }
 

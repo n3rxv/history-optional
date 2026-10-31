@@ -33,6 +33,62 @@ export function planAmountPaise(plan: PlanId): number {
   return PLANS[plan].amountPaise;
 }
 
+/**
+ * Sales: some plans at a lower price for a while.
+ *
+ * The order route charges the sale price while an offer runs and writes the
+ * offer's id into the Razorpay order's notes. The grant then accepts either
+ * the list price or the sale price of the offer named there, so an order made
+ * on the last evening still grants when it is paid after midnight. PLANS keeps
+ * the list prices, which the terms, the refund policy and search results show.
+ */
+export type Offer = {
+  id: string;
+  name: string;
+  nameHi: string;
+  /** The last day, as the pages state it. */
+  until: string;
+  untilHi: string;
+  percentOff: number;
+  startsAt: string;
+  /** The first moment the offer is over. */
+  endsAt: string;
+  amountPaise: Partial<Record<PlanId, number>>;
+};
+
+export const OFFERS: Offer[] = [
+  {
+    id: 'diwali-2026', name: 'Diwali offer', nameHi: 'दिवाली ऑफ़र', until: '10 November', untilHi: '10 नवंबर', percentOff: 33,
+    startsAt: '2026-10-31T00:00:00+05:30', endsAt: '2026-11-11T00:00:00+05:30',
+    // 33% off, to the rupee below: ₹1,999 and ₹2,999. The day stays at ₹49.
+    amountPaise: { sixmonths: 133900, yearly: 200900 },
+  },
+];
+
+/** The offer running now, if any. The same object each time, so React can compare it. */
+export function liveOffer(now = Date.now()): Offer | null {
+  return OFFERS.find((o) => now >= Date.parse(o.startsAt) && now < Date.parse(o.endsAt)) ?? null;
+}
+
+/** What a plan costs now, and the offer that sets it. */
+export function planChargeNow(plan: PlanId, now = Date.now()): { amountPaise: number; offer: Offer | null } {
+  const offer = liveOffer(now);
+  const sale = offer?.amountPaise[plan];
+  return sale ? { amountPaise: sale, offer } : { amountPaise: PLANS[plan].amountPaise, offer: null };
+}
+
+/** Whether an order's amount is a price the plan was sold at: its list price, or the sale price of the offer in the order's notes. */
+export function orderAmountOk(plan: PlanId, amountPaise: number, offerId?: unknown): boolean {
+  if (amountPaise === PLANS[plan].amountPaise) return true;
+  const offer = OFFERS.find((o) => o.id === offerId);
+  return offer?.amountPaise[plan] === amountPaise;
+}
+
+/** The plan's price under an offer, or its list price. */
+export function planPricePaise(plan: PlanId, offer: Offer | null): number {
+  return offer?.amountPaise[plan] ?? PLANS[plan].amountPaise;
+}
+
 /** Returns a new Date — does not mutate `from`. */
 export function addPlanDuration(from: Date, plan: PlanId): Date {
   const next = new Date(from.getTime());

@@ -13,7 +13,9 @@ import { onAuthStateChanged, signOut as firebaseSignOut, User } from 'firebase/a
 import { SubscribeCard } from '@/components/SubscribeCard';
 import { FEATURES, TOPPER_PRICE } from '@/lib/features';
 import { daysToMains } from '@/lib/examDates';
-import { PLANS, PLAN_ORDER, DEFAULT_PLAN, planPriceLabel, addPlanDuration, isPlanId, type PlanId } from '@/lib/plans';
+import { PLANS, PLAN_ORDER, DEFAULT_PLAN, planPricePaise, addPlanDuration, isPlanId, type PlanId } from '@/lib/plans';
+import { useOffer } from '@/hooks/useOffer';
+import { OfferNote } from '@/components/OfferPrice';
 import { toast } from '@/components/ui/Toast';
 import { confirmDialog } from '@/components/ui/ConfirmDialog';
 import UserAvatar from '@/components/ui/UserAvatar';
@@ -147,8 +149,10 @@ function ExtendModal({
   // tile at ₹1,999. Neither is a plan id the server knows, so toPlanId()
   // fell back to yearly: the button said ₹1,999, Razorpay charged ₹2,999,
   // and the reader was granted a year instead of the week or month shown.
+  // Sale prices while an offer runs, as the order route charges them.
+  const offer = useOffer();
   const plans = PLAN_ORDER.map(id => ({
-    id, label: PLANS[id].label, shown: planLabel(id, langHi), price: planPriceLabel(id),
+    id, label: PLANS[id].label, shown: planLabel(id, langHi), price: '₹' + (planPricePaise(id, offer) / 100).toLocaleString('en-IN'),
   }));
 
   // addPlanDuration is the same function /api/razorpay/verify uses to set
@@ -246,6 +250,7 @@ function ExtendModal({
           </div>
         )}
 
+        <OfferNote className="offer-note nb-offer" />
         <div className="nb-plans" style={{ gridTemplateColumns: `repeat(${plans.length}, minmax(0, 1fr))` }}>
           {plans.map(p => (
             <button key={p.id} className={`nb-plan${selectedPlan === p.id ? ' on' : ''}`} onClick={() => setSelectedPlan(p.id)} aria-pressed={selectedPlan === p.id}>
@@ -931,6 +936,7 @@ const NAV_CSS = `
 .nb-extend-row.good { background: var(--success-wash); border-color: transparent; }
 .nb-extend-row.good strong { color: var(--success-text); }
 .nb-plans { display: grid; gap: var(--space-2); margin-bottom: var(--space-4); }
+.nb-offer { margin-bottom: var(--space-3); padding: var(--space-2) var(--space-3); font-size: 0.84rem; }
 .nb-plan {
   display: flex; flex-direction: column; align-items: center; gap: 4px; padding: var(--space-3) var(--space-2);
   background: var(--ds-card); border: 1.5px solid var(--border2); border-radius: var(--radius-lg); cursor: pointer;

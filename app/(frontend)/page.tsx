@@ -6,7 +6,8 @@ import { pyqs } from '@/lib/pyqData';
 import { countPublished } from '@/lib/flashcardStore';
 import { getDailyQuestions } from '@/lib/dailyQuestions';
 import { istDay } from '@/lib/istDay';
-import { PLANS, PLAN_ORDER, PLAN_DURATION, planPriceLabel } from '@/lib/plans';
+import { PLANS, PLAN_ORDER, PLAN_DURATION } from '@/lib/plans';
+import { OfferNote, OfferPrice } from '@/components/OfferPrice';
 import HomeAsk from '@/components/home/HomeAsk';
 import { HeroActions } from '@/components/home/HomeLinks';
 import HomeShowcase from '@/components/home/HomeShowcase';
@@ -168,12 +169,13 @@ export default async function Home() {
               <h2 className="ds-h2"><HiText en="Pay once, for as long as you need" hi="एक बार भुगतान करें, जितने समय के लिए चाहिए" /></h2>
               <p className="ds-lede"><HiText en="The notes and PYQs are free once you sign in. You only pay for practice, like getting answers checked and the AI tutor." hi="साइन इन करते ही नोट्स और PYQ निःशुल्क हैं। भुगतान केवल अभ्यास के लिए है, जैसे उत्तर जँचवाना और AI ट्यूटर।" /></p>
             </div>
+            <OfferNote className="offer-note hm-offer" />
             <div className="hm-plans">
               {PLAN_ORDER.map((id) => (
                 <Link key={id} href="/pricing" className={`hm-plan ds-card ds-card-link${id === 'yearly' ? ' featured' : ''}`}>
                   {id === 'yearly' && <span className="ds-tag"><HiText en="Most chosen" hi="सबसे ज़्यादा चुना गया" /></span>}
                   <span className="hm-plan-name"><HiText en={id === 'yearly' ? 'A year' : PLANS[id].label} hi={PLAN_NAME_HI[id]} /></span>
-                  <span className="hm-plan-price">{planPriceLabel(id)}</span>
+                  <OfferPrice id={id} className="hm-plan-price" />
                   <span className="hm-plan-period"><HiText en={`for ${PLAN_DURATION[id] === 'day' ? 'a day' : PLAN_DURATION[id] === 'year' ? 'a year' : PLAN_DURATION[id]}, paid once`} hi={`${PLAN_NAME_HI[id]} के लिए, एक बार भुगतान`} /></span>
                   <span className="hm-plan-text"><HiText en={PLAN_NOTE[id]} hi={PLAN_NOTE_HI[id]} /></span>
                 </Link>
@@ -267,6 +269,7 @@ const HOME_CSS = `
 .hm-step-text { font-size: 0.92rem; line-height: 1.6; color: var(--text2); }
 
 /* Plans */
+.hm-offer { margin-bottom: var(--space-4); }
 .hm-plans { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-4); }
 .hm-plan { position: relative; display: flex; flex-direction: column; gap: 2px; padding: var(--space-6) var(--space-5); }
 .hm-plan.featured { border-color: color-mix(in srgb, var(--accent) 50%, transparent); box-shadow: 0 0 0 3px var(--accent-dim); }

@@ -1,6 +1,8 @@
 'use client';
 import { useLang } from '@/lib/i18n/LangContext';
-import { PLANS, PLAN_ORDER, PLAN_DURATION, DEFAULT_PLAN, planPriceLabel, type PlanId } from '@/lib/plans';
+import { PLANS, PLAN_ORDER, PLAN_DURATION, DEFAULT_PLAN, planPricePaise, type PlanId } from '@/lib/plans';
+import { useOffer } from '@/hooks/useOffer';
+import { OfferNote } from '@/components/OfferPrice';
 import { useState, useEffect } from 'react';
 import { auth, signInWithGoogle } from '@/lib/firebase';
 
@@ -46,12 +48,15 @@ export function SubscribeCard({
   // selected, which is not the plan they own.
   const [existingPlan, setExistingPlan] = useState<string | null>(null);
 
-  // Prices come from lib/plans.ts, which is what /api/razorpay/order bills.
+  // Prices come from lib/plans.ts, which is what /api/razorpay/order bills,
+  // at the sale price while an offer runs.
+  const offer = useOffer();
+  const priceLabel = (id: PlanId) => '₹' + (planPricePaise(id, offer) / 100).toLocaleString('en-IN');
   const allPlans = PLAN_ORDER.map(id => ({
-    id, label: PLANS[id].label, price: planPriceLabel(id), sub: PLAN_DURATION[id],
+    id, label: PLANS[id].label, price: priceLabel(id), sub: PLAN_DURATION[id],
   }));
 
-  const currentPlan = allPlans.find(p => p.id === selectedPlan) ?? { id: selectedPlan, label: PLANS[selectedPlan].label, price: planPriceLabel(selectedPlan), sub: PLAN_DURATION[selectedPlan] };
+  const currentPlan = allPlans.find(p => p.id === selectedPlan) ?? { id: selectedPlan, label: PLANS[selectedPlan].label, price: priceLabel(selectedPlan), sub: PLAN_DURATION[selectedPlan] };
 
   useEffect(() => {
     if (document.getElementById('rzp-script')) return;
@@ -220,7 +225,7 @@ export function SubscribeCard({
         { title: 'Just to try it', note: '24 hours, paid once', ids: ['daily'] },
       ];
   const monthly = (id: PlanId) => {
-    const rupees = PLANS[id].amountPaise / 100;
+    const rupees = planPricePaise(id, offer) / 100;
     if (id === 'yearly') return Math.round(rupees / 12);
     if (id === 'sixmonths') return Math.round(rupees / 6);
     return null;
@@ -231,12 +236,13 @@ export function SubscribeCard({
   const NAME: Record<PlanId, string> = langHi
     ? NAME_HI
     : { yearly: 'A year', sixmonths: '6 months', weekly: 'Weekly', daily: 'A day' };
-  const selPrice = planPriceLabel(selectedPlan);
+  const selPrice = priceLabel(selectedPlan);
 
   return (
     <div className={`sc ds${standalone ? ' standalone' : ''}`}>
       <style dangerouslySetInnerHTML={{ __html: SC_CSS }} />
 
+      <OfferNote className="offer-note sc-offer" />
       <div className="sc-list" role="radiogroup" aria-label={langHi ? 'प्लान चुनें' : 'Choose a plan'}>
         {GROUPS.map(g => (
           <div key={g.title} className="sc-group">
@@ -256,7 +262,8 @@ export function SubscribeCard({
                     {note && <span className="sc-row-note">{note}</span>}
                   </span>
                   <span className="sc-row-price">
-                    {planPriceLabel(id)}
+                    {planPricePaise(id, offer) !== PLANS[id].amountPaise && <s className="sc-was">₹{(PLANS[id].amountPaise / 100).toLocaleString('en-IN')}</s>}
+                    {priceLabel(id)}
                   </span>
                 </button>
               );
@@ -312,6 +319,8 @@ const SC_CSS = `
 .sc-row-note { font-family: var(--font-ui); font-size: 0.8rem; color: var(--text3); line-height: 1.4; }
 .sc-row.on .sc-row-note { color: var(--text2); }
 .sc-row-price { flex-shrink: 0; font-size: 1.12rem; font-weight: 800; letter-spacing: -0.02em; color: var(--text); }
+.sc-was { margin-right: 6px; color: var(--text3); font-size: 0.86rem; font-weight: 600; letter-spacing: 0; }
+.sc-offer { padding: var(--space-2) var(--space-3); font-size: 0.84rem; }
 .sc-row-price small { font-size: 0.78rem; font-weight: 500; color: var(--text3); letter-spacing: 0; }
 .sc-cta { display: flex; flex-direction: column; gap: var(--space-2); }
 .sc-foot { display: flex; align-items: center; justify-content: space-between; gap: var(--space-3); flex-wrap: wrap; }

@@ -1233,6 +1233,14 @@ html, body { overflow-x: hidden; max-width: 100%; }
 }
 .ds-chip:hover { border-color: color-mix(in srgb, var(--accent) 45%, transparent); }
 .ds-chip.on { background: var(--accent-dim); color: var(--accent-text); border-color: var(--accent); }
+/* A running offer (lib/plans.ts OFFERS): the note naming it, the "33% off"
+   badge, and the list price struck through before the sale price. Gold, the
+   Premium colours, since it is Premium on sale. */
+.offer-note { display: flex; align-items: flex-start; gap: var(--space-2); margin: 0; padding: var(--space-3) var(--space-4); border-radius: var(--radius-lg); background: var(--premium-wash); border: 1px solid color-mix(in srgb, var(--premium-text) 30%, transparent); color: var(--premium-text); font-weight: 700; line-height: 1.45; }
+.offer-spark { flex-shrink: 0; }
+.offer-off { padding: 3px 12px; border-radius: var(--radius-full); background: var(--premium-fill); color: var(--premium-on); font-size: 0.8rem; font-weight: 800; white-space: nowrap; }
+.offer-was { margin-right: 0.4em; color: var(--text3); font-size: 0.6em; font-weight: 600; letter-spacing: 0; }
+
 .ds-tag {
   display: inline-flex; align-items: center; gap: var(--space-1);
   padding: 2px var(--space-2); border-radius: var(--radius-pill);
