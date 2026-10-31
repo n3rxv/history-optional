@@ -16,13 +16,15 @@ export type PaperPlace = MapEntry & {
   askedIn: number[];
 };
 
-export type RepeatedPlace = {
+export type AskedPlace = {
   /** The answer as most recently given. */
   name: string;
+  /** Every name it was given, for checking a typed answer. */
+  answers: string[];
   /** Newest first. */
   years: number[];
-  /** The hint UPSC printed each time, newest first. */
-  hints: { year: number; hint: string }[];
+  /** The hint UPSC printed each time, newest first, with any note on the answer. */
+  hints: { year: number; hint: string; note?: string }[];
   lat: number;
   lng: number;
 };
@@ -77,19 +79,58 @@ export function paper(year: number): PaperPlace[] {
 /** How many of a paper's places UPSC had asked before. */
 export const repeatsIn = (year: number) => paper(year).filter((p) => p.askedIn.some((y) => y < year)).length;
 
+/** Every place UPSC has asked, once each, with the years and hints. */
+const asked: AskedPlace[] = groups.map((g) => {
+  const members = [...g].sort((a, b) => b.year - a.year || a.number - b.number);
+  return {
+    name: members[0].answer,
+    answers: [...new Set(members.map((m) => m.answer))],
+    years: [...new Set(members.map((m) => m.year))],
+    hints: members.map((m) => ({ year: m.year, hint: m.hint, ...(m.note ? { note: m.note } : {}) })),
+    lat: members[0].lat,
+    lng: members[0].lng,
+  };
+});
+
 /** Every place asked more than once, most asked first, then most recently asked. */
-export function repeatedPlaces(): RepeatedPlace[] {
-  return groups
-    .map((members) => [...members].sort((a, b) => b.year - a.year))
-    .filter((members) => new Set(members.map((m) => m.year)).size > 1)
-    .map((members) => ({
-      name: members[0].answer,
-      years: [...new Set(members.map((m) => m.year))],
-      hints: members.map((m) => ({ year: m.year, hint: m.hint })),
-      lat: members[0].lat,
-      lng: members[0].lng,
-    }))
+export function repeatedPlaces(): AskedPlace[] {
+  return asked
+    .filter((p) => p.years.length > 1)
     .sort((a, b) => b.years.length - a.years.length || b.years[0] - a.years[0] || a.name.localeCompare(b.name));
+}
+
+/**
+ * Answers the map book doesn't have, placed in its chapters by hand.
+ * Mandi (2016, "A capital city") is in none: the book's Mandi is another place.
+ */
+const BY_HAND: Record<string, string[]> = {
+  'Hire Benakal': ['Megalithic Sites'],
+  'Tala (Devrani-Jethani temples)': ['Temples'],
+  Kodumbalur: ['Temples'],
+  Araria: ['Water Structures'],
+};
+
+/**
+ * The places UPSC has asked from each chapter of the map book, newest first:
+ * those the chapter has a site for, within a degree and under the same name
+ * or one spelt within two letters ("Hunsgi", "Hunsagi"). A degree, because
+ * the same name can be another place: the book's Mandi is not 2016's.
+ */
+export function askedByChapter(book: Record<string, MapSite[]>, chapters: { key: string; topic: string }[]): Record<string, AskedPlace[]> {
+  const out: Record<string, AskedPlace[]> = {};
+  const same = (p: AskedPlace, s: MapSite) => {
+    if (Math.hypot(p.lat - s.lat, p.lng - s.lng) >= 1) return false;
+    const ks = keys(s.name);
+    return p.answers.some((a) => samePlace({ answer: a, lat: p.lat, lng: p.lng }, { answer: s.name, lat: s.lat, lng: s.lng })
+      || keys(a).some((k) => ks.some((x) => close(k, x))));
+  };
+  for (const { key, topic } of chapters) {
+    const sites = book[key] ?? [];
+    out[key] = asked
+      .filter((p) => sites.some((s) => same(p, s)) || p.answers.some((a) => BY_HAND[a]?.includes(topic)))
+      .sort((a, b) => b.years[0] - a.years[0] || a.name.localeCompare(b.name));
+  }
+  return out;
 }
 
 /**
