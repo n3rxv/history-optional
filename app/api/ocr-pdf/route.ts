@@ -1,11 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
-import Anthropic from "@anthropic-ai/sdk";
+import { claudeClient, claudeRequest, claudeText } from "@/lib/claude";
 import { resolveEvalAccess, evalAccessDenied } from "@/lib/evalAccess";
 
 export const maxDuration = 120;
 export const dynamic = "force-dynamic";
-
-const client = new Anthropic();
 
 // The client sends one batch of rendered PDF pages per request (8 at present).
 const MAX_FILES = 10;
@@ -47,7 +45,8 @@ export async function POST(req: NextRequest) {
       };
     }));
 
-    const response = await client.messages.create({
+    // Reading handwriting: on DeepSeek it thinks first (lib/claude.ts).
+    const response = await claudeClient().messages.create(claudeRequest({
       model: "claude-sonnet-4-6",
       max_tokens: 8192,
       temperature: 0,
@@ -74,9 +73,9 @@ Output ONLY the transcribed text. No commentary, no markdown, no explanations.`,
           },
         ],
       }],
-    });
+    }, { think: true }));
 
-    const text = response.content[0]?.type === "text" ? response.content[0].text : "";
+    const text = claudeText(response);
     return NextResponse.json({ text });
   } catch (err: any) {
     console.error("ocr-pdf error:", err);

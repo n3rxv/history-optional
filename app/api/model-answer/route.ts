@@ -1,6 +1,7 @@
 export const maxDuration = 120;
 
 import { NextRequest, NextResponse } from 'next/server';
+import { claudeClient, claudeRequest } from '@/lib/claude';
 import { searchDiverse } from '@/lib/vectorStore';
 
 const SYSTEM_PROMPT = `You are an expert UPSC History Optional examiner and answer writer with deep mastery of Indian and World History. You write model answers that consistently score 130+/150.
@@ -297,16 +298,13 @@ QUESTION (${marksNum} marks): ${question}
 
 Write the full model answer now${hi ? ', entirely in Hindi (Devanagari script)' : ''}:`;
 
-    const Anthropic = (await import('@anthropic-ai/sdk')).default;
-    const anthropic = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
-
     let answer = '';
-    const anthropicStream = anthropic.messages.stream({
+    const anthropicStream = claudeClient().messages.stream(claudeRequest({
       model: 'claude-haiku-4-5-20251001',
       max_tokens: marksNum >= 20 ? 6000 : marksNum >= 15 ? 4000 : 2500,
       system: SYSTEM_PROMPT + (hi ? HINDI_NOTE : ''),
       messages: [{ role: 'user', content: prompt }],
-    });
+    }));
     for await (const chunk of anthropicStream) {
       if (chunk.type === 'content_block_delta' && chunk.delta.type === 'text_delta') {
         answer += chunk.delta.text;

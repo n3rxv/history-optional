@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
 import { adminAuth } from "@/lib/firebaseAdmin";
 import crypto from "crypto";
-import Anthropic from "@anthropic-ai/sdk";
+import { claudeClient, claudeReadsPdf, claudeText } from "@/lib/claude";
 import { claimPayment, MAP_AMOUNT_PAISE } from "@/lib/paymentClaim";
 
 /**
@@ -19,7 +19,6 @@ import { claimPayment, MAP_AMOUNT_PAISE } from "@/lib/paymentClaim";
  */
 export const maxDuration = 120;
 
-const client = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
 
 export async function POST(req: NextRequest) {
   const token = req.headers.get("x-user-token");
@@ -95,6 +94,16 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "No PDF provided" }, { status: 400 });
   }
 
+  // DeepSeek, standing in for Claude (lib/claude.ts), can't read the PDF.
+  // The claim is released, so the payment still counts once Claude is back.
+  if (!claudeReadsPdf()) {
+    await releaseClaim();
+    return NextResponse.json(
+      { error: "Map checks are paused for a few days. Your payment is kept: come back and press Try the marking again." },
+      { status: 503 }
+    );
+  }
+
   const prompt = `You are a strict UPSC History Optional map question examiner.
 
 You will receive a PDF containing:
@@ -155,7 +164,7 @@ Status rules:
 
 Evaluate all 20 questions now.${lang === "hi" ? "\n\nIMPORTANT: Write descriptionFeedback and overallFeedback in Hindi (Devanagari script)." : ""}`;
 
-  const response = await client.messages.create({
+  const response = await claudeClient().messages.create({
     model:      "claude-sonnet-4-6",
     max_tokens: 8192,
     temperature: 0,
@@ -173,7 +182,7 @@ Evaluate all 20 questions now.${lang === "hi" ? "\n\nIMPORTANT: Write descriptio
     ],
   });
 
-  const raw     = response.content[0].type === "text" ? response.content[0].text : "";
+  const raw     = claudeText(response);
   const cleaned = raw.replace(/```json|```/g, "").trim();
   const jsonStart = cleaned.indexOf("{");
   const jsonEnd   = cleaned.lastIndexOf("}");

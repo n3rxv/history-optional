@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import Anthropic from "@anthropic-ai/sdk";
+import { claudeClient, claudeReadsPdf, claudeText } from "@/lib/claude";
 import { createClient } from "@supabase/supabase-js";
 import { verifyFirebaseToken } from "@/lib/verifyFirebaseToken";
 import { checkRateLimit, clientIp, tooManyRequests } from "@/lib/rateLimit";
@@ -7,7 +7,6 @@ import { checkRateLimit, clientIp, tooManyRequests } from "@/lib/rateLimit";
 export const maxDuration = 120;
 export const dynamic = "force-dynamic";
 
-const client = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
 
 // A base64 PDF this size is already ~15MB of file. Beyond that the request is
 // not a map answer sheet, and decoding it costs us memory before Claude ever
@@ -121,7 +120,11 @@ Status rules:
 
 Evaluate all 20 questions now.`;
 
-    const response = await client.messages.create({
+    // DeepSeek, standing in for Claude (lib/claude.ts), can't read the PDF.
+    if (!claudeReadsPdf()) {
+      return NextResponse.json({ error: "Map checks are paused for a few days. Please try again soon." }, { status: 503 });
+    }
+    const response = await claudeClient().messages.create({
       model: "claude-sonnet-4-6",
       max_tokens: 8192,
       temperature: 0,
@@ -146,7 +149,7 @@ Evaluate all 20 questions now.`;
       ],
     });
 
-    const raw = response.content[0].type === "text" ? response.content[0].text : "";
+    const raw = claudeText(response);
     console.log("[check-map] Claude raw response:", raw.slice(0, 500));
 
     // Clean and parse JSON
