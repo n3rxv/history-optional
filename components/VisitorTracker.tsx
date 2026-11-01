@@ -17,6 +17,15 @@ import { usePathname } from 'next/navigation';
  */
 
 const HEARTBEAT_MS = 5 * 60 * 1000;
+/**
+ * Sessions are measured from these beats (supabase/real_sessions.sql): a tab
+ * left open in the background used to beat every 5 minutes for days. Now the
+ * timer only beats while the page is visible and the reader has scrolled,
+ * tapped or typed since the last beat; hiding the tab still sends one, which
+ * marks where the session ended.
+ */
+let lastInput = Date.now();
+const INPUT_EVENTS = ['pointerdown', 'keydown', 'scroll', 'touchstart', 'wheel'] as const;
 
 /**
  * A first visit is recorded only once the visitor has stayed: after
@@ -214,18 +223,22 @@ export default function VisitorTracker() {
         const { visitor_id } = await getVisitorId();
         if (cancelled) return;
 
+        // keepalive, so the beat sent as the tab closes still arrives.
         const beat = () => {
           void fetch('/api/track-visit', {
             method: 'PATCH',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ visitor_id }),
+            keepalive: true,
           }).catch(() => {});
         };
 
         // No beat on mount: the pageview POST already sets last_active
         // (record_visit). And none on beforeunload: closing a tab hides it
         // first, so that listener only ever sent a second, duplicate beat.
-        interval = setInterval(beat, HEARTBEAT_MS);
+        interval = setInterval(() => {
+          if (document.visibilityState === 'visible' && Date.now() - lastInput < HEARTBEAT_MS) beat();
+        }, HEARTBEAT_MS);
         onVisibility = () => { if (document.visibilityState === 'hidden') beat(); };
         document.addEventListener('visibilitychange', onVisibility);
       } catch {
@@ -238,6 +251,14 @@ export default function VisitorTracker() {
       if (interval) clearInterval(interval);
       if (onVisibility) document.removeEventListener('visibilitychange', onVisibility);
     };
+  }, []);
+
+  // Notes when the reader last did something, for the heartbeat above.
+  useEffect(() => {
+    if (!shouldTrack()) return;
+    const onInput = () => { lastInput = Date.now(); };
+    for (const e of INPUT_EVENTS) window.addEventListener(e, onInput, { passive: true });
+    return () => { for (const e of INPUT_EVENTS) window.removeEventListener(e, onInput); };
   }, []);
 
   return null;

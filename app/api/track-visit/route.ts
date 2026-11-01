@@ -71,7 +71,7 @@ function field(value: unknown, maxLength: number): string | null {
   return trimmed || null;
 }
 
-/** Heartbeat: refresh last_active and recompute the session duration. */
+/** Heartbeat: refresh last_active and the session (supabase/real_sessions.sql). */
 export async function PATCH(req: NextRequest) {
   try {
     if (BOT_UA.test(req.headers.get('user-agent') ?? '')) {
@@ -135,6 +135,10 @@ export async function POST(req: NextRequest) {
       p_country: req.headers.get('x-vercel-ip-country') || null,
       p_city: decodeURIComponent(req.headers.get('x-vercel-ip-city') || '') || null,
       p_firebase_uid: field(body.firebase_uid, 128),
+      // A first visit's time before its ping. record_visit starts the row, or
+      // the session, that much earlier, in whichever order this and the next
+      // pageview arrive (supabase/real_sessions.sql).
+      p_dwell: first ? dwell : 0,
     });
 
     if (error) {
@@ -143,24 +147,6 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ ok: false, reason: 'rpc error' });
     }
 
-    // record_visit starts a new row at now() with a 0-second session. For a
-    // visitor's first row, start it when they arrived instead, so it holds
-    // the time they had already spent.
-    //
-    // This used to match visit_count = 1, but the first visit and the next
-    // page's pageview leave the browser together, and when the pageview got
-    // here first it made the row and this ping found visit_count = 2, so the
-    // row kept its 0 seconds. Moving the start back only when it is later
-    // than the arrival works in either order, and never touches a returning
-    // visitor, whose row started long before.
-    if (first) {
-      const arrived = new Date(Date.now() - dwell * 1000).toISOString();
-      await supabase
-        .from('user_sessions')
-        .update({ session_start: arrived, session_duration_secs: dwell })
-        .eq('visitor_id', visitorId)
-        .gt('session_start', arrived);
-    }
     return NextResponse.json({ ok: true });
   } catch (e) {
     return NextResponse.json({ ok: false, reason: 'exception', error: (e as Error).message });
