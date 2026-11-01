@@ -26,14 +26,7 @@ export type DailyQuestion = Pick<PYQ, 'id' | 'question' | 'section' | 'marks' | 
  * matches what the client version did, so the mix of papers is unchanged.
  */
 export function getDailyQuestions(now: Date = new Date()): DailyQuestion[] {
-  const [y, m, d] = istDay(now).split('-').map(Number);
-  let s = y * 10000 + m * 100 + d;
-
-  // Linear congruential generator, as before: cheap and reproducible.
-  const rand = () => {
-    s = (s * 1664525 + 1013904223) & 0xffffffff;
-    return (s >>> 0) / 0xffffffff;
-  };
+  const rand = seeded(istDay(now));
 
   const p1 = pyqs.filter((q) => q.section.includes('Ancient') || q.section.includes('Medieval'));
   const p2 = pyqs.filter((q) => q.section.includes('Modern') || q.section.includes('World'));
@@ -57,6 +50,25 @@ export function getDailyQuestions(now: Date = new Date()): DailyQuestion[] {
   }
 
   return picked;
+}
+
+/**
+ * A random sequence fixed by a string: FNV-1a to hash it, mulberry32 to draw.
+ * It was a plain LCG seeded with the date as a number, and consecutive dates
+ * are consecutive numbers, so its first draws barely moved from day to day:
+ * the first question (the dashboard's question for today) came back two or
+ * three days running, and the fourth stepped through the list in order.
+ */
+function seeded(key: string): () => number {
+  let h = 0x811c9dc5;
+  for (let i = 0; i < key.length; i++) { h ^= key.charCodeAt(i); h = Math.imul(h, 0x01000193); }
+  let a = h >>> 0;
+  return () => {
+    a = (a + 0x6d2b79f5) | 0;
+    let t = Math.imul(a ^ (a >>> 15), 1 | a);
+    t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+  };
 }
 
 /** The set for a YYYY-MM-DD day in Asia/Kolkata, or null for a malformed day. */
