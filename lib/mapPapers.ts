@@ -27,6 +27,8 @@ export type AskedPlace = {
   hints: { year: number; hint: string; note?: string }[];
   lat: number;
   lng: number;
+  /** Where the place is, when UPSC's dot (lat, lng) is elsewhere. */
+  site?: { lat: number; lng: number };
 };
 
 export const norm = (s: string) => s.normalize('NFKD').toLowerCase().replace(/[^\p{L}\p{N}]/gu, '');
@@ -89,6 +91,7 @@ const asked: AskedPlace[] = groups.map((g) => {
     hints: members.map((m) => ({ year: m.year, hint: m.hint, ...(m.note ? { note: m.note } : {}) })),
     lat: members[0].lat,
     lng: members[0].lng,
+    ...(members[0].site ? { site: members[0].site } : {}),
   };
 });
 
@@ -119,9 +122,11 @@ const BY_HAND: Record<string, string[]> = {
 export function askedByChapter(book: Record<string, MapSite[]>, chapters: { key: string; topic: string }[]): Record<string, AskedPlace[]> {
   const out: Record<string, AskedPlace[]> = {};
   const same = (p: AskedPlace, s: MapSite) => {
-    if (Math.hypot(p.lat - s.lat, p.lng - s.lng) >= 1) return false;
+    // The place, not UPSC's dot, where the two differ (2026's Mahisdal).
+    const at = p.site ?? p;
+    if (Math.hypot(at.lat - s.lat, at.lng - s.lng) >= 1) return false;
     const ks = keys(s.name);
-    return p.answers.some((a) => samePlace({ answer: a, lat: p.lat, lng: p.lng }, { answer: s.name, lat: s.lat, lng: s.lng })
+    return p.answers.some((a) => samePlace({ answer: a, lat: at.lat, lng: at.lng }, { answer: s.name, lat: s.lat, lng: s.lng })
       || keys(a).some((k) => ks.some((x) => close(k, x))));
   };
   for (const { key, topic } of chapters) {

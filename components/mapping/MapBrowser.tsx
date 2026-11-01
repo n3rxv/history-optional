@@ -409,10 +409,15 @@ function ChapterPicker({ value, onChange, chapters, places, hi, pyq }: { value: 
   );
 }
 
-/** The map book's notes for a past paper's answer, when the book has the place within about 100 km of the paper's pin. */
-function noteFor(p: { answer: string; lat: number; lng: number }, all: MapSite[]) {
-  const b = bookEntry(p, all);
-  return b && Math.hypot(b.lat - p.lat, b.lng - p.lng) < 1 ? b : undefined;
+/**
+ * The map book's notes for a past paper's answer, when the book has the place
+ * within about 100 km of the paper's pin, or of the place itself where UPSC's
+ * dot is elsewhere (`site`).
+ */
+function noteFor(p: { answer: string; lat: number; lng: number; site?: { lat: number; lng: number } }, all: MapSite[]) {
+  const at = { answer: p.answer, ...(p.site ?? { lat: p.lat, lng: p.lng }) };
+  const b = bookEntry(at, all);
+  return b && Math.hypot(b.lat - at.lat, b.lng - at.lng) < 1 ? b : undefined;
 }
 
 /** A typed answer is right if it is one of the answer's names, give or take two letters of spelling. */
@@ -563,7 +568,7 @@ function PaperView({ year, view, base, grid, hi, all }: { year: number; view: 's
 function ChapterPaper({ places, view, base, grid, hi, all }: { places: AskedPlace[]; view: 'study' | 'test'; base: MapBase; grid: boolean; hi: boolean; all: MapSite[] }) {
   const T = (en: string, h: string) => (hi ? h : en);
   const items: TestItem[] = useMemo(() => places.map((p, i) => {
-    const b = noteFor({ answer: p.name, lat: p.lat, lng: p.lng }, all);
+    const b = noteFor({ answer: p.name, lat: p.lat, lng: p.lng, site: p.site }, all);
     const [latest, ...older] = p.hints;
     return {
       n: i + 1, hint: latest.hint, year: latest.year, names: p.answers, note: latest.note, also: p.years.filter((y) => y !== latest.year), more: older,

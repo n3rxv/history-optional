@@ -1711,7 +1711,7 @@ export const bookData: BookChapter[] = [
         {
           "name": "Mahisdal",
           "location": "Birbhum district (West Bengal)",
-          "majorAspect": "Mahisdal, on the Kopai river in Birbhum district, West Bengal, is a Chalcolithic site excavated in the 1960s. Its Chalcolithic level yielded black-and-red ware, copper objects, microliths and remains of rice, with radiocarbon dates of roughly 1400 to 800 BCE. An iron-using level follows, which makes it a key site for the transition from copper to iron in eastern India.",
+          "majorAspect": "Mahisdal, on the Kopai river in Birbhum district, West Bengal, is a Chalcolithic site excavated in the 1960s. Its Chalcolithic level yielded black-and-red ware, copper objects, microliths and remains of rice, with radiocarbon dates of roughly 1400 to 800 BCE. An iron-using level follows, which makes it a key site for the transition from copper to iron in eastern India. UPSC's 2026 map put its dot for it about 160 km south, on the lower Hooghly around Mahishadal in Purba Medinipur, a different town with a similar name.",
           "pyqYears": [
             2026
           ],
@@ -1719,7 +1719,7 @@ export const bookData: BookChapter[] = [
           "lng": 87.684,
           "name_hi": "महिस्दल",
           "location_hi": "बीरभूम जिला (पश्चिम बंगाल)",
-          "majorAspect_hi": "महिस्दल, पश्चिम बंगाल के बीरभूम जिले में कोपाई नदी के किनारे, एक ताम्रपाषाणिक स्थल है जिसका उत्खनन 1960 के दशक में हुआ। इसके ताम्रपाषाणिक स्तर से काले-लाल मृद्भांड, तांबे की वस्तुएँ, सूक्ष्म पाषाण उपकरण और चावल के अवशेष मिले हैं, जिनकी रेडियोकार्बन तिथियाँ लगभग 1400 से 800 ईसा पूर्व हैं। इसके बाद लोहे के उपयोग का स्तर आता है, जिससे यह पूर्वी भारत में तांबे से लोहे की ओर बदलाव को समझने का प्रमुख स्थल है।"
+          "majorAspect_hi": "महिस्दल, पश्चिम बंगाल के बीरभूम जिले में कोपाई नदी के किनारे, एक ताम्रपाषाणिक स्थल है जिसका उत्खनन 1960 के दशक में हुआ। इसके ताम्रपाषाणिक स्तर से काले-लाल मृद्भांड, तांबे की वस्तुएँ, सूक्ष्म पाषाण उपकरण और चावल के अवशेष मिले हैं, जिनकी रेडियोकार्बन तिथियाँ लगभग 1400 से 800 ईसा पूर्व हैं। इसके बाद लोहे के उपयोग का स्तर आता है, जिससे यह पूर्वी भारत में तांबे से लोहे की ओर बदलाव को समझने का प्रमुख स्थल है। UPSC के 2026 के मानचित्र में इसका बिंदु लगभग 160 किमी दक्षिण में, निचली हुगली पर पूर्व मेदिनीपुर के महिषादल के आसपास लगाया गया, जो मिलते-जुलते नाम वाला एक अलग कस्बा है।"
         },
         {
           "name": "Sarutaru",
@@ -3323,7 +3323,7 @@ export const bookData: BookChapter[] = [
         {
           "name": "Mahisdal",
           "location": "Birbhum district (West Bengal)",
-          "majorAspect": "Mahisdal, on the Kopai river in Birbhum district, West Bengal, is a Chalcolithic site excavated in the 1960s. Its Chalcolithic level yielded black-and-red ware, copper objects, microliths and remains of rice, with radiocarbon dates of roughly 1400 to 800 BCE. An iron-using level follows, which makes it a key site for the transition from copper to iron in eastern India.",
+          "majorAspect": "Mahisdal, on the Kopai river in Birbhum district, West Bengal, is a Chalcolithic site excavated in the 1960s. Its Chalcolithic level yielded black-and-red ware, copper objects, microliths and remains of rice, with radiocarbon dates of roughly 1400 to 800 BCE. An iron-using level follows, which makes it a key site for the transition from copper to iron in eastern India. UPSC's 2026 map put its dot for it about 160 km south, on the lower Hooghly around Mahishadal in Purba Medinipur, a different town with a similar name.",
           "pyqYears": [
             2026
           ],
@@ -3331,7 +3331,7 @@ export const bookData: BookChapter[] = [
           "lng": 87.684,
           "name_hi": "महिस्दल",
           "location_hi": "बीरभूम जिला (पश्चिम बंगाल)",
-          "majorAspect_hi": "महिस्दल, पश्चिम बंगाल के बीरभूम जिले में कोपाई नदी के किनारे, एक ताम्रपाषाणिक स्थल है जिसका उत्खनन 1960 के दशक में हुआ। इसके ताम्रपाषाणिक स्तर से काले-लाल मृद्भांड, तांबे की वस्तुएँ, सूक्ष्म पाषाण उपकरण और चावल के अवशेष मिले हैं, जिनकी रेडियोकार्बन तिथियाँ लगभग 1400 से 800 ईसा पूर्व हैं। इसके बाद लोहे के उपयोग का स्तर आता है, जिससे यह पूर्वी भारत में तांबे से लोहे की ओर बदलाव को समझने का प्रमुख स्थल है।"
+          "majorAspect_hi": "महिस्दल, पश्चिम बंगाल के बीरभूम जिले में कोपाई नदी के किनारे, एक ताम्रपाषाणिक स्थल है जिसका उत्खनन 1960 के दशक में हुआ। इसके ताम्रपाषाणिक स्तर से काले-लाल मृद्भांड, तांबे की वस्तुएँ, सूक्ष्म पाषाण उपकरण और चावल के अवशेष मिले हैं, जिनकी रेडियोकार्बन तिथियाँ लगभग 1400 से 800 ईसा पूर्व हैं। इसके बाद लोहे के उपयोग का स्तर आता है, जिससे यह पूर्वी भारत में तांबे से लोहे की ओर बदलाव को समझने का प्रमुख स्थल है। UPSC के 2026 के मानचित्र में इसका बिंदु लगभग 160 किमी दक्षिण में, निचली हुगली पर पूर्व मेदिनीपुर के महिषादल के आसपास लगाया गया, जो मिलते-जुलते नाम वाला एक अलग कस्बा है।"
         },
         {
           "name": "Ojjiyana",

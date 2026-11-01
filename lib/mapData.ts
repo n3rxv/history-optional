@@ -12,6 +12,12 @@ export interface MapEntry {
   lng: number;
   /** Where answer keys differ, or the answer does not fit the hint well. */
   note?: string;
+  /**
+   * Where the place itself is, when UPSC's dot is somewhere else. lat and lng
+   * are then the dot, so the paper reads as printed, and this is used to find
+   * the place in the map book. Only 2026 (vii) so far.
+   */
+  site?: { lat: number; lng: number };
 }
 
 export const mapData: MapEntry[] = [
@@ -308,7 +314,8 @@ export const mapData: MapEntry[] = [
   { year: 2026, number: 4,   hint: "Large Megalithic dolmen complexes",                                     answer: "Hire Benakal",            lat: 15.4,  lng: 76.3  },
   { year: 2026, number: 5,   hint: "Ancient port",                                                          answer: "Korkai",                  lat: 8.6,   lng: 78.1  },
   { year: 2026, number: 6,   hint: "Ancient capital",                                                       answer: "Karur/Uraiyur",           lat: 11.0,  lng: 78.1  },
-  { year: 2026, number: 7, hint: "Meso-Chalcolithic site", answer: "Mahisdal", lat: 23.668, lng: 87.684, note: "The excavated Chalcolithic site is Mahisdal in Birbhum district, not Mahishadal town in Purba Medinipur." },
+  // The dot is where the paper prints it (fitted from the official map, about 30 km either way).
+  { year: 2026, number: 7, hint: "Meso-Chalcolithic site", answer: "Mahisdal", lat: 22.3, lng: 88.26, site: { lat: 23.668, lng: 87.684 }, note: "UPSC's dot sits on the lower Hooghly, around Mahishadal in Purba Medinipur, about 160 km south of the site. The Meso-Chalcolithic site the hint describes is Mahisdal in Birbhum district, on the Kopai, excavated by the ASI in 1963-64. Mahishadal is a different town with a similar name. Write Mahisdal." },
   { year: 2026, number: 8,   hint: "Group of early medieval temples",                                       answer: "Bateshwar (Morena)",      lat: 26.4,  lng: 78.2  },
   { year: 2026, number: 9,   hint: "Ancient capital",                                                       answer: "Ujjain",                  lat: 23.2,  lng: 75.8  },
   { year: 2026, number: 10,  hint: "Megalithic site",                                                       answer: "Junapani",                lat: 21.2,  lng: 79.0  },
