@@ -145,15 +145,21 @@ export async function POST(req: NextRequest) {
 
     // record_visit starts a new row at now() with a 0-second session. For a
     // visitor's first row, start it when they arrived instead, so it holds
-    // the time they had already spent. visit_count = 1 keeps this off the rows
-    // of returning visitors.
+    // the time they had already spent.
+    //
+    // This used to match visit_count = 1, but the first visit and the next
+    // page's pageview leave the browser together, and when the pageview got
+    // here first it made the row and this ping found visit_count = 2, so the
+    // row kept its 0 seconds. Moving the start back only when it is later
+    // than the arrival works in either order, and never touches a returning
+    // visitor, whose row started long before.
     if (first) {
-      const now = Date.now();
+      const arrived = new Date(Date.now() - dwell * 1000).toISOString();
       await supabase
         .from('user_sessions')
-        .update({ session_start: new Date(now - dwell * 1000).toISOString(), session_duration_secs: dwell })
+        .update({ session_start: arrived, session_duration_secs: dwell })
         .eq('visitor_id', visitorId)
-        .eq('visit_count', 1);
+        .gt('session_start', arrived);
     }
     return NextResponse.json({ ok: true });
   } catch (e) {
