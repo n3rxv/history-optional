@@ -2,8 +2,8 @@ import { createClient } from '@supabase/supabase-js';
 import { NextRequest, NextResponse } from 'next/server';
 
 /**
- * Analytics pings. The highest-traffic endpoint in the app, so it does exactly
- * one database round trip and nothing else.
+ * Analytics pings. The highest-traffic endpoint in the app, so it does one
+ * database round trip per pageview and nothing else.
  *
  * It used to run a SELECT, mutate the row in JavaScript, then write the whole
  * row back — two round trips per pageview, three when merging an old
@@ -71,18 +71,58 @@ function field(value: unknown, maxLength: number): string | null {
   return trimmed || null;
 }
 
-/** Heartbeat: refresh last_active and the session (supabase/real_sessions.sql). */
+/** The most pages one beat may carry; the tracker queues no more than this. */
+const MAX_BEAT_PAGES = 20;
+
+/**
+ * Heartbeat: refresh last_active and the session (supabase/real_sessions.sql).
+ * It also carries the pages opened since the tracker's last call, which wait
+ * for a beat rather than costing a call each (components/VisitorTracker.tsx).
+ * Each is recorded as a pageview, and record_visit refreshes the session as
+ * touch_visit would.
+ */
 export async function PATCH(req: NextRequest) {
   try {
     if (BOT_UA.test(req.headers.get('user-agent') ?? '')) {
       return NextResponse.json({ ok: false, reason: 'bot' });
     }
     if (!fromIndia(req)) return NextResponse.json({ ok: false, reason: 'outside_india' });
-    const { visitor_id } = await req.json();
-    const visitorId = field(visitor_id, 128);
+    const body = await req.json();
+    const visitorId = field(body.visitor_id, 128);
     if (!visitorId) return NextResponse.json({ ok: false });
 
-    await db().rpc('touch_visit', { p_visitor_id: visitorId });
+    const pages = (Array.isArray(body.pages) ? body.pages : [])
+      .slice(0, MAX_BEAT_PAGES)
+      .map((p: unknown) => field(p, 512))
+      .filter((p: string | null): p is string => Boolean(p));
+    const supabase = db();
+    if (!pages.length) {
+      await supabase.rpc('touch_visit', { p_visitor_id: visitorId });
+      return NextResponse.json({ ok: true });
+    }
+
+    // A database call per page, so the same guard as a pageview.
+    if (isRateLimited(visitorId)) return NextResponse.json({ ok: false, reason: 'rate_limited' });
+
+    const country = req.headers.get('x-vercel-ip-country') || null;
+    const city = decodeURIComponent(req.headers.get('x-vercel-ip-city') || '') || null;
+    // In order, so the last page read is the one left as the exit page.
+    for (const page of pages) {
+      const { error } = await supabase.rpc('record_visit', {
+        p_visitor_id: visitorId,
+        p_page: page,
+        p_device: field(body.device, 32),
+        p_os: field(body.os, 32),
+        p_browser: field(body.browser, 32),
+        p_country: country,
+        p_city: city,
+        p_firebase_uid: field(body.firebase_uid, 128),
+      });
+      if (error) {
+        console.error('[track-visit] record_visit failed:', error.message);
+        return NextResponse.json({ ok: false, reason: 'rpc error' });
+      }
+    }
     return NextResponse.json({ ok: true });
   } catch {
     return NextResponse.json({ ok: false });

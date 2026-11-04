@@ -1,6 +1,10 @@
 import { NextResponse } from 'next/server';
 import { allNotes } from '@/lib/notes';
 
+// Built with the site, so crawlers asking for it cost no server time. Its
+// pages only change with a deploy, and lastmod is the deploy's date.
+export const dynamic = 'force-static';
+
 export async function GET() {
   const base = 'https://historyoptional.xyz';
   const lastMod = new Date().toISOString().split("T")[0];

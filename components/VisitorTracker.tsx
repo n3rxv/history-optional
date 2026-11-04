@@ -16,16 +16,70 @@ import { usePathname } from 'next/navigation';
  *    which happens to work under webpack and breaks under other bundlers.
  */
 
-const HEARTBEAT_MS = 5 * 60 * 1000;
 /**
- * Sessions are measured from these beats (supabase/real_sessions.sql): a tab
- * left open in the background used to beat every 5 minutes for days. Now the
- * timer only beats while the page is visible and the reader has scrolled,
- * tapped or typed since the last beat; hiding the tab still sends one, which
- * marks where the session ended.
+ * As few calls as the session data allows, since each one is server time
+ * against a small free allowance (2026-11-04). A session costs one call as it
+ * starts and a beat now and then:
+ *
+ *  - The first page of a session is sent at once (a first visit ever, once
+ *    the visitor has stayed; see below). Later pages wait in PAGES_KEY and go
+ *    with the next beat.
+ *  - Hiding the tab beats, which marks where the session ended, but at most
+ *    every HIDE_BEAT_GAP_MS, since phones hide it at every app switch: a
+ *    session's end is right to within that. The first hide after a session
+ *    starts always beats, so a short visit still gets its length.
+ *  - While the reader is active (scrolled, tapped or typed lately) and the
+ *    tab is visible, it beats every HEARTBEAT_MS, well inside the 30 minutes
+ *    after which the database starts a new session (supabase/
+ *    real_sessions.sql), so a long read stays one session. A tab left open in
+ *    the background does not beat.
+ *
+ * SENT_KEY, shared by the reader's tabs, holds when the last call went.
  */
+const HEARTBEAT_MS = 15 * 60 * 1000;
+const HIDE_BEAT_GAP_MS = 5 * 60 * 1000;
+const SESSION_GAP_MS = 30 * 60 * 1000;
+const MAX_QUEUED_PAGES = 20;
+const SENT_KEY = 'ho_track_sent';
+const PAGES_KEY = 'ho_track_pages';
 let lastInput = Date.now();
 const INPUT_EVENTS = ['pointerdown', 'keydown', 'scroll', 'touchstart', 'wheel'] as const;
+// The session's first call has gone and no beat has followed it yet.
+let startUnbeaten = false;
+// Device and account, for the pages a beat carries.
+let pageInfo: Record<string, unknown> = {};
+
+const lastSent = () => Number(localStorage.getItem(SENT_KEY)) || 0;
+const markSent = () => localStorage.setItem(SENT_KEY, String(Date.now()));
+
+function queuedPages(): string[] {
+  try {
+    const q = JSON.parse(sessionStorage.getItem(PAGES_KEY) ?? '[]');
+    return Array.isArray(q) ? q.filter((p) => typeof p === 'string') : [];
+  } catch {
+    return [];
+  }
+}
+
+function queuePage(page: string) {
+  const q = queuedPages();
+  if (q.at(-1) === page || q.length >= MAX_QUEUED_PAGES) return;
+  try { sessionStorage.setItem(PAGES_KEY, JSON.stringify([...q, page])); } catch { /* storage full or blocked */ }
+}
+
+/** keepalive, so a beat sent as the tab closes still arrives. */
+function beat(visitorId: string) {
+  startUnbeaten = false;
+  markSent();
+  const pages = queuedPages();
+  try { sessionStorage.removeItem(PAGES_KEY); } catch { /* as above */ }
+  void fetch('/api/track-visit', {
+    method: 'PATCH',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ visitor_id: visitorId, ...(pages.length ? { pages, ...pageInfo } : {}) }),
+    keepalive: true,
+  }).catch(() => {});
+}
 
 /**
  * A first visit is recorded only once the visitor has stayed: after
@@ -131,6 +185,10 @@ async function getFirebaseUid(): Promise<string | null> {
 }
 
 function post(body: Record<string, unknown>, keepalive: boolean) {
+  markSent();
+  // The next hide beats whatever the gap, so this visit gets its length. Not
+  // when it is sent as the reader leaves: it carries its length already.
+  startUnbeaten = !keepalive;
   void fetch('/api/track-visit', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
@@ -168,6 +226,8 @@ export default function VisitorTracker() {
           firebase_uid,
         };
 
+        pageInfo = { device, os, browser, firebase_uid };
+
         // Moving to another page means the visitor stayed, so a first visit
         // still held back for the page they came from is recorded now.
         pendingFirst.current?.(false);
@@ -187,6 +247,11 @@ export default function VisitorTracker() {
           return;
         }
 
+        // A session's first page goes now, the rest with the next beat.
+        if (Date.now() - lastSent() < SESSION_GAP_MS) {
+          queuePage(pathname);
+          return;
+        }
         post(body, false);
         firstVisitReported.current = true;
       } catch {
@@ -223,23 +288,19 @@ export default function VisitorTracker() {
         const { visitor_id } = await getVisitorId();
         if (cancelled) return;
 
-        // keepalive, so the beat sent as the tab closes still arrives.
-        const beat = () => {
-          void fetch('/api/track-visit', {
-            method: 'PATCH',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ visitor_id }),
-            keepalive: true,
-          }).catch(() => {});
-        };
-
         // No beat on mount: the pageview POST already sets last_active
         // (record_visit). And none on beforeunload: closing a tab hides it
         // first, so that listener only ever sent a second, duplicate beat.
+        // The timer checks every minute, which costs nothing, and beats only
+        // once HEARTBEAT_MS has passed since any tab's last call.
         interval = setInterval(() => {
-          if (document.visibilityState === 'visible' && Date.now() - lastInput < HEARTBEAT_MS) beat();
-        }, HEARTBEAT_MS);
-        onVisibility = () => { if (document.visibilityState === 'hidden') beat(); };
+          const now = Date.now();
+          if (document.visibilityState === 'visible' && now - lastInput < HEARTBEAT_MS && now - lastSent() >= HEARTBEAT_MS) beat(visitor_id);
+        }, 60 * 1000);
+        onVisibility = () => {
+          if (document.visibilityState !== 'hidden') return;
+          if (startUnbeaten || Date.now() - lastSent() >= HIDE_BEAT_GAP_MS) beat(visitor_id);
+        };
         document.addEventListener('visibilitychange', onVisibility);
       } catch {
         // As above.

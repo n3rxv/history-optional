@@ -13,10 +13,11 @@ import { pyqSection, topicName } from '@/components/pyq/sections';
 
 type Params = { id: string };
 
-// Each question is rendered the first time it is opened, then served as a
-// static page.
+// Every question is built with the site. Rendering each on first open cost
+// server time after every deploy, which empties the cache: a PYQ list on
+// screen prefetches each question it links to, so one scroll rebuilt hundreds.
 export async function generateStaticParams() {
-  return [];
+  return pyqs.map((q) => ({ id: String(q.id) }));
 }
 
 function find(id: string) {

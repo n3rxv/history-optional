@@ -16,7 +16,11 @@ import { auth } from '@/lib/firebase';
  *   on sign-in     pull the server's copy, union it with this browser's, write
  *                  the result to both. This is what makes a second device show
  *                  the reader's real progress instead of an empty page.
- *   on tab hidden  push whatever has changed since.
+ *                  Restoring the session on a page load counts as signing in,
+ *                  so it pulls at most once every PULL_EVERY_MS per browser.
+ *   on tab hidden  push whatever has changed since, and nothing when nothing
+ *                  has. Phones hide the tab at every app switch, and each sync
+ *                  is a server call against a small CPU allowance.
  *
  * Deliberately not on every tick. Each sync rewrites two rows, and this
  * project runs against a disk IO budget; a reader ticking their way through a
@@ -28,6 +32,29 @@ import { auth } from '@/lib/firebase';
 
 const SYLLABUS_KEY = 'ho_syllabus_v1';
 const PYQ_KEY = 'ho_pyq_attempted_v1';
+/** The last sync this browser made: whose, when, and a hash of what both sides then held. */
+const SYNCED_KEY = 'ho_progress_synced';
+const PULL_EVERY_MS = 10 * 60 * 1000;
+
+type Synced = { uid: string; at: number; hash: number };
+
+function readSynced(): Synced | null {
+  try {
+    const s = JSON.parse(localStorage.getItem(SYNCED_KEY) ?? 'null');
+    return s && typeof s.uid === 'string' && typeof s.at === 'number' && typeof s.hash === 'number' ? s : null;
+  } catch {
+    return null;
+  }
+}
+
+/** FNV-1a: enough to tell whether the document changed, without keeping a second copy of it. */
+function hash(s: string): number {
+  let h = 0x811c9dc5;
+  for (let i = 0; i < s.length; i++) h = Math.imul(h ^ s.charCodeAt(i), 0x01000193);
+  return h >>> 0;
+}
+
+const localDoc = () => JSON.stringify({ syllabus: readLocal(SYLLABUS_KEY), pyq: readLocal(PYQ_KEY) });
 
 function readLocal(key: string): unknown {
   try {
@@ -63,10 +90,17 @@ export default function ProgressSync() {
   const busy = useRef(false);
 
   useEffect(() => {
-    const sync = async (opts: { keepalive?: boolean } = {}) => {
+    const sync = async (opts: { keepalive?: boolean; reason: 'sign-in' | 'hide' }) => {
       if (busy.current) return;
       const user = auth.currentUser;
       if (!user) return;
+
+      const doc = localDoc();
+      const last = readSynced();
+      if (last?.uid === user.uid) {
+        if (opts.reason === 'hide' && last.hash === hash(doc)) return;
+        if (opts.reason === 'sign-in' && Date.now() - last.at < PULL_EVERY_MS) return;
+      }
 
       busy.current = true;
       try {
@@ -74,10 +108,7 @@ export default function ProgressSync() {
         const res = await fetch('/api/progress', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json', 'x-user-token': token },
-          body: JSON.stringify({
-            syllabus: readLocal(SYLLABUS_KEY),
-            pyq: readLocal(PYQ_KEY),
-          }),
+          body: doc,
           keepalive: opts.keepalive,
         });
         if (!res.ok) return;
@@ -85,6 +116,8 @@ export default function ProgressSync() {
         if (!merged?.signedIn) return;
         if (merged.syllabus) writeLocal(SYLLABUS_KEY, merged.syllabus);
         if (merged.pyq) writeLocal(PYQ_KEY, merged.pyq);
+        // Both sides now hold the merge, so a hide with nothing new since has nothing to send.
+        localStorage.setItem(SYNCED_KEY, JSON.stringify({ uid: user.uid, at: Date.now(), hash: hash(localDoc()) }));
       } catch {
         // Offline, or the request was cut short on unload. The local copy is
         // untouched and the next sync will carry it.
@@ -94,14 +127,14 @@ export default function ProgressSync() {
     };
 
     const unsub = onAuthStateChanged(auth, (user) => {
-      if (user) void sync();
+      if (user) void sync({ reason: 'sign-in' });
     });
 
     const onHide = () => {
       // `hidden` rather than beforeunload: it fires on mobile when the app is
       // backgrounded, which beforeunload does not, and keepalive lets the
       // request outlive the page.
-      if (document.visibilityState === 'hidden') void sync({ keepalive: true });
+      if (document.visibilityState === 'hidden') void sync({ keepalive: true, reason: 'hide' });
     };
     document.addEventListener('visibilitychange', onHide);
 
