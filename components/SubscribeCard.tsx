@@ -1,6 +1,6 @@
 'use client';
 import { useLang } from '@/lib/i18n/LangContext';
-import { PLANS, PLAN_ORDER, PLAN_DURATION, DEFAULT_PLAN, planPricePaise, type PlanId } from '@/lib/plans';
+import { PLANS, PLAN_ORDER, PLAN_DURATION, DEFAULT_PLAN, planPricePaise, isPlanId, type PlanId } from '@/lib/plans';
 import { useOffer } from '@/hooks/useOffer';
 import { OfferNote } from '@/components/OfferPrice';
 import { useState, useEffect } from 'react';
@@ -18,7 +18,7 @@ function GoogleIcon() {
 }
 
 /** Plan names in Hindi, as the pricing page shows them. */
-const NAME_HI: Record<PlanId, string> = { yearly: 'एक साल', sixmonths: '6 महीने', weekly: 'साप्ताहिक', daily: 'एक दिन' };
+const NAME_HI: Record<PlanId, string> = { yearly: 'एक साल', sixmonths: '6 महीने', daily: 'एक दिन' };
 
 export type SubscribeStep = 'idle' | 'signing_in' | 'paying' | 'success';
 
@@ -41,8 +41,7 @@ export function SubscribeCard({
   const { langHi } = useLang();
   const [step, setStep] = useState<SubscribeStep>('idle');
   const [token, setToken] = useState<string | null>(null);
-  // 'weekly' is no longer sold, so a stale link or saved choice falls back.
-  const [selectedPlan, setSelectedPlan] = useState<PlanId>(initialPlan === 'weekly' ? DEFAULT_PLAN : initialPlan);
+  const [selectedPlan, setSelectedPlan] = useState<PlanId>(initialPlan);
   // Set when sign-in resumes for someone who is already subscribed. The
   // success screen otherwise names the plan tile they happened to have
   // selected, which is not the plan they own.
@@ -72,8 +71,9 @@ export function SubscribeCard({
         const idToken = await firebaseUser.getIdToken();
         setToken(idToken);
         if (sessionStorage.getItem('ho_pending_payment') === '1') {
-          const stored = sessionStorage.getItem('ho_pending_plan') as PlanId | null;
-          const savedPlan: PlanId = stored && stored !== 'weekly' ? stored : DEFAULT_PLAN;
+          // A plan saved before a plan was withdrawn falls back to the default.
+          const stored = sessionStorage.getItem('ho_pending_plan');
+          const savedPlan: PlanId = isPlanId(stored) ? stored : DEFAULT_PLAN;
           sessionStorage.removeItem('ho_pending_payment');
           sessionStorage.removeItem('ho_pending_plan');
           setSelectedPlan(savedPlan);
@@ -132,8 +132,8 @@ export function SubscribeCard({
         body: JSON.stringify({ plan: planOverride ?? selectedPlan }),
       });
       const orderData = await orderRes.json();
-      // The order route refuses a one-time plan while a weekly mandate is
-      // live, and says why. Show its words rather than a generic failure.
+      // When the order route refuses, it says why. Show its words rather
+      // than a generic failure.
       if (!orderData.orderId) throw new Error(orderData.message ?? 'Order failed');
       const Razorpay = (window as unknown as { Razorpay: new (opts: Record<string, unknown>) => { open: () => void; on: (ev: string, fn: () => void) => void } }).Razorpay;
       const rzp = new Razorpay({
@@ -213,8 +213,7 @@ export function SubscribeCard({
   }
 
   // Two kinds of plan, for two reasons: the whole preparation, paid once, and a
-  // single day to try it. One choice across both, one button. The weekly
-  // mandate is no longer sold.
+  // single day to try it. One choice across both, one button.
   const GROUPS: { title: string; note: string; ids: PlanId[] }[] = langHi
     ? [
         { title: 'पूरी तैयारी के लिए', note: 'एकमुश्त भुगतान', ids: ['yearly', 'sixmonths'] },
@@ -231,11 +230,11 @@ export function SubscribeCard({
     return null;
   };
   const NOTE: Record<PlanId, string> = langHi
-    ? { yearly: '', sixmonths: '', weekly: '', daily: '24 घंटे सब कुछ खुला' }
-    : { yearly: '', sixmonths: '', weekly: '', daily: 'Everything open for 24 hours' };
+    ? { yearly: '', sixmonths: '', daily: '24 घंटे सब कुछ खुला' }
+    : { yearly: '', sixmonths: '', daily: 'Everything open for 24 hours' };
   const NAME: Record<PlanId, string> = langHi
     ? NAME_HI
-    : { yearly: 'A year', sixmonths: '6 months', weekly: 'Weekly', daily: 'A day' };
+    : { yearly: 'A year', sixmonths: '6 months', daily: 'A day' };
   const selPrice = priceLabel(selectedPlan);
 
   return (

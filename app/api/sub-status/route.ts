@@ -19,7 +19,7 @@ export async function GET(req: NextRequest) {
 
   const { data: sub } = await db
     .from('subscriptions')
-    .select('plan, expires_at, auto_renew, cancelled_at')
+    .select('plan, expires_at')
     .eq('firebase_uid', user.uid)
     .eq('status', 'active')
     .gt('expires_at', new Date().toISOString())
@@ -30,15 +30,5 @@ export async function GET(req: NextRequest) {
     isPremium: true,
     plan: sub.plan,
     expires_at: sub.expires_at,
-    // Drives the cancel control: only a live mandate can be cancelled.
-    autoRenew: sub.auto_renew === true,
-    // Someone who cancelled the weekly keeps their paid days, so they are
-    // still premium here, but there is no mandate left. They are allowed to
-    // start a new one, and the subscribe button has to know that or it stays
-    // greyed out against a server that would have said yes. Same test as the
-    // one in /api/razorpay/subscription; kept in one place by being answered
-    // here rather than re-derived in the browser.
-    canResubscribe:
-      sub.plan === 'weekly' && sub.auto_renew !== true && sub.cancelled_at != null,
   });
 }

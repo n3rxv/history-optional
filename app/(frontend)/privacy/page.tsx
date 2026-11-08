@@ -14,8 +14,8 @@ export default function PrivacyPage() {
       current="privacy"
       title="Privacy Policy"
       titleHi="गोपनीयता नीति"
-      updated="Last updated: 17 October 2026 · Effective: 17 October 2026"
-      updatedHi="अंतिम अद्यतन: 17 अक्टूबर 2026 · प्रभावी: 17 अक्टूबर 2026"
+      updated="Last updated: 8 November 2026 · Effective: 8 November 2026"
+      updatedHi="अंतिम अद्यतन: 8 नवंबर 2026 · प्रभावी: 8 नवंबर 2026"
       hi={<PrivacyHi />}
     >
       <p>
@@ -37,13 +37,6 @@ export default function PrivacyPage() {
           Payment information, processed by Razorpay. We never see or store your card,
           UPI or bank details.
         </li>
-        <li>
-          For the weekly plan, which is no longer sold but continues for anyone who
-          started it earlier, Razorpay stores a payment mandate on your instruction so it
-          can collect ₹99 every 7 days. We store only a reference to
-          that mandate and its status, never the instrument itself. Cancelling from your
-          profile menu revokes the mandate.
-        </li>
       </ul>
       <h3>Information collected automatically</h3>
       <ul>
@@ -62,9 +55,7 @@ export default function PrivacyPage() {
       <h2>3. Data Storage</h2>
       <p>
         Your data is stored securely. We retain your account data
-        for as long as your account is active. If you are still on the weekly plan,
-        cancel it from your profile menu before requesting deletion, so no further
-        payment is collected. You may request deletion at any time by contacting
+        for as long as your account is active. You may request deletion at any time by contacting
         us at the address below.
       </p>
 
@@ -134,13 +125,6 @@ function PrivacyHi() {
           भुगतान संबंधी जानकारी, जिसका प्रसंस्करण Razorpay करता है। हम आपके कार्ड, UPI या बैंक
           विवरण न तो कभी देखते हैं और न ही संग्रहीत करते हैं।
         </li>
-        <li>
-          साप्ताहिक प्लान के लिए, जिसकी बिक्री अब बंद है किंतु जिन्होंने इसे पहले शुरू किया था
-          उनके लिए यह जारी है, Razorpay आपके निर्देश पर एक भुगतान अधिदेश (मैंडेट) संग्रहीत करता
-          है ताकि वह हर 7 दिन में ₹99 वसूल कर सके। हम केवल उस अधिदेश का संदर्भ और उसकी स्थिति
-          संग्रहीत करते हैं, स्वयं भुगतान साधन को कभी नहीं। अपने प्रोफ़ाइल मेनू से प्लान रद्द
-          करने पर अधिदेश निरस्त हो जाता है।
-        </li>
       </ul>
       <h3>स्वतः एकत्र की जाने वाली जानकारी</h3>
       <ul>
@@ -159,9 +143,7 @@ function PrivacyHi() {
       <h2>3. डेटा भंडारण</h2>
       <p>
         आपका डेटा सुरक्षित रूप से संग्रहीत किया जाता है। जब तक आपका खाता सक्रिय है, हम आपके
-        खाते का डेटा बनाए रखते हैं। यदि आप अब भी साप्ताहिक प्लान पर हैं, तो विलोपन का अनुरोध
-        करने से पहले उसे अपने प्रोफ़ाइल मेनू से रद्द करें, ताकि आगे कोई भुगतान वसूल न किया
-        जाए। आप नीचे दिए गए पते पर हमसे संपर्क करके किसी भी समय विलोपन का अनुरोध कर सकते हैं।
+        खाते का डेटा बनाए रखते हैं। आप नीचे दिए गए पते पर हमसे संपर्क करके किसी भी समय विलोपन का अनुरोध कर सकते हैं।
       </p>
 
       <h2>4. जानकारी साझा करना</h2>

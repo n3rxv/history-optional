@@ -12,51 +12,48 @@ import { PLANS, PLAN_DURATION, planPriceLabel, planPricePaise, type PlanId } fro
 import { useOffer } from '@/hooks/useOffer';
 import { OfferNote } from '@/components/OfferPrice';
 import { toast } from '@/components/ui/Toast';
-import { confirmDialog } from '@/components/ui/ConfirmDialog';
 import { useLang } from '@/lib/i18n/LangContext';
 
 /**
  * The plans, grouped by what each is for, as in the Go Premium panel: the
- * whole preparation paid once, and a single day to try it. The weekly mandate
- * is no longer sold. Readers already on it keep their cancel control here. Every price is formatted from lib/plans.ts, the table the order
+ * whole preparation paid once, and a single day to try it. Every price is
+ * formatted from lib/plans.ts, the table the order
  * routes bill from, and every free allowance from lib/features.ts, which the
  * gates read. Nothing here is typed by hand.
  */
 
-type Status = { isPremium: boolean; plan?: string; expires_at?: string; autoRenew?: boolean; canResubscribe?: boolean };
+type Status = { isPremium: boolean; plan?: string; expires_at?: string };
 
-/** The plans on sale. 'weekly' stays in PlanId only for subscriptions bought before it was withdrawn. */
-type Sold = Exclude<PlanId, 'weekly'>;
 const rupees = (id: PlanId) => PLANS[id].amountPaise / 100;
 /** The line under the price, from the price charged now (a sale price while an offer runs). */
-const PER = (id: Sold, r: number) => ({
+const PER = (id: PlanId, r: number) => ({
   yearly: `about ₹${Math.round(r / 12)} a month`,
   sixmonths: `about ₹${Math.round(r / 6)} a month`,
   daily: 'for 24 hours',
 })[id];
-const BLURB: Record<Sold, string> = {
+const BLURB: Record<PlanId, string> = {
   yearly: 'A full year: enough for the whole run to Mains, with time to revise.',
   sixmonths: 'One focused run up to Mains.',
   daily: 'Everything open for a day: for a test day, or to see the marking properly before a longer plan.',
 };
-const CTA: Record<Sold, string> = { yearly: 'Get a year', sixmonths: 'Get 6 months', daily: 'Get a day' };
-const EXTEND: Record<Sold, string> = { yearly: 'Extend by a year', sixmonths: 'Extend by 6 months', daily: 'Extend by a day' };
-const NAME: Record<Sold, string> = { yearly: 'A year', sixmonths: '6 months', daily: 'A day' };
+const CTA: Record<PlanId, string> = { yearly: 'Get a year', sixmonths: 'Get 6 months', daily: 'Get a day' };
+const EXTEND: Record<PlanId, string> = { yearly: 'Extend by a year', sixmonths: 'Extend by 6 months', daily: 'Extend by a day' };
+const NAME: Record<PlanId, string> = { yearly: 'A year', sixmonths: '6 months', daily: 'A day' };
 
 /** The same plan copy in Hindi. Prices and allowances are still read from lib/plans.ts and lib/features.ts. */
-const PER_HI = (id: Sold, r: number) => ({
+const PER_HI = (id: PlanId, r: number) => ({
   yearly: `लगभग ₹${Math.round(r / 12)} प्रति माह`,
   sixmonths: `लगभग ₹${Math.round(r / 6)} प्रति माह`,
   daily: '24 घंटे के लिए',
 })[id];
-const BLURB_HI: Record<Sold, string> = {
+const BLURB_HI: Record<PlanId, string> = {
   yearly: 'पूरा एक साल: मुख्य परीक्षा तक की पूरी तैयारी के लिए काफ़ी, दोहराने के समय के साथ।',
   sixmonths: 'मुख्य परीक्षा तक एक केंद्रित दौर।',
   daily: 'एक दिन के लिए सब कुछ खुला: टेस्ट वाले दिन के लिए, या लंबे प्लान से पहले मूल्यांकन ठीक से देखने के लिए।',
 };
-const CTA_HI: Record<Sold, string> = { yearly: 'एक साल लें', sixmonths: '6 महीने लें', daily: 'एक दिन लें' };
-const EXTEND_HI: Record<Sold, string> = { yearly: 'एक साल बढ़ाएँ', sixmonths: '6 महीने बढ़ाएँ', daily: 'एक दिन बढ़ाएँ' };
-const NAME_HI: Record<PlanId, string> = { yearly: 'एक साल', sixmonths: '6 महीने', weekly: 'साप्ताहिक', daily: 'एक दिन' };
+const CTA_HI: Record<PlanId, string> = { yearly: 'एक साल लें', sixmonths: '6 महीने लें', daily: 'एक दिन लें' };
+const EXTEND_HI: Record<PlanId, string> = { yearly: 'एक साल बढ़ाएँ', sixmonths: '6 महीने बढ़ाएँ', daily: 'एक दिन बढ़ाएँ' };
+const NAME_HI: Record<PlanId, string> = { yearly: 'एक साल', sixmonths: '6 महीने', daily: 'एक दिन' };
 
 /**
  * The comparison table in Hindi, keyed by the English name in lib/features.ts
@@ -187,31 +184,18 @@ export default function PricingClient() {
     }
   };
 
-  const cancelRenewal = async () => {
-    if (!auth.currentUser) return;
-    if (!(await confirmDialog(langHi
-      ? { title: 'साप्ताहिक रिन्यूअल रोकें?', text: 'जिन दिनों का भुगतान हो चुका है, उनकी पहुँच बनी रहेगी।', confirmLabel: 'रिन्यूअल रोकें', cancelLabel: 'चालू रखें', tone: 'danger' }
-      : { title: 'Stop the weekly renewal?', text: 'You keep access for the days you’ve already paid for.', confirmLabel: 'Stop renewal', cancelLabel: 'Keep it', tone: 'danger' }))) return;
-    const token = await auth.currentUser.getIdToken();
-    const res = await fetch('/api/razorpay/subscription/cancel', { method: 'POST', headers: { 'x-user-token': token } });
-    if (res.ok) { setStatus((s) => (s ? { ...s, autoRenew: false, canResubscribe: true } : s)); toast(L('Weekly renewal stopped', 'साप्ताहिक रिन्यूअल रोक दिया गया')); }
-    else toast(L('That did not go through. Try again in a moment.', 'यह नहीं हो सका। थोड़ी देर में फिर कोशिश करें।'), 'error');
-  };
-
   const premium = Boolean(status?.isPremium);
-  // Only readers who bought the weekly plan before it was withdrawn.
-  const onAutopay = Boolean(status?.autoRenew);
   const free = (name: string) => FEATURES.find((f) => f.name === name)?.free.replace(' total', '') ?? '';
   /** The number alone ("5" from "5 copies"), for sentences that name the thing themselves. */
   const count = (name: string) => free(name).match(/\d+/)?.[0] ?? free(name);
 
-  /** A one-time plan's button. A purchase on top of a live mandate would push the end date out while the weekly kept debiting; the order route refuses it too. */
-  const oneTime = (id: Sold, solid: boolean) => (
-    <button type="button" className={`ds-btn ${solid ? 'ds-btn-solid' : 'ds-btn-line'} pr-buy`} disabled={onAutopay} onClick={() => setCheckoutPlan(id)}>
-      {onAutopay ? L('You’re on the weekly plan', 'आप साप्ताहिक प्लान पर हैं') : premium ? (langHi ? EXTEND_HI : EXTEND)[id] : (langHi ? CTA_HI : CTA)[id]}
+  /** A plan's button. On Premium it extends, since buying again adds the time on top. */
+  const oneTime = (id: PlanId, solid: boolean) => (
+    <button type="button" className={`ds-btn ${solid ? 'ds-btn-solid' : 'ds-btn-line'} pr-buy`} onClick={() => setCheckoutPlan(id)}>
+      {premium ? (langHi ? EXTEND_HI : EXTEND)[id] : (langHi ? CTA_HI : CTA)[id]}
     </button>
   );
-  const plan = (id: Sold, opts: { featured?: boolean; unit?: string } = {}) => {
+  const plan = (id: PlanId, opts: { featured?: boolean; unit?: string } = {}) => {
     const now = planPricePaise(id, offer) / 100;
     const sale = now !== rupees(id);
     return (
@@ -252,12 +236,11 @@ export default function PricingClient() {
             <div>
               <strong>{L('You’re on Premium.', 'आप प्रीमियम पर हैं।')}</strong>{' '}
               {status?.expires_at && (langHi
-                ? <span>{onAutopay ? `यह हर हफ़्ते रिन्यू होता है, यह हफ़्ता ${fmtLong(status.expires_at, true)} तक चलेगा।` : `यह ${fmtLong(status.expires_at, true)} तक चलेगा।`}</span>
-                : <span>{onAutopay ? 'It renews weekly; this week runs to' : 'It runs to'} {fmtLong(status.expires_at, false)}.</span>)}{' '}
-              {!onAutopay && <span>{L('Buying again adds the time on top.', 'फिर से ख़रीदने पर समय आगे जुड़ जाता है।')}</span>}
+                ? <span>{`यह ${fmtLong(status.expires_at, true)} तक चलेगा।`}</span>
+                : <span>It runs to {fmtLong(status.expires_at, false)}.</span>)}{' '}
+              <span>{L('Buying again adds the time on top.', 'फिर से ख़रीदने पर समय आगे जुड़ जाता है।')}</span>
             </div>
             <div className="pr-have-actions">
-              {onAutopay && <button type="button" className="ds-btn ds-btn-ghost ds-btn-sm" onClick={cancelRenewal}>{L('Cancel the renewal', 'रिन्यूअल रद्द करें')}</button>}
               <Link href="/evaluate" className="ds-btn ds-btn-line ds-btn-sm">{L('Check an answer', 'उत्तर जँचवाएँ')} <Arrow /></Link>
             </div>
           </div>
@@ -280,8 +263,6 @@ export default function PricingClient() {
           </section>
         </div>
 
-        {onAutopay && <p className="pr-note">{L('You’re on the weekly plan, which is no longer sold, so the one-time plans are switched off. Cancel the renewal and they open up once your paid days run out.',
-          'आप साप्ताहिक प्लान पर हैं, जो अब नहीं बिकता, इसलिए एक बार वाले प्लान बंद हैं। रिन्यूअल रद्द करें, और आपके भुगतान वाले दिन ख़त्म होते ही वे खुल जाएँगे।')}</p>}
         <p className="pr-rzp">{L('Payments go through Razorpay: UPI, cards and net banking. Every plan is a single payment, and nothing renews on its own.',
           'भुगतान Razorpay से होता है: UPI, कार्ड और नेट बैंकिंग। हर प्लान एक बार का भुगतान है, और कुछ भी अपने-आप रिन्यू नहीं होता।')}</p>
 
@@ -443,7 +424,6 @@ const CSS = `
 .pr-badge.in { background: var(--success-wash); color: var(--success-text); }
 .pr-was { display: flex; align-items: center; gap: var(--space-2); margin-top: var(--space-2); font-size: 0.96rem; color: var(--text3); }
 .pr-off { padding: 2px var(--space-2); border-radius: var(--radius-full); background: var(--premium-wash); color: var(--premium-text); font-size: 0.78rem; font-weight: 700; }
-.pr-note { margin: var(--space-4) 0 0; padding: var(--space-3) var(--space-4); border-radius: var(--radius-lg); background: var(--warning-wash); font-size: 0.92rem; line-height: 1.55; }
 .pr-rzp { margin: var(--space-4) 0 0; max-width: 820px; font-size: 0.86rem; line-height: 1.55; color: var(--text3); }
 
 .pr-section { padding-top: var(--space-10); max-width: 920px; }

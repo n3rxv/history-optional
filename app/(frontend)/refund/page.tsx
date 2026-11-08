@@ -14,8 +14,8 @@ export default function RefundPage() {
       current="refund"
       title="Refund Policy"
       titleHi="रिफ़ंड नीति"
-      updated="Last updated: 17 October 2026 · Effective: 17 October 2026"
-      updatedHi="अंतिम अद्यतन: 17 अक्टूबर 2026 · प्रभावी: 17 अक्टूबर 2026"
+      updated="Last updated: 8 November 2026 · Effective: 8 November 2026"
+      updatedHi="अंतिम अद्यतन: 8 नवंबर 2026 · प्रभावी: 8 नवंबर 2026"
       hi={<RefundHi />}
     >
       <p>
@@ -27,9 +27,7 @@ export default function RefundPage() {
       <p>
         All purchases are <strong>final and non-refundable</strong>. Once a payment is
         processed via Razorpay, we do not offer refunds, partial refunds, or credits,
-        regardless of usage. For anyone still on the withdrawn weekly plan, this applies to
-        each individual collection: cancelling stops the next charge, it does not reverse
-        the last one.
+        regardless of usage.
       </p>
       <p>
         We strongly recommend using the <strong>free plan</strong> to evaluate the platform
@@ -39,7 +37,6 @@ export default function RefundPage() {
 
       <h2>2. Subscription Plans</h2>
 
-      <h3>One-time</h3>
       <ul>
         <li><strong>Daily:</strong> ₹49 (1 day access)</li>
         <li><strong>Half-Yearly:</strong> ₹1,999 (6 months access)</li>
@@ -50,16 +47,6 @@ export default function RefundPage() {
         there is nothing to cancel.
       </p>
 
-      <h3>The withdrawn weekly plan</h3>
-      <p>
-        We no longer sell the weekly plan (₹99 every 7 days on a payment mandate). If you
-        started it before 17 October 2026, cancelling is the way to stop paying, not a
-        refund request. You can cancel in one click from the profile menu on the site,
-        and it takes effect immediately: no further charge is taken. <strong>You keep
-        access for the remainder of the period the last charge already covered.</strong>{" "}
-        A charge already collected is not refunded, so cancel before the next debit
-        rather than after it. Razorpay notifies you ahead of every collection.
-      </p>
 
       <h2>3. Exceptions</h2>
       <p>
@@ -111,8 +98,7 @@ function RefundHi() {
       <p>
         सभी ख़रीद <strong>अंतिम और अप्रतिदेय (नॉन-रिफ़ंडेबल)</strong> हैं। Razorpay के माध्यम से
         भुगतान संसाधित हो जाने के बाद, उपयोग चाहे जितना भी हुआ हो, हम रिफ़ंड, आंशिक रिफ़ंड या
-        क्रेडिट नहीं देते। जो लोग अब भी वापस लिए गए साप्ताहिक प्लान पर हैं, उनके लिए यह प्रत्येक
-        अलग वसूली पर लागू होता है: रद्द करने से अगला शुल्क रुकता है, पिछला शुल्क वापस नहीं होता।
+        क्रेडिट नहीं देते।
       </p>
       <p>
         हम दृढ़ता से अनुशंसा करते हैं कि सदस्यता लेने से पहले प्लेटफ़ॉर्म को परखने के लिए{" "}
@@ -122,7 +108,6 @@ function RefundHi() {
 
       <h2>2. सदस्यता प्लान</h2>
 
-      <h3>एकमुश्त</h3>
       <ul>
         <li><strong>दैनिक:</strong> ₹49 (1 दिन की पहुँच)</li>
         <li><strong>अर्धवार्षिक:</strong> ₹1,999 (6 महीने की पहुँच)</li>
@@ -133,16 +118,6 @@ function RefundHi() {
         रद्द करने के लिए कुछ भी नहीं है।
       </p>
 
-      <h3>वापस लिया गया साप्ताहिक प्लान</h3>
-      <p>
-        हम अब साप्ताहिक प्लान (भुगतान अधिदेश पर हर 7 दिन में ₹99) नहीं बेचते। यदि आपने इसे
-        17 अक्टूबर 2026 से पहले शुरू किया था, तो भुगतान रोकने का तरीक़ा प्लान को रद्द करना है,
-        रिफ़ंड का अनुरोध नहीं। आप साइट के प्रोफ़ाइल मेनू से एक क्लिक में इसे रद्द कर सकते हैं,
-        और यह तुरंत प्रभावी होता है: आगे कोई शुल्क नहीं लिया जाता। <strong>अंतिम शुल्क जिस
-        अवधि के लिए पहले ही लिया जा चुका है, उसकी शेष अवधि तक आपकी पहुँच बनी रहती है।</strong>{" "}
-        पहले से वसूला गया शुल्क वापस नहीं किया जाता, इसलिए अगले डेबिट के बाद नहीं, बल्कि उससे
-        पहले रद्द करें। Razorpay प्रत्येक वसूली से पहले आपको सूचित करता है।
-      </p>
 
       <h2>3. अपवाद</h2>
       <p>

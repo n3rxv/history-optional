@@ -96,8 +96,9 @@ function ago(ms: number, hi: boolean) {
   return new Date(ms).toLocaleDateString(hi ? 'hi-IN' : 'en-IN', { day: 'numeric', month: 'short' });
 }
 const fmtDate = (iso: string | null, hi = false) => (iso ? new Date(iso).toLocaleDateString(hi ? 'hi-IN' : 'en-IN', { day: 'numeric', month: 'short', year: 'numeric' }) : null);
-/** A subscriber's plan, named in Hindi, from the plan id the status route returns. */
-const PLAN_HI: Record<string, string> = { yearly: 'सालाना प्लान', sixmonths: '6 महीने का प्लान', weekly: 'साप्ताहिक प्लान', daily: 'एक दिन का प्लान' };
+/** A subscriber's plan, named from the plan id the status route returns. */
+const PLAN_EN: Record<string, string> = { yearly: 'Yearly plan', sixmonths: '6-month plan', daily: 'One-day plan' };
+const PLAN_HI: Record<string, string> = { yearly: 'सालाना प्लान', sixmonths: '6 महीने का प्लान', daily: 'एक दिन का प्लान' };
 const tone = (pct: number) => (pct >= 70 ? 'var(--success-text)' : pct >= 50 ? 'var(--warning-text)' : 'var(--danger-text)');
 
 const noop = () => () => {};
@@ -167,12 +168,12 @@ export default function Dashboard({ day, question: built }: { day: string; quest
   }, [day]);
 
   // The plan's name and end date, for a subscriber.
-  const [sub, setSub] = useState<{ plan: string | null; expiresAt: string | null; autoRenew: boolean } | null>(null);
+  const [sub, setSub] = useState<{ plan: string | null; expiresAt: string | null } | null>(null);
   useEffect(() => {
     if (!user || !usage?.subscribed) return;
     let live = true;
     user.getIdToken().then((tk) => fetch('/api/sub-status', { headers: { 'x-user-token': tk } }))
-      .then((r) => r.json()).then((d) => { if (live && d?.isPremium) setSub({ plan: d.plan ?? null, expiresAt: d.expires_at ?? null, autoRenew: Boolean(d.autoRenew) }); }).catch(() => {});
+      .then((r) => r.json()).then((d) => { if (live && d?.isPremium) setSub({ plan: d.plan ?? null, expiresAt: d.expires_at ?? null }); }).catch(() => {});
     return () => { live = false; };
   }, [user, usage?.subscribed]);
 
@@ -437,15 +438,11 @@ export default function Dashboard({ day, question: built }: { day: string; quest
               <>
                 <div className="db-plan-row"><h2 className="db-card-title">{T('Premium', 'प्रीमियम')}</h2><span className="db-active">{T('Active', 'सक्रिय')}</span></div>
                 <p className="db-card-text">
-                  {sub?.plan ? T(`${sub.plan.charAt(0).toUpperCase()}${sub.plan.slice(1)} plan`, PLAN_HI[sub.plan] ?? 'आपका प्लान') : T('Your plan', 'आपका प्लान')}
+                  {T(PLAN_EN[sub?.plan ?? ''] ?? 'Your plan', PLAN_HI[sub?.plan ?? ''] ?? 'आपका प्लान')}
                   {fmtDate(sub?.expiresAt ?? null) ? T(`, until ${fmtDate(sub?.expiresAt ?? null)}.`, `, ${fmtDate(sub?.expiresAt ?? null, true)} तक।`) : T('.', '।')}
                   {' '}{T('Unlimited chats and answer checks, whole papers marked, and the chat’s book and mentor modes.', 'असीमित चैट और उत्तर जाँच, पूरे पेपर की जाँच, और चैट के बुक व मेंटर मोड।')}
                 </p>
-                {/* As in the account menu: a plan that renews by itself is not
-                    extended, or one-time days would stack onto the mandate. */}
-                {sub?.autoRenew
-                  ? <p className="db-card-note">{T('It renews by itself. Cancel the renewal from the menu under your picture.', 'यह अपने-आप रिन्यू होता है। रिन्यूअल अपनी तस्वीर वाले मेनू से रद्द करें।')}</p>
-                  : <button type="button" className="db-link" onClick={() => window.dispatchEvent(new Event('open-extend-modal'))}>{T('Extend your plan', 'प्लान बढ़ाएँ')} <Arrow /></button>}
+                <button type="button" className="db-link" onClick={() => window.dispatchEvent(new Event('open-extend-modal'))}>{T('Extend your plan', 'प्लान बढ़ाएँ')} <Arrow /></button>
               </>
             ) : (
               <>
@@ -565,7 +562,6 @@ const CSS = `
 .db-email { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .db-link { display: inline-flex; align-items: center; gap: 6px; margin-top: var(--space-3); padding: 0; border: none; background: none; font: inherit; font-size: 0.92rem; font-weight: 600; color: var(--accent-text); text-decoration: none; cursor: pointer; }
 .db-link:hover { text-decoration: underline; text-underline-offset: 3px; }
-.db-card-note { margin: var(--space-3) 0 0; font-size: 0.84rem; line-height: 1.5; color: var(--text3); }
 
 @media (max-width: 1100px) { .db-tools { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 @media (max-width: 960px) {

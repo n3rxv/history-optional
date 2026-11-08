@@ -14,8 +14,8 @@ export default function TermsPage() {
       current="terms"
       title="Terms of Service"
       titleHi="सेवा की शर्तें"
-      updated="Last updated: 17 October 2026 · Effective: 17 October 2026"
-      updatedHi="अंतिम अद्यतन: 17 अक्टूबर 2026 · प्रभावी: 17 अक्टूबर 2026"
+      updated="Last updated: 8 November 2026 · Effective: 8 November 2026"
+      updatedHi="अंतिम अद्यतन: 8 नवंबर 2026 · प्रभावी: 8 नवंबर 2026"
       hi={<TermsHi />}
     >
       <p>
@@ -49,7 +49,6 @@ export default function TermsPage() {
         Every plan we sell is a one-time payment. Nothing renews on its own.
       </p>
 
-      <h3>One-time plans</h3>
       <ul>
         <li>Daily: ₹49 (1 day access)</li>
         <li>Half-Yearly: ₹1,999 (6 months access)</li>
@@ -61,16 +60,6 @@ export default function TermsPage() {
         to buy again. Buying again while a plan is still running adds the new period to
         the end of the current one.
       </p>
-      <h3>The withdrawn weekly plan</h3>
-      <p>
-        We no longer sell the weekly plan (₹99 every 7 days, collected through a
-        payment mandate). If you started it before 17 October 2026, it continues on the
-        terms you agreed to: Razorpay collects ₹99 every 7 days, notifies you before
-        each debit, and stops after at most 52 collections. You can cancel at any time
-        from the profile menu on the site, in one click. Cancelling stops all future
-        charges immediately and you keep access until the end of the period the last
-        charge covered. Cancelling does not refund a charge already taken.
-      </p>
       <p>
         All payments are processed securely by Razorpay. Prices are in Indian Rupees (INR)
         and inclusive of applicable taxes. We reserve the right to change pricing with
@@ -80,9 +69,7 @@ export default function TermsPage() {
       <h2>5. Refund Policy</h2>
       <p>
         All purchases are final. We do not offer refunds, exchanges, or credits for any
-        plan once payment has been processed. For anyone still on the withdrawn weekly
-        plan this applies to each individual collection: cancelling stops the next
-        charge, it does not reverse the last one. Please review the features available
+        plan once payment has been processed. Please review the features available
         on the free plan before buying.
       </p>
       <p>
@@ -174,7 +161,6 @@ function TermsHi() {
         नवीनीकृत नहीं होता।
       </p>
 
-      <h3>एकमुश्त प्लान</h3>
       <ul>
         <li>दैनिक: ₹49 (1 दिन की पहुँच)</li>
         <li>अर्धवार्षिक: ₹1,999 (6 महीने की पहुँच)</li>
@@ -186,16 +172,6 @@ function TermsHi() {
         पर स्वतः समाप्त हो जाती है। किसी प्लान के चालू रहते हुए फिर से ख़रीदने पर नई अवधि
         वर्तमान अवधि के अंत में जोड़ दी जाती है।
       </p>
-      <h3>वापस लिया गया साप्ताहिक प्लान</h3>
-      <p>
-        हम अब साप्ताहिक प्लान (हर 7 दिन में ₹99, जो भुगतान अधिदेश के माध्यम से वसूल किया जाता
-        है) नहीं बेचते। यदि आपने इसे 17 अक्टूबर 2026 से पहले शुरू किया था, तो यह उन्हीं शर्तों
-        पर जारी रहता है जिन पर आपने सहमति दी थी: Razorpay हर 7 दिन में ₹99 वसूल करता है,
-        प्रत्येक डेबिट से पहले आपको सूचित करता है, और अधिकतम 52 वसूलियों के बाद रुक जाता है।
-        आप साइट के प्रोफ़ाइल मेनू से एक क्लिक में किसी भी समय इसे रद्द कर सकते हैं। रद्द करने
-        से भविष्य के सभी शुल्क तुरंत रुक जाते हैं और अंतिम शुल्क जिस अवधि के लिए लिया गया था,
-        उसके अंत तक आपकी पहुँच बनी रहती है। रद्द करने से पहले से लिया गया शुल्क वापस नहीं होता।
-      </p>
       <p>
         सभी भुगतान Razorpay द्वारा सुरक्षित रूप से संसाधित किए जाते हैं। मूल्य भारतीय रुपये (INR)
         में हैं और इनमें लागू कर शामिल हैं। उचित पूर्व सूचना देकर मूल्य बदलने का अधिकार हम
@@ -205,9 +181,7 @@ function TermsHi() {
       <h2>5. रिफ़ंड नीति</h2>
       <p>
         सभी ख़रीद अंतिम हैं। भुगतान संसाधित हो जाने के बाद हम किसी भी प्लान के लिए रिफ़ंड, विनिमय
-        या क्रेडिट नहीं देते। जो लोग अब भी वापस लिए गए साप्ताहिक प्लान पर हैं, उनके लिए यह
-        प्रत्येक अलग वसूली पर लागू होता है: रद्द करने से अगला शुल्क रुकता है, पिछला शुल्क वापस
-        नहीं होता। कृपया ख़रीदने से पहले निःशुल्क प्लान में उपलब्ध सुविधाओं की समीक्षा करें।
+        या क्रेडिट नहीं देते। कृपया ख़रीदने से पहले निःशुल्क प्लान में उपलब्ध सुविधाओं की समीक्षा करें।
       </p>
       <p>
         हमारी ओर से किसी ऐसी प्रमाणित की जा सकने वाली तकनीकी विफलता की स्थिति में, जिसके कारण

@@ -29,7 +29,7 @@ const ATTEMPTS = ['1st', '2nd', '3rd', '4th', '5th+'];
 /** What an attempt pill reads in Hindi. The stored value stays the English one. */
 const ATTEMPT_HI: Record<string, string> = { '1st': 'पहला', '2nd': 'दूसरा', '3rd': 'तीसरा', '4th': 'चौथा', '5th+': 'पाँचवाँ+' };
 /** The plan's name in Hindi, as the label in lib/plans.ts gives it in English. */
-const PLAN_HI: Record<string, string> = { yearly: 'सालाना', sixmonths: '6 महीने', weekly: 'साप्ताहिक', daily: 'दैनिक' };
+const PLAN_HI: Record<string, string> = { yearly: 'सालाना', sixmonths: '6 महीने', daily: 'दैनिक' };
 const NEXT_MAINS_YEAR = NEXT_MAINS.slice(0, 4);
 const YEARS = [NEXT_MAINS_YEAR, String(Number(NEXT_MAINS_YEAR) + 1), String(Number(NEXT_MAINS_YEAR) + 2)];
 const AGES = Array.from({ length: 34 }, (_, i) => String(i + 18));
@@ -154,7 +154,7 @@ export default function ProfileSettings() {
       ? { title: L('Add your target year', 'अपना लक्ष्य वर्ष जोड़ें'), text: L('Pick it below and we’ll count down to your Mains.', 'नीचे चुनें और हम आपकी मुख्य परीक्षा तक उलटी गिनती करेंगे।'), tone: 'accent' }
       : null;
 
-  const planLabel = sub ? (isPlanId(sub.plan) ? (langHi ? PLAN_HI[sub.plan] : PLANS[sub.plan].label) : sub.plan) : null;
+  const planLabel = sub ? (isPlanId(sub.plan) ? (langHi ? PLAN_HI[sub.plan] : PLANS[sub.plan].label) : (langHi ? 'प्रीमियम' : 'Premium')) : null;
   const planDays = sub ? Math.max(0, Math.ceil((new Date(sub.expires_at).getTime() - Date.now()) / 86400000)) : 0;
 
   const pills = (key: 'attempt' | 'year', options: string[], label: string, show: (o: string) => string = (o) => o) => (

@@ -16,18 +16,17 @@ import { daysToMains } from '@/lib/examDates';
 import { PLANS, PLAN_ORDER, DEFAULT_PLAN, planPricePaise, addPlanDuration, isPlanId, type PlanId } from '@/lib/plans';
 import { useOffer } from '@/hooks/useOffer';
 import { OfferNote } from '@/components/OfferPrice';
-import { toast } from '@/components/ui/Toast';
-import { confirmDialog } from '@/components/ui/ConfirmDialog';
 import UserAvatar from '@/components/ui/UserAvatar';
 import { loadAspirantProfile, PROFILE_EVENT, type AspirantProfile } from '@/lib/aspirantProfile';
 
 /** Plan names in Hindi mode, as the subscribe card writes them. */
-const PLAN_HI: Record<PlanId, string> = { daily: 'एक दिन', weekly: 'साप्ताहिक', sixmonths: '6 महीने', yearly: 'सालाना' };
+const PLAN_HI: Record<PlanId, string> = { daily: 'एक दिन', sixmonths: '6 महीने', yearly: 'सालाना' };
 
-/** A stored plan id shown to the reader. Falls back to the raw value for
- *  rows written before the id set settled. */
+/** A stored plan id shown to the reader. A row for a plan no longer sold
+ *  shows as plain Premium. */
 function planLabel(plan: string, langHi = false): string {
-  return isPlanId(plan) ? (langHi ? PLAN_HI[plan] : PLANS[plan].label) : plan;
+  if (isPlanId(plan)) return langHi ? PLAN_HI[plan] : PLANS[plan].label;
+  return langHi ? 'प्रीमियम' : 'Premium';
 }
 
 const fmtDate = (iso: string, month: 'short' | 'long' = 'short', langHi = false) =>
@@ -145,10 +144,10 @@ function ExtendModal({
   const [loading, setLoading] = useState(false);
 
   // Built from lib/plans.ts, which is what /api/razorpay/order bills from.
-  // This list used to be typed by hand and carried a Weekly and a Monthly
-  // tile at ₹1,999. Neither is a plan id the server knows, so toPlanId()
-  // fell back to yearly: the button said ₹1,999, Razorpay charged ₹2,999,
-  // and the reader was granted a year instead of the week or month shown.
+  // This list used to be typed by hand and carried two tiles at ₹1,999 for
+  // plan ids the server didn't know, so toPlanId() fell back to yearly: the
+  // button said ₹1,999, Razorpay charged ₹2,999, and the reader was granted
+  // a year instead of what the tile showed.
   // Sale prices while an offer runs, as the order route charges them.
   const offer = useOffer();
   const plans = PLAN_ORDER.map(id => ({
@@ -320,40 +319,23 @@ export default function Navbar() {
   const [aspirant, setAspirant] = useState<AspirantProfile>({ name: '', age: '', attempt: '', year: '' });
   const aspirantName = aspirant.name;
   const aspirantYear = aspirant.year;
-  const [subData, setSubData] = useState<{ plan: string; expires_at: string; autoRenew?: boolean } | null>(null);
+  const [subData, setSubData] = useState<{ plan: string; expires_at: string } | null>(null);
   const [showExtendModal, setShowExtendModal] = useState(false);
-  const [cancelling, setCancelling] = useState(false);
   const [pyqsMenuOpen, setPyqsMenuOpen] = useState(false);
   const [notesMenuOpen, setNotesMenuOpen] = useState(false);
   const [showPremiumModal, setShowPremiumModal] = useState(false);
   const [noSubFound, setNoSubFound] = useState(false);
+  // Read once per mount: the day counts below only change from one day to the next.
+  const [now] = useState(() => Date.now());
   const notesRef = useRef<HTMLDivElement>(null);
   const pyqsRef = useRef<HTMLDivElement>(null);
   const accountRef = useRef<HTMLDivElement>(null);
-
-  /** Stops future weekly debits. Access already paid for is untouched. */
-  async function handleCancelAutopay() {
-    if (!auth.currentUser) return;
-    if (!(await confirmDialog(langHi
-      ? { title: 'साप्ताहिक नवीनीकरण बंद करें?', text: 'जिन दिनों का भुगतान आप कर चुके हैं, उनमें पहुँच बनी रहेगी।', confirmLabel: 'नवीनीकरण बंद करें', cancelLabel: 'रहने दें', tone: 'danger' }
-      : { title: 'Stop the weekly renewal?', text: 'You keep access for the remaining days you’ve already paid for.', confirmLabel: 'Stop renewal', cancelLabel: 'Keep it', tone: 'danger' }))) return;
-    setCancelling(true);
-    try {
-      const token = await auth.currentUser.getIdToken();
-      const res = await fetch('/api/razorpay/subscription/cancel', {
-        method: 'POST', headers: { 'x-user-token': token },
-      });
-      if (res.ok) { setSubData(prev => (prev ? { ...prev, autoRenew: false } : prev)); toast(langHi ? 'साप्ताहिक नवीनीकरण बंद हो गया' : 'Weekly renewal stopped'); }
-      else toast(langHi ? 'यह नहीं हो पाया। थोड़ी देर में फिर कोशिश करें।' : 'That did not go through. Try again in a moment.', 'error');
-    } finally {
-      setCancelling(false);
-    }
-  }
 
   // The bootstrap in app/layout.tsx stamps data-theme before paint; read it
   // rather than working it out again.
   useEffect(() => {
     const dark = document.documentElement.getAttribute('data-theme') === 'dark';
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setIsDark(dark);
     paintBrowserBar(dark);
     // The profile page can switch the theme too; follow it.
@@ -399,6 +381,7 @@ export default function Navbar() {
 
   // A new page closes whatever was open.
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setOpen(false);
     setNotesMenuOpen(false);
     setPyqsMenuOpen(false);
@@ -416,6 +399,7 @@ export default function Navbar() {
   // Auto-close premium modal when subscription is confirmed
   useEffect(() => {
     if (subData) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setShowPremiumModal(false);
       setNoSubFound(false);
     }
@@ -432,7 +416,7 @@ export default function Navbar() {
   // but only a reader who is not on Premium is shown it, and never on top of
   // another dialog or on the pricing page, which says it all already.
   const subRef = React.useRef(subData);
-  subRef.current = subData;
+  useEffect(() => { subRef.current = subData; }, [subData]);
   useEffect(() => {
     const handler = () => {
       if (subRef.current || window.location.pathname === '/pricing' || document.querySelector('[role="dialog"], [aria-modal="true"]')) return;
@@ -451,6 +435,7 @@ export default function Navbar() {
 
   useEffect(() => {
     if (typeof sessionStorage !== 'undefined') {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       if (sessionStorage.getItem('ho_pending_payment') === '1') setShowPremiumModal(true);
       if (sessionStorage.getItem('ho_verify_sub') === '1') {
         sessionStorage.removeItem('ho_verify_sub');
@@ -477,7 +462,7 @@ export default function Navbar() {
     try {
       const res = await fetch('/api/sub-status', { headers: { 'x-user-token': token } });
       const d = await res.json();
-      if (d.isPremium) setSubData({ plan: d.plan, expires_at: d.expires_at, autoRenew: !!d.autoRenew });
+      if (d.isPremium) setSubData({ plan: d.plan, expires_at: d.expires_at });
       else setSubData(null);
     } catch { setSubData(null); }
   }, []);
@@ -491,6 +476,7 @@ export default function Navbar() {
   }, [fetchSub]);
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setAspirant(loadAspirantProfile());
     const onProfile = () => setAspirant(loadAspirantProfile());
     window.addEventListener(PROFILE_EVENT, onProfile);
@@ -544,7 +530,7 @@ export default function Navbar() {
   const exam = target === '2026'
     ? { label: langHi ? 'मुख्य परीक्षा 2026' : 'Mains 2026', when: langHi ? '21 अगस्त 2026' : '21 Aug 2026', days: daysToMains() }
     : target === '2027'
-      ? { label: langHi ? 'प्रिलिम्स 2027' : 'Prelims 2027', when: langHi ? '23 मई 2027' : '23 May 2027', days: Math.max(0, Math.ceil((new Date('2027-05-23T00:00:00').getTime() - Date.now()) / 86400000)) }
+      ? { label: langHi ? 'प्रिलिम्स 2027' : 'Prelims 2027', when: langHi ? '23 मई 2027' : '23 May 2027', days: Math.max(0, Math.ceil((new Date('2027-05-23T00:00:00').getTime() - now) / 86400000)) }
       : null;
 
   const langToggle = (
@@ -555,31 +541,18 @@ export default function Navbar() {
   );
 
   const planBlock = subData ? (() => {
-    const days = Math.ceil((new Date(subData.expires_at).getTime() - Date.now()) / 86400000);
+    const days = Math.ceil((new Date(subData.expires_at).getTime() - now) / 86400000);
     const on = fmtDate(subData.expires_at, 'short', langHi);
     return (
       <div className="nb-plan-block">
         <div className="nb-plan-line">
-          <strong>{planLabel(subData.plan, langHi)}{subData.autoRenew && (langHi ? ' · नवीनीकरण चालू' : ' · renewing')}</strong>
+          <strong>{planLabel(subData.plan, langHi)}</strong>
           <span>{days <= 0 ? (langHi ? 'समाप्त' : 'Expired') : langHi ? `${days} दिन शेष` : `${days} day${days === 1 ? '' : 's'} left`}</span>
         </div>
-        <p>{langHi ? `${on} को ${subData.autoRenew ? 'नवीनीकरण' : 'समाप्त'}` : `${subData.autoRenew ? 'Renews' : 'Ends'} ${on}`}</p>
-        {/* Extending a running mandate would stack one-time days onto a
-            subscription that already renews on its own, so it is offered
-            only to one-time plans. */}
-        {!subData.autoRenew && (
-          <button className="ds-btn ds-btn-line ds-btn-sm ds-btn-block" onClick={() => { setShowExtendModal(true); setUserMenuOpen(false); setOpen(false); }}>
-            {langHi ? 'प्लान बढ़ाएँ' : 'Extend plan'}
-          </button>
-        )}
-        {subData.autoRenew && (
-          <>
-            <button className="ds-btn ds-btn-line ds-btn-sm ds-btn-block" onClick={handleCancelAutopay} disabled={cancelling}>
-              {cancelling ? (langHi ? 'रद्द हो रहा है…' : 'Cancelling…') : (langHi ? 'नवीनीकरण रद्द करें' : 'Cancel renewal')}
-            </button>
-            <p className="nb-fine">{langHi ? `आगे कोई राशि नहीं कटेगी। ${on} तक पहुँच बनी रहेगी।` : `Stops future charges. You keep access until ${on}.`}</p>
-          </>
-        )}
+        <p>{langHi ? `${on} को समाप्त` : `Ends ${on}`}</p>
+        <button className="ds-btn ds-btn-line ds-btn-sm ds-btn-block" onClick={() => { setShowExtendModal(true); setUserMenuOpen(false); setOpen(false); }}>
+          {langHi ? 'प्लान बढ़ाएँ' : 'Extend plan'}
+        </button>
       </div>
     );
   })() : (
@@ -824,7 +797,6 @@ const NAV_CSS = `
 .nb-plan-line strong { font-size: 0.9rem; }
 .nb-plan-line span { font-family: var(--font-ui); font-size: 0.78rem; color: var(--text2); }
 .nb-plan-block p { margin: 0; font-family: var(--font-ui); font-size: 0.8rem; color: var(--text3); }
-.nb-plan-block .nb-fine { font-size: 0.76rem; }
 .nb-menu-links { display: flex; flex-direction: column; padding-top: var(--space-1); border-top: 1px solid var(--border); }
 .nb-menu-item {
   width: 100%; display: flex; align-items: center; gap: var(--space-3);
