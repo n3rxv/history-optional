@@ -246,7 +246,7 @@ export default function EvaluatePage() {
         sectionMarks: { introduction: data.section_marks.introduction, body: data.section_marks.body, conclusion: data.section_marks.conclusion, presentation: data.section_marks.presentation },
         demandOfQuestion: data.demand_of_question,
         introduction: data.introduction as AnswerEntry['introduction'], body: data.body as AnswerEntry['body'], conclusion: data.conclusion as AnswerEntry['conclusion'],
-        historiansToCite: data.historians_to_cite, modelAnswer: data.model_answer,
+        historiansToCite: data.historians_to_cite, modelAnswer: data.model_answer, evaluationId: data.evaluation_id,
       });
       setHistory(loadHistory());
       setSubmittedQ(question); setSubmittedM(marks);

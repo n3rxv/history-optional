@@ -4,6 +4,7 @@ import Link from 'next/link';
 import type { AnswerEntry } from '@/hooks/useAnswerHistory';
 import { toast } from '@/components/ui/Toast';
 import PdfButton, { downloadEvaluationPdf } from '@/components/evaluate/PdfButton';
+import ShareButton from '@/components/evaluate/ShareButton';
 
 /**
  * A marked answer: the score and the marks for each part beside it, and the
@@ -31,6 +32,8 @@ export interface Evaluation {
   marks_out_of: number;
   word_count: number;
   word_count_rating: 'LOW' | 'GOOD' | 'HIGH';
+  /** The saved row, for sharing. Absent when the save failed. */
+  evaluation_id?: string;
 }
 
 export type ReportData = {
@@ -49,6 +52,7 @@ export type ReportData = {
   historians: Historian[];
   model?: Evaluation['model_answer'];
   date?: string;
+  evaluationId?: string;
 };
 
 export const fromEvaluation = (question: string, allotted: number, e: Evaluation): ReportData => ({
@@ -56,13 +60,14 @@ export const fromEvaluation = (question: string, allotted: number, e: Evaluation
   overall: e.overall_feedback, demand: toArray(e.demand_of_question), sectionMarks: e.section_marks,
   introduction: e.introduction, body: e.body, conclusion: e.conclusion,
   historians: Array.isArray(e.historians_to_cite) ? e.historians_to_cite : [], model: e.model_answer,
+  evaluationId: e.evaluation_id,
 });
 
 export const fromEntry = (x: AnswerEntry): ReportData => ({
   question: x.question, allotted: x.marksOutOf, marks: x.marks, marksOutOf: x.marksOutOf, wordCount: x.wordCount, wordCountRating: x.wordCountRating,
   overall: x.overallFeedback, demand: toArray(x.demandOfQuestion), sectionMarks: x.sectionMarks as Evaluation['section_marks'],
   introduction: x.introduction, body: x.body, conclusion: x.conclusion,
-  historians: x.historiansToCite ?? [], model: x.modelAnswer, date: x.date,
+  historians: x.historiansToCite ?? [], model: x.modelAnswer, date: x.date, evaluationId: x.evaluationId,
 });
 
 /** Back to the shape /api/generate-pdf expects, for the download. */
@@ -224,6 +229,7 @@ export default function Report({ data, tab, setTab, onAnother, onBack, chatHref,
             <div className="ev-score-actions">
               {data.model && <button type="button" className="ds-btn ds-btn-solid" onClick={() => setTab('model')}>{hi ? 'आदर्श उत्तर देखें' : 'See the model answer'}</button>}
               <PdfButton hi={hi} download={() => downloadEvaluationPdf([data], { hi })} label={hi ? 'मूल्यांकन की PDF डाउनलोड करें' : 'Download the evaluation (PDF)'} />
+              {data.evaluationId && <ShareButton evaluationId={data.evaluationId} marks={data.marks} outOf={data.marksOutOf} hi={hi} />}
               <Link href={chatHref} className="ds-btn ds-btn-line">{hi ? 'AI से इस पर पूछें' : 'Ask the AI about it'}</Link>
               <button type="button" className="ds-btn ds-btn-ghost" onClick={onAnother}>{hi ? 'दूसरा उत्तर जाँचें' : 'Check another answer'}</button>
             </div>
@@ -359,6 +365,9 @@ export const REPORT_CSS = `
 .ev-sec-why { margin: 6px 0 0; font-size: 0.84rem; line-height: 1.5; color: var(--text3); }
 .ev-score-actions { display: flex; flex-direction: column; gap: var(--space-2); margin-top: var(--space-6); }
 .ev-score-actions .ds-btn { width: 100%; justify-content: center; min-height: 46px; }
+.ev-share { display: flex; flex-direction: column; gap: var(--space-2); }
+.ev-share-note { margin: 0; font-family: var(--font-ui); font-size: 0.8rem; line-height: 1.5; color: var(--text3); }
+.ev-share-link { padding: 0; border: 0; background: none; font: inherit; color: var(--accent-text); text-decoration: underline; text-underline-offset: 2px; cursor: pointer; }
 .ev-note { margin: 0; padding: var(--space-3) var(--space-4); border-radius: var(--radius-lg); background: var(--ds-soft); font-size: 0.88rem; line-height: 1.55; color: var(--text2); }
 .ev-tabs { display: flex; gap: 4px; padding: 4px; border-radius: var(--radius-full); background: var(--ds-soft); border: 1px solid var(--border); align-self: flex-start; }
 .ev-tabs-row { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: var(--space-2) var(--space-3); }

@@ -26,8 +26,9 @@ const BASELINE = 'scripts/design-lint-baseline.json';
 
 // Data files are content, not design. lib/indiaGeoJSON.ts alone carries
 // thousands of coordinate pairs that look like nothing but are not colours.
-// Generated data and backups.
-const SKIP = /indiaGeoJSON|noteContent|noteContentHi|bookData|prelimsData|pyqData|\.bak$/;
+// Generated data and backups. Link preview images (opengraph-image) are drawn
+// by next/og, which has no stylesheet, so they cannot read the tokens at all.
+const SKIP = /indiaGeoJSON|noteContent|noteContentHi|bookData|prelimsData|pyqData|opengraph-image|\.bak$/;
 
 const SPACE = new Set([2, 4, 6, 8, 10, 12, 16, 20, 24, 32, 40, 48]);
 const RADIUS = new Set([3, 4, 6, 8, 10, 12, 14, 20]);

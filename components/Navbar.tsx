@@ -14,6 +14,7 @@ import { SubscribeCard } from '@/components/SubscribeCard';
 import { FEATURES, TOPPER_PRICE } from '@/lib/features';
 import { daysToMains } from '@/lib/examDates';
 import { PLANS, PLAN_ORDER, DEFAULT_PLAN, planPricePaise, addPlanDuration, isPlanId, type PlanId } from '@/lib/plans';
+import { readRef } from '@/lib/referralClient';
 import { useOffer } from '@/hooks/useOffer';
 import { OfferNote } from '@/components/OfferPrice';
 import UserAvatar from '@/components/ui/UserAvatar';
@@ -42,6 +43,7 @@ const Icon = {
   edit: <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M12 20h9M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z" /></svg>,
   dash: <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2" /></svg>,
   plans: <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M12 3l2.6 5.3 5.9.9-4.3 4.1 1 5.8L12 16.4 6.8 19.1l1-5.8L3.5 9.2l5.9-.9z" /></svg>,
+  gift: <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M20 12v9H4v-9M2 7h20v5H2zM12 21V7M12 7H7.5a2.5 2.5 0 1 1 0-5C11 2 12 7 12 7zM12 7h4.5a2.5 2.5 0 1 0 0-5C13 2 12 7 12 7z" /></svg>,
   out: <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9" /></svg>,
   arrow: <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" /></svg>,
   check: <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5" /></svg>,
@@ -187,7 +189,7 @@ function ExtendModal({
       const orderRes = await fetch('/api/razorpay/order', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', 'x-user-token': token },
-        body: JSON.stringify({ plan: selectedPlan }),
+        body: JSON.stringify({ plan: selectedPlan, ref: readRef() }),
       });
       const order = await orderRes.json();
       const orderId = order.id ?? order.orderId;
@@ -622,6 +624,7 @@ export default function Navbar() {
                         <Link href="/dashboard" className="nb-menu-item" role="menuitem">{Icon.dash}{langHi ? 'डैशबोर्ड' : 'Dashboard'}</Link>
                         <Link href="/profile" className="nb-menu-item" role="menuitem" onClick={() => setUserMenuOpen(false)}>{Icon.edit}{langHi ? 'प्रोफ़ाइल और सेटिंग्स' : 'Profile and settings'}</Link>
                         <Link href="/pricing" className="nb-menu-item" role="menuitem">{Icon.plans}{langHi ? 'प्लान' : 'Plans'}</Link>
+                        <Link href="/invite" className="nb-menu-item" role="menuitem">{Icon.gift}{langHi ? 'दोस्त को बुलाएँ' : 'Invite a friend'}</Link>
                         <button className="nb-menu-item danger" role="menuitem" onClick={handleSignOut}>{Icon.out}{langHi ? 'साइन आउट करें' : 'Sign out'}</button>
                       </div>
                     </div>

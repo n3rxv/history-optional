@@ -1,8 +1,10 @@
 'use client';
 import { useLang } from '@/lib/i18n/LangContext';
 import { PLANS, PLAN_ORDER, PLAN_DURATION, DEFAULT_PLAN, planPricePaise, isPlanId, type PlanId } from '@/lib/plans';
+import { clearRef, readRef } from '@/lib/referralClient';
 import { useOffer } from '@/hooks/useOffer';
 import { OfferNote } from '@/components/OfferPrice';
+import InvitedNote from '@/components/InvitedNote';
 import { useState, useEffect } from 'react';
 import { auth, signInWithGoogle } from '@/lib/firebase';
 
@@ -129,7 +131,7 @@ export function SubscribeCard({
       const orderRes = await fetch('/api/razorpay/order', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', 'x-user-token': authToken },
-        body: JSON.stringify({ plan: planOverride ?? selectedPlan }),
+        body: JSON.stringify({ plan: planOverride ?? selectedPlan, ref: readRef() }),
       });
       const orderData = await orderRes.json();
       // When the order route refuses, it says why. Show its words rather
@@ -161,7 +163,7 @@ export function SubscribeCard({
             body: JSON.stringify({ ...resp, fingerprint }),
           });
           const vData = await vRes.json();
-          if (vData.ok) { setStep('success'); setTimeout(() => { onSuccess?.(); window.location.href = `/subscribe/success?plan=${vData.plan ?? planOverride ?? selectedPlan}&amount=${orderData.amount}&txn=${resp.razorpay_payment_id}`; }, 1500); }
+          if (vData.ok) { clearRef(); setStep('success'); setTimeout(() => { onSuccess?.(); window.location.href = `/subscribe/success?plan=${vData.plan ?? planOverride ?? selectedPlan}&amount=${orderData.amount}&txn=${resp.razorpay_payment_id}`; }, 1500); }
         },
       });
       rzp.on('payment.failed', async () => {
@@ -242,6 +244,7 @@ export function SubscribeCard({
       <style dangerouslySetInnerHTML={{ __html: SC_CSS }} />
 
       <OfferNote className="offer-note sc-offer" />
+      <InvitedNote className="offer-note sc-offer" />
       <div className="sc-list" role="radiogroup" aria-label={langHi ? 'प्लान चुनें' : 'Choose a plan'}>
         {GROUPS.map(g => (
           <div key={g.title} className="sc-group">

@@ -1,6 +1,7 @@
 import { createClient, type SupabaseClient } from "@supabase/supabase-js";
 import Razorpay from "razorpay";
 import { addPlanDuration, isPlanId, orderAmountOk, planAmountPaise, type PlanId } from "@/lib/plans";
+import { isRefCode, isReferralPlan, REFERRED_DAYS, REFERRER_DAYS } from "@/lib/referral";
 
 /**
  * The one place a Razorpay payment turns into subscription access.
@@ -165,16 +166,29 @@ export async function applySubscriptionPayment(opts: {
     // redeliveries never reach here, so extending is safe.
     const { data: existingSub } = await db
       .from("subscriptions")
-      .select("expires_at")
+      .select("expires_at, razorpay_payment_id")
       .eq("firebase_uid", uid)
       .maybeSingle();
+
+    // Read before the upsert below overwrites the row. A referral pays out
+    // only on a first purchase: none on the row (which predates the ledger
+    // for older readers) and none in the ledger besides this one.
+    let firstPurchase = false;
+    if (isRefCode(notes.ref) && isReferralPlan(plan) && !existingSub?.razorpay_payment_id) {
+      const { count } = await db
+        .from("payment_events")
+        .select("payment_id", { count: "exact", head: true })
+        .eq("firebase_uid", uid)
+        .neq("payment_id", paymentId);
+      firstPurchase = count === 0;
+    }
 
     const now = new Date();
     const base =
       existingSub?.expires_at && new Date(existingSub.expires_at) > now
         ? new Date(existingSub.expires_at)
         : now;
-    const expiresAt = addPlanDuration(base, plan);
+    let expiresAt = addPlanDuration(base, plan);
 
     const { error: upsertErr } = await db.from("subscriptions").upsert(
       {
@@ -194,6 +208,22 @@ export async function applySubscriptionPayment(opts: {
       await releaseClaim();
       log("subscription upsert failed:", upsertErr);
       return { ok: false, status: 500, error: "DB error" };
+    }
+
+    // Never fails the grant: the reader has paid for their plan whatever
+    // happens to the invite bonus.
+    if (firstPurchase) {
+      const { data: ref, error: refErr } = await db.rpc("apply_referral", {
+        p_code: String(notes.ref),
+        p_order_id: orderId,
+        p_buyer_uid: uid,
+        p_plan: plan,
+        p_referrer_days: REFERRER_DAYS,
+        p_referred_days: REFERRED_DAYS,
+      });
+      if (refErr) log("referral failed:", refErr);
+      else if (ref?.result === "applied" && ref.expires_at) expiresAt = new Date(ref.expires_at);
+      else log(`referral not applied: ${ref?.result}`);
     }
 
     await db

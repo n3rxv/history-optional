@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { verifyFirebaseToken } from "@/lib/verifyFirebaseToken";
 import Razorpay from "razorpay";
 import { planChargeNow, toPlanId } from "@/lib/plans";
+import { isRefCode, isReferralPlan } from "@/lib/referral";
 
 export async function POST(req: NextRequest) {
   const razorpay = new Razorpay({
@@ -23,6 +24,9 @@ export async function POST(req: NextRequest) {
   // The sale price while an offer runs. Its id goes in the notes, so the
   // grant accepts the lower amount even if the payment lands after it ends.
   const { amountPaise: amount, offer } = planChargeNow(plan);
+  // The invite code the buyer arrived with. Only a claim: the grant checks
+  // the code, the plan and that this is the buyer's first purchase.
+  const ref = isReferralPlan(plan) && isRefCode(reqBody.ref) ? String(reqBody.ref).toUpperCase() : null;
 
   // These notes are the only trustworthy record of who this order is for and
   // what they selected — /api/razorpay/verify reads the plan back from here
@@ -32,7 +36,7 @@ export async function POST(req: NextRequest) {
     amount,
     currency: "INR",
     receipt:  `ho_${user.uid.slice(0, 8)}_${Date.now()}`,
-    notes: { user_id: user.uid, email: user.email ?? "", plan, ...(offer ? { offer: offer.id } : {}) },
+    notes: { user_id: user.uid, email: user.email ?? "", plan, ...(offer ? { offer: offer.id } : {}), ...(ref ? { ref } : {}) },
   });
 
   return NextResponse.json({ orderId: order.id, amount: order.amount, currency: order.currency });

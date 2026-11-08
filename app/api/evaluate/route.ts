@@ -1250,8 +1250,9 @@ Be brutally specific. Name exactly which historians were missing. Quote exactly 
     // the admin panel can show who wrote what and how it was marked.
     // Never fatal — a reader has paid for this evaluation and is owed it
     // whether or not the record saved.
+    let evaluationId: string | null = null;
     try {
-      await createServerClient().from("answer_evaluations").insert({
+      const { data: saved } = await createServerClient().from("answer_evaluations").insert({
         firebase_uid: user?.uid ?? null,
         email: user?.email ?? null,
         question,
@@ -1266,12 +1267,14 @@ Be brutally specific. Name exactly which historians were missing. Quote exactly 
         // makes the sample grow on its own instead of needing hand-run tests.
         duration_ms: timings.total,
         timings,
-      });
+      }).select("id").single();
+      evaluationId = saved?.id ?? null;
     } catch (saveErr) {
       console.error("[evaluate] could not record evaluation:", saveErr);
     }
 
-    return NextResponse.json(evaluation);
+    // The saved row's id lets the reader share this check later.
+    return NextResponse.json(evaluationId ? { ...evaluation, evaluation_id: evaluationId } : evaluation);
 
   } catch (err) {
     console.error("Evaluation error:", err);

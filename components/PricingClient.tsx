@@ -11,6 +11,7 @@ import { daysToMains, NEXT_MAINS } from '@/lib/examDates';
 import { PLANS, PLAN_DURATION, planPriceLabel, planPricePaise, type PlanId } from '@/lib/plans';
 import { useOffer } from '@/hooks/useOffer';
 import { OfferNote } from '@/components/OfferPrice';
+import InvitedNote from '@/components/InvitedNote';
 import { toast } from '@/components/ui/Toast';
 import { useLang } from '@/lib/i18n/LangContext';
 
@@ -247,6 +248,7 @@ export default function PricingClient() {
         )}
 
         <OfferNote className="offer-note pr-offer" />
+        <InvitedNote className="offer-note pr-offer" />
 
         <section className="pr-group" aria-labelledby="pr-g1">
           <div className="pr-group-head"><h2 id="pr-g1" className="pr-h2">{L('For your whole preparation', 'पूरी तैयारी के लिए')}</h2><span>{L('Paid once, never renews', 'एक बार भुगतान, अपने-आप रिन्यू नहीं होता')}</span></div>

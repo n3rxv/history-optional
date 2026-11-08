@@ -35,6 +35,8 @@ export interface AnswerEntry {
   type?: "single" | "batch" | "map";
   /** Answers marked from one full paper share this, so the paper can be downloaded whole. */
   paperId?: string;
+  /** The saved answer_evaluations row, so this check can be shared. */
+  evaluationId?: string;
   /** The question's number in its paper, as "Q1(a)". */
   label?: string;
   /** A map question's place-by-place marking, for its download. */
