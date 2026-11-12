@@ -107,14 +107,12 @@ export default function PyqDetail({ pyq, related, prev, next, topicCount }: {
 
   // ── Topper copies ──
   const [copies, setCopies] = useState<TopperCopy[]>([]);
-  const [copiesLoading, setCopiesLoading] = useState(true);
   const [paywall, setPaywall] = useState(false);
   useEffect(() => {
     fetch(`/api/topper-copies?pyq_id=${pyq.id}`)
       .then((r) => r.json())
       .then((d) => setCopies(d.data ?? []))
-      .catch(() => {})
-      .finally(() => setCopiesLoading(false));
+      .catch(() => {});
   }, [pyq.id]);
   // Opening a copy is what spends a free view, and the copy page counts it;
   // this only checks there is one to spend.
@@ -258,39 +256,36 @@ export default function PyqDetail({ pyq, related, prev, next, topicCount }: {
           </div>
 
           <aside className="pd-aside">
-            <div className="pd-side">
-              <h2 className="pd-side-title">{L('Topper copies', 'टॉपर कॉपियाँ')}{copies.length > 0 && <span>{copies.length}</span>}</h2>
-              {copiesLoading ? <Dots /> : copies.length === 0 ? (
-                <p className="pd-side-text">{L('No topper has an answer to this one on the site yet. Copies are added as booklets come in.', 'अभी साइट पर इस प्रश्न का किसी टॉपर का उत्तर नहीं है। पुस्तिकाएँ आने पर कॉपियाँ जोड़ी जाती हैं।')}</p>
-              ) : (
-                <>
-                  {copies.length >= 2 && (
-                    <button type="button" className="pd-compare" onClick={() => openCopy(`/pyqs/${pyq.id}/compare`)}>
-                      <span className="pd-compare-icon" aria-hidden="true"><CompareIcon size={18} /></span>
-                      <span className="pd-compare-text">
-                        <strong>{L('Compare answers side by side', 'उत्तरों की आमने-सामने तुलना करें')}</strong>
-                        <span>{toppers >= 2 ? L(`See how ${toppers} toppers wrote this answer`, `देखें कि ${toppers} टॉपरों ने यह उत्तर कैसे लिखा`) : L(`Read ${copies.length} copies next to each other`, `${copies.length} कॉपियाँ साथ-साथ पढ़ें`)}</span>
-                      </span>
-                      <Arrow />
-                    </button>
-                  )}
-                  <div className="pd-copies">
-                    {copies.map((c) => {
-                      // Most copies answer a question on this one's theme in
-                      // other words; only one answering it as asked takes its Hindi.
-                      const same = sameQuestion(c.question, pyq.question);
-                      const cHi = same ? qHi : undefined;
-                      return (
-                        <button key={c.id} type="button" className="pd-copy" onClick={() => openCopy(`/topper-copies/${c.id}${same ? `?pyq=${pyq.id}` : ''}`)}>
-                          <span className="pd-copy-who">{c.note || L('Topper copy', 'टॉपर कॉपी')}</span>
-                          <span className="pd-copy-q" lang={cHi ? 'hi' : undefined}>{short(cHi ?? c.question, 110)}</span>
-                        </button>
-                      );
-                    })}
-                  </div>
-                </>
-              )}
-            </div>
+            {/* Only where a topper answered it: an empty card on most questions was noise. */}
+            {copies.length > 0 && (
+              <div className="pd-side">
+                <h2 className="pd-side-title">{L('Topper copies', 'टॉपर कॉपियाँ')}<span>{copies.length}</span></h2>
+                {copies.length >= 2 && (
+                  <button type="button" className="pd-compare" onClick={() => openCopy(`/pyqs/${pyq.id}/compare`)}>
+                    <span className="pd-compare-icon" aria-hidden="true"><CompareIcon size={18} /></span>
+                    <span className="pd-compare-text">
+                      <strong>{L('Compare answers side by side', 'उत्तरों की आमने-सामने तुलना करें')}</strong>
+                      <span>{toppers >= 2 ? L(`See how ${toppers} toppers wrote this answer`, `देखें कि ${toppers} टॉपरों ने यह उत्तर कैसे लिखा`) : L(`Read ${copies.length} copies next to each other`, `${copies.length} कॉपियाँ साथ-साथ पढ़ें`)}</span>
+                    </span>
+                    <Arrow />
+                  </button>
+                )}
+                <div className="pd-copies">
+                  {copies.map((c) => {
+                    // Most copies answer a question on this one's theme in
+                    // other words; only one answering it as asked takes its Hindi.
+                    const same = sameQuestion(c.question, pyq.question);
+                    const cHi = same ? qHi : undefined;
+                    return (
+                      <button key={c.id} type="button" className="pd-copy" onClick={() => openCopy(`/topper-copies/${c.id}${same ? `?pyq=${pyq.id}` : ''}`)}>
+                        <span className="pd-copy-who">{c.note || L('Topper copy', 'टॉपर कॉपी')}</span>
+                        <span className="pd-copy-q" lang={cHi ? 'hi' : undefined}>{short(cHi ?? c.question, 110)}</span>
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+            )}
 
             {related.length > 0 && (
               <div className="pd-side">
