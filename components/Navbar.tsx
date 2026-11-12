@@ -817,17 +817,13 @@ const NAV_CSS = `
 .nb-search-wrap { display: inline-flex; }
 .nb-search {
   display: inline-flex; align-items: center; gap: var(--space-2);
-  height: 38px; padding: 0 6px 0 var(--space-3); width: clamp(150px, 13vw, 200px);
+  height: 38px; padding: 0 var(--space-4) 0 var(--space-3);
   background: var(--ds-soft); color: var(--text3);
   border: 1px solid var(--border2); border-radius: var(--radius-full);
   font-family: var(--font-ui); font-size: 0.86rem; cursor: pointer; transition: border-color 0.15s, color 0.15s;
 }
 .nb-search:hover { border-color: color-mix(in srgb, var(--accent) 45%, transparent); color: var(--text2); }
-.nb-search-text { flex: 1; min-width: 0; text-align: left; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.nb-search kbd {
-  font-family: var(--font-ui); font-size: 0.7rem; color: var(--text3);
-  padding: 2px 7px; border: 1px solid var(--border2); border-radius: var(--radius-full); background: var(--ds-card);
-}
+.nb-search-text { white-space: nowrap; }
 .nb-icon {
   width: 36px; height: 36px; display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0;
   background: none; border: 1px solid transparent; border-radius: var(--radius-md); color: var(--text2); cursor: pointer;
@@ -998,7 +994,7 @@ const NAV_CSS = `
 
 @media (max-width: 1400px) {
   .nb-search { width: 38px; padding: 0; justify-content: center; }
-  .nb-search-text, .nb-search kbd { display: none; }
+  .nb-search-text { display: none; }
 }
 @media (max-width: 1100px) {
   .nb-links, .nb-wide, .nb-search-wrap, .nb-invite { display: none; }

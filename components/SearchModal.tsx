@@ -227,7 +227,6 @@ export default function SearchModal({ label, trigger = true }: { label?: string;
     <button className="nb-search" onClick={() => setOpen(true)} aria-label={T('Search the site', 'साइट में खोजें')}>
       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7" /><path d="M20 20l-3.5-3.5" /></svg>
       <span className="nb-search-text">{label ?? T('Search notes, PYQs and historians', 'नोट्स, PYQ और इतिहासकार खोजें')}</span>
-      <kbd>⌘K</kbd>
     </button>
   ) : null;
 
