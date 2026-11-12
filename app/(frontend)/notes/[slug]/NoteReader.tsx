@@ -13,7 +13,6 @@ import NoteAnnotationCanvas from '@/components/NoteAnnotationCanvas';
 import OwlLoader from '@/components/OwlLoader';
 import Mascot from '@/components/Mascot';
 import { sectionByName } from '@/components/notes/sections';
-import InlineEditorToolbar from './InlineEditorToolbar';
 import { confirmDialog } from '@/components/ui/ConfirmDialog';
 import { toastSignInError } from '@/components/ui/Toast';
 
@@ -43,7 +42,6 @@ type Highlight = { id: string; text: string; color: Color };
 type StickyNote = { id: string; text: string; x: number; y: number };
 type TocEntry = { id: string; text: string; level: 2 | 3 };
 
-const SESSION_KEY = 'histopt_admin_v2';
 
 const HIGHLIGHT_COLORS: { id: Color; label: string; labelHi: string; color: string }[] = [
   { id: 'yellow', label: 'Gold', labelHi: 'सुनहरा', color: '#c9a84c' },
@@ -84,8 +82,6 @@ const subscribeFooter = (cb: () => void) => {
   return () => io.disconnect();
 };
 
-const noSubscribe = () => () => {};
-const readAdminToken = () => { try { return sessionStorage.getItem(SESSION_KEY); } catch { return null; } };
 
 const scrollToId = (id: string) => {
   const el = document.getElementById(id);
@@ -360,7 +356,6 @@ const Icon = {
   sticky: <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.1" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M15.5 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V8.5z" /><path d="M15 3v6h6" /></svg>,
   draw: <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.1" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M3 17c3-3 5-9 8-9s1 8 4 8 3-4 6-5" /></svg>,
   chat: <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.1" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" /></svg>,
-  edit: <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.1" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" /><path d="M18.5 2.5a2.1 2.1 0 0 1 3 3L12 15l-4 1 1-4z" /></svg>,
   x: <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" aria-hidden="true"><path d="M18 6L6 18M6 6l12 12" /></svg>,
 };
 
@@ -389,7 +384,6 @@ export default function NoteReader({
   const handleSignIn = async () => {
     try { await signInWithGoogle(); } catch (e) { console.error(e); toastSignInError(e, langHi); }
   };
-  const adminToken = useSyncExternalStore(noSubscribe, readAdminToken, () => null);
 
   // The home page offers a way back to the last note opened.
   useEffect(() => {
@@ -448,9 +442,8 @@ export default function NoteReader({
       .catch(() => { if (!cancelled) setHindi({ slug, html: initialContent }); });
     return () => { cancelled = true; };
   }, [langHi, slug, hindi?.slug, initialContent]);
-  const [savedHtml, setSavedHtml] = useState<string | null>(null);
   const hindiLoading = langHi && hindi?.slug !== slug;
-  const content = langHi ? (hindiLoading ? '' : hindi!.html) : (savedHtml ?? initialContent);
+  const content = langHi ? (hindiLoading ? '' : hindi!.html) : initialContent;
 
   const processed = useMemo(() => injectHeadingIds(tidyNote(content)), [content]);
   const toc = useMemo(() => extractToc(processed), [processed]);
@@ -607,48 +600,6 @@ export default function NoteReader({
       window.scrollTo({ top: mark.getBoundingClientRect().top + window.scrollY - 160, behavior: 'smooth' })));
   };
 
-  // ── Admin editing ──
-  // English only: overrides are per note, not per language, so saving while
-  // reading Hindi used to put the Hindi text over the English note.
-  const [editing, setEditing] = useState(false);
-  const [saving, setSaving] = useState(false);
-  const [saveMsg, setSaveMsg] = useState('');
-  const editableRef = useRef<HTMLDivElement>(null);
-  useEffect(() => {
-    if (!editing || !editableRef.current) return;
-    editableRef.current.innerHTML = savedHtml ?? initialContent;
-    editableRef.current.focus({ preventScroll: true });
-    // Filled once as editing starts; later renders must not reset the typing.
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [editing]);
-  const flash = (msg: string) => { setSaveMsg(msg); setTimeout(() => setSaveMsg(''), 3000); };
-  const saveEdit = async () => {
-    if (!editableRef.current || !adminToken) return;
-    const html = editableRef.current.innerHTML;
-    setSaving(true);
-    try {
-      const res = await fetch('/api/admin/note-content', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'x-admin-token': adminToken },
-        body: JSON.stringify({ slug, content: html }),
-      });
-      const data = await res.json();
-      if (data.ok) { setSavedHtml(html); flash('Saved'); } else flash('Could not save');
-    } catch { flash('Could not save'); }
-    setSaving(false);
-  };
-  const resetEdit = async () => {
-    if (!adminToken || !confirm('Throw away the edits and go back to the original note?')) return;
-    // The server reads x-admin-token; this sent x-admin-password, so every
-    // reset came back unauthorised.
-    const res = await fetch('/api/admin/note-content', {
-      method: 'DELETE',
-      headers: { 'Content-Type': 'application/json', 'x-admin-token': adminToken },
-      body: JSON.stringify({ slug }),
-    });
-    if (res.ok) window.location.reload(); else flash('Could not reset');
-  };
-
   // ── Find in the note ──
   const noteSearch = useNoteSearch(noteRef);
   // Arriving from the site search with ?q=, open the finder on that word so
@@ -671,7 +622,7 @@ export default function NoteReader({
   const tint = meta ? { ['--t' as string]: `var(--tint-${meta.key})`, ['--w' as string]: `var(--wash-${meta.key})` } : undefined;
   const notesHref = note.paper === 2 ? '/notes?paper=2' : '/notes';
   const askHref = `/chat?topic=${encodeURIComponent(note.title)}`;
-  const showDone = tracker.mounted && !gated && !editing;
+  const showDone = tracker.mounted && !gated;
   const footerInView = useSyncExternalStore(subscribeFooter, () => footerSeen, () => false);
 
   return (
@@ -692,7 +643,7 @@ export default function NoteReader({
             {meta ? <Link href={meta.href} className="sb-sub">{view.section}</Link> : <p className="sb-sub">{view.section}</p>}
           </div>
 
-          {!editing && <SidebarTOC entries={toc} onNavigate={() => { if (floating()) closeSidebar(); }} />}
+          <SidebarTOC entries={toc} onNavigate={() => { if (floating()) closeSidebar(); }} />
 
           {highlights.length > 0 && (
             <>
@@ -746,14 +697,7 @@ export default function NoteReader({
           </nav>
 
           <div className="nr-bar-actions">
-            {editing ? (
-              <>
-                {saveMsg && <span className="nr-save-msg">{saveMsg}</span>}
-                <button type="button" className="nr-pill" onClick={() => setEditing(false)}><span className="keep">Done</span></button>
-                <button type="button" className="ds-btn ds-btn-solid ds-btn-sm" onClick={saveEdit} disabled={saving}>{saving ? 'Saving…' : 'Save'}</button>
-              </>
-            ) : (
-              <>
+            <>
                 <button type="button" className="nr-pill lang" onClick={toggleLang} lang={langHi ? 'en' : 'hi'}
                   title={langHi ? 'Read this note in English' : 'इस नोट को हिंदी में पढ़ें'}>
                   <span className="keep">{langHi ? 'English' : 'हिंदी'}</span>
@@ -773,14 +717,8 @@ export default function NoteReader({
                     {Icon.pen}<span>{L('Annotate', 'टिप्पणी करें')}</span>
                   </button>
                 )}
-                {adminToken && !langHi && (
-                  <button type="button" className="nr-pill" onClick={() => { pickTool(null); setEditing(true); }} aria-label="Edit this note">
-                    {Icon.edit}<span>Edit</span>
-                  </button>
-                )}
                 <Link className="nr-pill accent" href={askHref}>{Icon.chat}<span>{L('Ask the AI', 'AI से पूछें')}</span></Link>
-              </>
-            )}
+            </>
           </div>
         </div>
 
@@ -823,7 +761,7 @@ export default function NoteReader({
           </div>
         )}
 
-        {!editing && <ScrollRail entries={toc} />}
+        <ScrollRail entries={toc} />
 
         {/* ── The note ── */}
         <div ref={contentBoxRef} className={`nr-content${tool === 'sticky' ? ' placing' : ''}`}
@@ -842,17 +780,7 @@ export default function NoteReader({
               )}
             </header>
 
-            {editing ? (
-              <>
-                <div className="nr-edit-note">
-                  <span>Editing the English note. Saving publishes it for everyone.</span>
-                  <button type="button" onClick={resetEdit}>Go back to the original</button>
-                </div>
-                <InlineEditorToolbar contentRef={editableRef} />
-                <div ref={editableRef} contentEditable suppressContentEditableWarning className="note-content nr-editable" />
-              </>
-            ) : (
-              <>
+            <>
                 <TableOfContents entries={toc} />
                 <div className="nr-body">
                   {hindiLoading && <OwlLoader label="नोट्स लोड हो रहे हैं" />}
@@ -871,10 +799,9 @@ export default function NoteReader({
                     </div>
                   )}
                 </div>
-              </>
-            )}
+            </>
 
-            {!gated && !editing && display && (
+            {!gated && display && (
               <>
                 {showDone && (
                   <div className={`nr-finish${isDone ? ' done' : ''}`}>
@@ -899,7 +826,7 @@ export default function NoteReader({
               </>
             )}
 
-            {!editing && (prev || next) && (
+            {(prev || next) && (
               <nav className="nr-pager" aria-label={L('More notes', 'और नोट्स')}>
                 {prev ? (
                   <Link href={`/notes/${prev.slug}`} className="nr-pager-link">
@@ -918,7 +845,7 @@ export default function NoteReader({
           </article>
 
           {/* Sticky notes, pinned where the reader tapped. */}
-          {!gated && !editing && stickies.map(s => (
+          {!gated && stickies.map(s => (
             <div key={s.id} className="nr-sticky" style={{ left: `min(${s.x}px, calc(100% - 228px))`, top: s.y }} onClick={e => e.stopPropagation()} onMouseUp={e => e.stopPropagation()}>
               <button type="button" className="nr-sticky-x" onClick={() => setStickies(p => p.filter(x => x.id !== s.id))} aria-label={L('Remove this sticky note', 'यह स्टिकी नोट हटाएँ')}>{Icon.x}</button>
               <textarea value={s.text} aria-label={L('Sticky note', 'स्टिकी नोट')}
@@ -969,7 +896,7 @@ export default function NoteReader({
             <button type="button" onClick={noteSearch.close} className="nr-find-esc" aria-label={L('Close', 'बंद करें')}>{Icon.x}</button>
           </div>
         )}
-        {!noteSearch.open && !gated && !editing && !drawing && display && (
+        {!noteSearch.open && !gated && !drawing && display && (
           <button type="button" onClick={() => noteSearch.setOpen(true)} title={L('Find in this note (⌘F)', 'इस नोट में खोजें (⌘F)')} className={`nr-find-fab${footerInView ? ' away' : ''}`} tabIndex={footerInView ? -1 : undefined}>
             <svg width="15" height="15" viewBox="0 0 20 20" fill="none" aria-hidden="true"><circle cx="9" cy="9" r="7" stroke="currentColor" strokeWidth="2" /><path d="M14.5 14.5L18 18" stroke="currentColor" strokeWidth="2" strokeLinecap="round" /></svg>
             <span>{L('Find', 'खोजें')}</span>
@@ -1144,7 +1071,6 @@ a.sb-sub:hover { color: var(--t); }
 .nr-crumbs a { color: var(--text2); text-decoration: none; white-space: nowrap; }
 .nr-crumbs a:hover { color: var(--accent-text); }
 .nr-bar-actions { margin-left: auto; display: flex; align-items: center; gap: var(--space-2); }
-.nr-save-msg { font-size: 0.86rem; font-weight: 600; color: var(--success-text); }
 
 /* ── Annotation tools ── */
 /* Held under the navbar while a tool is on, so the way out of it is always in reach. */
@@ -1210,9 +1136,6 @@ a.sb-sub:hover { color: var(--t); }
 .nr-gate-card p { margin: 0 0 var(--space-2); font-size: 0.92rem; line-height: 1.55; color: var(--text2); }
 .nr-gate-btn { width: 100%; justify-content: center; }
 
-.nr-edit-note { display: flex; align-items: center; flex-wrap: wrap; gap: var(--space-2) var(--space-4); margin-bottom: var(--space-3); padding: var(--space-3) var(--space-4); border-radius: var(--radius-lg); background: var(--warning-wash); color: var(--warning-text); font-size: 0.88rem; }
-.nr-edit-note button { margin-left: auto; background: none; border: 1px solid color-mix(in srgb, var(--danger-text) 35%, transparent); border-radius: var(--radius-full); padding: 3px 12px; font: inherit; font-size: 0.82rem; color: var(--danger-text); cursor: pointer; }
-.nr-editable { min-height: 400px; padding: var(--space-4); outline: none; border: 1px solid color-mix(in srgb, var(--warning-text) 30%, transparent); border-radius: var(--radius-lg); caret-color: var(--warning-text); }
 
 .nr-finish { display: flex; align-items: center; justify-content: space-between; gap: var(--space-4); margin-top: var(--space-10); padding: var(--space-4) var(--space-5); border-radius: var(--radius-xl); background: var(--ds-card); border: 1px solid var(--border); }
 .nr-finish.done { background: var(--success-wash); border-color: color-mix(in srgb, var(--success-text) 30%, transparent); }

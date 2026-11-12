@@ -6,8 +6,9 @@ import { sanitizeNoteHtml } from '@/lib/sanitizeNoteHtml';
 import { sectionByName } from '@/components/notes/sections';
 
 /**
- * Prerendered at build and kept until something changes it: a deploy, or an
- * admin saving the note, which revalidates this path (/api/admin/note-content).
+ * Prerendered at build and kept until a deploy changes it. A note's
+ * note_overrides row, written by the admin panel before it was removed on
+ * 12 November 2026, is still read and still wins over the shipped text.
  *
  * It used to revalidate hourly so search engines would see admin edits. Most
  * notes are read less than once an hour, so nearly every visit found the page
@@ -55,7 +56,7 @@ export default async function NotePage({ params }: { params: Promise<{ slug: str
     const db = createServerClient();
     const { data } = await db.from('note_overrides').select('content').eq('slug', slug).maybeSingle();
     if (data?.content) {
-      // Same reasoning as /api/note-content: admin-authored HTML is sanitized,
+      // Same reasoning as /api/note-content: override HTML is sanitized,
       // the shipped corpus is trusted as source.
       initialContent = sanitizeNoteHtml(data.content);
     } else {

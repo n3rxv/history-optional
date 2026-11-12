@@ -1,6 +1,5 @@
 {
  "raw-color": {
-  "app/(frontend)/admin-legacy/page.tsx": 6,
   "app/(frontend)/evaluate/page.tsx": 1,
   "app/(frontend)/layout.tsx": 1,
   "app/(frontend)/notes/[slug]/NoteReader.tsx": 14,
@@ -16,7 +15,6 @@
   "components/PricingClient.tsx": 2,
   "components/SubscribeCard.tsx": 4,
   "components/SubscriptionGate.tsx": 5,
-  "components/currentAffairs/AdminTools.tsx": 7,
   "components/flashcards/Flashcards.tsx": 1,
   "components/home/HomeShowcase.tsx": 7,
   "components/mapping/MapBrowser.tsx": 3,
@@ -28,10 +26,8 @@
   "hooks/useSubscriptionGate.tsx": 1
  },
  "off-scale-space": {
-  "app/(frontend)/admin-legacy/page.tsx": 53,
   "app/(frontend)/evaluate/page.tsx": 2,
   "app/(frontend)/layout.tsx": 1,
-  "app/(frontend)/notes/[slug]/InlineEditorToolbar.tsx": 1,
   "app/(frontend)/notes/[slug]/NoteReader.tsx": 16,
   "app/(frontend)/page.tsx": 2,
   "app/(frontend)/test/page.tsx": 2,
@@ -49,7 +45,6 @@
   "components/SubscribeCard.tsx": 1,
   "components/SubscriptionGate.tsx": 1,
   "components/WeeklyCheckup.tsx": 1,
-  "components/currentAffairs/AdminTools.tsx": 20,
   "components/currentAffairs/styles.ts": 2,
   "components/dashboard/Dashboard.tsx": 1,
   "components/evaluate/Report.tsx": 2,
@@ -67,11 +62,9 @@
   "components/topper/TopperBrowser.tsx": 3
  },
  "off-scale-radius": {
-  "app/(frontend)/admin-legacy/page.tsx": 8,
   "components/AuthGuard.tsx": 1,
   "components/DiscussionThread.tsx": 1,
-  "components/SubscriptionGate.tsx": 1,
-  "components/currentAffairs/AdminTools.tsx": 3
+  "components/SubscriptionGate.tsx": 1
  },
  "hardcoded-font": {
   "lib/readingList.ts": 1

@@ -2,7 +2,6 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { getPost, listPosts, sanitizePostHtml } from '@/lib/posts';
-import { PostAdminSlot } from '@/components/currentAffairs/AdminSlot';
 import { PO_CSS } from '@/components/currentAffairs/styles';
 import { HiText } from '@/components/ui/HiText';
 import { POST_HI } from '@/lib/postsHi';
@@ -56,7 +55,6 @@ export default async function PostPage({ params }: { params: Promise<{ slug: str
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M19 12H5M11 6l-6 6 6 6" /></svg>
           <HiText en="Current affairs" hi="समसामयिकी" />
         </Link>
-        <PostAdminSlot slug={post.slug} />
         {/* eslint-disable-next-line @next/next/no-img-element */}
         {post.cover && <img src={post.cover} alt="" className="po-cover" />}
         <div className="po-meta">

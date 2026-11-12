@@ -1,5 +1,11 @@
 # Atlas: the History Optional CMS
 
+> **Removed on 12 November 2026.** The owner asked for the admin panel to be
+> deleted from the site entirely: /admin-legacy, every /api/admin route,
+> lib/admin-auth, and the editors inside the notes, current affairs and
+> historiography pages. Content now changes in the database (note_overrides,
+> blog_posts, debates) or in the repository. This document is kept as history.
+
 The admin panel. This document is the contract for how it is built, so that
 adding to it later is a matter of following a pattern rather than rediscovering
 one.

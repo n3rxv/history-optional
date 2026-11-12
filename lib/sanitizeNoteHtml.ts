@@ -11,11 +11,10 @@ import sanitizeHtmlLib from 'sanitize-html';
  *                         would cost CPU on every note view while defending
  *                         against nobody. Not sanitized.
  *
- *   note_overrides        written through /api/admin/note-content, gated by
- *                         isAdminAuthed -- an HMAC of an expiry with no
- *                         subject and no revocation list. A leaked admin token
- *                         therefore means stored XSS on every note page, served
- *                         to every reader. This is what gets sanitized.
+ *   note_overrides        written by the admin panel (removed on 12 November
+ *                         2026) and editable in the database. Anything that
+ *                         reaches a note page from there could be stored XSS
+ *                         served to every reader. This is what gets sanitized.
  *
  * Applied on write so nothing dangerous is stored, and again on read so rows
  * written before this existed are covered without a migration.

@@ -1,6 +1,5 @@
 import Link from 'next/link';
 import { listPosts, loadCuttings, type PostCard } from '@/lib/posts';
-import { AdminToolsSlot } from '@/components/currentAffairs/AdminSlot';
 import { CA_CSS } from '@/components/currentAffairs/styles';
 import { HiText } from '@/components/ui/HiText';
 import { POST_HI } from '@/lib/postsHi';
@@ -122,7 +121,6 @@ export default async function CurrentAffairsPage() {
             </div>
           </section>
         )}
-        <AdminToolsSlot />
       </div>
     </div>
   );

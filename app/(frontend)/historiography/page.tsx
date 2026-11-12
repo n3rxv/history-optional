@@ -3,11 +3,11 @@ import Historiography from '@/components/historiography/Historiography';
 import { loadDebates, type Debate } from '@/lib/debates';
 
 /**
- * The bank is read here, on the server, and the page is rebuilt daily or as
- * soon as the owner saves an edit (/api/admin/debates revalidates it). Readers
- * no longer fetch the bank again from their browsers: the debates change only
- * when the owner edits them, and the refetch was a full copy of both tables
- * per visit against the Supabase egress allowance.
+ * The bank is read here, on the server, and the page is rebuilt daily.
+ * Readers do not fetch the bank again from their browsers: the debates change
+ * only in the database, and the refetch was a full copy of both tables per
+ * visit against the Supabase egress allowance. There is no editor on the site
+ * since the admin panel was removed on 12 November 2026.
  */
 export const revalidate = 86400;
 

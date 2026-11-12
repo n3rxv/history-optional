@@ -1,28 +1,21 @@
 'use client';
 import { useEffect, useMemo, useState } from 'react';
-import { onAuthStateChanged } from 'firebase/auth';
-import { auth } from '@/lib/firebase';
 import { useLang } from '@/lib/i18n/LangContext';
 import { useLoginPrompt } from '@/hooks/useLoginPrompt';
 import LoginPromptModal from '@/components/LoginPromptModal';
 import { tintFor } from '@/components/pyq/sections';
-import type { Debate, DebateInput, Position } from '@/lib/debates';
-import { toast } from '@/components/ui/Toast';
-import { confirmDialog } from '@/components/ui/ConfirmDialog';
+import type { Debate } from '@/lib/debates';
 
 /**
  * The historiography bank: each debate or reading with the historians on it,
  * their stance, their book and their school, and a tip on using it in an
  * answer. The page arrives with the bank in it; readers do not fetch it
- * again. The owner can add, edit and delete entries, through
- * /api/admin/debates.
+ * again.
  */
 
 const PERIODS = ['Ancient India', 'Early Medieval', 'Medieval India', '18th Century / Early Modern', 'Modern India', 'World History'];
 const PERIODS_HI: Record<string, string> = { 'Ancient India': 'प्राचीन भारत', 'Early Medieval': 'प्रारंभिक मध्यकाल', 'Medieval India': 'मध्यकालीन भारत', '18th Century / Early Modern': '18वीं सदी / प्रारंभिक आधुनिक', 'Modern India': 'आधुनिक भारत', 'World History': 'विश्व इतिहास' };
 const PERIOD_KEY: Record<string, 'ancient' | 'medieval' | 'modern' | 'world'> = { 'Ancient India': 'ancient', 'Early Medieval': 'medieval', 'Medieval India': 'medieval', '18th Century / Early Modern': 'modern', 'Modern India': 'modern', 'World History': 'world' };
-const SCHOOLS = ['Marxist', 'Nationalist', 'Revisionist', 'Subaltern', 'Cambridge School', 'Colonial', 'Postcolonial', 'Feminist', 'Liberal', 'Islamic History', 'Social History', 'Economic History', 'Cultural History', 'Dalit', 'Archaeological'];
-const OWNER_EMAIL = process.env.NEXT_PUBLIC_OWNER_EMAIL;
 
 /**
  * The schools of thought historiography courses teach, in the order they
@@ -41,61 +34,13 @@ const SCHOOL_GUIDE: { name: string; hi: string; en: string; enHi: string; names:
   { name: 'Dalit', hi: 'दलित', en: 'Writes caste and its history from the side of those it held down.', enHi: 'जाति और उसके इतिहास को दबाए गए लोगों की ओर से लिखता है।', names: 'Jotirao Phule, B.R. Ambedkar' },
 ];
 
-const BLANK_POSITION: Position = { historian_name: '', stance: '', key_work: '', argument: '', school: '' };
-const blank = (): DebateInput => ({ title: '', period: 'Ancient India', paper: 'Paper I', topics: [], type: 'debate', upsc_tip: '', positions: [{ ...BLANK_POSITION }] });
-
 const Chevron = () => <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6" /></svg>;
-
-/** The owner's form for one entry. */
-function EntryForm({ value, onChange, onSave, onCancel, saving, error }: {
-  value: DebateInput; onChange: (v: DebateInput) => void; onSave: () => void; onCancel: () => void; saving: boolean; error: string;
-}) {
-  const [tag, setTag] = useState('');
-  const setPos = (i: number, patch: Partial<Position>) => onChange({ ...value, positions: value.positions.map((p, j) => (j === i ? { ...p, ...patch } : p)) });
-  return (
-    <div className="hg-form">
-      <div className="hg-form-grid">
-        <label className="wide"><span>Title</span><input value={value.title} onChange={(e) => onChange({ ...value, title: e.target.value })} placeholder="The Indian feudalism debate" /></label>
-        <label><span>Period</span><select value={value.period} onChange={(e) => onChange({ ...value, period: e.target.value })}>{PERIODS.map((p) => <option key={p}>{p}</option>)}</select></label>
-        <label><span>Paper</span><select value={value.paper} onChange={(e) => onChange({ ...value, paper: e.target.value })}><option>Paper I</option><option>Paper II</option></select></label>
-        <label><span>Kind</span><select value={value.type} onChange={(e) => onChange({ ...value, type: e.target.value as Debate['type'] })}><option value="debate">A debate</option><option value="topic">A reading</option></select></label>
-        <label>
-          <span>Topics (Enter to add)</span>
-          <input value={tag} onChange={(e) => setTag(e.target.value)} placeholder="Add a topic"
-            onKeyDown={(e) => { if (e.key === 'Enter' && tag.trim()) { e.preventDefault(); onChange({ ...value, topics: [...value.topics, tag.trim()] }); setTag(''); } }} />
-          {value.topics.length > 0 && (
-            <span className="hg-form-tags">{value.topics.map((t, i) => <button key={`${t}-${i}`} type="button" onClick={() => onChange({ ...value, topics: value.topics.filter((_, j) => j !== i) })}>{t} ✕</button>)}</span>
-          )}
-        </label>
-        <label className="wide"><span>Tip for an answer</span><textarea rows={2} value={value.upsc_tip} onChange={(e) => onChange({ ...value, upsc_tip: e.target.value })} placeholder="How to use this in an answer" /></label>
-      </div>
-      <div className="hg-form-head"><strong>Historians</strong><button type="button" className="ds-btn ds-btn-ghost ds-btn-sm" onClick={() => onChange({ ...value, positions: [...value.positions, { ...BLANK_POSITION }] })}>Add a historian</button></div>
-      {value.positions.map((p, i) => (
-        <div key={i} className="hg-form-pos">
-          <div className="hg-form-grid">
-            <label><span>Historian</span><input value={p.historian_name} onChange={(e) => setPos(i, { historian_name: e.target.value })} /></label>
-            <label><span>School</span><select value={p.school} onChange={(e) => setPos(i, { school: e.target.value })}><option value="">None</option>{SCHOOLS.map((s) => <option key={s}>{s}</option>)}</select></label>
-            <label><span>Stance</span><input value={p.stance} onChange={(e) => setPos(i, { stance: e.target.value })} /></label>
-            <label><span>Key work</span><input value={p.key_work} onChange={(e) => setPos(i, { key_work: e.target.value })} /></label>
-            <label className="wide"><span>Argument</span><textarea rows={2} value={p.argument} onChange={(e) => setPos(i, { argument: e.target.value })} /></label>
-          </div>
-          {value.positions.length > 1 && <button type="button" className="hg-form-remove" onClick={() => onChange({ ...value, positions: value.positions.filter((_, j) => j !== i) })}>Remove this historian</button>}
-        </div>
-      ))}
-      {error && <p className="hg-form-err" role="alert">{error}</p>}
-      <div className="hg-form-actions">
-        <button type="button" className="ds-btn ds-btn-ghost ds-btn-sm" onClick={onCancel}>Cancel</button>
-        <button type="button" className="ds-btn ds-btn-solid ds-btn-sm" onClick={onSave} disabled={saving}>{saving ? 'Saving…' : 'Save'}</button>
-      </div>
-    </div>
-  );
-}
 
 export default function Historiography({ initialDebates }: { initialDebates: Debate[] }) {
   const { langHi: hi } = useLang();
   const T = (en: string, h: string) => (hi ? h : en);
   const { isOpen: loginOpen, message: loginMsg, requireLogin, closeModal: closeLogin } = useLoginPrompt();
-  const [debates, setDebates] = useState(initialDebates);
+  const debates = initialDebates;
   const [search, setSearch] = useState('');
   // The site search links here with ?q=, a debate's title; read once the page
   // is in the browser, since the server draws the unfiltered bank.
@@ -109,37 +54,6 @@ export default function Historiography({ initialDebates }: { initialDebates: Deb
   const [period, setPeriod] = useState('all');
   const [school, setSchool] = useState<string | null>(null);
   const [open, setOpen] = useState<string | null>(null);
-
-  // The owner's tools appear for the owner's account; the server checks it
-  // again on every write.
-  const [isOwner, setIsOwner] = useState(false);
-  useEffect(() => onAuthStateChanged(auth, (u) => setIsOwner(Boolean(u?.email && OWNER_EMAIL && u.email === OWNER_EMAIL))), []);
-  const [editing, setEditing] = useState<{ id: string | null; form: DebateInput } | null>(null);
-  const [saving, setSaving] = useState(false);
-  const [formError, setFormError] = useState('');
-
-  const call = async (method: 'POST' | 'PUT' | 'DELETE', body?: unknown, id?: string) => {
-    const token = await auth.currentUser?.getIdToken();
-    const res = await fetch(`/api/admin/debates${id ? `?id=${encodeURIComponent(id)}` : ''}`, {
-      method, headers: { Authorization: `Bearer ${token ?? ''}`, 'Content-Type': 'application/json' }, body: body ? JSON.stringify(body) : undefined,
-    });
-    const data = await res.json().catch(() => ({}));
-    if (!res.ok) throw new Error(data.error || 'That did not save.');
-    setDebates(data.debates);
-  };
-  const save = async () => {
-    if (!editing) return;
-    setSaving(true); setFormError('');
-    try {
-      await call(editing.id ? 'PUT' : 'POST', editing.id ? { ...editing.form, id: editing.id } : editing.form);
-      setEditing(null);
-    } catch (e) { setFormError(e instanceof Error ? e.message : 'That did not save.'); }
-    setSaving(false);
-  };
-  const remove = async (d: Debate) => {
-    if (!(await confirmDialog({ title: `Delete “${d.title}”?`, text: 'This cannot be undone.', confirmLabel: 'Delete', tone: 'danger' }))) return;
-    try { await call('DELETE', undefined, d.id); toast('Debate deleted'); } catch (e) { toast(e instanceof Error ? e.message : 'That did not delete.', 'error'); }
-  };
 
   const shown = useMemo(() => {
     const q = search.trim().toLowerCase();
@@ -192,28 +106,14 @@ export default function Historiography({ initialDebates }: { initialDebates: Deb
               {PERIODS.map((p) => <option key={p} value={p}>{hi ? PERIODS_HI[p] : p}</option>)}
             </select>
             <span className="hg-count">{T(`${shown.length} shown`, `${shown.length} दिख रहे`)}</span>
-            {isOwner && !editing && <button type="button" className="ds-btn ds-btn-solid ds-btn-sm" onClick={() => { setFormError(''); setEditing({ id: null, form: blank() }); }}>Add an entry</button>}
           </div>
         </div>
-
-        {isOwner && editing && editing.id === null && (
-          <section className="hg-card hg-editing"><h2 className="hg-edit-title">A new entry</h2>
-            <EntryForm value={editing.form} onChange={(form) => setEditing({ ...editing, form })} onSave={save} onCancel={() => setEditing(null)} saving={saving} error={formError} />
-          </section>
-        )}
 
         <div className="hg-layout">
         <div className="hg-list">
           {shown.map((d) => {
             const isOpen = open === d.id;
             const key = PERIOD_KEY[d.period];
-            if (isOwner && editing?.id === d.id) {
-              return (
-                <section key={d.id} className="hg-card hg-editing"><h2 className="hg-edit-title">Editing “{d.title}”</h2>
-                  <EntryForm value={editing.form} onChange={(form) => setEditing({ ...editing, form })} onSave={save} onCancel={() => setEditing(null)} saving={saving} error={formError} />
-                </section>
-              );
-            }
             return (
               <section key={d.id} className={`hg-card${isOpen ? ' open' : ''}`} style={tintFor(key)}>
                 <button type="button" className="hg-head" aria-expanded={isOpen}
@@ -249,12 +149,6 @@ export default function Historiography({ initialDebates }: { initialDebates: Deb
                       ))}
                     </div>
                     {d.topics.length > 0 && <div className="hg-topics">{d.topics.map((t) => <span key={t}>{t}</span>)}</div>}
-                  </div>
-                )}
-                {isOwner && (
-                  <div className="hg-admin">
-                    <button type="button" className="ds-btn ds-btn-ghost ds-btn-sm" onClick={() => { setFormError(''); setEditing({ id: d.id, form: { title: d.title, period: d.period, paper: d.paper, topics: d.topics, type: d.type, upsc_tip: d.upsc_tip, positions: d.positions.map((p) => ({ ...p })) } }); }}>Edit</button>
-                    <button type="button" className="ds-btn ds-btn-ghost ds-btn-sm hg-del" onClick={() => remove(d)}>Delete</button>
                   </div>
                 )}
               </section>
@@ -365,31 +259,12 @@ const CSS = `
 .hg-arg { margin: 0; font-size: 0.94rem; line-height: 1.65; color: var(--text2); }
 .hg-topics { display: flex; flex-wrap: wrap; gap: 6px; }
 .hg-topics span { padding: 2px 10px; border-radius: var(--radius-full); background: var(--ds-soft); color: var(--text2); font-size: 0.8rem; }
-.hg-admin { display: flex; gap: var(--space-2); padding: var(--space-2) var(--space-5) var(--space-3); border-top: 1px solid var(--border); }
-.hg-del { color: var(--danger-text); }
 .hg-empty { padding: var(--space-8) var(--space-5); border-radius: var(--radius-xl); background: var(--ds-soft); text-align: center; }
 .hg-empty p { margin: 4px 0 0; color: var(--text2); }
 
-.hg-editing { padding: var(--space-5); border-left-color: var(--accent); }
-.hg-edit-title { margin: 0 0 var(--space-4); font-size: 1.05rem; font-weight: 800; }
-.hg-form { display: flex; flex-direction: column; gap: var(--space-3); }
-.hg-form-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-3); }
-.hg-form-grid label { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
-.hg-form-grid label.wide { grid-column: 1 / -1; }
-.hg-form-grid label > span { font-size: 0.82rem; font-weight: 700; color: var(--text2); }
-.hg-form input, .hg-form select, .hg-form textarea { width: 100%; box-sizing: border-box; padding: 8px 12px; border: 1px solid var(--border2); border-radius: var(--radius-md); background: var(--bg); color: var(--text); font: inherit; font-size: 0.92rem; }
-.hg-form textarea { resize: vertical; }
-.hg-form-tags { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 4px; }
-.hg-form-tags button { padding: 2px 8px; border: none; border-radius: var(--radius-full); background: var(--accent-dim); color: var(--accent-text); font: inherit; font-size: 0.78rem; cursor: pointer; }
-.hg-form-head { display: flex; align-items: center; justify-content: space-between; padding-top: var(--space-3); border-top: 1px solid var(--border); }
-.hg-form-pos { padding: var(--space-3); border: 1px solid var(--border); border-radius: var(--radius-lg); background: var(--ds-soft); }
-.hg-form-remove { margin-top: var(--space-2); padding: 0; border: none; background: none; color: var(--danger-text); font: inherit; font-size: 0.84rem; cursor: pointer; }
-.hg-form-err { margin: 0; color: var(--danger-text); font-size: 0.9rem; }
-.hg-form-actions { display: flex; justify-content: flex-end; gap: var(--space-2); }
 
 @media (max-width: 1000px) { .hg-layout { grid-template-columns: minmax(0, 1fr); } .hg-aside { display: none; } }
-@media (max-width: 760px) { .hg-positions, .hg-form-grid { grid-template-columns: minmax(0, 1fr); } }
-@media (max-width: 640px) {
+@media (max-width: 760px) { .hg-positions, @media (max-width: 640px) {
   .hg-filters { flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; margin-right: calc(-1 * var(--space-4)); padding-right: var(--space-4); }
   .hg-filters::-webkit-scrollbar { display: none; }
   .hg-filters > * { flex-shrink: 0; }

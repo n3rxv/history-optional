@@ -68,55 +68,12 @@ export function middleware(req: NextRequest) {
     return new NextResponse('Access denied', { status: 403 });
   }
 
-  // Return 404 for the admin panel unless a valid cookie or secret key is
-  // present, so it is not even discoverable. Passing the gate with ?key= drops
-  // a short-lived cookie that later requests present instead, so the panel's
-  // own client navigations and fetches, which carry no query string, still get
-  // through. The panel's own login is what actually protects the data; this
-  // gate only keeps it from being discoverable.
-  const GATE_COOKIE = 'admin_gate';
-  const GATED = ['/admin-legacy'];
-  const isGated = GATED.some(p => pathname === p || pathname.startsWith(`${p}/`));
-  if (isGated) {
-    const adminToken = req.cookies.get('admin_token')?.value;
-    const gateCookie = req.cookies.get(GATE_COOKIE)?.value;
-    const secretKey = req.nextUrl.searchParams.get('key');
-    const keyIsValid = Boolean(process.env.ADMIN_SECRET_KEY)
-      && secretKey === process.env.ADMIN_SECRET_KEY;
-
-    if (!adminToken && !gateCookie && !keyIsValid) {
-      return new NextResponse(null, { status: 404 });
-    }
-    if (keyIsValid && !gateCookie) {
-      const res = NextResponse.next();
-      res.cookies.set(GATE_COOKIE, '1', {
-        httpOnly: true,
-        sameSite: 'lax',
-        secure: process.env.NODE_ENV === 'production',
-        path: '/',
-        maxAge: 60 * 60 * 8,   // matches the admin token's own window
-      });
-      return res;
-    }
-  }
-
-  // Protect API but allow notes to be indexed
-  if (pathname === '/api/admin/cuttings') {
-    return NextResponse.next();
-  }
-
   if (pathname === '/resources') {
     return NextResponse.next();
   }
 
   if (pathname === '/resources') {
     return NextResponse.next();
-  }
-
-  if (pathname.startsWith('/api/admin/note-content')) {
-    const res = NextResponse.next();
-    res.headers.set('Cache-Control', 'no-store, no-cache, must-revalidate, private');
-    return res;
   }
 
   return NextResponse.next();
