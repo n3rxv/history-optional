@@ -15,7 +15,7 @@ import { FEATURES, TOPPER_PRICE } from '@/lib/features';
 import { daysToMains } from '@/lib/examDates';
 import { PLANS, PLAN_ORDER, DEFAULT_PLAN, planPricePaise, addPlanDuration, isPlanId, type PlanId } from '@/lib/plans';
 import { readRef } from '@/lib/referralClient';
-import { REFERRAL_PLAN } from '@/lib/referral';
+import { REFERRAL_PLAN, REFERRAL_REWARD_PAISE, formatPaise } from '@/lib/referral';
 import InviteSavings, { invitePay, useInviteQuote } from '@/components/InviteSavings';
 import { useOffer } from '@/hooks/useOffer';
 import { OfferNote } from '@/components/OfferPrice';
@@ -342,6 +342,9 @@ export default function Navbar() {
   const aspirantName = aspirant.name;
   const aspirantYear = aspirant.year;
   const [subData, setSubData] = useState<{ plan: string; expires_at: string } | null>(null);
+  // The invite balance, shown on every page as a nudge to share: the amount,
+  // or "Earn ₹100" at nothing. It comes with the subscription check.
+  const [inviteBalance, setInviteBalance] = useState<number | null>(null);
   const [showExtendModal, setShowExtendModal] = useState(false);
   const [pyqsMenuOpen, setPyqsMenuOpen] = useState(false);
   const [notesMenuOpen, setNotesMenuOpen] = useState(false);
@@ -482,10 +485,11 @@ export default function Navbar() {
 
   const fetchSub = React.useCallback(async (token: string) => {
     try {
-      const res = await fetch('/api/sub-status', { headers: { 'x-user-token': token } });
+      const res = await fetch('/api/sub-status?with=balance', { headers: { 'x-user-token': token } });
       const d = await res.json();
       if (d.isPremium) setSubData({ plan: d.plan, expires_at: d.expires_at });
       else setSubData(null);
+      if (typeof d.inviteBalancePaise === 'number') setInviteBalance(d.inviteBalancePaise);
     } catch { setSubData(null); }
   }, []);
 
@@ -617,6 +621,14 @@ export default function Navbar() {
 
             {user ? (
               <>
+                {inviteBalance !== null && (
+                  <Link href="/invite" className="nb-invite"
+                    aria-label={inviteBalance > 0
+                      ? (langHi ? `आमंत्रण बैलेंस ${formatPaise(inviteBalance)}` : `Invite balance ${formatPaise(inviteBalance)}`)
+                      : (langHi ? `दोस्तों को बुलाएँ, हर दोस्त पर ${formatPaise(REFERRAL_REWARD_PAISE)} कमाएँ` : `Invite friends and earn ${formatPaise(REFERRAL_REWARD_PAISE)} each`)}>
+                    {Icon.gift}<span>{inviteBalance > 0 ? formatPaise(inviteBalance) : (langHi ? `${formatPaise(REFERRAL_REWARD_PAISE)} कमाएँ` : `Earn ${formatPaise(REFERRAL_REWARD_PAISE)}`)}</span>
+                  </Link>
+                )}
                 {!subData && (
                   <button className="nb-premium" onClick={() => setShowPremiumModal(true)}><svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3.5 8.2 8 12l4-7 4 7 4.5-3.8L18.8 18H5.2L3.5 8.2Z" /><rect x="5.2" y="19.2" width="13.6" height="1.8" rx="0.9" /></svg>{langHi ? 'अपग्रेड' : 'Upgrade'}</button>
                 )}
@@ -666,6 +678,21 @@ export default function Navbar() {
         <button className="nb-sheet-search" onClick={() => { setOpen(false); window.dispatchEvent(new Event('open-search')); }}>
           {Icon.search}{langHi ? 'नोट्स, PYQ और इतिहासकार खोजें' : 'Search notes, PYQs and historians'}
         </button>
+        {/* On phones the invite chip lives here, not in the header, so the bar stays uncluttered. */}
+        {user && inviteBalance !== null && (
+          <Link href="/invite" className="nb-sheet-invite" onClick={() => setOpen(false)}>
+            <span className="nb-sheet-invite-icon">{Icon.gift}</span>
+            <span className="nb-sheet-invite-text">
+              <strong>{inviteBalance > 0
+                ? (langHi ? `आपका आमंत्रण बैलेंस: ${formatPaise(inviteBalance)}` : `Your invite balance: ${formatPaise(inviteBalance)}`)
+                : (langHi ? `दोस्तों को बुलाएँ, हर दोस्त पर ${formatPaise(REFERRAL_REWARD_PAISE)} कमाएँ` : `Invite friends, earn ${formatPaise(REFERRAL_REWARD_PAISE)} each`)}</strong>
+              <small>{inviteBalance > 0
+                ? (langHi ? 'और कमाने के लिए अपना लिंक भेजें' : 'Share your link to earn more')
+                : (langHi ? `उन्हें पहले एक साल के प्लान पर ${formatPaise(REFERRAL_REWARD_PAISE)} कम देने पड़ते हैं` : `They pay ${formatPaise(REFERRAL_REWARD_PAISE)} less on their first yearly plan`)}</small>
+            </span>
+            {Icon.arrow}
+          </Link>
+        )}
 
         {([
           { title: tr(t.notes, langHi), items: notesItems },
@@ -761,6 +788,25 @@ const NAV_CSS = `
 .nb-drop-item:hover { background: var(--ds-soft); }
 .nb-drop-item.on { color: var(--accent-text); background: var(--accent-dim); font-weight: 600; }
 .nb-right { display: flex; align-items: center; gap: var(--space-2); margin-left: auto; }
+.nb-invite {
+  display: inline-flex; align-items: center; gap: 6px; flex-shrink: 0; height: 34px; padding: 0 12px;
+  border-radius: var(--radius-full); background: var(--accent-dim); color: var(--accent-text);
+  border: 1px solid color-mix(in srgb, var(--accent) 22%, transparent);
+  font-family: var(--font-ui); font-size: 0.84rem; font-weight: 700; white-space: nowrap; text-decoration: none;
+  transition: border-color 0.15s, background 0.15s;
+}
+.nb-invite:hover { border-color: color-mix(in srgb, var(--accent) 45%, transparent); }
+.nb-invite svg { width: 15px; height: 15px; }
+.nb-sheet-invite {
+  display: flex; align-items: center; gap: var(--space-3); flex-shrink: 0; margin-bottom: var(--space-3); padding: var(--space-3) var(--space-4);
+  border-radius: var(--radius-lg); background: var(--accent-dim); border: 1px solid color-mix(in srgb, var(--accent) 22%, transparent);
+  color: var(--text); text-decoration: none;
+}
+.nb-sheet-invite-icon { flex-shrink: 0; width: 36px; height: 36px; display: inline-flex; align-items: center; justify-content: center; border-radius: 50%; background: var(--ds-card); color: var(--accent-text); }
+.nb-sheet-invite-text { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
+.nb-sheet-invite-text strong { font-size: 0.95rem; font-weight: 700; color: var(--accent-text); }
+.nb-sheet-invite-text small { font-family: var(--font-ui); font-size: 0.8rem; line-height: 1.4; color: var(--text3); }
+.nb-sheet-invite > svg { flex-shrink: 0; color: var(--accent-text); }
 .nb-search-wrap { display: inline-flex; }
 .nb-search {
   display: inline-flex; align-items: center; gap: var(--space-2);
@@ -943,12 +989,12 @@ const NAV_CSS = `
 .nb-plan.on { border-color: var(--accent); background: var(--accent-dim); }
 .nb-plan.on span { color: var(--accent-text); }
 
-@media (max-width: 1240px) {
+@media (max-width: 1400px) {
   .nb-search { width: 38px; padding: 0; justify-content: center; }
   .nb-search-text, .nb-search kbd { display: none; }
 }
 @media (max-width: 1100px) {
-  .nb-links, .nb-wide, .nb-search-wrap { display: none; }
+  .nb-links, .nb-wide, .nb-search-wrap, .nb-invite { display: none; }
   .nb-burger { display: inline-flex; }
   .nb { padding: 0 var(--space-3); }
 }

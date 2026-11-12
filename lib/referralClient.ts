@@ -24,6 +24,18 @@ export function captureRef(code: string): void {
 
 export const readRef = (): string | null => read()?.code ?? null;
 
+/** The code this browser last saved to an account, for that account, so it is sent once. */
+const CLAIMED = `${KEY}_claimed`;
+export function claimedFor(uid: string): string | null {
+  try {
+    const s = JSON.parse(localStorage.getItem(CLAIMED) ?? 'null') as { uid: string; code: string } | null;
+    return s?.uid === uid ? s.code : null;
+  } catch { return null; }
+}
+export function markClaimed(uid: string, code: string): void {
+  try { localStorage.setItem(CLAIMED, JSON.stringify({ uid, code })); } catch { /* private mode */ }
+}
+
 export function clearRef(): void {
   try { localStorage.removeItem(KEY); } catch { /* private mode */ }
 }
