@@ -4,7 +4,7 @@ import dynamic from 'next/dynamic';
 import Link from 'next/link';
 import type { MapChapter, MapChapterSites, MapSite } from '@/lib/mapBook';
 import type { MapBase } from '@/components/MappingMap';
-import { askedByChapter, bookEntry, close, nameVariants, norm as normName, paper, paperYears, repeatedPlaces, type AskedPlace } from '@/lib/mapPapers';
+import { askedByChapter, bookEntry, close, nameVariants, norm as normName, paper, paperYears, repeatedPlaces, upscHints, type AskedPlace } from '@/lib/mapPapers';
 import { useLang } from '@/lib/i18n/LangContext';
 import { useLoginPrompt } from '@/hooks/useLoginPrompt';
 import { useRefreshSafe } from '@/hooks/useRefreshSafe';
@@ -88,11 +88,18 @@ function Quiz({ pool, all, hi, format, base, grid }: { pool: MapSite[]; all: Map
   const [typed, setTyped] = useState('');
   const [score, setScore] = useState({ right: 0, total: 0 });
   const [streak, setStreak] = useState(0);
-  const [hideClue, setHideClue] = useState(false);
+  // Open or shut by the reader, for this place only. Unset, the clue is shut
+  // when UPSC's own hint is there to go on, as it would be in the exam.
+  const [clueOpen, setClueOpen] = useState<boolean | null>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const quizRef = useRef<HTMLDivElement>(null);
   const answerRef = useRef<HTMLDivElement>(null);
   const { site, options } = round;
+  const hints = useMemo(() => site.hints ?? upscHints(site), [site]);
+  const clue = clueFor(site);
+  // On a past paper's quiz the text is UPSC's hint, so there is no clue beyond it.
+  const hasClue = !!site.about && !hints.some((h) => h.hint === site.about);
+  const showClue = clueOpen ?? hints.length === 0;
   const answered = chosen !== null;
   const right = answered && (format === 'pick'
     ? chosen === site.name
@@ -107,7 +114,7 @@ function Quiz({ pool, all, hi, format, base, grid }: { pool: MapSite[]; all: Map
   };
   const next = () => {
     setRound(newRound(pool, all, site.name));
-    setChosen(null); setTyped(''); setHideClue(false);
+    setChosen(null); setTyped(''); setClueOpen(null);
     // Back up to the map if reading the answer took the reader below it.
     const top = quizRef.current?.getBoundingClientRect().top ?? 0;
     if (top < 64) window.scrollTo({ top: window.scrollY + top - 76, behavior: 'smooth' });
@@ -134,13 +141,25 @@ function Quiz({ pool, all, hi, format, base, grid }: { pool: MapSite[]; all: Map
         <MappingMap sites={[site]} selected={answered ? site.name : null} onPick={() => {}} base={base} grid={grid} fixed quiet />
       </div>
 
-      {site.about && (
-        <div className="mp-clue">
-          <div className="mp-clue-head">
-            <span>{T('A clue', 'संकेत')}</span>
-            <button type="button" className="mp-link" onClick={() => setHideClue((h) => !h)}>{hideClue ? T('Show', 'दिखाएँ') : T('Hide', 'छिपाएँ')}</button>
-          </div>
-          {!hideClue && <p>{clueFor(site)}</p>}
+      {(hints.length > 0 || hasClue) && (
+        <div className="mp-prompt">
+          {hints.length > 0 && (
+            <div className="mp-upsc">
+              <span className="mp-upsc-head">{T(hints.length > 1 ? 'In UPSC papers' : 'In the UPSC paper', 'UPSC प्रश्नपत्र में')}</span>
+              <ul>
+                {hints.map((h) => <li key={h.hint}><b>{h.years.join(', ')}</b><span lang="en">{h.hint}</span></li>)}
+              </ul>
+            </div>
+          )}
+          {hasClue && (
+            <div className="mp-clue">
+              <div className="mp-clue-head">
+                <span>{T('A clue', 'संकेत')}</span>
+                <button type="button" className="mp-link" aria-expanded={showClue} onClick={() => setClueOpen(!showClue)}>{showClue ? T('Hide', 'छिपाएँ') : T('Show', 'दिखाएँ')}</button>
+              </div>
+              {showClue && <p>{clue}</p>}
+            </div>
+          )}
         </div>
       )}
 
@@ -170,8 +189,9 @@ function Quiz({ pool, all, hi, format, base, grid }: { pool: MapSite[]; all: Map
             <strong>{right ? T('Right', 'सही') : T('Not quite', 'सही नहीं')}: {site.label}</strong>
             <span>{site.place}</span>
           </div>
-          {clueFor(site) !== site.about && <p>{site.about}</p>}
-          {site.asked.length > 0 && <p className="mp-asked">{T('Asked by UPSC in', 'UPSC ने पूछा')} {site.asked.join(', ')}</p>}
+          {hasClue && (!showClue || clue !== site.about) && <p>{site.about}</p>}
+          {/* The hints above give their years, but a past paper's gives only its own. */}
+          {site.asked.length > 0 && (!hints.length || site.hints) && <p className="mp-asked">{T('Asked by UPSC in', 'UPSC ने पूछा')} {site.asked.join(', ')}</p>}
           <button type="button" className="ds-btn ds-btn-solid ds-btn-sm" onClick={next}>{T('Next place', 'अगला स्थल')}</button>
         </div>
       )}
@@ -714,14 +734,14 @@ export default function MapBrowser({ chapters }: { chapters: MapChapter[] }) {
     return out;
   }, [search, byKey, chapters]);
 
-  // A past paper's quiz: its twenty places, with UPSC's own hint as the clue.
+  // A past paper's quiz: its twenty places, each with UPSC's hint from that paper.
   // Chapters picked together are merged, a place in two of them asked once.
   const poolFor = useCallback((source: string): MapSite[] => {
     const yr = /^y-(\d{4})$/.exec(source);
     if (yr) {
       return paper(Number(yr[1])).map((p) => {
         const b = noteFor(p, all);
-        return { name: p.answer, label: (hi && b?.label) || p.answer, place: b?.place ?? '', about: p.hint, asked: p.askedIn, lat: p.lat, lng: p.lng, region: '' };
+        return { name: p.answer, label: (hi && b?.label) || p.answer, place: b?.place ?? '', about: p.hint, hints: [{ years: [p.year], hint: p.hint }], asked: p.askedIn, lat: p.lat, lng: p.lng, region: '' };
       });
     }
     const keys = quizKeys(source);
@@ -1041,6 +1061,12 @@ const CSS = `
 .mp-quiz-score { display: inline-flex; flex-wrap: wrap; align-items: center; gap: var(--space-3); font-size: 0.92rem; color: var(--text2); font-variant-numeric: tabular-nums; }
 .mp-streak { padding: 2px 10px; border-radius: var(--radius-full); background: var(--premium-wash); color: var(--premium-text); font-weight: 700; }
 .mp-link { background: none; border: none; padding: 0; font: inherit; font-size: 0.88rem; font-weight: 600; color: var(--accent-text); cursor: pointer; }
+.mp-prompt { display: flex; flex-direction: column; gap: var(--space-3); }
+.mp-upsc { padding: var(--space-3) var(--space-4); border-radius: var(--radius-lg); background: var(--warning-wash); }
+.mp-upsc-head { font-size: 0.88rem; font-weight: 700; color: var(--warning-text); }
+.mp-upsc ul { margin: 4px 0 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 4px; }
+.mp-upsc li { display: flex; align-items: baseline; gap: var(--space-2); font-size: 1.02rem; font-weight: 600; line-height: 1.45; color: var(--text); }
+.mp-upsc b { flex-shrink: 0; font-size: 0.84rem; font-weight: 800; color: var(--warning-text); font-variant-numeric: tabular-nums; }
 .mp-clue { padding: var(--space-3) var(--space-4); border-radius: var(--radius-lg); background: var(--ds-soft); }
 .mp-clue-head { display: flex; justify-content: space-between; align-items: baseline; font-size: 0.88rem; font-weight: 700; color: var(--text2); }
 .mp-clue p { margin: 4px 0 0; line-height: 1.6; }
@@ -1105,7 +1131,7 @@ const CSS = `
   .mp-quiz-map { grid-area: map; position: sticky; top: 84px; }
   .mp-quiz-head { grid-area: head; flex-direction: column; align-items: flex-start; }
   .mp-quiz-prompt { font-size: 1.3rem; }
-  .mp-clue { grid-area: clue; }
+  .mp-prompt { grid-area: clue; }
   .mp-options, .mp-type { grid-area: pick; }
   .mp-answer { grid-area: answer; }
 }

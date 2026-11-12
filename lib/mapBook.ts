@@ -26,6 +26,8 @@ export type MapSite = {
   region: string;
   /** Its number on a past paper's map, when the map shows one paper. */
   num?: number;
+  /** UPSC's hint, on a past paper's quiz, where only that paper's counts. Otherwise the quiz looks the hints up. */
+  hints?: { years: number[]; hint: string }[];
 };
 
 export type MapChapterSites = { key: string; sites: MapSite[] };

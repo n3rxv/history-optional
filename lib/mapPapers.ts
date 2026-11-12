@@ -114,25 +114,46 @@ const BY_HAND: Record<string, string[]> = {
 };
 
 /**
- * The places UPSC has asked from each chapter of the map book, newest first:
- * those the chapter has a site for, within a degree and under the same name
- * or one spelt within two letters ("Hunsgi", "Hunsagi"). A degree, because
- * the same name can be another place: the book's Mandi is not 2016's.
+ * Whether a place UPSC asked is a map book site: within a degree, and under
+ * the same name or one spelt within two letters ("Hunsgi", "Hunsagi"). A
+ * degree, because the same name can be another place: the book's Mandi is
+ * not 2016's.
  */
+function isSite(p: AskedPlace, s: { name: string; lat: number; lng: number }) {
+  // The place, not UPSC's dot, where the two differ (2026's Mahisdal).
+  const at = p.site ?? p;
+  if (Math.hypot(at.lat - s.lat, at.lng - s.lng) >= 1) return false;
+  const ks = keys(s.name);
+  return p.answers.some((a) => samePlace({ answer: a, lat: at.lat, lng: at.lng }, { answer: s.name, lat: s.lat, lng: s.lng })
+    || keys(a).some((k) => ks.some((x) => close(k, x))));
+}
+
+/**
+ * The hints UPSC printed for a map book site, as printed, newest first. A
+ * hint printed in more than one year is given once, with every year. None
+ * for a place UPSC has not asked.
+ */
+export function upscHints(site: { name: string; lat: number; lng: number }): { years: number[]; hint: string }[] {
+  const out: { years: number[]; hint: string }[] = [];
+  for (const p of asked) {
+    if (!isSite(p, site)) continue;
+    for (const { year, hint } of p.hints) {
+      const seen = out.find((h) => norm(h.hint) === norm(hint));
+      if (!seen) out.push({ years: [year], hint });
+      else if (!seen.years.includes(year)) seen.years.push(year);
+    }
+  }
+  for (const h of out) h.years.sort((a, b) => b - a);
+  return out.sort((a, b) => b.years[0] - a.years[0]);
+}
+
+/** The places UPSC has asked from each chapter of the map book, newest first. */
 export function askedByChapter(book: Record<string, MapSite[]>, chapters: { key: string; topic: string }[]): Record<string, AskedPlace[]> {
   const out: Record<string, AskedPlace[]> = {};
-  const same = (p: AskedPlace, s: MapSite) => {
-    // The place, not UPSC's dot, where the two differ (2026's Mahisdal).
-    const at = p.site ?? p;
-    if (Math.hypot(at.lat - s.lat, at.lng - s.lng) >= 1) return false;
-    const ks = keys(s.name);
-    return p.answers.some((a) => samePlace({ answer: a, lat: at.lat, lng: at.lng }, { answer: s.name, lat: s.lat, lng: s.lng })
-      || keys(a).some((k) => ks.some((x) => close(k, x))));
-  };
   for (const { key, topic } of chapters) {
     const sites = book[key] ?? [];
     out[key] = asked
-      .filter((p) => sites.some((s) => same(p, s)) || p.answers.some((a) => BY_HAND[a]?.includes(topic)))
+      .filter((p) => sites.some((s) => isSite(p, s)) || p.answers.some((a) => BY_HAND[a]?.includes(topic)))
       .sort((a, b) => b.years[0] - a.years[0] || a.name.localeCompare(b.name));
   }
   return out;

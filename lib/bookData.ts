@@ -2044,9 +2044,7 @@ export const bookData: BookChapter[] = [
           "name": "Nausharo/Naushahar",
           "location": "Balochistan (Pakistan)",
           "majorAspect": "According to archaeologists, Mehrgarh was abandoned in favour of Nausharo somewhere between 2600 BCE and 2000 BCE.",
-          "pyqYears": [
-            2023
-          ],
+          "pyqYears": [],
           "lat": 29.365,
           "lng": 67.588,
           "name_hi": "नौशारो",

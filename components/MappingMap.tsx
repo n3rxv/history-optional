@@ -1,6 +1,7 @@
 'use client';
-import { Fragment, useCallback, useEffect, useRef, useState } from 'react';
-import { MapContainer, TileLayer, GeoJSON, CircleMarker, Tooltip, Pane, useMap } from 'react-leaflet';
+import { Fragment, useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { MapContainer, TileLayer, GeoJSON, CircleMarker, Polyline, Tooltip, Pane, useMap, useMapEvent } from 'react-leaflet';
+import type { LatLngTuple, LeafletEvent, Path } from 'leaflet';
 import type { GeoJsonObject } from 'geojson';
 import type { MapSite } from '@/lib/mapBook';
 import { bookBasemap, physicalBasemap } from '@/lib/basemap';
@@ -102,6 +103,115 @@ function Graticule({ hi }: { hi: boolean }) {
 }
 
 /**
+ * Pushes apart dots that would touch, each pair along the line between them,
+ * until none do. Places a few km apart (Mehrgarh and Nausharo, Bhimbetka and
+ * Hathnora) fall on one point at the scale a chapter opens at, and only the
+ * top dot could be seen or tapped. Places at the very same point part at a
+ * fixed angle, so the map looks the same each time.
+ */
+function spread(dots: { x: number; y: number; r: number }[]) {
+  const p = dots.map(({ x, y }) => ({ x, y }));
+  for (let pass = 0; pass < 60; pass++) {
+    let moved = false;
+    for (let i = 0; i < p.length; i++) for (let j = i + 1; j < p.length; j++) {
+      const need = dots[i].r + dots[j].r + 4;
+      let dx = p[j].x - p[i].x, dy = p[j].y - p[i].y;
+      if (Math.abs(dx) >= need || Math.abs(dy) >= need) continue;
+      let d = Math.hypot(dx, dy);
+      if (d >= need) continue;
+      if (d < 0.01) { const a = (i + j) * 2.4; dx = Math.cos(a); dy = Math.sin(a); d = 0; } else { dx /= d; dy /= d; }
+      const half = (need - d) / 2 + 0.01;
+      p[i].x -= dx * half; p[i].y -= dy * half; p[j].x += dx * half; p[j].y += dy * half;
+      moved = true;
+    }
+    if (!moved) break;
+  }
+  return p;
+}
+
+// Behind every dot, so a wide tap ring never covers a neighbour's dot.
+const toBack = { add: (e: LeafletEvent) => (e.target as Path).bringToBack() };
+
+/**
+ * The places' dots, worked out again at each zoom: where they would touch they
+ * are spread apart, with a thin line back to where the place is, and zoomed in
+ * far enough every dot sits on its place.
+ */
+function Dots({ sites, selected, onPick, quiet, hi }: { sites: MapSite[]; selected: string | null; onPick: (name: string) => void; quiet: boolean; hi: boolean }) {
+  const map = useMap();
+  const [zoom, setZoom] = useState(() => map.getZoom());
+  useMapEvent('zoomend', () => setZoom(map.getZoom()));
+  const at = useMemo(() => {
+    const dots = sites.map((s) => {
+      const p = map.project([s.lat, s.lng], zoom);
+      return { x: p.x, y: p.y, r: s.num != null ? 10 : quiet ? 7 : 5 };
+    });
+    return spread(dots).map((p, i) => {
+      const c = map.unproject([p.x, p.y], zoom);
+      return { center: [c.lat, c.lng] as LatLngTuple, moved: Math.hypot(p.x - dots[i].x, p.y - dots[i].y) > 1.5 };
+    });
+  }, [map, sites, zoom, quiet]);
+
+  return sites.map((s, i) => {
+    const on = selected === s.name;
+    const asked = s.asked.length > 0;
+    const { center, moved } = at[i];
+    const leg = moved && <Polyline positions={[[s.lat, s.lng], center]} interactive={false} className="mm-leg" pathOptions={{ weight: 1 }} eventHandlers={toBack} />;
+    if (s.num != null) {
+      return (
+        <Fragment key={s.name}>
+          {leg}
+          <CircleMarker center={center} radius={18} className="mm-hit" pathOptions={{ weight: 0 }} eventHandlers={{ ...toBack, click: () => onPick(s.name) }}>
+            {!quiet && (
+              <Tooltip direction="top" offset={[0, -10]} className="mm-tip">
+                <strong>{s.num}. {s.label}</strong>
+                {s.place && <span>{s.place}</span>}
+              </Tooltip>
+            )}
+          </CircleMarker>
+          <CircleMarker
+            key={`${s.name}-${on}`}
+            center={center}
+            radius={on ? 13 : 10}
+            className={`mm-num${on ? ' on' : ''}`}
+            pathOptions={{ fillOpacity: 1, weight: on ? 2.5 : 1.5 }}
+            eventHandlers={{ click: () => onPick(s.name) }}
+          >
+            <Tooltip permanent direction="center" offset={[0, 0]} className={`mm-n${on ? ' on' : ''}`}>{s.num}</Tooltip>
+          </CircleMarker>
+        </Fragment>
+      );
+    }
+    return (
+      <Fragment key={s.name}>
+        {leg}
+        <CircleMarker center={center} radius={16} className="mm-hit" pathOptions={{ weight: 0 }} eventHandlers={{ ...toBack, click: () => onPick(s.name) }} />
+        <CircleMarker
+          // Leaflet reads the class only when it draws the dot, so a dot whose
+          // class changes is drawn anew. In pathOptions it came too late, and
+          // every dot was Leaflet's own blue, its tap ring a pale blue halo.
+          key={`${s.name}-${on}`}
+          center={center}
+          // The quiz's one place is the whole question; it is drawn larger.
+          radius={on ? 8 : quiet ? 7 : 5}
+          className={`mm-dot${asked ? ' asked' : ''}${on ? ' on' : ''}`}
+          pathOptions={{ fillOpacity: 1, weight: on ? 3 : 1.5 }}
+          eventHandlers={{ click: () => onPick(s.name) }}
+        >
+          {!quiet && (
+            <Tooltip direction="top" offset={[0, -6]} className="mm-tip">
+              <strong>{s.label}</strong>
+              <span>{s.place}</span>
+              {asked && <em>{hi ? 'UPSC ने पूछा' : 'Asked'} {s.asked.join(', ')}</em>}
+            </Tooltip>
+          )}
+        </CircleMarker>
+      </Fragment>
+    );
+  });
+}
+
+/**
  * The map book's map. Places are blue dots, the ones UPSC has asked amber,
  * the picked one a white dot ringed in blue. The base is the political map
  * (tiles and state lines), the physical map (relief and rivers, no names) or
@@ -152,55 +262,7 @@ export default function MappingMap({ sites, selected, onPick, outline = false, b
         {!plain && <TileLayer url={tiles.url} maxNativeZoom={tiles.maxNativeZoom} maxZoom={19} attribution={tiles.attribution} />}
         <Frame sites={sites} selected={selected} fixed={fixed} />
         {grid && <Graticule hi={hi} />}
-        {sites.map((s) => {
-          const on = selected === s.name;
-          const asked = s.asked.length > 0;
-          if (s.num != null) {
-            return (
-              <Fragment key={s.name}>
-                <CircleMarker center={[s.lat, s.lng]} radius={18} pathOptions={{ className: 'mm-hit', weight: 0 }} eventHandlers={{ click: () => onPick(s.name) }}>
-                  {!quiet && (
-                    <Tooltip direction="top" offset={[0, -10]} className="mm-tip">
-                      <strong>{s.num}. {s.label}</strong>
-                      {s.place && <span>{s.place}</span>}
-                    </Tooltip>
-                  )}
-                </CircleMarker>
-                <CircleMarker
-                  key={`${s.name}-${on}`}
-                  center={[s.lat, s.lng]}
-                  radius={on ? 13 : 10}
-                  pathOptions={{ className: `mm-num${on ? ' on' : ''}`, fillOpacity: 1, weight: on ? 2.5 : 1.5 }}
-                  eventHandlers={{ click: () => onPick(s.name) }}
-                >
-                  <Tooltip permanent direction="center" offset={[0, 0]} className={`mm-n${on ? ' on' : ''}`}>{s.num}</Tooltip>
-                </CircleMarker>
-              </Fragment>
-            );
-          }
-          return (
-            <Fragment key={s.name}>
-              <CircleMarker center={[s.lat, s.lng]} radius={16} pathOptions={{ className: 'mm-hit', weight: 0 }} eventHandlers={{ click: () => onPick(s.name) }} />
-              <CircleMarker
-                // Leaflet sets a class only when it makes the dot.
-                key={`${s.name}-${on}`}
-                center={[s.lat, s.lng]}
-                // The quiz's one place is the whole question; it is drawn larger.
-                radius={on ? 8 : quiet ? 7 : 5}
-                pathOptions={{ className: `mm-dot${asked ? ' asked' : ''}${on ? ' on' : ''}`, fillOpacity: 1, weight: on ? 3 : 1.5 }}
-                eventHandlers={{ click: () => onPick(s.name) }}
-              >
-                {!quiet && (
-                  <Tooltip direction="top" offset={[0, -6]} className="mm-tip">
-                    <strong>{s.label}</strong>
-                    <span>{s.place}</span>
-                    {asked && <em>{hi ? 'UPSC ने पूछा' : 'Asked'} {s.asked.join(', ')}</em>}
-                  </Tooltip>
-                )}
-              </CircleMarker>
-            </Fragment>
-          );
-        })}
+        <Dots sites={sites} selected={selected} onPick={onPick} quiet={quiet} hi={hi} />
       </MapContainer>
       <style>{`
         .mm { position: relative; z-index: 0; isolation: isolate; width: 100%; height: var(--map-h, 440px); border: 1px solid var(--border2); border-radius: var(--radius-lg, 14px); overflow: hidden; background: #e6e6e6; }
@@ -209,6 +271,7 @@ export default function MappingMap({ sites, selected, onPick, outline = false, b
         /* Leaflet's plus-lighter tile blend draws pale seams at a fractional zoom. */
         .mm .leaflet-container img.leaflet-tile { mix-blend-mode: normal; }
         .mm-hit { fill: transparent; stroke: none; cursor: pointer; }
+        .mm-leg { stroke: var(--black-800); stroke-opacity: 0.6; }
         .mm-dot { fill: var(--accent); stroke: rgba(255, 255, 255, 0.85); cursor: pointer; }
         .mm-dot.asked { fill: var(--warning-text); }
         .mm-dot.on { fill: #fff; stroke: var(--accent); }
