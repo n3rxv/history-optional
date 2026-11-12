@@ -1,6 +1,6 @@
 'use client';
 import { useCallback, useEffect, useState } from 'react';
-import Link from 'next/link';
+import Link from '@/components/Link';
 import type { User } from 'firebase/auth';
 import { useLang } from '@/lib/i18n/LangContext';
 import { useFirebaseAuth } from '@/hooks/useFirebaseAuth';

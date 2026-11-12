@@ -1,7 +1,8 @@
 'use client';
 import { useEffect, useRef } from 'react';
 import Image from 'next/image';
-import Link from 'next/link';
+import owlArt from '@/public/mascot/owl.svg';
+import Link from '@/components/Link';
 import { usePathname } from 'next/navigation';
 import { TELEGRAM_URL } from '@/lib/contact';
 import { useLang } from '@/lib/i18n/LangContext';
@@ -35,7 +36,7 @@ export default function Footer() {
       <style dangerouslySetInnerHTML={{ __html: FOOTER_CSS }} />
       <div className="ft-inner">
         <a href="https://distilledcrux.com" target="_blank" rel="noopener" className="ft-brand" aria-label={langHi ? 'Distilled Crux, distilledcrux.com खुलेगा' : 'Distilled Crux, opens distilledcrux.com'}>
-          <Image src="/mascot/owl.svg" alt="" width={26} height={25} />
+          <Image src={owlArt} alt="" width={26} height={25} />
           <span>Distilled Crux</span>
         </a>
 

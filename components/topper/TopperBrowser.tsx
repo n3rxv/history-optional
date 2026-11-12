@@ -1,6 +1,6 @@
 'use client';
 import { useEffect, useMemo, useState, useSyncExternalStore } from 'react';
-import Link from 'next/link';
+import Link from '@/components/Link';
 import { useRouter } from 'next/navigation';
 import { auth } from '@/lib/firebase';
 import { useLoginPrompt } from '@/hooks/useLoginPrompt';

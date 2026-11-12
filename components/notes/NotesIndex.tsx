@@ -1,4 +1,4 @@
-import Link from 'next/link';
+import Link from '@/components/Link';
 import { allNotes } from '@/lib/notes';
 import { SECTION_HI } from '@/lib/notesHi';
 import { HiText } from '@/components/ui/HiText';

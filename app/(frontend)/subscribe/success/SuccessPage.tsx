@@ -1,36 +1,9 @@
 'use client';
-import Link from 'next/link';
-import { useEffect } from 'react';
-import { useSearchParams } from 'next/navigation';
+import Link from '@/components/Link';
 import Mascot from '@/components/Mascot';
 import { useLang } from '@/lib/i18n/LangContext';
 
 export default function SubscribeSuccessPage() {
-  const searchParams = useSearchParams();
-
-  useEffect(() => {
-    const plan = searchParams.get('plan') || 'yearly';
-    const amountPaise = parseInt(searchParams.get('amount') || '0', 10);
-    const amountINR = amountPaise / 100;
-    const txn = searchParams.get('txn') || '';
-
-    const gtag = (window as unknown as { gtag?: (...args: unknown[]) => void }).gtag;
-    if (gtag) {
-      // GA4 purchase event, picked up by Google Ads conversion tracking
-      gtag('event', 'purchase', {
-        transaction_id: txn,
-        value: amountINR,
-        currency: 'INR',
-        items: [{
-          item_id: plan,
-          item_name: `History Optional – ${plan} plan`,
-          price: amountINR,
-          quantity: 1,
-        }],
-      });
-    }
-  }, [searchParams]);
-
   const { langHi } = useLang();
   const perks = langHi
     ? ['असीमित उत्तर मूल्यांकन', 'असीमित AI चैट', '30+ पुस्तकों से चैट', 'मेंटर मोड', 'टॉपर कॉपियाँ', 'PDF पर चर्चा']

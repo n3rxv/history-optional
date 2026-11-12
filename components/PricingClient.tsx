@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState, useSyncExternalStore } from 'react';
-import Link from 'next/link';
+import Link from '@/components/Link';
 import { createPortal } from 'react-dom';
 import { auth, signInWithGoogle } from '@/lib/firebase';
 import { SubscribeCard } from '@/components/SubscribeCard';

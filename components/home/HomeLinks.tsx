@@ -1,6 +1,6 @@
 'use client';
 import { useSyncExternalStore } from 'react';
-import Link from 'next/link';
+import Link from '@/components/Link';
 import { readLastNote, type LastNote } from '@/lib/lastNote';
 import { useLang } from '@/lib/i18n/LangContext';
 import { NOTE_HI } from '@/lib/notesHi';

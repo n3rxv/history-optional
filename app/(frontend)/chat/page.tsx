@@ -4,6 +4,7 @@ import { useLang } from '@/lib/i18n/LangContext';
 import { tr, t } from '@/lib/i18n/ui';
 import { Fragment, useState, useRef, useEffect, Suspense, useCallback, useMemo } from 'react';
 import { preload } from 'react-dom';
+import owlReadingArt from '@/public/mascot/owl-reading.svg';
 import { marked } from 'marked';
 import { useSearchParams } from 'next/navigation';
 import { useSubscriptionGate } from '@/hooks/useSubscriptionGate';
@@ -417,7 +418,7 @@ function ChatContent() {
   const { langHi } = useLang();
   // The reading owl is only drawn once a question is sent; fetched then, it
   // arrived a beat after the checklist it sits beside.
-  preload('/mascot/owl-reading.svg', { as: 'image' });
+  preload(owlReadingArt.src, { as: 'image' });
 
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState(initialQ);

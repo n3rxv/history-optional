@@ -1,6 +1,6 @@
 'use client';
 
-import Link from 'next/link';
+import Link from '@/components/Link';
 import type { ReactNode } from 'react';
 import { useLang } from '@/lib/i18n/LangContext';
 import { usePyqHi, topicLabel } from '@/lib/pyqHi';

@@ -1,4 +1,4 @@
-import Link from 'next/link';
+import Link from '@/components/Link';
 import { listPosts, loadCuttings, type PostCard } from '@/lib/posts';
 import { CA_CSS } from '@/components/currentAffairs/styles';
 import { HiText } from '@/components/ui/HiText';

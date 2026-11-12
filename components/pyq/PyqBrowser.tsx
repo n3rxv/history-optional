@@ -1,6 +1,6 @@
 'use client';
 import { useEffect, useLayoutEffect, useMemo, useRef, useState, useSyncExternalStore, type ReactNode } from 'react';
-import Link from 'next/link';
+import Link from '@/components/Link';
 import { useRouter } from 'next/navigation';
 import { useAttemptedPyqs } from '@/hooks/useAttemptedPyqs';
 import { useLoginPrompt } from '@/hooks/useLoginPrompt';

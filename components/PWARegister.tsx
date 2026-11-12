@@ -2,6 +2,7 @@
 import { useEffect, useState } from 'react';
 import { usePathname } from 'next/navigation';
 import { useLang } from '@/lib/i18n/LangContext';
+import owlArt from '@/public/mascot/owl.svg';
 
 const DISMISS_KEY = 'ho_pwa_install_dismissed_at';
 
@@ -95,7 +96,7 @@ export default function PWARegister() {
     <div className="ho-pwa-banner ds" role="dialog" aria-label={langHi ? 'ऐप इंस्टॉल करें' : 'Install the app'}>
       <span className="ho-pwa-banner-icon">
         {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src="/mascot/owl.svg" alt="" width={30} height={28} />
+        <img src={owlArt.src} alt="" width={30} height={28} />
       </span>
       <div className="ho-pwa-banner-text">
         <div className="ho-pwa-banner-title">

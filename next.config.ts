@@ -7,7 +7,6 @@ import type { NextConfig } from "next";
  * produced no eval violations:
  *
  *   our bundles   no eval( or new Function( in any client chunk
- *   gtag.js       none
  *   checkout.js   new Function("return this") in webpack's global shim,
  *                 behind a globalThis check that short-circuits first,
  *                 inside a try/catch falling back to window
@@ -42,17 +41,7 @@ import type { NextConfig } from "next";
  * reproducible by scanning .next/server/app/**\/*.html for inline <script>.
  */
 const SCRIPT_SRC_BASE =
-  "'self' 'unsafe-inline' https://checkout.razorpay.com https://cdn.razorpay.com https://www.googletagmanager.com https://www.google-analytics.com https://apis.google.com https://www.gstatic.com https://cdnjs.cloudflare.com";
-
-// Where Google Analytics 4 sends its hits. Only www.google-analytics.com was
-// allowed, so every hit to the current endpoints was blocked -- analytics went
-// unrecorded, and each block fired a CSP report: about half of all function
-// invocations were /api/csp-report. www.google.com and the Indian domain carry
-// the Google Signals audience pings; other country domains stay blocked.
-const GA_CONNECT = [
-  'https://*.google-analytics.com', 'https://*.analytics.google.com', 'https://*.googletagmanager.com',
-  'https://*.g.doubleclick.net', 'https://www.google.com', 'https://www.google.co.in',
-].join(' ');
+  "'self' 'unsafe-inline' https://checkout.razorpay.com https://cdn.razorpay.com https://apis.google.com https://www.gstatic.com https://cdnjs.cloudflare.com";
 
 const cspDirectives = (scriptSrc: string) => [
   "default-src 'self'",
@@ -61,7 +50,7 @@ const cspDirectives = (scriptSrc: string) => [
   "font-src 'self' https://fonts.gstatic.com data:",
   "img-src 'self' data: blob: https:",
   "media-src 'self'",
-  `connect-src 'self' blob: https://*.supabase.co wss://*.supabase.co https://api.groq.com https://api.jina.ai https://checkout.razorpay.com https://lumberjack.razorpay.com https://api.razorpay.com https://*.razorpay.com https://*.googleapis.com https://*.firebaseapp.com https://*.firebase.com wss://*.firebaseio.com https://identitytoolkit.googleapis.com https://securetoken.googleapis.com https://pub-163b2186589649f4a759ed969e0779e0.r2.dev https://*.r2.cloudflarestorage.com https://cdnjs.cloudflare.com ${GA_CONNECT}`,
+  `connect-src 'self' blob: https://*.supabase.co wss://*.supabase.co https://api.groq.com https://api.jina.ai https://checkout.razorpay.com https://lumberjack.razorpay.com https://api.razorpay.com https://*.razorpay.com https://*.googleapis.com https://*.firebaseapp.com https://*.firebase.com wss://*.firebaseio.com https://identitytoolkit.googleapis.com https://securetoken.googleapis.com https://pub-163b2186589649f4a759ed969e0779e0.r2.dev https://*.r2.cloudflarestorage.com https://cdnjs.cloudflare.com`,
   "frame-src 'self' https://checkout.razorpay.com https://*.razorpay.com https://*.firebaseapp.com https://accounts.google.com",
   "worker-src 'self' blob: https://checkout.razorpay.com https://cdnjs.cloudflare.com",
   "object-src 'none'",
@@ -143,6 +132,14 @@ const nextConfig: NextConfig = {
           { key: 'Content-Type', value: 'application/xml; charset=utf-8' },
           { key: 'Cache-Control', value: 'public, max-age=3600' },
         ],
+      },
+      {
+        // The tab and home-screen icons and the manifest are linked by plain
+        // public/ paths, which are served with max-age=0: every page view
+        // checked them again, each check a CDN request and a middleware run.
+        // A week is short enough for a changed icon to come through.
+        source: '/:file(favicon.svg|favicon.png|icon-192.png|icon-512.png|icon-maskable-512.png|apple-touch-icon.png|manifest.json)',
+        headers: [{ key: 'Cache-Control', value: 'public, max-age=604800' }],
       },
       {
         source: '/robots.txt',

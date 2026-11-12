@@ -1,6 +1,6 @@
 'use client';
 import type { ReactNode } from 'react';
-import Link from 'next/link';
+import Link from '@/components/Link';
 import type { AnswerEntry } from '@/hooks/useAnswerHistory';
 import { toast } from '@/components/ui/Toast';
 import PdfButton, { downloadEvaluationPdf } from '@/components/evaluate/PdfButton';

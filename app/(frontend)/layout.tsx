@@ -8,7 +8,6 @@ import '@fontsource/roboto/400-italic.css';                      // inline <em>,
 import '@fontsource/roboto/700-italic.css';                      // 7 spans nest <strong> inside <em>
 import '@fontsource/ibm-plex-mono/400.css';                      // eyebrows, marks tags, figures
 import '@fontsource/ibm-plex-mono/500.css';
-import Script from 'next/script';
 import type { Metadata, Viewport } from "next";
 import "./globals.css";
 import { Analytics } from '@vercel/analytics/next';
@@ -174,13 +173,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <InAppBrowserNotice />
         <PromoPopup />
         <Navbar />
-        <Script async src="https://www.googletagmanager.com/gtag/js?id=G-7ZF23N3PZC" strategy="afterInteractive" />
-        <Script id="google-analytics" strategy="afterInteractive">{`
-          window.dataLayer = window.dataLayer || [];
-          function gtag(){dataLayer.push(arguments);}
-          gtag('js', new Date());
-          gtag('config', 'G-7ZF23N3PZC');
-        `}</Script>
           {/* Padded by the navbar's height, 60px, so pages start right under it. */}
           <main style={{ minHeight: '100vh', paddingTop: 60 }} className="ho-main">{children}</main>
         <Footer />

@@ -1,6 +1,6 @@
 'use client';
 import { useEffect, useState, Suspense } from 'react';
-import Link from 'next/link';
+import Link from '@/components/Link';
 import { useSearchParams } from 'next/navigation';
 import Mascot from '@/components/Mascot';
 import { useFirebaseAuth } from '@/hooks/useFirebaseAuth';

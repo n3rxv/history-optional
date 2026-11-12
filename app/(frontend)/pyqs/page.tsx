@@ -1,4 +1,4 @@
-import Link from 'next/link';
+import Link from '@/components/Link';
 import { pyqs } from '@/lib/pyqData';
 import { SectionIcon } from '@/components/notes/sections';
 import PyqBrowser from '@/components/pyq/PyqBrowser';

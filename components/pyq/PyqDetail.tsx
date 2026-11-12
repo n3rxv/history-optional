@@ -1,6 +1,6 @@
 'use client';
 import { useEffect, useRef, useState, type MouseEvent } from 'react';
-import Link from 'next/link';
+import Link from '@/components/Link';
 import { useRouter } from 'next/navigation';
 import { auth } from '@/lib/firebase';
 import type { PYQ } from '@/lib/pyqData';

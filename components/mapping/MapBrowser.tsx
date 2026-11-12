@@ -1,7 +1,7 @@
 'use client';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import dynamic from 'next/dynamic';
-import Link from 'next/link';
+import Link from '@/components/Link';
 import type { MapChapter, MapChapterSites, MapSite } from '@/lib/mapBook';
 import type { MapBase } from '@/components/MappingMap';
 import { askedByChapter, bookEntry, close, nameVariants, norm as normName, paper, paperYears, repeatedPlaces, upscHints, type AskedPlace } from '@/lib/mapPapers';

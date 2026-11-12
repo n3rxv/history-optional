@@ -1,6 +1,6 @@
 'use client';
 import { useState, useEffect, useCallback, useMemo, useSyncExternalStore } from 'react';
-import Link from 'next/link';
+import Link from '@/components/Link';
 import { useLang } from '@/lib/i18n/LangContext';
 import { useLoginPrompt } from '@/hooks/useLoginPrompt';
 import LoginPromptModal from '@/components/LoginPromptModal';

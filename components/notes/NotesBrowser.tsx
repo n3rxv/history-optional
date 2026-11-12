@@ -1,6 +1,6 @@
 'use client';
 import { useMemo, useState, useSyncExternalStore } from 'react';
-import Link from 'next/link';
+import Link from '@/components/Link';
 import { useSyllabusTracker } from '@/hooks/useSyllabusTracker';
 import { useLang } from '@/lib/i18n/LangContext';
 import { localNote, sectionName } from '@/lib/notesHi';

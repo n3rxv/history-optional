@@ -2,7 +2,9 @@
 import React from 'react';
 import { createPortal } from 'react-dom';
 import Image from 'next/image';
-import Link from 'next/link';
+import owlArt from '@/public/mascot/owl.svg';
+import owlCelebrateArt from '@/public/mascot/owl-celebrate.svg';
+import Link from '@/components/Link';
 import { usePathname, useRouter } from 'next/navigation';
 import { useState, useEffect, useRef } from 'react';
 import { useLang } from '@/lib/i18n/LangContext';
@@ -90,7 +92,7 @@ function PremiumModal({ onClose, noSubFound, isLoggedIn, onPaymentSuccess }: { o
         <button className="ds-x nb-up-x" onClick={onClose} aria-label={T('Close', 'बंद करें')}>{Icon.close}</button>
 
         <div className="nb-up-why">
-          <Image src="/mascot/owl-celebrate.svg" alt="" width={64} height={60} className="nb-up-owl" />
+          <Image src={owlCelebrateArt} alt="" width={64} height={60} className="nb-up-owl" />
           <h2 id="nb-up-title">{T('Go Premium', 'प्रीमियम लें')}</h2>
           <p className="nb-up-lede">{T('Notes and PYQs stay free. Premium gets your answers checked and the AI tutor with no limits.', 'नोट्स और PYQ निःशुल्क रहते हैं। प्रीमियम में आपके उत्तर जँचते हैं और AI ट्यूटर बिना किसी सीमा के मिलता है।')}</p>
           <ul className="nb-up-gains">
@@ -602,7 +604,7 @@ export default function Navbar() {
       <nav className="nb ds" aria-label={langHi ? 'मुख्य' : 'Main'}>
         <div className="nb-inner">
           <Link href="/" className="nb-brand" aria-label={langHi ? 'History Optional, होम' : 'History Optional, home'}>
-            <Image src="/mascot/owl.svg" alt="" width={30} height={28} priority />
+            <Image src={owlArt} alt="" width={30} height={28} priority />
             <span>History Optional</span>
           </Link>
 

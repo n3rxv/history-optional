@@ -1,6 +1,6 @@
 'use client';
 import { useEffect, useRef, useState, useSyncExternalStore } from 'react';
-import Link from 'next/link';
+import Link from '@/components/Link';
 import { onAuthStateChanged } from 'firebase/auth';
 import { auth } from '@/lib/firebase';
 import { prelimsQuestions, type PrelimsQuestion } from '@/lib/prelimsData';

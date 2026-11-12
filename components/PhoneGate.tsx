@@ -41,6 +41,27 @@ const DELAY_MS = 4000;
 
 const DISMISS_KEY = 'ho_phone_prompt_dismissed_at';
 
+/**
+ * Pages opened in this browser. Until it reaches MIN_VISITS an anonymous
+ * visitor is not asked about at all, so their first pages make no server call;
+ * it used to be one /api/profile call per click. From there the server's
+ * count, kept by VisitorTracker, decides as before. Where storage is blocked
+ * this reads as MIN_VISITS, which leaves the decision to the server.
+ */
+const PAGES_KEY = 'ho_pages_opened';
+
+function pagesOpened(): number {
+  try {
+    return Number(localStorage.getItem(PAGES_KEY)) || 0;
+  } catch {
+    return MIN_VISITS;
+  }
+}
+
+function countPage() {
+  try { localStorage.setItem(PAGES_KEY, String(Math.min(pagesOpened() + 1, 1000))); } catch {}
+}
+
 function dismissedRecently(): boolean {
   try {
     const at = Number(localStorage.getItem(DISMISS_KEY) ?? 0);
@@ -75,6 +96,9 @@ export default function PhoneGate() {
 
   useEffect(() => onAuthStateChanged(auth, u => { setUser(u); setAuthReady(true); }), []);
 
+  // Before the check below, so the page being opened is counted.
+  useEffect(() => { countPage(); }, [pathname]);
+
   useEffect(() => {
     if (!authReady || settled.current) return;
 
@@ -83,6 +107,7 @@ export default function PhoneGate() {
       try {
         // Signed-in and anonymous ask the same endpoint with different
         // identities; the answer decides which mode the modal opens in.
+        if (!user && pagesOpened() < MIN_VISITS) return;   // not settled: counted again next click
         const idToken = user ? await user.getIdToken() : null;
         // Needed even when signed in: it is how a number given while logged
         // out is found and moved onto the account.

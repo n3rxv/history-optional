@@ -1,6 +1,6 @@
 'use client';
 import { useEffect, useState } from 'react';
-import Link from 'next/link';
+import Link from '@/components/Link';
 import { auth } from '@/lib/firebase';
 import OwlLoader from '@/components/OwlLoader';
 import TopperPdf from '@/components/TopperPdf';

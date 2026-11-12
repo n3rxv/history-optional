@@ -1,5 +1,5 @@
 'use client';
-import Link from 'next/link';
+import Link from '@/components/Link';
 import Mascot from '@/components/Mascot';
 import { useLang } from '@/lib/i18n/LangContext';
 

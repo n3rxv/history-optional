@@ -1,6 +1,6 @@
 'use client';
 import { useEffect, useState, useSyncExternalStore } from 'react';
-import Link from 'next/link';
+import Link from '@/components/Link';
 import { useParams, useRouter } from 'next/navigation';
 import { auth, signInWithGoogle } from '@/lib/firebase';
 import TopperPdf, { type TopperCopyDetail } from '@/components/TopperPdf';

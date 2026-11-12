@@ -1,6 +1,6 @@
 'use client';
 import { useEffect, useMemo, useState, useSyncExternalStore, type ReactNode } from 'react';
-import Link from 'next/link';
+import Link from '@/components/Link';
 import { useLang } from '@/lib/i18n/LangContext';
 import { paper1Notes, paper2Notes } from '@/lib/notes';
 import { useSyllabusTracker } from '@/hooks/useSyllabusTracker';

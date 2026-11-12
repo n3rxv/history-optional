@@ -1,5 +1,5 @@
 'use client';
-import Link from 'next/link';
+import Link from '@/components/Link';
 import { useLang } from '@/lib/i18n/LangContext';
 import { FEATURES } from '@/lib/features';
 import { scoreTone } from '@/components/evaluate/Report';

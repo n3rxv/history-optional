@@ -1,6 +1,6 @@
 'use client';
 import { useCallback, useEffect, useMemo, useRef, useState, useSyncExternalStore } from 'react';
-import Link from 'next/link';
+import Link from '@/components/Link';
 import { onAuthStateChanged, type User } from 'firebase/auth';
 import { auth, signInWithGoogle } from '@/lib/firebase';
 import { useLang } from '@/lib/i18n/LangContext';

@@ -1,6 +1,8 @@
 import type { Metadata } from 'next';
 import Image from 'next/image';
-import Link from 'next/link';
+import owlArt from '@/public/mascot/owl.svg';
+import owlReadingArt from '@/public/mascot/owl-reading.svg';
+import Link from '@/components/Link';
 import { allNotes } from '@/lib/notes';
 import { pyqs } from '@/lib/pyqData';
 import { countPublished } from '@/lib/flashcardStore';
@@ -79,7 +81,7 @@ export default async function Home() {
         {/* ── Hero ── */}
         <section className="hm-hero">
           <div className="ds-container ds-narrow hm-hero-inner">
-            <Image src="/mascot/owl.svg" alt="" width={112} height={106} priority className="hm-owl" />
+            <Image src={owlArt} alt="" width={112} height={106} priority className="hm-owl" />
             <h1 className="ds-h1">
               History Optional, <em className="hm-mark"><HiText en="distilled." hi="सार रूप में।" /><svg viewBox="0 0 220 16" preserveAspectRatio="none" aria-hidden="true"><path d="M3 11c34-6 70-8 108-5 30 2 63 3 106-3" /></svg></em>
             </h1>
@@ -188,7 +190,7 @@ export default async function Home() {
         {/* ── Close ── */}
         <section className="hm-section hm-close">
           <div className="ds-container ds-narrow hm-close-inner">
-            <Image src="/mascot/owl-reading.svg" alt="" width={110} height={95} className="hm-close-owl" />
+            <Image src={owlReadingArt} alt="" width={110} height={95} className="hm-close-owl" />
             <h2 className="ds-h2"><HiText en={<>Start with tonight&rsquo;s topic</>} hi="आज रात के विषय से शुरू करें" /></h2>
             <p className="ds-lede"><HiText en="Open the notes for whatever you’re reading today and see if they help. It’s free, and nobody will ask for a card." hi="आज आप जो पढ़ रहे हैं, उसके नोट्स खोलें और देखें कि वे काम आते हैं या नहीं। यह निःशुल्क है, और कोई कार्ड नहीं माँगेगा।" /></p>
             <HeroActions />

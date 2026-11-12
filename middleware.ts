@@ -80,9 +80,12 @@ export function middleware(req: NextRequest) {
 }
 
 export const config = {
+  // Pages and the API. Files from public/ (images, icons, fonts, PDFs, map
+  // data) are left out: each request here is a function run, and the checks
+  // above are about who reads pages, not who loads an icon.
   matcher: [
     '/notes/:path*',
     '/api/:path*',
-    '/((?!_next/static|_next/image|__/|favicon.ico).*)',
+    '/((?!_next/static|_next/image|__/|favicon.ico|.*\\.(?:svg|png|jpe?g|webp|gif|ico|json|geojson|js|pdf|ttf|woff2?|txt|xml)$).*)',
   ],
 };
