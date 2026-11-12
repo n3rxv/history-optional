@@ -271,7 +271,7 @@ export const mapData: MapEntry[] = [
   { year: 2024, number: 4,  hint: "Harappan site",                                  answer: "Rakhigarhi",                lat: 29.3,  lng: 76.1  },
   { year: 2024, number: 5,  hint: "Buddhist monastery",                             answer: "Moghalmari Monastery",      lat: 22.2,  lng: 87.5  },
   { year: 2024, number: 6,  hint: "Chalcolithic site",                              answer: "Navdatoli",                 lat: 22.3,  lng: 75.7  },
-  { year: 2024, number: 7,  hint: "Neo-Chalcolithic site",                               answer: "Jodhpura",                  lat: 27.4,  lng: 75.6  },
+  { year: 2024, number: 7,  hint: "Neo-Chalcolithic site",                               answer: "Jodhpura", lat: 27.6779, lng: 76.1305 },
   { year: 2024, number: 8, hint: "Megalithic site with rock art", answer: "Mallapadi", lat: 12.52, lng: 78.21 },
   { year: 2024, number: 9, hint: "One of the Mahajanapadas' capital and associated with Buddha's miracle", answer: "Shravasti", lat: 27.5, lng: 82.1 },
   { year: 2024, number: 10, hint: "Hominid fossil find site",                       answer: "Hathnora",                  lat: 22.8667,  lng: 77.8833  },
