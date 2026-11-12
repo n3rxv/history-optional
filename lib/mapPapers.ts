@@ -40,13 +40,15 @@ const near = (a: { lat: number; lng: number }, b: { lat: number; lng: number }, 
 
 /**
  * Two answers name the same place when they share a name ("Sisupalgarh",
- * "Sisupalgarh (Tosali)"), or lie close together with one name inside the
- * other ("Bagh", "Bagh caves") or nearly the same spelling ("Hunsgi",
- * "Hunsagi"). Nearness alone is not enough: Bhaja and Bedse are 2 km apart.
+ * "Sisupalgarh (Tosali)") within a degree and a half, or lie close together
+ * with one name inside the other ("Bagh", "Bagh caves") or nearly the same
+ * spelling ("Hunsgi", "Hunsagi"). Nearness alone is not enough: Bhaja and
+ * Bedse are 2 km apart. Nor is a name alone: Udaigiri by Vidisha is not
+ * Udayagiri by Bhubaneswar.
  */
 function samePlace(a: { answer: string; lat: number; lng: number }, b: { answer: string; lat: number; lng: number }) {
   const ka = keys(a.answer), kb = keys(b.answer);
-  if (ka.some((k) => kb.includes(k))) return true;
+  if (ka.some((k) => kb.includes(k))) return near(a, b, 1.5);
   if (!near(a, b, 0.12)) return false;
   return ka.some((x) => kb.some((y) => (x.length >= 4 && y.length >= 4 && (x.includes(y) || y.includes(x))) || close(x, y)));
 }
@@ -129,22 +131,31 @@ function isSite(p: AskedPlace, s: { name: string; lat: number; lng: number }) {
 }
 
 /**
- * The hints UPSC printed for a map book site, as printed, newest first. A
- * hint printed in more than one year is given once, with every year. None
- * for a place UPSC has not asked.
+ * The lines of UPSC's papers that asked a map book site, newest first: for
+ * each year the book has it asked, that paper's place of the same name, or
+ * failing that the nearest within a degree ("Lingaraja Temple" was asked as
+ * "Bhubaneshwar").
  */
-export function upscHints(site: { name: string; lat: number; lng: number }): { years: number[]; hint: string }[] {
+export function paperLines(site: { name: string; lat: number; lng: number; asked: number[] }): MapEntry[] {
+  const ks = keys(site.name);
+  const named = (answer: string) => keys(answer).some((k) => ks.some((x) => k === x || close(k, x) || (k.length >= 4 && x.length >= 4 && (k.includes(x) || x.includes(k)))));
+  return [...site.asked].sort((a, b) => b - a).flatMap((year) => {
+    const entries = mapData.filter((e) => e.year === year).map((e) => ({ e, d: Math.hypot((e.site ?? e).lat - site.lat, (e.site ?? e).lng - site.lng) }));
+    const byName = entries.filter(({ e, d }) => d < 1.5 && named(e.answer));
+    const best = (byName.length ? byName : entries.filter(({ d }) => d < 1)).sort((a, b) => a.d - b.d)[0];
+    return best ? [best.e] : [];
+  });
+}
+
+/** The hints UPSC printed for a map book site, newest first, a hint printed in more than one year given once with every year. */
+export function upscHints(site: { name: string; lat: number; lng: number; asked: number[] }): { years: number[]; hint: string }[] {
   const out: { years: number[]; hint: string }[] = [];
-  for (const p of asked) {
-    if (!isSite(p, site)) continue;
-    for (const { year, hint } of p.hints) {
-      const seen = out.find((h) => norm(h.hint) === norm(hint));
-      if (!seen) out.push({ years: [year], hint });
-      else if (!seen.years.includes(year)) seen.years.push(year);
-    }
+  for (const e of paperLines(site)) {
+    const seen = out.find((h) => norm(h.hint) === norm(e.hint));
+    if (seen) seen.years.push(e.year);
+    else out.push({ years: [e.year], hint: e.hint });
   }
-  for (const h of out) h.years.sort((a, b) => b - a);
-  return out.sort((a, b) => b.years[0] - a.years[0]);
+  return out;
 }
 
 /** The places UPSC has asked from each chapter of the map book, newest first. */
