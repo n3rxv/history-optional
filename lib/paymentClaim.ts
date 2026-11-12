@@ -19,9 +19,9 @@ import Razorpay from 'razorpay';
  * remaining half of the job.
  */
 
-export const TOPPER_AMOUNT_PAISE = 64900;
-/** The price until 29 Oct 2026. A checkout opened at it before the change still verifies. */
-export const TOPPER_OLD_AMOUNT_PAISE = 79900;
+export const TOPPER_AMOUNT_PAISE = 79900;
+/** The price from 29 Oct to 12 Nov 2026. A checkout opened at it before it went back up still verifies. */
+export const TOPPER_OLD_AMOUNT_PAISE = 64900;
 export const MAP_AMOUNT_PAISE = 4900;
 
 export type ClaimResult =

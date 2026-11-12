@@ -269,7 +269,7 @@ export default function TopperBrowser({ notes, years, sigs }: { notes: NoteMeta[
               ) : (
                 <>
                   <strong>{freeLeft ? L(`${freeLeft} of ${FREE_VIEWS} free copies left`, `${FREE_VIEWS} में से ${freeLeft} निःशुल्क कॉपियाँ बाक़ी`) : L('Free copies used', 'निःशुल्क कॉपियाँ इस्तेमाल हो चुकीं')}</strong>
-                  <span>{L('Every copy for a year:', 'साल भर हर कॉपी:')} <s>₹{TOPPER_PRICE.was}</s> ₹{TOPPER_PRICE.now} ({TOPPER_PRICE.off}% {L('off', 'छूट')}), {L('paid once', 'एक बार भुगतान')}</span>
+                  <span>{L('Every copy for a year:', 'साल भर हर कॉपी:')} {TOPPER_PRICE.was && <><s>₹{TOPPER_PRICE.was}</s> </>}₹{TOPPER_PRICE.now}{TOPPER_PRICE.was ? ` (${TOPPER_PRICE.off}% ${L('off', 'छूट')})` : ''}, {L('paid once', 'एक बार भुगतान')}</span>
                   <button type="button" className="ds-btn ds-btn-line ds-btn-sm" onClick={() => setPaywall(true)}>{L('Unlock every copy', 'हर कॉपी खोलें')}</button>
                 </>
               )}

@@ -301,7 +301,7 @@ export default function PricingClient() {
                   <span className={`pr-badge${o.inPremium ? ' in' : ''}`}>{o.inPremium ? L('Also in Premium', 'प्रीमियम में भी') : L('Per map', 'प्रति मैप')}</span>
                 </div>
                 <div className="pr-price small"><span className="pr-rs">₹</span>{(o.pricePaise / 100).toLocaleString('en-IN')}<span className="pr-unit">{o.inPremium ? L('/year', '/साल') : ''}</span></div>
-                {o.inPremium && <div className="pr-was"><s>₹{TOPPER_PRICE.was}</s><span className="pr-off">{TOPPER_PRICE.off}% {L('off', 'छूट')}</span></div>}
+                {o.inPremium && TOPPER_PRICE.was && <div className="pr-was"><s>₹{TOPPER_PRICE.was}</s><span className="pr-off">{TOPPER_PRICE.off}% {L('off', 'छूट')}</span></div>}
                 <p className="pr-blurb">{o.inPremium
                   ? L(`Answers scanned from toppers’ copies, question by question. A free account opens ${count('Topper copies')} of them.`, `टॉपरों की कॉपियों से स्कैन किए गए उत्तर, प्रश्न-दर-प्रश्न। निःशुल्क खाते में इनमें से ${count('Topper copies')} खुलती हैं।`)
                   : L('Your filled map checked place by place: the name for 1.5 marks and your note for 1. Paid when you upload it.', 'आपका भरा हुआ मैप हर स्थान पर जाँचा जाता है: नाम के 1.5 अंक और आपकी टिप्पणी का 1 अंक। भुगतान अपलोड करते समय होता है।')}</p>

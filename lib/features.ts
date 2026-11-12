@@ -58,16 +58,21 @@ export const FEATURES: Feature[] = [
  * lib/paymentClaim.ts, which is what the server verifies against.
  */
 export const ONE_OFF = [
-  { name: 'Topper copies',  pricePaise: 64900, wasPaise: 79900, inPremium: true,
+  { name: 'Topper copies',  pricePaise: 79900, inPremium: true,
     blurb: 'Individual answers scanned from toppers’ answer copies, question by question.' },
   { name: 'Map evaluation', pricePaise:  4900, inPremium: false,
     blurb: 'Charged per map, for subscribers and non-subscribers alike. It is not part of any plan.' },
 ] as const;
 
-/** Topper copies in rupees, with the old price and the saving shown beside it. */
+/**
+ * Topper copies in rupees. `was` is the struck-through price while a lower one
+ * runs, and null at the list price, which is when every label shows the price
+ * alone. It was ₹649, shown as 18% off ₹799, from 29 Oct to 12 Nov 2026.
+ */
+const TOPPER_WAS_PAISE: number | null = null;
 export const TOPPER_PRICE = {
   now: ONE_OFF[0].pricePaise / 100,
-  was: ONE_OFF[0].wasPaise / 100,
+  was: TOPPER_WAS_PAISE ? TOPPER_WAS_PAISE / 100 : null,
   /** Rounded down, so the saving shown is never more than the real one. */
-  off: Math.floor(((ONE_OFF[0].wasPaise - ONE_OFF[0].pricePaise) * 100) / ONE_OFF[0].wasPaise),
+  off: TOPPER_WAS_PAISE ? Math.floor(((TOPPER_WAS_PAISE - ONE_OFF[0].pricePaise) * 100) / TOPPER_WAS_PAISE) : 0,
 };

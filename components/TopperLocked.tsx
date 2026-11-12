@@ -68,7 +68,7 @@ export default function TopperLocked({ onUnlocked, onDismiss, message }: Props) 
       <h3 className="tl-title">{langHi ? 'टॉपर कॉपियाँ लॉक हैं' : 'Topper copies are locked'}</h3>
       <p className="tl-text">{message ?? (langHi ? 'एक भुगतान से हर टॉपर कॉपी एक साल के लिए खुल जाती है, साथ में आमने-सामने की तुलना भी।' : 'One payment opens every topper copy for a year, and the side-by-side comparisons.')}</p>
       <div className="tl-price">
-        <s>₹{TOPPER_PRICE.was}</s><strong>₹{TOPPER_PRICE.now}</strong><span className="tl-off">{TOPPER_PRICE.off}% {langHi ? 'छूट' : 'off'}</span>
+        {TOPPER_PRICE.was && <s>₹{TOPPER_PRICE.was}</s>}<strong>₹{TOPPER_PRICE.now}</strong>{TOPPER_PRICE.was && <span className="tl-off">{TOPPER_PRICE.off}% {langHi ? 'छूट' : 'off'}</span>}
         <span className="tl-per">{langHi ? 'एक साल के लिए, एक बार भुगतान' : 'for a year, paid once'}</span>
       </div>
       <button type="button" className="ds-btn ds-btn-solid ds-btn-block" onClick={unlock}>{langHi ? `₹${TOPPER_PRICE.now} में खोलें` : `Unlock for ₹${TOPPER_PRICE.now}`}</button>

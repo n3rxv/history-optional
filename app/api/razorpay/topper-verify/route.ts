@@ -5,8 +5,8 @@ import { verifyFirebaseToken } from "@/lib/verifyFirebaseToken";
 import { claimPayment, TOPPER_AMOUNT_PAISE, TOPPER_OLD_AMOUNT_PAISE } from "@/lib/paymentClaim";
 
 /**
- * Grants a year of topper-copy access for a completed ₹649 payment (₹799
- * for a checkout opened before the price fell on 29 Oct 2026).
+ * Grants a year of topper-copy access for a completed ₹799 payment (₹649
+ * for a checkout opened while that was the price, 29 Oct to 12 Nov 2026).
  *
  * This previously granted on a valid signature alone. A signature is a static
  * value the browser already holds, so replaying the same request re-upserted a
