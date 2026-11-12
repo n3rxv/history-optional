@@ -260,6 +260,7 @@ export default function SearchModal({ label, trigger = true }: { label?: string;
             aria-activedescendant={items[active] ? `cp-${items[active].key}` : undefined}
           />
           <button type="button" className="cp-esc" onClick={() => setOpen(false)}>esc</button>
+          <button type="button" className="cp-x" onClick={() => setOpen(false)} aria-label={T('Close search', 'खोज बंद करें')}><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12" /></svg></button>
         </div>
         <div className="cp-list" id="cp-list" role="listbox" ref={listRef}>
           {items.map((it, i) => {
@@ -334,5 +335,14 @@ const CP_CSS = `
   .cp { max-height: 82vh; }
 }
 @media (hover: none) { .cp-foot, .cp-esc { display: none; } }
+.cp-x { display: none; }
+@media (hover: none) {
+  /* No Esc key on a phone, and the sheet fills the screen: a plain close button. */
+  .cp-x {
+    display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0;
+    width: 40px; height: 40px; margin-right: calc(-1 * var(--space-2));
+    border: none; border-radius: 50%; background: var(--ds-soft); color: var(--text2); cursor: pointer;
+  }
+}
 @media (prefers-reduced-motion: reduce) { .cp-scrim, .cp { animation: none; } }
 `;
