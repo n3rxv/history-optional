@@ -345,6 +345,11 @@ export default function Navbar() {
   // The invite balance, shown on every page as a nudge to share: the amount,
   // or "Earn ₹100" at nothing. It comes with the subscription check.
   const [inviteBalance, setInviteBalance] = useState<number | null>(null);
+  // Set once Firebase has said whether anyone is signed in. The chip then
+  // shows at once, "Earn ₹100" until the balance (if any) arrives, so a slow
+  // or failed balance request cannot hide it.
+  const [authReady, setAuthReady] = useState(false);
+  const chipBalance = !authReady ? null : user ? (inviteBalance ?? 0) : 0;
   const [showExtendModal, setShowExtendModal] = useState(false);
   const [pyqsMenuOpen, setPyqsMenuOpen] = useState(false);
   const [notesMenuOpen, setNotesMenuOpen] = useState(false);
@@ -508,6 +513,7 @@ export default function Navbar() {
     window.addEventListener(PROFILE_EVENT, onProfile);
     const unsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {
       setUser(firebaseUser);
+      setAuthReady(true);
       if (firebaseUser) {
         const token = await firebaseUser.getIdToken();
         fetchSub(token);
@@ -619,16 +625,17 @@ export default function Navbar() {
               {isDark ? Icon.sun : Icon.moon}
             </button>
 
+            {/* Signed in or not: "Earn ₹100" until there is a balance to show. */}
+            {chipBalance !== null && (
+              <Link href="/invite" className="nb-invite"
+                aria-label={chipBalance > 0
+                  ? (langHi ? `आमंत्रण बैलेंस ${formatPaise(chipBalance)}` : `Invite balance ${formatPaise(chipBalance)}`)
+                  : (langHi ? `दोस्तों को बुलाएँ, हर दोस्त पर ${formatPaise(REFERRAL_REWARD_PAISE)} कमाएँ` : `Invite friends and earn ${formatPaise(REFERRAL_REWARD_PAISE)} each`)}>
+                {Icon.gift}<span>{chipBalance > 0 ? formatPaise(chipBalance) : (langHi ? `${formatPaise(REFERRAL_REWARD_PAISE)} कमाएँ` : `Earn ${formatPaise(REFERRAL_REWARD_PAISE)}`)}</span>
+              </Link>
+            )}
             {user ? (
               <>
-                {inviteBalance !== null && (
-                  <Link href="/invite" className="nb-invite"
-                    aria-label={inviteBalance > 0
-                      ? (langHi ? `आमंत्रण बैलेंस ${formatPaise(inviteBalance)}` : `Invite balance ${formatPaise(inviteBalance)}`)
-                      : (langHi ? `दोस्तों को बुलाएँ, हर दोस्त पर ${formatPaise(REFERRAL_REWARD_PAISE)} कमाएँ` : `Invite friends and earn ${formatPaise(REFERRAL_REWARD_PAISE)} each`)}>
-                    {Icon.gift}<span>{inviteBalance > 0 ? formatPaise(inviteBalance) : (langHi ? `${formatPaise(REFERRAL_REWARD_PAISE)} कमाएँ` : `Earn ${formatPaise(REFERRAL_REWARD_PAISE)}`)}</span>
-                  </Link>
-                )}
                 {!subData && (
                   <button className="nb-premium" onClick={() => setShowPremiumModal(true)}><svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3.5 8.2 8 12l4-7 4 7 4.5-3.8L18.8 18H5.2L3.5 8.2Z" /><rect x="5.2" y="19.2" width="13.6" height="1.8" rx="0.9" /></svg>{langHi ? 'अपग्रेड' : 'Upgrade'}</button>
                 )}
@@ -679,14 +686,14 @@ export default function Navbar() {
           {Icon.search}{langHi ? 'नोट्स, PYQ और इतिहासकार खोजें' : 'Search notes, PYQs and historians'}
         </button>
         {/* On phones the invite chip lives here, not in the header, so the bar stays uncluttered. */}
-        {user && inviteBalance !== null && (
+        {chipBalance !== null && (
           <Link href="/invite" className="nb-sheet-invite" onClick={() => setOpen(false)}>
             <span className="nb-sheet-invite-icon">{Icon.gift}</span>
             <span className="nb-sheet-invite-text">
-              <strong>{inviteBalance > 0
-                ? (langHi ? `आपका आमंत्रण बैलेंस: ${formatPaise(inviteBalance)}` : `Your invite balance: ${formatPaise(inviteBalance)}`)
+              <strong>{chipBalance > 0
+                ? (langHi ? `आपका आमंत्रण बैलेंस: ${formatPaise(chipBalance)}` : `Your invite balance: ${formatPaise(chipBalance)}`)
                 : (langHi ? `दोस्तों को बुलाएँ, हर दोस्त पर ${formatPaise(REFERRAL_REWARD_PAISE)} कमाएँ` : `Invite friends, earn ${formatPaise(REFERRAL_REWARD_PAISE)} each`)}</strong>
-              <small>{inviteBalance > 0
+              <small>{chipBalance > 0
                 ? (langHi ? 'और कमाने के लिए अपना लिंक भेजें' : 'Share your link to earn more')
                 : (langHi ? `उन्हें पहले एक साल के प्लान पर ${formatPaise(REFERRAL_REWARD_PAISE)} कम देने पड़ते हैं` : `They pay ${formatPaise(REFERRAL_REWARD_PAISE)} less on their first yearly plan`)}</small>
             </span>
