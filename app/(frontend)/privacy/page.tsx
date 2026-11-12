@@ -14,8 +14,8 @@ export default function PrivacyPage() {
       current="privacy"
       title="Privacy Policy"
       titleHi="गोपनीयता नीति"
-      updated="Last updated: 8 November 2026 · Effective: 8 November 2026"
-      updatedHi="अंतिम अद्यतन: 8 नवंबर 2026 · प्रभावी: 8 नवंबर 2026"
+      updated="Last updated: 12 November 2026 · Effective: 12 November 2026"
+      updatedHi="अंतिम अद्यतन: 12 नवंबर 2026 · प्रभावी: 12 नवंबर 2026"
       hi={<PrivacyHi />}
     >
       <p>
@@ -37,6 +37,7 @@ export default function PrivacyPage() {
           Payment information, processed by Razorpay. We never see or store your card,
           UPI or bank details.
         </li>
+        <li>The UPI id you give when you cash out an invite balance</li>
       </ul>
       <h3>Information collected automatically</h3>
       <ul>
@@ -48,6 +49,7 @@ export default function PrivacyPage() {
       <ul>
         <li>To provide and improve our UPSC History Optional study platform</li>
         <li>To process payments and manage your subscription</li>
+        <li>To keep your invite balance and send cash-outs to the UPI id you give</li>
         <li>To deliver AI-powered answer evaluation and chat features</li>
         <li>To send important service notifications (no marketing without consent)</li>
       </ul>
@@ -125,6 +127,7 @@ function PrivacyHi() {
           भुगतान संबंधी जानकारी, जिसका प्रसंस्करण Razorpay करता है। हम आपके कार्ड, UPI या बैंक
           विवरण न तो कभी देखते हैं और न ही संग्रहीत करते हैं।
         </li>
+        <li>आमंत्रण बैलेंस निकालते समय आपके द्वारा दी गई UPI आईडी</li>
       </ul>
       <h3>स्वतः एकत्र की जाने वाली जानकारी</h3>
       <ul>
@@ -136,6 +139,7 @@ function PrivacyHi() {
       <ul>
         <li>अपने UPSC इतिहास वैकल्पिक अध्ययन प्लेटफ़ॉर्म को उपलब्ध कराने और उसमें सुधार करने के लिए</li>
         <li>भुगतान संसाधित करने और आपकी सदस्यता का प्रबंधन करने के लिए</li>
+        <li>आपका आमंत्रण बैलेंस रखने और निकासी आपकी दी गई UPI आईडी पर भेजने के लिए</li>
         <li>AI-आधारित उत्तर मूल्यांकन और चैट सुविधाएँ प्रदान करने के लिए</li>
         <li>महत्वपूर्ण सेवा सूचनाएँ भेजने के लिए (आपकी सहमति के बिना कोई विपणन संदेश नहीं)</li>
       </ul>

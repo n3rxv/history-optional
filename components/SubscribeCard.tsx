@@ -5,6 +5,8 @@ import { clearRef, readRef } from '@/lib/referralClient';
 import { useOffer } from '@/hooks/useOffer';
 import { OfferNote } from '@/components/OfferPrice';
 import InvitedNote from '@/components/InvitedNote';
+import InviteSavings, { invitePay, useInviteQuote } from '@/components/InviteSavings';
+import { REFERRAL_PLAN } from '@/lib/referral';
 import { useState, useEffect } from 'react';
 import { auth, signInWithGoogle } from '@/lib/firebase';
 
@@ -48,6 +50,9 @@ export function SubscribeCard({
   // success screen otherwise names the plan tile they happened to have
   // selected, which is not the plan they own.
   const [existingPlan, setExistingPlan] = useState<string | null>(null);
+  // Invite money on the yearly plan, shown before Razorpay opens.
+  const quote = useInviteQuote(Boolean(token));
+  const [useBalance, setUseBalance] = useState(true);
 
   // Prices come from lib/plans.ts, which is what /api/razorpay/order bills,
   // at the sale price while an offer runs.
@@ -131,9 +136,16 @@ export function SubscribeCard({
       const orderRes = await fetch('/api/razorpay/order', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', 'x-user-token': authToken },
-        body: JSON.stringify({ plan: planOverride ?? selectedPlan, ref: readRef() }),
+        body: JSON.stringify({ plan: planOverride ?? selectedPlan, ref: readRef(), useBalance: (planOverride ?? selectedPlan) === REFERRAL_PLAN && useBalance }),
       });
       const orderData = await orderRes.json();
+      // The balance covered it all: the plan is already granted, with nothing to pay.
+      if (orderData.granted) {
+        clearRef();
+        setStep('success');
+        setTimeout(() => { onSuccess?.(); window.location.href = `/subscribe/success?plan=${orderData.plan}&amount=0&txn=balance`; }, 1500);
+        return;
+      }
       // When the order route refuses, it says why. Show its words rather
       // than a generic failure.
       if (!orderData.orderId) throw new Error(orderData.message ?? 'Order failed');
@@ -237,7 +249,9 @@ export function SubscribeCard({
   const NAME: Record<PlanId, string> = langHi
     ? NAME_HI
     : { yearly: 'A year', sixmonths: '6 months', daily: 'A day' };
-  const selPrice = priceLabel(selectedPlan);
+  // What the button charges: the yearly plan less any invite money.
+  const inv = selectedPlan === REFERRAL_PLAN && token ? invitePay(planPricePaise(selectedPlan, offer), quote, useBalance) : null;
+  const selPrice = inv && (inv.friend || inv.spend) ? '₹' + (inv.pay / 100).toLocaleString('en-IN') : priceLabel(selectedPlan);
 
   return (
     <div className={`sc ds${standalone ? ' standalone' : ''}`}>
@@ -274,13 +288,19 @@ export function SubscribeCard({
         ))}
       </div>
 
+      {selectedPlan === REFERRAL_PLAN && token && (
+        <InviteSavings pricePaise={planPricePaise(REFERRAL_PLAN, offer)} quote={quote} useBalance={useBalance} onToggle={setUseBalance} />
+      )}
+
       <div className="sc-cta">
         <button className="ds-btn ds-btn-solid ds-btn-lg ds-btn-block" onClick={handlePay} disabled={step === 'paying'}>
           {step === 'paying'
             ? (langHi ? 'Razorpay खुल रहा है…' : 'Opening Razorpay…')
             : !token
                 ? <><GoogleIcon /> {langHi ? 'Google से जारी रखें' : 'Continue with Google'}</>
-                : `${langHi ? 'भुगतान करें' : 'Pay'} ${selPrice}`}
+                : inv?.pay === 0
+                  ? (langHi ? 'बैलेंस से एक साल का प्लान लें' : 'Get a year from your balance')
+                  : `${langHi ? 'भुगतान करें' : 'Pay'} ${selPrice}`}
         </button>
         <div className="sc-foot">
           <span className="sc-secure">

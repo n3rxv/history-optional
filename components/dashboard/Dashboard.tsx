@@ -11,7 +11,7 @@ import { useLoginPrompt } from '@/hooks/useLoginPrompt';
 import { loadHistory, type AnswerEntry } from '@/hooks/useAnswerHistory';
 import LoginPromptModal from '@/components/LoginPromptModal';
 import { readLastNote } from '@/lib/lastNote';
-import { REFERRER_DAYS } from '@/lib/referral';
+import { REFERRAL_REWARD_PAISE, formatPaise } from '@/lib/referral';
 import { daysToMains, NEXT_MAINS } from '@/lib/examDates';
 import { istDay } from '@/lib/istDay';
 import type { DailyQuestion } from '@/lib/dailyQuestions';
@@ -444,7 +444,7 @@ export default function Dashboard({ day, question: built }: { day: string; quest
                   {' '}{T('Unlimited chats and answer checks, whole papers marked, and the chat’s book and mentor modes.', 'असीमित चैट और उत्तर जाँच, पूरे पेपर की जाँच, और चैट के बुक व मेंटर मोड।')}
                 </p>
                 <button type="button" className="db-link" onClick={() => window.dispatchEvent(new Event('open-extend-modal'))}>{T('Extend your plan', 'प्लान बढ़ाएँ')} <Arrow /></button>
-                <Link href="/invite" className="db-link db-invite">{T(`Invite a friend, get ${REFERRER_DAYS} days`, `दोस्त को बुलाएँ, ${REFERRER_DAYS} दिन पाएँ`)} <Arrow /></Link>
+                <Link href="/invite" className="db-link db-invite">{T(`Invite a friend, earn ${formatPaise(REFERRAL_REWARD_PAISE)}`, `दोस्त को बुलाएँ, ${formatPaise(REFERRAL_REWARD_PAISE)} कमाएँ`)} <Arrow /></Link>
               </>
             ) : (
               <>
@@ -458,7 +458,7 @@ export default function Dashboard({ day, question: built }: { day: string; quest
                 )}
                 <p className="db-card-text">{T('Premium checks every answer you write and opens the chat without limits.', 'प्रीमियम आपका हर उत्तर जाँचता है और चैट बिना किसी सीमा के खोल देता है।')}</p>
                 <Link href="/pricing" className="ds-btn ds-btn-premium db-card-btn">{T('See the plans', 'प्लान देखें')}</Link>
-                <Link href="/invite" className="db-link db-invite">{T(`Invite a friend, get ${REFERRER_DAYS} days`, `दोस्त को बुलाएँ, ${REFERRER_DAYS} दिन पाएँ`)} <Arrow /></Link>
+                <Link href="/invite" className="db-link db-invite">{T(`Invite a friend, earn ${formatPaise(REFERRAL_REWARD_PAISE)}`, `दोस्त को बुलाएँ, ${formatPaise(REFERRAL_REWARD_PAISE)} कमाएँ`)} <Arrow /></Link>
               </>
             )}
           </div>

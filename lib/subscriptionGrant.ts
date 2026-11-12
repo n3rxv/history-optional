@@ -1,7 +1,8 @@
 import { createClient, type SupabaseClient } from "@supabase/supabase-js";
 import Razorpay from "razorpay";
 import { addPlanDuration, isPlanId, orderAmountOk, planAmountPaise, type PlanId } from "@/lib/plans";
-import { isRefCode, isReferralPlan, REFERRED_DAYS, REFERRER_DAYS } from "@/lib/referral";
+import { FREE_BALANCE_CAP_PAISE, FRIEND_DISCOUNT_PAISE, REFERRAL_PLAN, REFERRAL_REWARD_PAISE, isRefCode } from "@/lib/referral";
+import { paymentFees } from "@/lib/referralServer";
 
 /**
  * The one place a Razorpay payment turns into subscription access.
@@ -92,10 +93,20 @@ export async function applySubscriptionPayment(opts: {
   const plan: PlanId = notes.plan;
 
   // The list price, or the sale price of the offer the order route wrote in
-  // the notes, which holds after the offer ends for an order made during it.
+  // the notes, which holds after the offer ends for an order made during it,
+  // less what the order route took off a yearly plan for an invite.
   const orderAmount = Number(order.amount);
-  if (!orderAmountOk(plan, orderAmount, notes.offer)) {
-    log(`order amount ${orderAmount} != ${plan} price ${planAmountPaise(plan)} (offer ${String(notes.offer ?? "none")})`);
+  const notePaise = (v: unknown): number | null => {
+    if (v === undefined || v === null) return 0;
+    return /^\d{1,7}$/.test(String(v)) ? Number(v) : null;
+  };
+  const friendDiscount = notePaise(notes.friend_discount);
+  const balanceSpend = notePaise(notes.balance_spend);
+  const offsOk = friendDiscount !== null && balanceSpend !== null
+    && (friendDiscount === 0 || (friendDiscount === FRIEND_DISCOUNT_PAISE && isRefCode(notes.ref)))
+    && (plan === REFERRAL_PLAN || (friendDiscount === 0 && balanceSpend === 0));
+  if (!offsOk || !orderAmountOk(plan, orderAmount + (friendDiscount ?? 0) + (balanceSpend ?? 0), notes.offer)) {
+    log(`order amount ${orderAmount} != ${plan} price ${planAmountPaise(plan)} (offer ${String(notes.offer ?? "none")}, friend ${String(notes.friend_discount ?? 0)}, balance ${String(notes.balance_spend ?? 0)})`);
     return { ok: false, status: 400, error: "Order amount does not match plan" };
   }
 
@@ -166,29 +177,16 @@ export async function applySubscriptionPayment(opts: {
     // redeliveries never reach here, so extending is safe.
     const { data: existingSub } = await db
       .from("subscriptions")
-      .select("expires_at, razorpay_payment_id")
+      .select("expires_at")
       .eq("firebase_uid", uid)
       .maybeSingle();
-
-    // Read before the upsert below overwrites the row. A referral pays out
-    // only on a first purchase: none on the row (which predates the ledger
-    // for older readers) and none in the ledger besides this one.
-    let firstPurchase = false;
-    if (isRefCode(notes.ref) && isReferralPlan(plan) && !existingSub?.razorpay_payment_id) {
-      const { count } = await db
-        .from("payment_events")
-        .select("payment_id", { count: "exact", head: true })
-        .eq("firebase_uid", uid)
-        .neq("payment_id", paymentId);
-      firstPurchase = count === 0;
-    }
 
     const now = new Date();
     const base =
       existingSub?.expires_at && new Date(existingSub.expires_at) > now
         ? new Date(existingSub.expires_at)
         : now;
-    let expiresAt = addPlanDuration(base, plan);
+    const expiresAt = addPlanDuration(base, plan);
 
     const { error: upsertErr } = await db.from("subscriptions").upsert(
       {
@@ -210,26 +208,38 @@ export async function applySubscriptionPayment(opts: {
       return { ok: false, status: 500, error: "DB error" };
     }
 
-    // Never fails the grant: the reader has paid for their plan whatever
-    // happens to the invite bonus.
-    if (firstPurchase) {
-      const { data: ref, error: refErr } = await db.rpc("apply_referral", {
+    // What Razorpay kept: a yearly payment sets its buyer's invite earning cap.
+    const fees = paymentFees(payment as { fee?: number | null; tax?: number | null }, orderAmount);
+    await db
+      .from("payment_events")
+      .update({
+        expires_at: expiresAt.toISOString(),
+        fee_paise: fees.fee,
+        tax_paise: fees.tax,
+        balance_paise: balanceSpend ?? 0,
+        friend_discount_paise: friendDiscount ?? 0,
+      })
+      .eq("payment_id", paymentId);
+
+    // The invite money. None of it can fail the grant: the reader has paid
+    // for their plan whatever happens here.
+    if (balanceSpend) {
+      const { error: spendErr } = await db.rpc("spend_referral_balance", {
+        p_uid: uid, p_order_id: orderId, p_amount_paise: balanceSpend,
+      });
+      if (spendErr) log("balance spend failed:", spendErr);
+    }
+    if (friendDiscount) {
+      const { data: ref, error: refErr } = await db.rpc("credit_referral", {
         p_code: String(notes.ref),
         p_order_id: orderId,
         p_buyer_uid: uid,
-        p_plan: plan,
-        p_referrer_days: REFERRER_DAYS,
-        p_referred_days: REFERRED_DAYS,
+        p_reward_paise: REFERRAL_REWARD_PAISE,
+        p_free_cap_paise: FREE_BALANCE_CAP_PAISE,
       });
-      if (refErr) log("referral failed:", refErr);
-      else if (ref?.result === "applied" && ref.expires_at) expiresAt = new Date(ref.expires_at);
-      else log(`referral not applied: ${ref?.result}`);
+      if (refErr) log("referral credit failed:", refErr);
+      else if (ref?.result !== "applied") log(`referral not credited: ${ref?.result}`);
     }
-
-    await db
-      .from("payment_events")
-      .update({ expires_at: expiresAt.toISOString() })
-      .eq("payment_id", paymentId);
 
     if (fingerprint) {
       await db

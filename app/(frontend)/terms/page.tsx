@@ -14,8 +14,8 @@ export default function TermsPage() {
       current="terms"
       title="Terms of Service"
       titleHi="सेवा की शर्तें"
-      updated="Last updated: 8 November 2026 · Effective: 8 November 2026"
-      updatedHi="अंतिम अद्यतन: 8 नवंबर 2026 · प्रभावी: 8 नवंबर 2026"
+      updated="Last updated: 12 November 2026 · Effective: 12 November 2026"
+      updatedHi="अंतिम अद्यतन: 12 नवंबर 2026 · प्रभावी: 12 नवंबर 2026"
       hi={<TermsHi />}
     >
       <p>
@@ -66,7 +66,36 @@ export default function TermsPage() {
         reasonable prior notice.
       </p>
 
-      <h2>5. Refund Policy</h2>
+      <h2>5. Invites</h2>
+      <p>
+        Every signed-in reader gets an invite link. When someone signs up through it and buys their
+        first yearly plan, they pay ₹100 less and the reader who invited them gets ₹100 in an invite
+        balance. Only a friend&rsquo;s first yearly plan counts, and each friend counts once.
+      </p>
+      <ul>
+        <li>
+          Before you have bought a yearly plan, your balance can grow up to the yearly plan&rsquo;s list
+          price and can only be used as money off your own yearly plan.
+        </li>
+        <li>
+          Each yearly plan you buy lets you earn up to what that payment brought us after Razorpay&rsquo;s
+          fee and the GST on it. A yearly plan paid wholly from your balance brought nothing in, so
+          invites earn again from your next paid yearly plan.
+        </li>
+        <li>
+          Once you have a yearly plan, you can cash out your whole balance to a UPI id each time your
+          earnings on that plan reach ₹1,000, ₹2,000 and your limit. We send cash-outs by hand to the
+          UPI id you give, so check it carefully. Money sent to a UPI id you entered wrongly cannot be
+          recovered by us.
+        </li>
+        <li>
+          Your balance cannot be transferred and has no cash value except through these cash-outs. It
+          stays for as long as we run invites. If we end them, we will say here what happens to
+          balances.
+        </li>
+      </ul>
+
+      <h2>6. Refund Policy</h2>
       <p>
         All purchases are final. We do not offer refunds, exchanges, or credits for any
         plan once payment has been processed. Please review the features available
@@ -78,14 +107,14 @@ export default function TermsPage() {
         requests on a case-by-case basis. Contact us within 7 days of the issue.
       </p>
 
-      <h2>6. Intellectual Property</h2>
+      <h2>7. Intellectual Property</h2>
       <p>
         All content on this site, including notes, question banks, AI-generated evaluations
         and design, is owned by historyoptional.xyz or its licensors. You may not copy,
         redistribute, or sell any content without written permission.
       </p>
 
-      <h2>7. Acceptable Use</h2>
+      <h2>8. Acceptable Use</h2>
       <p>You agree not to:</p>
       <ul>
         <li>Scrape, crawl, or systematically download site content</li>
@@ -94,14 +123,14 @@ export default function TermsPage() {
         <li>Attempt to reverse-engineer or interfere with the platform</li>
       </ul>
 
-      <h2>8. AI Features</h2>
+      <h2>9. AI Features</h2>
       <p>
         AI-powered answer evaluation and chat features are provided as study aids only.
         They do not constitute professional coaching advice. Accuracy of AI responses
         may vary, so always cross-reference with official UPSC sources.
       </p>
 
-      <h2>9. Limitation of Liability</h2>
+      <h2>10. Limitation of Liability</h2>
       <p>
         To the maximum extent permitted by law, historyoptional.xyz shall not be liable for
         any indirect, incidental, or consequential damages arising from your use of the
@@ -109,13 +138,13 @@ export default function TermsPage() {
         preceding the claim.
       </p>
 
-      <h2>10. Governing Law</h2>
+      <h2>11. Governing Law</h2>
       <p>
         These terms are governed by the laws of India. Any disputes shall be subject to
         the exclusive jurisdiction of courts in India.
       </p>
 
-      <h2>11. Contact</h2>
+      <h2>12. Contact</h2>
       <p>
         Questions about these terms? Contact us at:<br />
         <strong>History Optional Team</strong><br />
@@ -178,7 +207,37 @@ function TermsHi() {
         सुरक्षित रखते हैं।
       </p>
 
-      <h2>5. रिफ़ंड नीति</h2>
+      <h2>5. आमंत्रण</h2>
+      <p>
+        हर साइन-इन किए गए पाठक को एक आमंत्रण लिंक मिलता है। जब कोई उस लिंक से साइन अप करके अपना
+        पहला एक साल का प्लान ख़रीदता है, तो उसे ₹100 कम देने पड़ते हैं और बुलाने वाले पाठक के आमंत्रण
+        बैलेंस में ₹100 जुड़ जाते हैं। केवल दोस्त का पहला एक साल का प्लान गिना जाता है, और हर दोस्त
+        एक ही बार गिना जाता है।
+      </p>
+      <ul>
+        <li>
+          एक साल का प्लान ख़रीदने से पहले आपका बैलेंस एक साल के प्लान की सूची क़ीमत तक बढ़ सकता है और
+          केवल आपके अपने एक साल के प्लान पर छूट के रूप में इस्तेमाल हो सकता है।
+        </li>
+        <li>
+          आपके हर एक साल के प्लान से आप उतना कमा सकते हैं जितना वह भुगतान Razorpay का शुल्क और उस पर
+          GST कटने के बाद हमें लाया। जो एक साल का प्लान पूरी तरह आपके बैलेंस से चुकाया गया, उससे कुछ
+          नहीं आया, इसलिए आमंत्रणों से कमाई आपके अगले चुकाए गए एक साल के प्लान से फिर शुरू होती है।
+        </li>
+        <li>
+          एक साल का प्लान लेने के बाद, उस प्लान पर आपकी कमाई जब भी ₹1,000, ₹2,000 और आपकी सीमा तक
+          पहुँचे, आप अपना पूरा बैलेंस किसी UPI आईडी पर निकाल सकते हैं। हम पैसे आपकी दी गई UPI आईडी
+          पर हाथ से भेजते हैं, इसलिए उसे ध्यान से जाँचें। आपके द्वारा ग़लत डाली गई UPI आईडी पर भेजे
+          गए पैसे हम वापस नहीं ला सकते।
+        </li>
+        <li>
+          आपका बैलेंस किसी और को नहीं दिया जा सकता और इन निकासियों के अलावा इसका कोई नक़द मूल्य नहीं
+          है। जब तक हम आमंत्रण चला रहे हैं, यह बना रहता है। अगर हम इन्हें बंद करते हैं, तो यहाँ
+          बताएँगे कि बैलेंस का क्या होगा।
+        </li>
+      </ul>
+
+      <h2>6. रिफ़ंड नीति</h2>
       <p>
         सभी ख़रीद अंतिम हैं। भुगतान संसाधित हो जाने के बाद हम किसी भी प्लान के लिए रिफ़ंड, विनिमय
         या क्रेडिट नहीं देते। कृपया ख़रीदने से पहले निःशुल्क प्लान में उपलब्ध सुविधाओं की समीक्षा करें।
@@ -190,14 +249,14 @@ function TermsHi() {
         संपर्क करें।
       </p>
 
-      <h2>6. बौद्धिक संपदा</h2>
+      <h2>7. बौद्धिक संपदा</h2>
       <p>
         इस साइट की सभी सामग्री, जिसमें नोट्स, प्रश्न बैंक, AI द्वारा तैयार किए गए मूल्यांकन और
         डिज़ाइन शामिल हैं, historyoptional.xyz या उसके लाइसेंसदाताओं के स्वामित्व में है। लिखित
         अनुमति के बिना आप किसी भी सामग्री की प्रतिलिपि, पुनर्वितरण या बिक्री नहीं कर सकते।
       </p>
 
-      <h2>7. स्वीकार्य उपयोग</h2>
+      <h2>8. स्वीकार्य उपयोग</h2>
       <p>आप सहमत होते हैं कि आप निम्नलिखित कार्य नहीं करेंगे:</p>
       <ul>
         <li>साइट की सामग्री को स्क्रेप करना, क्रॉल करना या व्यवस्थित रूप से डाउनलोड करना</li>
@@ -206,14 +265,14 @@ function TermsHi() {
         <li>प्लेटफ़ॉर्म की रिवर्स-इंजीनियरिंग करने या उसके संचालन में हस्तक्षेप करने का प्रयास करना</li>
       </ul>
 
-      <h2>8. AI सुविधाएँ</h2>
+      <h2>9. AI सुविधाएँ</h2>
       <p>
         AI-आधारित उत्तर मूल्यांकन और चैट सुविधाएँ केवल अध्ययन सहायता के रूप में प्रदान की जाती
         हैं। ये पेशेवर कोचिंग परामर्श नहीं हैं। AI के उत्तरों की सटीकता भिन्न हो सकती है, इसलिए
         सदैव आधिकारिक UPSC स्रोतों से मिलान करें।
       </p>
 
-      <h2>9. दायित्व की सीमा</h2>
+      <h2>10. दायित्व की सीमा</h2>
       <p>
         क़ानून द्वारा अनुमत अधिकतम सीमा तक, historyoptional.xyz प्लेटफ़ॉर्म के आपके उपयोग से
         उत्पन्न किसी भी अप्रत्यक्ष, आनुषंगिक या परिणामी क्षति के लिए उत्तरदायी नहीं होगा। हमारा
@@ -221,13 +280,13 @@ function TermsHi() {
         होगा।
       </p>
 
-      <h2>10. शासी क़ानून</h2>
+      <h2>11. शासी क़ानून</h2>
       <p>
         ये शर्तें भारत के क़ानूनों द्वारा शासित हैं। कोई भी विवाद भारत के न्यायालयों के अनन्य
         क्षेत्राधिकार के अधीन होगा।
       </p>
 
-      <h2>11. संपर्क</h2>
+      <h2>12. संपर्क</h2>
       <p>
         इन शर्तों के बारे में कोई प्रश्न है? हमसे यहाँ संपर्क करें:<br />
         <strong>History Optional टीम</strong><br />

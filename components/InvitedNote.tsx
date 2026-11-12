@@ -2,7 +2,7 @@
 import { useSyncExternalStore } from 'react';
 import { useLang } from '@/lib/i18n/LangContext';
 import { readRef } from '@/lib/referralClient';
-import { REFERRED_DAYS } from '@/lib/referral';
+import { FRIEND_DISCOUNT_PAISE, formatPaise } from '@/lib/referral';
 
 const noop = () => () => {};
 
@@ -14,8 +14,8 @@ export default function InvitedNote({ className }: { className?: string }) {
   return (
     <p className={className}>
       {langHi
-        ? `आपको एक दोस्त ने बुलाया है: अपने पहले 6 महीने या एक साल के प्लान के साथ ${REFERRED_DAYS} दिन अतिरिक्त पाएँ।`
-        : `A friend invited you: get ${REFERRED_DAYS} extra days with your first 6-month or yearly plan.`}
+        ? `आपको एक दोस्त ने बुलाया है: अपने पहले एक साल के प्लान पर ${formatPaise(FRIEND_DISCOUNT_PAISE)} की छूट।`
+        : `A friend invited you: ${formatPaise(FRIEND_DISCOUNT_PAISE)} off your first yearly plan.`}
     </p>
   );
 }

@@ -15,6 +15,8 @@ import { FEATURES, TOPPER_PRICE } from '@/lib/features';
 import { daysToMains } from '@/lib/examDates';
 import { PLANS, PLAN_ORDER, DEFAULT_PLAN, planPricePaise, addPlanDuration, isPlanId, type PlanId } from '@/lib/plans';
 import { readRef } from '@/lib/referralClient';
+import { REFERRAL_PLAN } from '@/lib/referral';
+import InviteSavings, { invitePay, useInviteQuote } from '@/components/InviteSavings';
 import { useOffer } from '@/hooks/useOffer';
 import { OfferNote } from '@/components/OfferPrice';
 import UserAvatar from '@/components/ui/UserAvatar';
@@ -144,6 +146,9 @@ function ExtendModal({
   const T = (en: string, hi: string) => (langHi ? hi : en);
   const [selectedPlan, setSelectedPlan] = useState<PlanId>(DEFAULT_PLAN);
   const [loading, setLoading] = useState(false);
+  // Invite money on the yearly plan, shown before Razorpay opens.
+  const quote = useInviteQuote(true);
+  const [useBalance, setUseBalance] = useState(true);
 
   // Built from lib/plans.ts, which is what /api/razorpay/order bills from.
   // This list used to be typed by hand and carried two tiles at ₹1,999 for
@@ -166,6 +171,9 @@ function ExtendModal({
 
   const newExpiry = computeNewExpiry(selectedPlan);
   const cur = plans.find(p => p.id === selectedPlan)!;
+  // What the button charges: the yearly plan less any invite money.
+  const inv = selectedPlan === REFERRAL_PLAN ? invitePay(planPricePaise(selectedPlan, offer), quote, useBalance) : null;
+  const payLabel = inv && (inv.friend || inv.spend) ? '₹' + (inv.pay / 100).toLocaleString('en-IN') : cur.price;
 
   const handlePay = async () => {
     setLoading(true);
@@ -189,9 +197,15 @@ function ExtendModal({
       const orderRes = await fetch('/api/razorpay/order', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', 'x-user-token': token },
-        body: JSON.stringify({ plan: selectedPlan, ref: readRef() }),
+        body: JSON.stringify({ plan: selectedPlan, ref: readRef(), useBalance: selectedPlan === REFERRAL_PLAN && useBalance }),
       });
       const order = await orderRes.json();
+      // The balance covered it all: the plan is already granted, with nothing to pay.
+      if (order.granted) {
+        onSuccess(order.expiresAt, (order.plan as PlanId) ?? selectedPlan);
+        onClose();
+        return;
+      }
       const orderId = order.id ?? order.orderId;
       if (!orderId) throw new Error(order.message ?? 'Order creation failed');
 
@@ -261,13 +275,19 @@ function ExtendModal({
           ))}
         </div>
 
+        {selectedPlan === REFERRAL_PLAN && (
+          <InviteSavings pricePaise={planPricePaise(REFERRAL_PLAN, offer)} quote={quote} useBalance={useBalance} onToggle={setUseBalance} className="nb-isv" />
+        )}
+
         <div className="nb-extend-row good">
           <span>{T('After paying, Premium runs until', 'भुगतान के बाद प्रीमियम इस तारीख़ तक चलेगा')}</span>
           <strong>{fmtDate(newExpiry.toISOString(), 'long', langHi)}</strong>
         </div>
 
         <button className="ds-btn ds-btn-solid ds-btn-lg ds-btn-block" onClick={handlePay} disabled={loading}>
-          {loading ? T('Opening Razorpay…', 'Razorpay खुल रहा है…') : langHi ? `भुगतान करें ${cur.price}` : `Pay ${cur.price}`}
+          {loading ? T('Opening Razorpay…', 'Razorpay खुल रहा है…')
+            : inv?.pay === 0 ? T('Get a year from your balance', 'बैलेंस से एक साल का प्लान लें')
+            : langHi ? `भुगतान करें ${payLabel}` : `Pay ${payLabel}`}
         </button>
       </div>
     </div>,
