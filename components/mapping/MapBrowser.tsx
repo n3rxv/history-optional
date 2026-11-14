@@ -57,15 +57,19 @@ function clueFor(site: MapSite): string {
 
 /**
  * Three wrong answers near the right one, so the map has to be read, not
- * guessed from the region. A place within about 5 km, or sharing a word of its
- * name ("Sopara" and "Nala Sopara"), is the same place under another name and
- * is never offered as a wrong answer to itself.
+ * guessed from the region, but at least a degree (about 110 km) from it.
+ * Closer than that, two places are one dot on a map of India: Sinauli was
+ * asked with Alamgirpur, 30 km away and the other accepted answer to the same
+ * 2025 question, as a wrong option. A place sharing a word of its name
+ * ("Sopara" and "Nala Sopara") is the same place under another name and is
+ * never offered as a wrong answer to itself.
  */
+const APART = 1;
 function distractors(site: MapSite, all: MapSite[]): MapSite[] {
   const own = site.name.toLowerCase().split(/[/\-,\s]+/).filter((t) => t.length > 3);
   const out: MapSite[] = [];
   for (const s of [...all].sort((a, b) => away(site, a) - away(site, b))) {
-    if (s.name === site.name || away(site, s) < 0.05) continue;
+    if (s.name === site.name || away(site, s) < APART) continue;
     if (s.name.toLowerCase().split(/[/\-,\s]+/).some((t) => t.length > 3 && own.includes(t))) continue;
     if (out.some((o) => away(o, s) < 0.05 || o.name === s.name)) continue;
     out.push(s);
