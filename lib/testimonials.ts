@@ -46,6 +46,7 @@ export const TESTIMONIALS: Testimonial[] = [
     title: 'It has become such a dependable resource.',
     text: [
       'Ur website has genuinely made my History Optional preparation so much easier. I just specially came to write this review. It has reduced the burden of constantly wandering from one source to another. I find myself using it almost every day for my preparation and it has become such a dependable resource. Really appreciate the effort you have put into creating something so useful for aspirants, thanks a lot for making our journey a little easier!!!',
+      'It’s a one-stop solution for PYQs, topper copies, books of various authors and much more. I mean, it’s commendable to have such a go-to website for History Optional preparation with such high-quality content. Totally recommended to all!',
     ],
     colors: ['var(--tint-medieval)', 'var(--tint-ancient)', 'var(--tint-world)'],
   },
