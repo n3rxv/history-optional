@@ -11,13 +11,14 @@ import { auth } from '@/lib/firebase';
  * attempt and designation (app/api/review, supabase/reviews.sql). A line
  * under the form tells them the review may be shown on the site.
  *
- * When it opens by itself: a signed-in reader who has opened PAGES_MIN pages
- * in this browser, AFTER_MS into a session, never on a page where they are
- * mid-task, and never on top of another dialog. "Not now" waits LATER_DAYS;
- * a sent review stops it for good, on every device (the server is asked
- * before it opens). Once it has opened in a session, the Premium nudge and
- * the weekly checkup stay away for the rest of that session (SHOWN_KEY), so
- * nobody gets two pop-ups in one visit.
+ * When it opens by itself: a signed-in reader whose account is ACCOUNT_DAYS
+ * old and who has come back for SESSIONS_MIN sessions or more (counted by the
+ * server across their devices, from user_sessions), AFTER_MS into a visit,
+ * never on a page where they are mid-task, and never on top of another
+ * dialog. "Not now" waits LATER_DAYS; a sent review stops it for good, on
+ * every device (the server is asked before it opens). Once it has opened in
+ * a session, the Premium nudge and the weekly checkup stay away for the rest
+ * of that session (SHOWN_KEY), so nobody gets two pop-ups in one visit.
  *
  * Any link with ?review=1 opens it straight away, so a review can be asked
  * for from Telegram or WhatsApp, and so does OPEN_EVENT (the footer's "Write a
@@ -31,8 +32,9 @@ export const OPEN_EVENT = 'open-review';
 const AFTER_LOGIN_KEY = 'ho_review_after_login';
 const SENT_KEY = 'ho_review_sent';
 const LATER_KEY = 'ho_review_later';
-const PAGES_KEY = 'ho_pages_opened';
-const PAGES_MIN = 20;
+/** How old an account must be, and how many sessions it must have had. */
+const ACCOUNT_DAYS = 7;
+const SESSIONS_MIN = 5;
 const AFTER_MS = 3 * 60 * 1000;
 const RETRY_MS = 60 * 1000;
 const LATER_DAYS = 21;
@@ -115,7 +117,8 @@ export default function ReviewPrompt() {
   useEffect(() => {
     if (forced || loading || !user) return;
     if (store.get(SENT_KEY)) return;
-    if (Number(store.get(PAGES_KEY) || 0) < PAGES_MIN) return;
+    const created = Date.parse(user.metadata.creationTime ?? '');
+    if (!created || Date.now() - created < ACCOUNT_DAYS * 864e5) return;
     const later = Number(store.get(LATER_KEY) || 0);
     if (later && Date.now() - later < LATER_DAYS * 864e5) return;
     try { if (sessionStorage.getItem(SHOWN_KEY)) return; } catch {}
@@ -128,7 +131,11 @@ export default function ReviewPrompt() {
       if (busy) { timer = window.setTimeout(tryShow, RETRY_MS); return; }
       try {
         const res = await fetch('/api/review', { headers: { 'x-user-token': await user.getIdToken() } });
-        if (res.ok && (await res.json()).done) { store.set(SENT_KEY, '1'); return; }
+        if (!res.ok) return;
+        const { done, sessions } = await res.json();
+        if (done) { store.set(SENT_KEY, '1'); return; }
+        // Not enough visits yet: asked again in a later session.
+        if ((sessions ?? 0) < SESSIONS_MIN) return;
       } catch { return; }
       if (!stopped) show();
     };

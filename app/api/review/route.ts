@@ -6,7 +6,9 @@ import { checkRateLimit } from '@/lib/rateLimit';
 /**
  * Reviews and suggestions from signed-in readers (components/ReviewPrompt).
  *   GET   whether this reader has sent one already, so the prompt is not
- *         shown again on another device
+ *         shown again on another device, and how many sessions they have
+ *         had across their devices (user_sessions, one row per browser), so
+ *         it is shown only to readers who keep coming back
  *   POST  saves one to the reviews table (supabase/reviews.sql)
  * Nothing here is shown on the site by itself: a review reaches the home page
  * only by hand. The form tells readers a review may be shown on the site,
@@ -20,9 +22,13 @@ const words = (s: string) => s.split(/\s+/).filter(Boolean).length;
 export async function GET(req: NextRequest) {
   const user = await verifyFirebaseToken(req.headers.get('x-user-token'));
   if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-  const { count } = await createServerClient()
-    .from('reviews').select('id', { count: 'exact', head: true }).eq('uid', user.uid);
-  return NextResponse.json({ done: (count ?? 0) > 0 }, { headers: { 'Cache-Control': 'no-store' } });
+  const db = createServerClient();
+  const [{ count }, { data: rows }] = await Promise.all([
+    db.from('reviews').select('id', { count: 'exact', head: true }).eq('uid', user.uid),
+    db.from('user_sessions').select('session_count').eq('firebase_uid', user.uid),
+  ]);
+  const sessions = (rows ?? []).reduce((n, r) => n + (r.session_count ?? 1), 0);
+  return NextResponse.json({ done: (count ?? 0) > 0, sessions }, { headers: { 'Cache-Control': 'no-store' } });
 }
 
 export async function POST(req: NextRequest) {
