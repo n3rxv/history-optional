@@ -41,8 +41,8 @@ export const TESTIMONIALS: Testimonial[] = [
     name: 'Isha Jain',
     role: 'Aspirant',
     roleHi: 'अभ्यर्थी',
-    tag: 'Uses it almost every day',
-    tagHi: 'लगभग हर दिन इस्तेमाल',
+    tag: '1st attempt',
+    tagHi: 'पहला प्रयास',
     title: 'It has become such a dependable resource.',
     text: [
       'Ur website has genuinely made my History Optional preparation so much easier. I just specially came to write this review. It has reduced the burden of constantly wandering from one source to another. I find myself using it almost every day for my preparation and it has become such a dependable resource. Really appreciate the effort you have put into creating something so useful for aspirants, thanks a lot for making our journey a little easier!!!',
