@@ -15,6 +15,7 @@ import { SpeedInsights } from '@vercel/speed-insights/next';
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import WeeklyCheckup from "@/components/WeeklyCheckup";
+import ReviewPrompt from "@/components/ReviewPrompt";
 import VisitorTracker from "@/components/VisitorTracker";
 import ProgressSync from '@/components/ProgressSync';
 import RefCapture from '@/components/RefCapture';
@@ -164,6 +165,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         />
         <LangProvider>
         <WeeklyCheckup />
+        <ReviewPrompt />
         <AuthRedirectHandler />
         <VisitorTracker />
         <ProgressSync />

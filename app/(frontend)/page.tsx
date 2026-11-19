@@ -14,6 +14,7 @@ import HomeAsk from '@/components/home/HomeAsk';
 import { HeroActions } from '@/components/home/HomeLinks';
 import HomeShowcase from '@/components/home/HomeShowcase';
 import TodayPractice from '@/components/home/TodayPractice';
+import Testimonials from '@/components/home/Testimonials';
 import { SECTIONS, SectionIcon } from '@/components/notes/sections';
 import { HiText } from '@/components/ui/HiText';
 import { SECTION_HI } from '@/lib/notesHi';
@@ -164,6 +165,17 @@ export default async function Home() {
           </div>
         </section>
 
+        {/* ── What readers say ── */}
+        <section id="testimonials" className="hm-section hm-ts">
+          <div className="ds-container">
+            <div className="hm-head ts-head">
+              <span className="ts-eyebrow"><HiText en="What aspirants say" hi="अभ्यर्थियों की राय" /></span>
+              <h2 className="ds-h2"><HiText en="In their own words" hi="उन्हीं के शब्दों में" /></h2>
+            </div>
+            <Testimonials />
+          </div>
+        </section>
+
         {/* ── Plans ── */}
         <section className="hm-section">
           <div className="ds-container">
@@ -270,6 +282,42 @@ const HOME_CSS = `
 .hm-step-n { width: 32px; height: 32px; display: inline-flex; align-items: center; justify-content: center; margin-bottom: var(--space-1); border-radius: var(--radius-circle); background: var(--accent); color: var(--accent-on); font-family: var(--font-ui); font-weight: 700; font-size: 0.9rem; }
 .hm-step-text { font-size: 0.92rem; line-height: 1.6; color: var(--text2); }
 
+/* What readers say. Colour washes behind the section; each card brings its
+   own three colours (--c1..--c3, set from lib/testimonials.ts) for a
+   gradient border, a glow, its title and its avatar. */
+.hm-ts { position: relative; overflow: hidden; isolation: isolate; }
+.hm-ts::before { content: ''; position: absolute; inset: 0; z-index: -1; pointer-events: none;
+  background:
+    radial-gradient(42% 55% at 8% 18%, color-mix(in srgb, var(--tint-modern) 26%, transparent), transparent 70%),
+    radial-gradient(38% 50% at 92% 82%, color-mix(in srgb, var(--tint-medieval) 24%, transparent), transparent 70%),
+    radial-gradient(30% 40% at 62% 30%, color-mix(in srgb, var(--tint-ancient) 16%, transparent), transparent 70%); }
+.ts-head { align-items: flex-start; }
+.ts-eyebrow { display: inline-flex; align-items: center; gap: 8px; padding: 6px 14px; border-radius: var(--radius-full); font-family: var(--font-ui); font-size: 0.78rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--on-fill);
+  background: linear-gradient(100deg, var(--tint-modern), var(--tint-medieval), var(--tint-ancient)); box-shadow: 0 6px 22px -8px color-mix(in srgb, var(--tint-medieval) 70%, transparent); }
+.ts-list { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: 1.35fr 1fr; gap: var(--space-6); align-items: stretch; }
+.ts { position: relative; display: flex; border: 2px solid transparent; border-radius: var(--radius-xl);
+  background:
+    linear-gradient(165deg, color-mix(in srgb, var(--c1) 14%, var(--ds-card)), var(--ds-card) 48%, color-mix(in srgb, var(--c3) 9%, var(--ds-card))) padding-box,
+    linear-gradient(120deg, var(--c1), var(--c2), var(--c3)) border-box;
+  box-shadow: 0 22px 60px -26px color-mix(in srgb, var(--c1) 75%, transparent), 0 14px 40px -24px color-mix(in srgb, var(--c3) 65%, transparent);
+  transition: transform 0.25s ease, box-shadow 0.25s ease; }
+.ts:hover { transform: translateY(-4px); box-shadow: 0 30px 70px -24px color-mix(in srgb, var(--c1) 90%, transparent), 0 18px 50px -22px color-mix(in srgb, var(--c3) 80%, transparent); }
+.ts-fig { position: relative; margin: 0; display: flex; flex-direction: column; gap: var(--space-4); padding: var(--space-6); width: 100%; }
+.ts-mark { position: absolute; top: var(--space-5); right: var(--space-5); width: 74px; height: 57px; opacity: 0.9; }
+.ts-tag { align-self: flex-start; padding: 6px 12px; border-radius: var(--radius-full); font-family: var(--font-ui); font-size: 0.76rem; font-weight: 700; color: var(--c1); background: color-mix(in srgb, var(--c1) 14%, transparent); border: 1px solid color-mix(in srgb, var(--c1) 40%, transparent); }
+.ts-title { margin: 0; padding-right: 72px; font-weight: 800; font-size: clamp(1.3rem, 2.1vw, 1.6rem); line-height: 1.25; letter-spacing: -0.02em;
+  background: linear-gradient(100deg, var(--c1), var(--c2) 60%, var(--c3)); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.ts-quote { margin: 0; display: flex; flex-direction: column; gap: var(--space-3); }
+.ts-quote p { margin: 0; font-size: 1rem; line-height: 1.7; color: var(--text2); }
+.ts-more { display: none; align-self: flex-start; margin-top: calc(-1 * var(--space-2)); padding: 6px 0; border: none; background: none; color: var(--c1); font-family: var(--font-ui); font-size: 0.88rem; font-weight: 700; cursor: pointer; }
+.ts-more:hover { text-decoration: underline; }
+.ts-more:focus-visible { outline: 2px solid var(--c1); outline-offset: 2px; border-radius: 4px; }
+.ts-by { display: flex; align-items: center; gap: var(--space-3); margin-top: auto; padding-top: var(--space-4); border-top: 1px solid color-mix(in srgb, var(--c2) 30%, var(--border)); }
+.ts-av { width: 46px; height: 46px; flex-shrink: 0; display: inline-flex; align-items: center; justify-content: center; border-radius: var(--radius-circle); background: linear-gradient(135deg, var(--c1), var(--c3)); color: var(--on-fill); font-family: var(--font-ui); font-size: 0.86rem; font-weight: 800; letter-spacing: 0.02em; box-shadow: 0 0 0 3px var(--ds-card), 0 0 0 5px color-mix(in srgb, var(--c2) 55%, transparent); }
+.ts-who { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+.ts-name { font-weight: 700; font-size: 1rem; color: var(--text); }
+.ts-role { font-family: var(--font-ui); font-size: 0.8rem; line-height: 1.45; color: var(--text3); }
+
 /* Plans */
 .hm-offer { margin-bottom: var(--space-4); }
 .hm-plans { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-4); }
@@ -288,7 +336,8 @@ const HOME_CSS = `
 
 /* Tablet */
 @media (max-width: 960px) {
-  .hm-steps, .hm-plans { grid-template-columns: 1fr; }
+  .hm-steps, .hm-plans, .ts-list { grid-template-columns: 1fr; }
+  .ts-list { max-width: 680px; }
   .hm-step { border-left: none; border-top: 2px solid var(--border); padding: var(--space-4) 0; flex-direction: row; flex-wrap: wrap; align-items: center; column-gap: var(--space-3); }
   .hm-step-text { flex-basis: 100%; }
   .hm-plans { max-width: 520px; margin: 0 auto; }
@@ -314,6 +363,14 @@ const HOME_CSS = `
   .hm-plan-price { font-size: 1.6rem; margin-top: 0; }
   .hm-plan-text { flex-basis: 100%; margin-top: var(--space-1); }
   .hm-plan .ds-tag { top: var(--space-3); right: var(--space-3); }
+  .ts-list { gap: var(--space-5); }
+  .ts-fig { padding: var(--space-5) var(--space-4); gap: var(--space-3); }
+  .ts-mark { top: var(--space-4); right: var(--space-4); width: 54px; height: 42px; }
+  .ts-title { padding-right: 56px; font-size: 1.22rem; }
+  .ts-quote p { font-size: 0.96rem; }
+  /* A long quote shows its first lines, fading out, until "Read all". */
+  .ts-quote.cut { max-height: calc(0.96rem * 1.7 * 7); overflow: hidden; -webkit-mask-image: linear-gradient(to bottom, var(--text) 60%, transparent); mask-image: linear-gradient(to bottom, var(--text) 60%, transparent); }
+  .ts-more { display: inline-block; }
 }
-@media (prefers-reduced-motion: reduce) { .tp-bar span { transition: none; } }
+@media (prefers-reduced-motion: reduce) { .tp-bar span { transition: none; } .ts { transition: none; } .ts:hover { transform: none; } }
 `;
