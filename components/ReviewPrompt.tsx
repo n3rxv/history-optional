@@ -20,10 +20,15 @@ import { auth } from '@/lib/firebase';
  * nobody gets two pop-ups in one visit.
  *
  * Any link with ?review=1 opens it straight away, so a review can be asked
- * for from Telegram or WhatsApp; a signed-out reader is asked to sign in first.
+ * for from Telegram or WhatsApp, and so does OPEN_EVENT (the footer's "Write a
+ * review"). A signed-out reader is asked to sign in first.
  */
 
 export const SHOWN_KEY = 'ho_review_shown';
+/** Fired by the footer's "Write a review" link (and anything else) to open the form. */
+export const OPEN_EVENT = 'open-review';
+/** Set while a reader who asked for the form signs in, in case sign-in reloads the page. */
+const AFTER_LOGIN_KEY = 'ho_review_after_login';
 const SENT_KEY = 'ho_review_sent';
 const LATER_KEY = 'ho_review_later';
 const PAGES_KEY = 'ho_pages_opened';
@@ -72,7 +77,7 @@ export default function ReviewPrompt() {
   const sent = useRef(false);
 
   const show = useCallback(() => {
-    try { sessionStorage.setItem(SHOWN_KEY, '1'); } catch {}
+    try { sessionStorage.setItem(SHOWN_KEY, '1'); sessionStorage.removeItem(AFTER_LOGIN_KEY); } catch {}
     setOpen(true);
   }, []);
 
@@ -80,7 +85,9 @@ export default function ReviewPrompt() {
   useEffect(() => {
     if (typeof window === 'undefined') return;
     const q = new URLSearchParams(window.location.search).get('review');
-    if (q === '1') setForced(true);
+    let again = false;
+    try { again = sessionStorage.getItem(AFTER_LOGIN_KEY) === '1'; sessionStorage.removeItem(AFTER_LOGIN_KEY); } catch {}
+    if (q === '1' || again) setForced(true);
     // Local only, to look at the form without signing in. Dropped from builds.
     else if (process.env.NODE_ENV === 'development' && q === 'preview') show();
   }, [show]);
@@ -88,6 +95,21 @@ export default function ReviewPrompt() {
     if (!forced || loading) return;
     if (user) { setAskLogin(false); show(); } else setAskLogin(true);
   }, [forced, loading, user, show]);
+
+  // Asked for by the reader, from the footer: a fresh form, whatever happened before.
+  useEffect(() => {
+    const onOpen = () => {
+      sent.current = false;
+      setStep('form');
+      setError('');
+      if (auth.currentUser) { show(); return; }
+      try { sessionStorage.setItem(AFTER_LOGIN_KEY, '1'); } catch {}
+      setForced(true);
+      setAskLogin(true);
+    };
+    window.addEventListener(OPEN_EVENT, onOpen);
+    return () => window.removeEventListener(OPEN_EVENT, onOpen);
+  }, [show]);
 
   // The automatic ask.
   useEffect(() => {
@@ -163,7 +185,7 @@ export default function ReviewPrompt() {
   if (askLogin) {
     // The modal closes itself after a popup sign-in, which can come before the
     // auth hook hears of the new user: open the form here when that happened.
-    return <LoginPromptModal isOpen onClose={() => { setAskLogin(false); if (auth.currentUser) show(); else setForced(false); }}
+    return <LoginPromptModal isOpen onClose={() => { setAskLogin(false); if (auth.currentUser) show(); else { setForced(false); try { sessionStorage.removeItem(AFTER_LOGIN_KEY); } catch {} } }}
       message={T('Sign in to write a review.', 'समीक्षा लिखने के लिए साइन इन करें।')} />;
   }
   if (!open) return null;

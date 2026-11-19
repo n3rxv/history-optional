@@ -5,6 +5,7 @@ import owlArt from '@/public/mascot/owl.svg';
 import Link from '@/components/Link';
 import { usePathname } from 'next/navigation';
 import { TELEGRAM_URL } from '@/lib/contact';
+import { OPEN_EVENT as OPEN_REVIEW } from '@/components/ReviewPrompt';
 import { useLang } from '@/lib/i18n/LangContext';
 
 /**
@@ -43,6 +44,10 @@ export default function Footer() {
         <nav className="ft-links" aria-label={langHi ? 'फ़ुटर' : 'Footer'}>
           <Link href="/pricing">{langHi ? 'क़ीमतें' : 'Pricing'}</Link>
           <Link href="/contact">{langHi ? 'संपर्क' : 'Contact'}</Link>
+          {/* Opens the review form in place; the href is for opening it in a new tab. */}
+          <Link href="/?review=1" onClick={(e) => { if (e.metaKey || e.ctrlKey || e.shiftKey) return; e.preventDefault(); window.dispatchEvent(new Event(OPEN_REVIEW)); }}>
+            {langHi ? 'समीक्षा लिखें' : 'Write a review'}
+          </Link>
           <Link href="/privacy">{langHi ? 'गोपनीयता' : 'Privacy'}</Link>
           <Link href="/terms">{langHi ? 'शर्तें' : 'Terms'}</Link>
           <Link href="/refund">{langHi ? 'रिफ़ंड' : 'Refund'}</Link>
