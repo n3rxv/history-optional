@@ -1,8 +1,8 @@
 -- Reviews and suggestions from signed-in readers (components/ReviewPrompt,
 -- app/api/review). A row holds what the reader wrote, with the name, attempt
 -- and designation they gave. The form tells them a review may be shown on
--- the site; can_publish marks the rows that have a review to show. Reviews
--- reach the home page only by hand, through lib/testimonials.ts.
+-- the site. Reviews reach the home page only by hand, through
+-- lib/testimonials.ts.
 --
 -- New tables are granted to service_role by hand: Supabase stopped doing it
 -- for new tables on 30 October 2026. Nothing is readable with the public key.
@@ -21,7 +21,6 @@ create table if not exists public.reviews (
   about       text,          -- designation or a line about them
   review      text,
   suggestions text,
-  can_publish boolean not null default false,
   page        text,
   created_at  timestamptz not null default now(),
   constraint reviews_has_text check (coalesce(review, '') <> '' or coalesce(suggestions, '') <> '')
