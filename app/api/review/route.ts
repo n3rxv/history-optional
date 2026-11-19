@@ -9,7 +9,8 @@ import { checkRateLimit } from '@/lib/rateLimit';
  *         shown again on another device
  *   POST  saves one to the reviews table (supabase/reviews.sql)
  * Nothing here is shown on the site by itself: a review reaches the home page
- * only by hand, and only when the reader allowed it (can_publish).
+ * only by hand. The form tells readers a review may be shown on the site,
+ * so every row with a review in it is marked can_publish.
  */
 
 const ATTEMPTS = new Set(['1', '2', '3', '4', '5+', 'none']);
@@ -47,7 +48,7 @@ export async function POST(req: NextRequest) {
   const { error } = await createServerClient().from('reviews').insert({
     uid: user.uid, email: user.email ?? null, name, attempt, about: about || null,
     review: review || null, suggestions: suggestions || null,
-    can_publish: body.canPublish === true && words(review) >= 5, page: page || null,
+    can_publish: words(review) >= 5, page: page || null,
   });
   if (error) return NextResponse.json({ error: 'Failed to submit' }, { status: 500 });
   return NextResponse.json({ ok: true });

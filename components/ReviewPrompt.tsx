@@ -8,7 +8,8 @@ import { auth } from '@/lib/firebase';
 
 /**
  * Asks a signed-in reader for a review and suggestions, with their name,
- * attempt and designation (app/api/review, supabase/reviews.sql).
+ * attempt and designation (app/api/review, supabase/reviews.sql). A line
+ * under the form tells them the review may be shown on the site.
  *
  * When it opens by itself: a signed-in reader who has opened PAGES_MIN pages
  * in this browser, AFTER_MS into a session, never on a page where they are
@@ -66,7 +67,6 @@ export default function ReviewPrompt() {
   const [name, setName] = useState('');
   const [attempt, setAttempt] = useState('');
   const [about, setAbout] = useState('');
-  const [canPublish, setCanPublish] = useState(false);
   const [sending, setSending] = useState(false);
   const [error, setError] = useState('');
   const sent = useRef(false);
@@ -144,7 +144,7 @@ export default function ReviewPrompt() {
       const res = await fetch('/api/review', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', 'x-user-token': await user.getIdToken() },
-        body: JSON.stringify({ review, suggestions, name, attempt: attempt || null, about, canPublish, page: window.location.pathname }),
+        body: JSON.stringify({ review, suggestions, name, attempt: attempt || null, about, page: window.location.pathname }),
       });
       if (!res.ok) throw new Error(String(res.status));
       store.set(SENT_KEY, '1');
@@ -210,10 +210,7 @@ export default function ReviewPrompt() {
           <input id="rv-about" className="rv-input" value={about} onChange={(e) => setAbout(e.target.value)} maxLength={120}
             placeholder={T('e.g. Student, Working professional', 'जैसे विद्यार्थी, नौकरीपेशा')} />
 
-          <label className="rv-consent">
-            <input type="checkbox" checked={canPublish} onChange={(e) => setCanPublish(e.target.checked)} />
-            <span>{T('You can show my review on History Optional with my name, attempt and designation.', 'आप मेरी समीक्षा मेरे नाम, प्रयास और पद के साथ History Optional पर दिखा सकते हैं।')}</span>
-          </label>
+          <p className="rv-note">{T('Your review may be shown on History Optional with your name, attempt and designation.', 'आपकी समीक्षा आपके नाम, प्रयास और पद के साथ History Optional पर दिखाई जा सकती है।')}</p>
 
           {error && <p className="rv-error" role="alert">{error}</p>}
           {!enough && (review || suggestions) && (
@@ -267,9 +264,8 @@ const RV_CSS = `
 .rv-chip { padding: 8px 14px; border: 1.5px solid var(--border2); border-radius: var(--radius-full); background: var(--bg); color: var(--text2); font: inherit; font-family: var(--font-ui); font-size: 0.85rem; font-weight: 600; cursor: pointer; transition: border-color 0.15s, background 0.15s; }
 .rv-chip:hover { border-color: color-mix(in srgb, var(--tint-modern) 60%, transparent); }
 .rv-chip.on { border-color: transparent; color: var(--on-fill); background: linear-gradient(120deg, var(--tint-modern), var(--tint-medieval)); }
-.rv-chip:focus-visible, .rv-consent input:focus-visible { outline: 2px solid var(--tint-modern); outline-offset: 2px; }
-.rv-consent { display: flex; gap: var(--space-3); align-items: flex-start; margin-top: var(--space-5); padding: var(--space-3); border-radius: var(--radius-lg); background: color-mix(in srgb, var(--tint-modern) 8%, transparent); border: 1px solid color-mix(in srgb, var(--tint-modern) 25%, transparent); font-size: 0.86rem; line-height: 1.5; color: var(--text2); cursor: pointer; }
-.rv-consent input { width: 18px; height: 18px; margin: 2px 0 0; flex-shrink: 0; accent-color: var(--tint-modern); }
+.rv-chip:focus-visible { outline: 2px solid var(--tint-modern); outline-offset: 2px; }
+.rv-note { margin-top: var(--space-5); margin-bottom: 0; font-size: 0.8rem; line-height: 1.5; color: var(--text3); }
 .rv-error { margin: var(--space-3) var(--space-6) 0; font-size: 0.86rem; color: var(--danger-text); }
 .rv-hint { margin: var(--space-3) var(--space-6) 0; font-size: 0.82rem; color: var(--text3); }
 .rv-actions { display: flex; gap: var(--space-2); margin-top: var(--space-5); margin-bottom: var(--space-6); }
