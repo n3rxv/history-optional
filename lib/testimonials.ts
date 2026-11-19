@@ -38,7 +38,7 @@ export const TESTIMONIALS: Testimonial[] = [
     colors: ['var(--accent-text)', 'var(--tint-modern)', 'var(--tint-medieval)'],
   },
   {
-    name: 'Isha J',
+    name: 'Isha Jain',
     role: 'Aspirant',
     roleHi: 'अभ्यर्थी',
     tag: 'Uses it almost every day',
