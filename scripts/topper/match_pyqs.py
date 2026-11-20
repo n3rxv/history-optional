@@ -202,7 +202,9 @@ def main():
         else: group = 'review'
         rows.append({**c, 'group': group, 'verbatim': verbatim, 'candidates': cands[:KEEP],
                      'missed': [i for i in verbatim if i not in c['pyq_ids']]})
-        if r % 100 == 99: cache_path.write_text(json.dumps(cache))
+        if r % 100 == 99:
+            cache_path.write_text(json.dumps(cache))
+            print(f'  scored {r + 1}/{len(copies)} copies ({100 * (r + 1) // len(copies)}%)', flush=True)
     cache_path.write_text(json.dumps(cache))
 
     # Calibration against the hand links
