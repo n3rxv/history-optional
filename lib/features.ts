@@ -58,7 +58,7 @@ export const FEATURES: Feature[] = [
  * lib/paymentClaim.ts, which is what the server verifies against.
  */
 export const ONE_OFF = [
-  { name: 'Topper copies',  pricePaise: 79900, inPremium: true,
+  { name: 'Topper copies',  pricePaise: 99900, inPremium: true,
     blurb: 'Individual answers scanned from toppers’ answer copies, question by question.' },
   { name: 'Map evaluation', pricePaise:  4900, inPremium: false,
     blurb: 'Charged per map, for subscribers and non-subscribers alike. It is not part of any plan.' },

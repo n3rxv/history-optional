@@ -19,9 +19,12 @@ import Razorpay from 'razorpay';
  * remaining half of the job.
  */
 
-export const TOPPER_AMOUNT_PAISE = 79900;
-/** The price from 29 Oct to 12 Nov 2026. A checkout opened at it before it went back up still verifies. */
-export const TOPPER_OLD_AMOUNT_PAISE = 64900;
+export const TOPPER_AMOUNT_PAISE = 99900;
+/**
+ * Earlier prices. A checkout opened at one of them before the price went up
+ * still verifies: ₹799 to 20 Nov 2026, and ₹649 from 29 Oct to 12 Nov 2026.
+ */
+export const TOPPER_OLD_AMOUNTS_PAISE = [79900, 64900] as const;
 export const MAP_AMOUNT_PAISE = 4900;
 
 export type ClaimResult =
