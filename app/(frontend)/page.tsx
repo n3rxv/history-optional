@@ -5,7 +5,8 @@ import owlReadingArt from '@/public/mascot/owl-reading.svg';
 import Link from '@/components/Link';
 import { allNotes } from '@/lib/notes';
 import { pyqs } from '@/lib/pyqData';
-import { countPublished } from '@/lib/flashcardStore';
+import { countPublished, countPublishedBySection } from '@/lib/flashcardStore';
+import { countTopperCopies, topperCopiesBySection } from '@/lib/topperCount';
 import { getDailyQuestions } from '@/lib/dailyQuestions';
 import { istDay } from '@/lib/istDay';
 import { PLANS, PLAN_ORDER, PLAN_DURATION } from '@/lib/plans';
@@ -65,13 +66,21 @@ const Arrow = () => (
 export default async function Home() {
   // Counted from the data at build time, so the numbers stay true as
   // questions, notes and cards are added.
-  const flashcards = (await countPublished()) ?? 1200;
+  const [flashcardsCount, topperCopiesCount, cardsBySection, copiesBySection] = await Promise.all([
+    countPublished(), countTopperCopies(), countPublishedBySection(), topperCopiesBySection(),
+  ]);
+  const flashcards = flashcardsCount ?? 1200;
+  const topperCopies = topperCopiesCount ?? 5631;
+  /** The hero says "5,600+", rounded down so it stays true as copies are added. */
+  const topperCopiesRound = Math.floor(topperCopies / 100) * 100;
   const firstYear = Math.min(...pyqs.map((q) => Number(q.year)).filter(Boolean));
   const fmt = (n: number) => n.toLocaleString('en-IN');
   const counts = SECTIONS.map((sec) => ({
     ...sec,
     topics: allNotes.filter((n) => n.section === sec.name).length,
     pyqs: pyqs.filter((q) => sec.pyq.includes(q.section)).length,
+    copies: copiesBySection?.[sec.name] ?? 0,
+    cards: cardsBySection?.[sec.name] ?? 0,
   }));
 
   return (
@@ -88,8 +97,8 @@ export default async function Home() {
             </h1>
             <p className="ds-lede hm-lede">
               <HiText
-                en={<>Notes, every PYQ since {firstYear}, topper copies, maps, flashcards and Prelims practice, all in one place. Attempt a timed paper, get your answers checked, and use the AI as your personal tutor.</>}
-                hi={<>नोट्स, {firstYear} से अब तक का हर PYQ, टॉपर कॉपियाँ, मानचित्र, फ़्लैशकार्ड और प्रिलिम्स अभ्यास, सब एक ही जगह। समयबद्ध टेस्ट पेपर हल करें, अपने उत्तर जँचवाएँ, और AI को अपना निजी ट्यूटर बनाएँ।</>}
+                en={<>Notes, every PYQ since {firstYear}, {fmt(topperCopiesRound)}+ topper copies, maps, flashcards and Prelims practice, all in one place. Attempt a timed paper, get your answers checked, and use the AI as your personal tutor.</>}
+                hi={<>नोट्स, {firstYear} से अब तक का हर PYQ, {fmt(topperCopiesRound)}+ टॉपर कॉपियाँ, मानचित्र, फ़्लैशकार्ड और प्रिलिम्स अभ्यास, सब एक ही जगह। समयबद्ध टेस्ट पेपर हल करें, अपने उत्तर जँचवाएँ, और AI को अपना निजी ट्यूटर बनाएँ।</>}
               />
             </p>
             <HomeAsk />
@@ -100,8 +109,8 @@ export default async function Home() {
           </div>
           <p className="hm-proof ds-container">
             <HiText
-              en={<>Right now there are <b>{fmt(pyqs.length)} past questions</b>, <b>{allNotes.length} topics</b> and <b>{fmt(flashcards)} flashcards</b> in here.</>}
-              hi={<>अभी यहाँ <b>{fmt(pyqs.length)} पिछले प्रश्न</b>, <b>{allNotes.length} विषय</b> और <b>{fmt(flashcards)} फ़्लैशकार्ड</b> हैं।</>}
+              en={<>Right now there are <b>{fmt(pyqs.length)} past questions</b>, <b>{allNotes.length} topics</b>, <b>{fmt(topperCopies)} topper copies</b> and <b>{fmt(flashcards)} flashcards</b> in here.</>}
+              hi={<>अभी यहाँ <b>{fmt(pyqs.length)} पिछले प्रश्न</b>, <b>{allNotes.length} विषय</b>, <b>{fmt(topperCopies)} टॉपर कॉपियाँ</b> और <b>{fmt(flashcards)} फ़्लैशकार्ड</b> हैं।</>}
             />
           </p>
         </section>
@@ -120,7 +129,9 @@ export default async function Home() {
                   <span className="hm-sec-body">
                     <span className="hm-sec-name"><HiText en={c.name} hi={SECTION_HI[c.name] ?? c.name} /></span>
                     <span className="hm-sec-sub"><HiText en={c.sub} hi={c.subHi} /></span>
-                    <span className="hm-sec-meta"><HiText en={`${c.topics} topics · ${fmt(c.pyqs)} PYQs`} hi={`${c.topics} विषय · ${fmt(c.pyqs)} PYQ`} /></span>
+                    <span className="hm-sec-meta"><HiText
+                      en={`${c.topics} topics · ${fmt(c.pyqs)} PYQs · ${fmt(c.copies)} copies · ${fmt(c.cards)} cards`}
+                      hi={`${c.topics} विषय · ${fmt(c.pyqs)} PYQ · ${fmt(c.copies)} कॉपियाँ · ${fmt(c.cards)} कार्ड`} /></span>
                   </span>
                   <span className="hm-sec-go" aria-hidden="true"><Arrow /></span>
                 </Link>

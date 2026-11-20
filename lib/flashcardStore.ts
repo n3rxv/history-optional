@@ -27,6 +27,7 @@
  * read them has to hold the service key.
  */
 import { createClient } from '@supabase/supabase-js';
+import { selectAll } from './selectAll';
 
 export type StoredFlashCard = {
   id: string;
@@ -176,6 +177,24 @@ export async function countPublished(): Promise<number | null> {
     return null;
   }
   return count ?? 0;
+}
+
+/** Published cards per syllabus section, by section name; null on failure, for the same reason. */
+export async function countPublishedBySection(): Promise<Record<string, number> | null> {
+  try {
+    const rows = await selectAll<{ section: string }>((from, to) => client()
+      .from('flashcards')
+      .select('section')
+      .eq('status', 'published')
+      .order('id')
+      .range(from, to));
+    const out: Record<string, number> = {};
+    for (const r of rows) out[r.section] = (out[r.section] ?? 0) + 1;
+    return out;
+  } catch (e) {
+    console.error('[flashcardStore] section count failed:', (e as Error).message);
+    return null;
+  }
 }
 
 /** Published cards on one notes topic; null on failure, for the same reason. */
