@@ -130,8 +130,8 @@ export default async function Home() {
                     <span className="hm-sec-name"><HiText en={c.name} hi={SECTION_HI[c.name] ?? c.name} /></span>
                     <span className="hm-sec-sub"><HiText en={c.sub} hi={c.subHi} /></span>
                     <span className="hm-sec-meta"><HiText
-                      en={`${c.topics} topics · ${fmt(c.pyqs)} PYQs · ${fmt(c.copies)} copies · ${fmt(c.cards)} cards`}
-                      hi={`${c.topics} विषय · ${fmt(c.pyqs)} PYQ · ${fmt(c.copies)} कॉपियाँ · ${fmt(c.cards)} कार्ड`} /></span>
+                      en={`${c.topics} topics · ${fmt(c.pyqs)} PYQs · ${fmt(c.copies)} topper copies · ${fmt(c.cards)} cards`}
+                      hi={`${c.topics} विषय · ${fmt(c.pyqs)} PYQ · ${fmt(c.copies)} टॉपर कॉपियाँ · ${fmt(c.cards)} कार्ड`} /></span>
                   </span>
                   <span className="hm-sec-go" aria-hidden="true"><Arrow /></span>
                 </Link>
