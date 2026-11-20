@@ -25,6 +25,10 @@ type Filters = { section: string; topic: string; topper: string; q: string };
 /** Matches the allowance in /api/topper-copies/[id]. */
 const FREE_VIEWS = 5;
 
+/** Question cards drawn at a time. The corpus is thousands of cards, and
+ *  drawing them all at once stalls a phone for seconds. */
+const PAGE = 20;
+
 const SECTION_SHORT_HI: Record<string, string> = { ancient: 'प्राचीन', medieval: 'मध्यकालीन', modern: 'आधुनिक', world: 'विश्व' };
 
 /**
@@ -75,6 +79,8 @@ export default function TopperBrowser({ notes, years, sigs }: { notes: NoteMeta[
   const [paywall, setPaywall] = useState(false);
   /** Question cards showing all their toppers, not the first few. */
   const [expanded, setExpanded] = useState<Set<string>>(new Set());
+  /** How many question cards are drawn; "Load more" raises it by PAGE. */
+  const [limit, setLimit] = useState(PAGE);
   const { isOpen: loginOpen, message: loginMsg, requireLogin, closeModal: closeLogin } = useLoginPrompt();
 
   const noteTitle = useMemo(() => new Map(notes.map((n) => [n.slug, n.title])), [notes]);
@@ -138,6 +144,7 @@ export default function TopperBrowser({ notes, years, sigs }: { notes: NoteMeta[
     // A topic chosen under one part of the syllabus means nothing under another.
     if (next.section !== undefined) merged.topic = '';
     setOwn(merged);
+    setLimit(PAGE);
     const p = new URLSearchParams();
     if (merged.section) p.set('section', merged.section);
     if (merged.topic) p.set('topic', merged.topic);
@@ -218,6 +225,23 @@ export default function TopperBrowser({ notes, years, sigs }: { notes: NoteMeta[
   }, [shown, f.section, topic, noteSection, noteOrder]);
 
   const filtered = Boolean(f.section || topic || who || f.q.trim());
+
+  /** The first `limit` question cards in syllabus order, with only the groups
+   *  that still hold one. The group headers keep their full counts. */
+  const totalQuestions = groups.reduce((n, g) => n + g.questions.length, 0);
+  const visible = useMemo(() => {
+    let seen = 0;
+    const out: typeof groups = [];
+    for (const g of groups) {
+      const questions = g.questions.filter(() => seen++ < limit);
+      if (questions.length) out.push({ ...g, questions });
+      if (seen >= limit) break;
+    }
+    return out;
+  }, [groups, limit]);
+
+  // A new filter starts the page again, wherever it was set from.
+  useEffect(() => { setLimit(PAGE); }, [f.section, topic, who, f.q, copies]);
 
   // Opening a copy is what spends a free view, and the copy endpoint counts
   // it. Here only decide between the copy and the paywall, asking afresh
@@ -327,7 +351,7 @@ export default function TopperBrowser({ notes, years, sigs }: { notes: NoteMeta[
               </div>
               {shown.length === 0 && <p className="tc-empty">{L('No copy matches all of that. Try fewer filters, or a shorter search.', 'इन सभी से मेल खाती कोई कॉपी नहीं मिली। कम फ़िल्टर या छोटी खोज आज़माएँ।')}</p>}
 
-              {groups.map((g) => {
+              {visible.map((g) => {
                 const meta = sectionByName(noteSection.get(g.slug) ?? '');
                 return (
                   <section key={g.slug || '-'} className="tc-group" style={tintFor(meta?.key)}>
@@ -390,6 +414,16 @@ export default function TopperBrowser({ notes, years, sigs }: { notes: NoteMeta[
                   </section>
                 );
               })}
+
+              {limit < totalQuestions && (
+                <div className="tc-loadmore">
+                  <button type="button" className="ds-btn ds-btn-line" onClick={() => setLimit((n) => n + PAGE)}>
+                    {langHi
+                      ? `${Math.min(PAGE, totalQuestions - limit)} और दिखाएँ (${(totalQuestions - limit).toLocaleString('en-IN')} बाक़ी)`
+                      : `Load more (${(totalQuestions - limit).toLocaleString('en-IN')} left)`}
+                  </button>
+                </div>
+              )}
             </>
           )}
         </div>
@@ -448,6 +482,7 @@ const TC_CSS = `
 .tc-status { display: flex; align-items: center; justify-content: space-between; gap: var(--space-3); margin: var(--space-2) 0; font-size: 0.95rem; color: var(--text2); }
 .tc-reset { background: none; border: none; padding: 4px 0; font: inherit; font-size: 0.9rem; font-weight: 600; color: var(--accent-text); cursor: pointer; }
 .tc-empty { padding: var(--space-8) 0; color: var(--text2); }
+.tc-loadmore { display: flex; justify-content: center; padding: var(--space-8) 0 var(--space-2); }
 
 .tc-group { padding-top: var(--space-6); }
 .tc-group-head { display: flex; align-items: baseline; flex-wrap: wrap; gap: 4px var(--space-3); margin-bottom: var(--space-3); }
