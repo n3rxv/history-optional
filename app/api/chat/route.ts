@@ -321,8 +321,8 @@ ${STYLE_RULE}${pdf_base64 ? "\n\nThe user has uploaded a PDF. Analyze it careful
     // Routing, one model per mode:
     //   PDF mode      → Claude Haiku 4.5, which reads the document; Gemini
     //                   takes over if the Anthropic call fails first
-    //   Mentor mode   → DeepSeek
     //   Hindi mode    → Claude Haiku 4.5 (DeepSeek's Hindi is weaker)
+    //   Mentor mode   → DeepSeek in English, Haiku in Hindi
     //   Normal chat   → DeepSeek
     // DeepSeek is spoken to through its Anthropic-compatible endpoint
     // (lib/claude.ts), so both sides stream the same way.
@@ -420,11 +420,8 @@ ${STYLE_RULE}${pdf_base64 ? "\n\nThe user has uploaded a PDF. Analyze it careful
               console.error('PDF chat: Haiku failed, using Gemini:', e);
               ended = await streamGeminiPdf({ system: systemPrompt, messages, pdfBase64: pdf_base64, maxTokens, onText: collect });
             }
-          } else if (mentorMode && isPremium) {
-            // Mentor mode — DeepSeek. It answers in Hindi too when asked.
-            await runDeepSeek(systemPrompt);
           } else if (lang === 'hi') {
-            // Hindi mode — Haiku (DeepSeek's Hindi is weaker)
+            // Hindi mode, mentor included — Haiku (DeepSeek's Hindi is weaker)
             const anthropic = anthropicClient();
             const builtMessages = messages.map((m: any, i: number) => {
               if (i === messages.length - 1 && m.role === 'user') {
@@ -446,7 +443,7 @@ ${STYLE_RULE}${pdf_base64 ? "\n\nThe user has uploaded a PDF. Analyze it careful
               }
             }
           } else {
-            // Normal chat — DeepSeek.
+            // Normal chat and mentor mode — DeepSeek.
             await runDeepSeek(systemPrompt);
           }
 
