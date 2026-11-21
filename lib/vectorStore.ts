@@ -42,7 +42,7 @@ function endpoint(path: string): string {
   return `${base.replace(/\/$/, '')}${path}`;
 }
 
-async function qdrant(
+export async function qdrant(
   path: string,
   body: unknown,
   signal?: AbortSignal,

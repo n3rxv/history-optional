@@ -9,95 +9,11 @@ import { suggestNext } from '@/lib/chatNext';
 export const maxDuration = 90;
 import { createClient } from "@supabase/supabase-js";
 import { MENTOR_SYSTEM, MAINS_ANSWER_STYLE, buildRagBasePrompt } from '@/lib/prompts';
-import { searchDiverse, searchBook, type BookChunk } from '@/lib/vectorStore';
+import { retrieve as retrievePassages } from '@/lib/rag/retrieve';
+import { formatPassages, formatTimeline, sourcesForClient } from '@/lib/rag/context';
+import { checkDates } from '@/lib/rag/dateCheck';
 
 
-// Voyage AI — embed + rerank (voyage-4-lite, rerank-2-lite)
-async function localEmbedBatch(texts: string[]): Promise<number[][]> {
-  const res = await fetch('https://api.voyageai.com/v1/embeddings', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${process.env.VOYAGE_API_KEY}`,
-    },
-    body: JSON.stringify({ model: 'voyage-4-lite', input: texts, input_type: 'query' }),
-  });
-  const data = await res.json();
-  if (!data.data) throw new Error('Voyage embed failed: ' + JSON.stringify(data));
-  return data.data.map((item: any) => item.embedding);
-}
-
-async function localRerank(query: string, chunks: {id: any, content: string, book_title: string, author: string}[]): Promise<{id: any, content: string, book_title: string, author: string, score: number}[]> {
-  try {
-    const res = await fetch('https://api.voyageai.com/v1/rerank', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${process.env.VOYAGE_API_KEY}`,
-      },
-      body: JSON.stringify({ model: 'rerank-2-lite', query, documents: chunks.map(c => c.content), top_k: 6 }),
-    });
-    const data = await res.json();
-    if (!data.data) return chunks.slice(0, 6).map(c => ({ ...c, score: 0 }));
-    return data.data.map((r: any) => ({ ...chunks[r.index], score: r.relevance_score }));
-  } catch (e) {
-    console.error('Voyage rerank failed:', e);
-    return chunks.slice(0, 6).map(c => ({ ...c, score: 0 }));
-  }
-}
-
-async function getBookContext(query: string, bookTitle?: string): Promise<string> {
-  try {
-    const filter = (bookTitle && bookTitle !== "all") ? bookTitle : null;
-
-    // Step 1 (optimized): Single embedding, no query expansion
-    const [singleEmbedding] = await localEmbedBatch([query]);
-
-    // Step 2: Search. Both modes are one round-trip to Qdrant; the per-book
-    // ranking that used to run as a window function in Postgres is now
-    // Qdrant's grouped query, over its own candidate set rather than a
-    // top-150 that a third book might never have reached.
-    const found = filter
-      ? await searchBook(singleEmbedding, filter, { limit: 12 })
-      // Step 4b below slices to 6; 8 leaves a margin for the similarity floor
-      // to discard one or two first.
-      : await searchDiverse(singleEmbedding, { perBook: 3, maxResults: 8 });
-
-    // Step 4: Deduplicate by id. Grouped results cannot repeat a point, but
-    // the dedup is cheap and keeps this honest if the retrieval shape changes.
-    const seen = new Set<BookChunk['id']>();
-    const allChunks: BookChunk[] = [];
-    for (const chunk of found) {
-      if (!seen.has(chunk.id)) {
-        seen.add(chunk.id);
-        allChunks.push(chunk);
-      }
-    }
-
-    if (allChunks.length === 0) return '';
-
-    // Step 4b: Filter low-similarity chunks
-    // (similarity < 0.45 means book likely doesn't cover this topic)
-    const filtered = allChunks.filter((c) => (c.similarity ?? 1) > 0.45);
-    // Per-book diversity is enforced by the grouped query in lib/vectorStore.
-    // The capping that used to sit here ran after slice(0, 4), so with a cap of
-    // two per book it could never spread beyond two books — and its overflow
-    // loop added the excluded chunks straight back.
-    // 8f13ae1 cut this 6 -> 4 for prompt size; 6 is affordable again now that
-    // the chunks come from different books instead of repeating one.
-    const finalChunks = (filtered.length >= 3 ? filtered : allChunks).slice(0, 6);
-    console.log(`Chunks retrieved: ${allChunks.length}, used: ${finalChunks.length}`);
-
-    // Step 7: Return chunks with source labels
-    return finalChunks
-      .map((c, i) => `[Source ${i + 1} — ${c.book_title} | Author: ${c.author}]\n${c.content.slice(0, 600)}`)
-      .join('\n\n---\n\n');
-
-  } catch (e) {
-    console.error('RAG error:', e);
-    return '';
-  }
-}
 const RATE_LIMIT = 20; // max 20 messages per 10 minutes per IP
 const CHAT_FREE_LIMIT = 3; // lifetime (no reset)
 const OWNER_EMAIL = process.env.OWNER_EMAIL!;
@@ -280,31 +196,33 @@ ${STYLE_RULE}${pdf_base64 ? "\n\nThe user has uploaded a PDF. Analyze it careful
       ? messages[messages.length - 1].content
       : '';
     type RagSource = { book_title: string; author: string; content: string };
-    const retrieve = async (): Promise<{ ragContext: string; ragSources: RagSource[] }> => {
+    type Grounding = { ragContext: string; ragSources: RagSource[]; timeline: string; claims: string[] };
+    const NO_GROUNDING: Grounding = { ragContext: '', ragSources: [], timeline: '', claims: [] };
+    // Planned, filtered and reranked search over the tagged collection, plus
+    // the curated timeline rows for the question (lib/rag/retrieve.ts). When it
+    // fails the answer goes without passages: none is better than wrong ones.
+    const retrieve = async (): Promise<Grounding> => {
+      const controller = new AbortController();
+      const timer = setTimeout(() => controller.abort(), 12000);
       try {
-        // bookMode passes bookTitle filter; normal chat uses "all" (diverse across books)
-        const ragContext = await Promise.race([
-          getBookContext(lastQ, bookMode ? bookTitle : 'all'),
-          new Promise<string>((_, reject) => setTimeout(() => reject(new Error('RAG timeout')), 10000)),
-        ]);
-        const ragSources = ragContext
-          .split('\n\n---\n\n')
-          .map(block => {
-            const match = block.match(/^\[Source \d+ — (.+?) \| Author: (.+?)\]\n([\s\S]+)$/);
-            if (match) return { book_title: match[1], author: match[2], content: match[3] };
-            return null;
-          })
-          .filter(Boolean) as RagSource[];
-        return { ragContext, ragSources };
-      } catch(e) {
-        console.error('RAG skipped (embed service timeout or error):', e);
-        return { ragContext: '', ragSources: [] };
+        const r = await retrievePassages(lastQ, {
+          bookTitle: bookMode && bookTitle && bookTitle !== 'all' ? bookTitle : null,
+          signal: controller.signal,
+        });
+        console.log(`[rag] ${r.stage}: ${r.hits.length} passages, ${r.events.length} timeline rows in ${r.ms} ms`,
+          JSON.stringify({ subjects: r.plan.subjects, periods: r.plan.periods, topics: r.plan.topics }));
+        return { ragContext: formatPassages(r.hits), ragSources: sourcesForClient(r.hits), timeline: formatTimeline(r.events), claims: r.plan.claims };
+      } catch (e) {
+        console.error('[rag] retrieval failed, answering without passages:', e);
+        return NO_GROUNDING;
+      } finally {
+        clearTimeout(timer);
       }
     };
 
-    const systemFor = (ragContext: string) => {
-      if (!ragContext) return system;
-      const ragBasePrompt = buildRagBasePrompt({ responseStyle: style, bookTitle, ragContext });
+    const systemFor = (g: Grounding) => {
+      if (!g.ragContext && !g.timeline && !g.claims.length) return system;
+      const ragBasePrompt = buildRagBasePrompt({ responseStyle: style, bookTitle, ragContext: g.ragContext, timeline: g.timeline, claims: g.claims });
       return (mentorMode && isPremium ? MENTOR_SYSTEM + '\n\n' : system + '\n\n') + ragBasePrompt;
     };
 
@@ -347,17 +265,18 @@ ${STYLE_RULE}${pdf_base64 ? "\n\nThe user has uploaded a PDF. Analyze it careful
         };
         let ragSources: RagSource[] = [];
         try {
-          let ragContext = '';
+          let grounding = NO_GROUNDING;
           if (!pdf_base64 && lastQ.length > 3) {
             stage({ id: 'search', book: bookMode && bookTitle && bookTitle !== 'all' ? bookTitle : null });
-            ({ ragContext, ragSources } = await retrieve());
+            grounding = await retrieve();
+            ragSources = grounding.ragSources;
             stage({ id: 'found', passages: ragSources.length, books: [...new Set(ragSources.map(r => r.book_title))] });
           } else if (pdf_base64) {
             stage({ id: 'pdf', name: pdf_name ?? null });
           }
           stage({ id: 'write' });
 
-          const systemPrompt = systemFor(ragContext) + (lang === 'hi' ? '\n\nCRITICAL INSTRUCTION: You MUST respond ENTIRELY in Hindi (Devanagari script) regardless of the language of the question. Every single word of your response must be in Hindi. Do NOT use English even for technical terms — transliterate them. Historical names, dates, and places should use their Hindi equivalents. The one exception is citation markers: write them exactly as [Source #1] or [Source #1, #3], in English with Western digits, never translated, so they can be linked to their passages.' : '\n\nCRITICAL INSTRUCTION: You MUST respond ENTIRELY in English regardless of the language of the question.');
+          const systemPrompt = systemFor(grounding) + (lang === 'hi' ? '\n\nCRITICAL INSTRUCTION: You MUST respond ENTIRELY in Hindi (Devanagari script) regardless of the language of the question. Every single word of your response must be in Hindi. Do NOT use English even for technical terms — transliterate them. Historical names, dates, and places should use their Hindi equivalents. The one exception is citation markers: write them exactly as [Source #1] or [Source #1, #3], in English with Western digits, never translated, so they can be linked to their passages.' : '\n\nCRITICAL INSTRUCTION: You MUST respond ENTIRELY in English regardless of the language of the question.');
 
           // Whether the model ended on its own, not at its length limit.
           // Answers often close on a list item with no full stop, which the
@@ -448,6 +367,11 @@ ${STYLE_RULE}${pdf_base64 ? "\n\nThe user has uploaded a PDF. Analyze it careful
           }
 
           gate.flush(ended);
+          // Logged for review, not shown: the check only matches sentences that
+          // name one timeline event, and no row is verified yet.
+          for (const issue of checkDates(answerText)) {
+            console.warn(`[rag] date ${issue.severity}: ${issue.said} (${issue.event.id}) in: ${issue.sentence.slice(0, 160)}`);
+          }
           if (gate.emitted() === 0) send('Something went wrong. Please try again.');
           else if (stages) {
             // Before the sources, whose JSON runs to the end of the stream.

@@ -2,7 +2,8 @@ export const maxDuration = 120;
 
 import { NextRequest, NextResponse } from 'next/server';
 import { claudeClient, claudeRequest } from '@/lib/claude';
-import { searchDiverse } from '@/lib/vectorStore';
+import { retrieve } from '@/lib/rag/retrieve';
+import { formatPassages, formatTimeline } from '@/lib/rag/context';
 
 const SYSTEM_PROMPT = `You are an expert UPSC History Optional examiner and answer writer with deep mastery of Indian and World History. You write model answers that consistently score 130+/150.
 
@@ -217,63 +218,13 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'premium_required' }, { status: 403 });
     }
 
-    // ── RAG: fetch relevant book passages via Voyage AI ──
+    // ── RAG: planned, filtered and reranked passages plus timeline rows (lib/rag/retrieve.ts) ──
     let ragContext = '';
+    let timelineRows = '';
     try {
-      const { createClient: createSupabase } = await import('@supabase/supabase-js');
-      const supabase = createSupabase(
-        process.env.NEXT_PUBLIC_SUPABASE_URL!,
-        process.env.SUPABASE_SECRET_KEY!
-      );
-
-      // Embed via Voyage AI
-      const embedRes = await fetch('https://api.voyageai.com/v1/embeddings', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${process.env.VOYAGE_API_KEY}`,
-        },
-        signal: AbortSignal.timeout(8000),
-        body: JSON.stringify({ model: 'voyage-4-lite', input: [question], input_type: 'query' }),
-      });
-      const embedData = await embedRes.json();
-      const embedding = embedData.data?.[0]?.embedding;
-
-      if (embedding) {
-        const chunks = await searchDiverse(embedding, { perBook: 3 });
-
-        if (chunks && chunks.length > 0) {
-          const filtered = chunks.filter((c: any) => (c.similarity ?? 1) > 0.45).slice(0, 12);
-          const toRerank = filtered.length >= 3 ? filtered : chunks.slice(0, 12);
-
-          // Rerank via Voyage AI
-          let finalChunks: any[] = [];
-          try {
-            const rerankRes = await fetch('https://api.voyageai.com/v1/rerank', {
-              method: 'POST',
-              headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${process.env.VOYAGE_API_KEY}`,
-              },
-              body: JSON.stringify({ model: 'rerank-2-lite', query: question, documents: toRerank.map((c: any) => c.content), top_k: 6 }),
-            });
-            const rerankData = await rerankRes.json();
-            if (rerankData.data) {
-              finalChunks = rerankData.data.map((r: any) => ({ ...toRerank[r.index], score: r.relevance_score }));
-            } else {
-              finalChunks = toRerank.slice(0, 6);
-            }
-          } catch {
-            finalChunks = toRerank.slice(0, 6);
-          }
-
-          if (finalChunks.length > 0) {
-            ragContext = finalChunks
-              .map((c: any, i: number) => `[Source ${i + 1} \u2014 ${c.book_title} | Author: ${c.author}]\n${c.content}`)
-              .join('\n\n---\n\n');
-          }
-        }
-      }
+      const r = await retrieve(question, { signal: AbortSignal.timeout(12000) });
+      ragContext = formatPassages(r.hits);
+      timelineRows = formatTimeline(r.events);
     } catch (ragErr) {
       console.error('RAG fetch error (non-fatal):', ragErr);
     }
@@ -289,10 +240,17 @@ RELEVANT BOOK PASSAGES (use ONLY these for specific historian citations — do n
 
 ${ragContext}
 
-CITATION RULE: You may cite a historian ONLY if their name appears in the Source passages above. For historians NOT in these passages, use only broad safe attributions from your known pairs list.`
+CITATION RULE: You may cite a historian ONLY if their name appears in the Source passages above. For historians NOT in these passages, use only broad safe attributions from your known pairs list.
+Each passage states the event and years it is about. Use a passage only for a claim about that same event and period: the 1942 Cripps offer is not the 1946 Cabinet Mission Plan.`
+      : '';
+    const timelineSection = timelineRows
+      ? `
+
+TIMELINE (curated dates for this question). Take every date from here or from a passage that states it; never write a date from memory:
+${timelineRows}`
       : '';
 
-    const prompt = `Write a complete UPSC History Optional model answer for this ${marksNum}-mark question. Follow the format exactly.${ragSection}
+    const prompt = `Write a complete UPSC History Optional model answer for this ${marksNum}-mark question. Follow the format exactly.${ragSection}${timelineSection}
 
 QUESTION (${marksNum} marks): ${question}
 

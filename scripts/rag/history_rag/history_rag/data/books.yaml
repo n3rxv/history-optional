@@ -1,0 +1,84 @@
+# Book registry. One entry per book; the ingestion uses it to give every chunk a heading
+# (book › chapter › section) and a default period.
+#
+# Quick start for a book:
+#   python -m history_rag.ingest toc path/to/book.pdf --id some_id   # prints an entry from the PDF's bookmarks
+#   paste it below, fill in title, author, subject and the periods, remove `skip: true`.
+#
+# Fields
+#   subject   ancient_india | medieval_india | modern_india | modern_world  (the syllabus part the book covers)
+#   period    [start, end] years the book covers. BCE as negative numbers or "321 BCE".
+#   pages     PDF page numbers (1 = first page of the file), inclusive.
+#   printed_page_offset  PDF page minus printed page number, so citations show printed pages (optional).
+#   chapters  strongly recommended. Without them every chunk gets the whole book's period, and the LLM
+#             tagger has less to go on. `sections` are optional; a section without `period` inherits its chapter's.
+#   skip      true = ignore this entry (used below until the file path and chapters are filled in).
+#
+# The six books below are the ones in your retrieval sample. Only the periods stated in their titles are
+# filled in; check the edition you have.
+
+books:
+  - id: grover_modern_india
+    title: "A New Look at Modern Indian History"
+    author: "B.L. Grover"
+    subject: modern_india
+    file: books/grover.pdf            # TODO
+    period: [TODO, TODO]              # TODO: years your edition covers
+    skip: true
+
+  - id: bipan_chandra_struggle
+    title: "India's Struggle for Independence 1857-1947"
+    author: "Bipan Chandra et al."
+    subject: modern_india
+    file: books/bipan_chandra_struggle.pdf   # TODO
+    period: [1857, 1947]
+    skip: true
+
+  - id: sarkar_modern_india
+    title: "Modern India 1885-1947"
+    author: "Sumit Sarkar"
+    subject: modern_india
+    file: books/sarkar_modern_india.pdf      # TODO
+    period: [1885, 1947]
+    skip: true
+
+  - id: bandopadhyay_plassey
+    title: "From Plassey to Partition"
+    author: "Sekhar Bandopadhyay"
+    subject: modern_india
+    file: books/bandopadhyay.pdf             # TODO
+    period: [1757, 1947]                     # later editions ("...and After") run past 1947: adjust
+    skip: true
+
+  - id: lowe_modern_world
+    title: "Mastering Modern World History"
+    author: "Norman Lowe"
+    subject: modern_world
+    file: books/lowe.pdf                     # TODO
+    period: [TODO, TODO]
+    skip: true
+
+  - id: hobsbawm_extremes
+    title: "The Age of Extremes 1914-1991"
+    author: "Eric Hobsbawm"
+    subject: modern_world
+    file: books/hobsbawm_extremes.pdf        # TODO
+    period: [1914, 1991]
+    skip: true
+
+  # Shape of a fully configured entry (titles and pages here are placeholders, not a real book):
+  # - id: example_book
+  #   title: "Example Title"
+  #   author: "Author Name"
+  #   subject: modern_india
+  #   file: books/example.pdf
+  #   period: [1885, 1947]
+  #   printed_page_offset: 12
+  #   chapters:
+  #     - title: "Chapter title as printed"
+  #       pages: [20, 61]
+  #       period: [1939, 1945]
+  #       sections:
+  #         - title: "Section title as printed"
+  #           pages: [33, 40]
+  #           period: [1942, 1942]

@@ -1,0 +1,52 @@
+# The books in the Qdrant corpus, keyed by their exact book_title payload.
+#
+#   subjects  syllabus parts a passage of this book may be tagged with. The tagger
+#             picks one per passage, so Lowe's India chapters can be modern_india
+#             and Upinder Singh's post-750 chapters medieval_india.
+#   period    [first, last] year a tag may use. Deliberately generous (2026-11-21): it only
+#             catches nonsense tags, and tight bounds made taggers clamp real dates.
+#             Formerly: [first, last] year the book covers. BCE years are negative; prehistory
+#             is given as -2000000. A tag outside this range (plus the subject's
+#             padding) is treated as a tagging error and replaced by the book period.
+#
+# Surveys of early India get 1950 as their last year: they also narrate later events
+# (Vijayanagara, the Khaljis, the Mughals, 19th-century Indology), and a tight bound
+# made the taggers squeeze those into the early period.
+#
+# Subject boundaries follow the UPSC History Optional syllabus (see
+# history_rag/history_rag/config.py): ancient_india to c. 750 CE, medieval_india
+# c. 750 to the mid-18th century, modern_india from European arrival to the 1960s,
+# modern_world from the Enlightenment to 1991.
+
+books:
+  "AL Basham - The Wonder That Was India":                    {subjects: [ancient_india, medieval_india], period: [-2000000, 1950]}
+  "Ajeet Jha — A History of Ancient India":                   {subjects: [ancient_india, medieval_india], period: [-2000000, 1950]}
+  "BL Grover - Modern Indian History":                        {subjects: [modern_india], period: [1450, 2000]}
+  "Bipan Chandra - History of Modern India":                  {subjects: [modern_india], period: [1450, 2000]}
+  "Bipan Chandra — India's Struggle for Independence":        {subjects: [modern_india], period: [1450, 2000]}
+  "DD Kosambi — An Introduction to the Study of Indian History": {subjects: [ancient_india, medieval_india], period: [-2000000, 1950]}
+  "DN Jha — Ancient India in Historical Outline":             {subjects: [ancient_india, medieval_india], period: [-2000000, 1950]}
+  "David Thomson — Europe Since Napoleon":                    {subjects: [modern_world], period: [1450, 2015]}
+  "Eric Hobsbawm - Age of Capital":                           {subjects: [modern_world], period: [1450, 2015]}
+  "Eric Hobsbawm - Age of Empire":                            {subjects: [modern_world], period: [1450, 2015]}
+  "Eric Hobsbawm - Age of Extremes":                          {subjects: [modern_world], period: [1450, 2015]}
+  "Eric Hobsbawm - Age of Revolution":                        {subjects: [modern_world], period: [1450, 2015]}
+  "India in the Persianate Age":                              {subjects: [medieval_india, modern_india], period: [500, 1950]}
+  "Irfan Habib — Agrarian System of Mughal India":            {subjects: [medieval_india], period: [500, 1950]}
+  "JL Mehta — Advanced Study in the History of Medieval India, Vol. I":   {subjects: [medieval_india], period: [500, 1950]}
+  "JL Mehta — Advanced Study in the History of Medieval India, Vol. III": {subjects: [medieval_india], period: [500, 1950]}
+  "KA Nilakanta Sastri — A History of South India":           {subjects: [ancient_india, medieval_india], period: [-2000000, 1950]}
+  "Mughals IGNOU":                                            {subjects: [medieval_india], period: [500, 1950]}
+  "Norman Lowe - Mastering Modern World History":             {subjects: [modern_world, modern_india], period: [1450, 2015]}
+  "RC Majumdar — Ancient India":                              {subjects: [ancient_india, medieval_india], period: [-2000000, 1950]}
+  "RS Sharma — Ancient India (Old NCERT)":                    {subjects: [ancient_india, medieval_india], period: [-2000000, 1950]}
+  "Ranajit Guha — Elementary Aspects of Peasant Insurgency":  {subjects: [modern_india], period: [1450, 2000]}
+  "Ranbir Chakravarti — Exploring Early India":               {subjects: [ancient_india, medieval_india], period: [-2000000, 1950]}
+  "Romila Thapar — Early India":                              {subjects: [ancient_india, medieval_india], period: [-2000000, 1950]}
+  "Satish Chandra - Medieval India (800-1700)":               {subjects: [medieval_india], period: [500, 1950]}
+  "Satish Chandra - Medieval India Part 2 (1526-1748)":       {subjects: [medieval_india, modern_india], period: [500, 1950]}
+  "Sekhar Bandopadhyay - Plassey to Partition":               {subjects: [modern_india], period: [1450, 2000]}
+  "Sumit Sarkar — Modern India (1885-1947)":                  {subjects: [modern_india], period: [1450, 2000]}
+  "The Rise of Islam and the Bengal Frontier":                {subjects: [medieval_india], period: [500, 1950]}
+  "Upinder Singh - Ancient & Early Medieval India":           {subjects: [ancient_india, medieval_india], period: [-2000000, 1950]}
+  "Vipul Singh — Interpreting Medieval India":                {subjects: [medieval_india], period: [500, 1950]}

@@ -1,0 +1,24 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "history-rag"
+version = "0.1.0"
+description = "Grounded RAG for UPSC History Optional: tagged ingestion, filtered retrieval, curated timeline and date checks"
+requires-python = ">=3.10"
+dependencies = ["openai>=1.40", "chromadb>=0.5", "pymupdf>=1.24", "rank-bm25>=0.2.2", "pyyaml>=6"]
+
+[project.optional-dependencies]
+local-models = ["sentence-transformers>=3.0"]
+dev = ["pytest>=8"]
+
+[tool.setuptools]
+packages = ["history_rag"]
+
+[tool.setuptools.package-data]
+history_rag = ["data/*.csv", "data/*.yaml"]
+
+[tool.pytest.ini_options]
+pythonpath = ["."]
+testpaths = ["tests"]

@@ -846,7 +846,7 @@ Go page by page. Do not rush. Every word matters.`;
     // NEXT_PUBLIC_SITE_URL was unset, because the fallback pointed at
     // localhost. getBookContext swallows its own failures.
     const ragTask = getBookContext(question).then((ctx) => {
-      emit({ id: "books", passages: ctx ? ctx.split("\n\n---\n\n").length : 0 });
+      emit({ id: "books", passages: (ctx.match(/^\[Source \d+ —/gm) ?? []).length });
       return ctx;
     });
 

@@ -193,8 +193,12 @@ export function buildRagBasePrompt(opts: {
   responseStyle: string;
   bookTitle?: string;
   ragContext: string;
+  /** Curated timeline rows for the question (lib/rag/timeline.ts), one per line. */
+  timeline?: string;
+  /** Statements the question quotes: claims to examine, not facts. */
+  claims?: string[];
 }): string {
-  const { responseStyle, bookTitle, ragContext } = opts;
+  const { responseStyle, bookTitle, ragContext, timeline = '', claims = [] } = opts;
   const styleBlock = responseStyle === 'mains'
     ? MAINS_ANSWER_STYLE
     : responseStyle === 'elaborative'
@@ -226,10 +230,15 @@ EPISTEMIC INTEGRITY PROTOCOL — HIGHEST PRIORITY
 
 A fabricated fact, invented quote, or hallucinated event in a UPSC answer can cost a candidate their rank. This is someone's career.
 
-CRITICAL RULE ON IRRELEVANT SOURCES: If the provided passages are clearly about a different topic/era than the question, explicitly state: "The selected book does not cover this topic directly." Then answer from general knowledge WITHOUT inventing any quotes, statistics, names, or citations.
+EVIDENCE RULES (they override everything below where the two differ):
+E1. Each passage shows its book, its part of the syllabus and the years it is about, then a one-line note naming its event. Use a passage only for a claim about that same event and period. A passage about a different event is not evidence, however alike the wording: the 1942 Cripps offer is not the 1946 Cabinet Mission Plan, and the 1919 reforms are not the 1935 Act.
+E2. Take every date from the TIMELINE or from a passage that states it. If neither gives a date, describe the event without one. Never write a date from memory, and never move a date from one event to another.
+E3. If the question quotes a statement or a historian's view, it is a claim to examine, not a fact. Check its factual parts (who accepted or rejected what, and when) against the passages and the TIMELINE before you build on it, and say where it is wrong.
+E4. If two passages, or a passage and the TIMELINE, disagree, say so in one line and give both.
+E5. Your own knowledge may supply structure, historiography and analysis. It must not supply new dates, figures, quotations, clauses, or who did what and when. If the passages and the TIMELINE do not cover a point the question needs, make the point in general terms without those specifics. If no passage covers the question at all, say in one line that the books here do not cover it directly, then answer in general terms under the same rules.
 
 STEP 1 — CLASSIFY EVERY CLAIM (INTERNAL ONLY — the classification changes how you phrase a claim and nothing else; NEVER write the words "Tier 1", "Tier 2", "Tier 3", "TIER", "CERTAIN", "PROBABLE" or any other confidence label in your answer. The ONLY parenthetical marker permitted is the "Source #N" citation defined above; if a claim has no supporting passage, simply write the sentence with no marker at all — never write "Source #none", "none required" or any placeholder):
-TIER 1 — CERTAIN: Standard textbook facts. Write normally.
+TIER 1 — CERTAIN: A fact a passage or the TIMELINE states. Write it normally, with its citation.
 TIER 2 — PROBABLE: Fairly confident. Hedge: "Historians generally note that..." or "broadly..."
 TIER 3 — UNCERTAIN: Do NOT write it. Replace with analytical observation or omit.
 
@@ -278,7 +287,7 @@ FINAL RULE — THE UPSC CREDIBILITY TEST:
 Before responding, ask: "If an expert UPSC examiner read this, would every specific fact, name, date, and quote survive scrutiny?"
 If NO for any claim — remove it or hedge it. A shorter, factually honest answer scores higher than a long, confident, hallucinated one.
 
-${sourceIntro}
+${claims.length ? `CLAIMS IN THE QUESTION (examine them; do not assume them):\n${claims.map((c) => `- ${c}`).join('\n')}\n\n` : ''}${timeline ? `TIMELINE (curated dates for this question; use these, not your memory, and do not cite them as sources):\n${timeline}\n\n` : ''}${ragContext ? `${sourceIntro}
 FINAL REMINDER: You MUST cite every passage you use, as [Source #1], [Source #2] etc. at the end of the clause it supports.
-${ragContext}`;
+${ragContext}` : 'NO BOOK PASSAGES matched this question. Follow E5.'}`;
 }
