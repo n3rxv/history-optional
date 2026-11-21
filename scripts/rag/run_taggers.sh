@@ -18,12 +18,29 @@ if ! env -u ANTHROPIC_API_KEY claude auth status 2>/dev/null | grep -q '"authMet
   echo "not signed in to claude.ai without the API key; refusing to run"; exit 1
 fi
 
+# Keep the Mac usable (8 GB of RAM): before each batch, wait until at least
+# MIN_FREE_PCT of memory is free and the 1-minute load is under MAX_LOAD.
+MIN_FREE_PCT=${MIN_FREE_PCT:-30}
+MAX_LOAD=${MAX_LOAD:-12}
+wait_for_room() {
+  local b=$1 said=0
+  while true; do
+    local free=$(memory_pressure -Q 2>/dev/null | awk -F': ' '/free percentage/ {print $2+0}')
+    local load=$(sysctl -n vm.loadavg | awk '{print int($2)}')
+    if (( ${free:-0} >= MIN_FREE_PCT && load < MAX_LOAD )); then return; fi
+    (( said )) || echo "$b waiting: memory free ${free}% load ${load}"
+    said=1
+    sleep 20
+  done
+}
+
 tag_one() {
   local b=$1
   local free_mb=$(df -m /System/Volumes/Data | tail -1 | awk '{print $4}')
   if (( free_mb < 600 )); then echo "$b SKIPPED low disk ${free_mb}MB"; return; fi
+  wait_for_room $b
   for attempt in 1 2; do
-    cd $REPO && env -u ANTHROPIC_API_KEY claude -p "Tag one batch of history-textbook passages for a search index.
+    cd $REPO && nice -n 15 env -u ANTHROPIC_API_KEY claude -p "Tag one batch of history-textbook passages for a search index.
 
 Read the brief first and follow it exactly: $RAG/TAGGING-BRIEF.md
 

@@ -1,268 +1,268 @@
 id,topic,subjects,name,aliases,start,end,precision,tolerance_years,actors,summary,note,verified
-mehrgarh_neolithic,prehistory_neolithic,ancient_india,Neolithic settlement at Mehrgarh,Mehrgarh,7000 BCE,,contested,500,,Early farming settlement in Baluchistan with evidence of cultivated barley and wheat and domesticated animals.,Earliest levels dated c. 7000-6000 BCE depending on source.,
-harappa_excavation,harappan_discovery,ancient_india,Excavation of Harappa begins,Harappa excavation,1921,,year,0,Daya Ram Sahni,Excavations at Harappa bring the Harappan (Indus) civilisation to light.,,
-mohenjodaro_excavation,harappan_discovery,ancient_india,Excavation of Mohenjo-daro begins,Mohenjo-daro excavation,1922,,year,1,R.D. Banerji,R.D. Banerji begins work at Mohenjo-daro.,,
-mature_harappan,harappan_civilisation,ancient_india,Mature Harappan phase,Mature Harappan|Indus Valley Civilisation|Harappan civilisation,2600 BCE,1900 BCE,circa,100,,"Urban phase with planned cities, standardised weights and the Indus script.",Textbook ranges vary (e.g. c. 2600-1900 or 2500-1750 BCE).,
-harappan_decline,harappan_civilisation,ancient_india,Decline of Harappan urbanism,Harappan decline,1900 BCE,,contested,150,,De-urbanisation of the major Harappan sites; causes are debated.,,
-rigvedic_period,vedic_age,ancient_india,Early (Rig) Vedic period,Rigvedic period|Early Vedic period,1500 BCE,1000 BCE,circa,100,,Period of composition of most of the Rig Veda; largely pastoral society in the Sapta Sindhu region.,Chronology is debated.,
-later_vedic_period,vedic_age,ancient_india,Later Vedic period,Later Vedic period,1000 BCE,600 BCE,circa,100,,"Expansion into the Ganga plains, use of iron, settled agriculture and sharper varna divisions.",,
-mahajanapadas,mahajanapadas,ancient_india,Age of the sixteen Mahajanapadas,Mahajanapadas|sixteen Mahajanapadas,600 BCE,400 BCE,circa,50,,"Territorial states such as Magadha, Kosala, Vatsa and Avanti emerge in north India.",,
-achaemenid_gandhara,mahajanapadas,ancient_india,Achaemenid control of Gandhara,Achaemenid conquest|Darius I,518 BCE,,circa,10,Darius I,Gandhara and the Indus region appear as provinces of the Persian Achaemenid empire.,,
-buddha_life,buddhism_jainism,ancient_india,Life of Gautama Buddha (traditional dates),Buddha|Gautama Buddha|Siddhartha Gautama,563 BCE,483 BCE,contested,80,Gautama Buddha,Founder of Buddhism.,Many historians now place his death c. 400 BCE (short chronology).,
-mahavira_life,buddhism_jainism,ancient_india,Life of Vardhamana Mahavira,Mahavira|Vardhamana,540 BCE,468 BCE,contested,60,Vardhamana Mahavira,Twenty-fourth Jain tirthankara.,Jain tradition gives 599-527 BCE.,
-bimbisara_reign,magadha_rise,ancient_india,Reign of Bimbisara of Magadha,Bimbisara,544 BCE,492 BCE,contested,50,Bimbisara,Haryanka ruler who expanded Magadha by conquest (Anga) and marriage alliances.,Traditional dates tied to the Buddha's chronology.,
-first_buddhist_council,buddhism_jainism,ancient_india,First Buddhist Council at Rajagriha,First Buddhist Council|Rajagriha council,483 BCE,,contested,80,Ajatashatru;Mahakassapa,Held soon after the Buddha's death to compile his teachings.,Date depends on the Buddha's death date.,
-alexander_campaign,alexander_invasion,ancient_india,Alexander's campaign in north-west India,Alexander's invasion|Alexander the Great,327 BCE,325 BCE,year,0,Alexander;Porus;Ambhi,Macedonian campaign in the north-west; the army refused to go beyond the Beas.,,
-battle_hydaspes,alexander_invasion,ancient_india,Battle of the Hydaspes (Jhelum),Hydaspes|Battle of the Jhelum|Alexander and Porus,326 BCE,,year,0,Alexander;Porus,Alexander defeats Porus and reinstates him as ruler.,,
-chandragupta_accession,mauryan_empire,ancient_india,Chandragupta Maurya founds the Mauryan empire,Chandragupta Maurya|foundation of the Mauryan empire,321 BCE,,circa,4,Chandragupta Maurya;Kautilya,Chandragupta overthrows the Nandas.,Dates range c. 324-321 BCE.,
-seleucus_treaty,mauryan_empire,ancient_india,War and treaty with Seleucus Nicator,Seleucus|Seleucus Nicator,305 BCE,303 BCE,circa,3,Chandragupta Maurya;Seleucus I Nicator,Seleucus cedes north-western territories; Megasthenes later comes as envoy to Pataliputra.,,
-ashoka_accession,mauryan_empire,ancient_india,Accession of Ashoka,Ashoka|Asoka,268 BCE,,circa,5,Ashoka,Ashoka succeeds Bindusara.,Accession dated c. 273-268 BCE in different works.,
-kalinga_war,mauryan_empire,ancient_india,Kalinga War,Kalinga War|conquest of Kalinga,261 BCE,,circa,3,Ashoka,Conquest of Kalinga; Rock Edict XIII records Ashoka's remorse and turn to dhamma.,Eighth year after Ashoka's consecration.,
-third_buddhist_council,buddhism_jainism,ancient_india,Third Buddhist Council at Pataliputra,Third Buddhist Council,250 BCE,,circa,10,Ashoka;Moggaliputta Tissa,Held under Ashoka; followed by missions to spread Buddhism.,Known mainly from Sri Lankan chronicles.,
-mauryan_end,mauryan_empire,ancient_india,End of the Mauryan dynasty,Pushyamitra Shunga|fall of the Mauryas,185 BCE,,circa,5,Brihadratha;Pushyamitra Shunga,Pushyamitra Shunga kills the last Maurya ruler and founds the Shunga dynasty.,,
-prinsep_brahmi,brahmi_decipherment,ancient_india,James Prinsep deciphers Brahmi,James Prinsep|Brahmi decipherment,1837,,year,0,James Prinsep,Decipherment that made Ashoka's edicts readable.,,
+mehrgarh_neolithic,prehistory_neolithic,ancient_india,Neolithic settlement at Mehrgarh,Mehrgarh,7000 BCE,,contested,500,,Early farming settlement in Baluchistan with evidence of cultivated barley and wheat and domesticated animals.,Earliest levels dated c. 7000-6000 BCE depending on source.,books: Ajeet Jha; DN Jha
+harappa_excavation,harappan_discovery,ancient_india,Excavation of Harappa begins,Harappa excavation,1921,,contested,1,Daya Ram Sahni,Excavations at Harappa bring the Harappan (Indus) civilisation to light.,Upinder Singh gives 1920; Ajeet Jha gives 1921.,books: Ajeet Jha; Upinder Singh
+mohenjodaro_excavation,harappan_discovery,ancient_india,Excavation of Mohenjo-daro begins,Mohenjo-daro excavation,1922,,year,1,R.D. Banerji,R.D. Banerji begins work at Mohenjo-daro.,,books: Ajeet Jha; RC Majumdar
+mature_harappan,harappan_civilisation,ancient_india,Mature Harappan phase,Mature Harappan|Indus Valley Civilisation|Harappan civilisation,2600 BCE,1900 BCE,circa,100,,"Urban phase with planned cities, standardised weights and the Indus script.",Textbook ranges vary (e.g. c. 2600-1900 or 2500-1750 BCE).,books: Romila Thapar
+harappan_decline,harappan_civilisation,ancient_india,Decline of Harappan urbanism,Harappan decline,1900 BCE,,contested,150,,De-urbanisation of the major Harappan sites; causes are debated.,,books: Romila Thapar; Upinder Singh
+rigvedic_period,vedic_age,ancient_india,Early (Rig) Vedic period,Rigvedic period|Early Vedic period,1500 BCE,1000 BCE,circa,100,,Period of composition of most of the Rig Veda; largely pastoral society in the Sapta Sindhu region.,Chronology is debated.,books: Upinder Singh
+later_vedic_period,vedic_age,ancient_india,Later Vedic period,Later Vedic period,1000 BCE,600 BCE,circa,100,,"Expansion into the Ganga plains, use of iron, settled agriculture and sharper varna divisions.",,books: Ajeet Jha
+mahajanapadas,mahajanapadas,ancient_india,Age of the sixteen Mahajanapadas,Mahajanapadas|sixteen Mahajanapadas,600 BCE,300 BCE,contested,50,,"Territorial states such as Magadha, Kosala, Vatsa and Avanti emerge in north India.",Ajeet Jha gives 600-400 BCE; Chakravarti gives c. 600-300 BC.,books: Ajeet Jha; Ranbir Chakravarti
+achaemenid_gandhara,mahajanapadas,ancient_india,Achaemenid control of Gandhara,Achaemenid conquest|Darius I,518 BCE,,circa,10,Darius I,Gandhara and the Indus region appear as provinces of the Persian Achaemenid empire.,,books: Ajeet Jha; Upinder Singh
+buddha_life,buddhism_jainism,ancient_india,Life of Gautama Buddha (traditional dates),Buddha|Gautama Buddha|Siddhartha Gautama,563 BCE,483 BCE,contested,80,Gautama Buddha,Founder of Buddhism.,Many historians now place his death c. 400 BCE (short chronology).,books: Ajeet Jha
+mahavira_life,buddhism_jainism,ancient_india,Life of Vardhamana Mahavira,Mahavira|Vardhamana,540 BCE,468 BCE,contested,60,Vardhamana Mahavira,Twenty-fourth Jain tirthankara.,Jain tradition gives 599-527 BCE.,books: AL Basham; Ajeet Jha
+bimbisara_reign,magadha_rise,ancient_india,Reign of Bimbisara of Magadha,Bimbisara,544 BCE,492 BCE,contested,50,Bimbisara,Haryanka ruler who expanded Magadha by conquest (Anga) and marriage alliances.,Traditional dates tied to the Buddha's chronology.,books: RS Sharma
+first_buddhist_council,buddhism_jainism,ancient_india,First Buddhist Council at Rajagriha,First Buddhist Council|Rajagriha council,483 BCE,,contested,80,Ajatashatru;Mahakassapa,Held soon after the Buddha's death to compile his teachings.,Date depends on the Buddha's death date.,books: Ajeet Jha
+alexander_campaign,alexander_invasion,ancient_india,Alexander's campaign in north-west India,Alexander's invasion|Alexander the Great,327 BCE,325 BCE,year,1,Alexander;Porus;Ambhi,Macedonian campaign in the north-west; the army refused to go beyond the Beas.,The books agree on 327 BCE; Kosambi puts the revolt at the Beas in 326 BCE.,books: DD Kosambi; Ranbir Chakravarti; Romila Thapar
+battle_hydaspes,alexander_invasion,ancient_india,Battle of the Hydaspes (Jhelum),Hydaspes|Battle of the Jhelum|Alexander and Porus,326 BCE,,year,0,Alexander;Porus,Alexander defeats Porus and reinstates him as ruler.,,books: AL Basham; Upinder Singh
+chandragupta_accession,mauryan_empire,ancient_india,Chandragupta Maurya founds the Mauryan empire,Chandragupta Maurya|foundation of the Mauryan empire,321 BCE,,circa,4,Chandragupta Maurya;Kautilya,Chandragupta overthrows the Nandas.,Dates range c. 324-321 BCE.,books: DN Jha; Romila Thapar
+seleucus_treaty,mauryan_empire,ancient_india,War and treaty with Seleucus Nicator,Seleucus|Seleucus Nicator,305 BCE,303 BCE,circa,3,Chandragupta Maurya;Seleucus I Nicator,Seleucus cedes north-western territories; Megasthenes later comes as envoy to Pataliputra.,,books: Ajeet Jha; Romila Thapar
+ashoka_accession,mauryan_empire,ancient_india,Accession of Ashoka,Ashoka|Asoka,268 BCE,,circa,5,Ashoka,Ashoka succeeds Bindusara.,Accession dated c. 273-268 BCE in different works.,books: Ajeet Jha; Upinder Singh
+kalinga_war,mauryan_empire,ancient_india,Kalinga War,Kalinga War|conquest of Kalinga,261 BCE,,circa,3,Ashoka,Conquest of Kalinga; Rock Edict XIII records Ashoka's remorse and turn to dhamma.,Eighth year after Ashoka's consecration.,books: Ajeet Jha; Ranbir Chakravarti
+third_buddhist_council,buddhism_jainism,ancient_india,Third Buddhist Council at Pataliputra,Third Buddhist Council,250 BCE,,circa,10,Ashoka;Moggaliputta Tissa,Held under Ashoka; followed by missions to spread Buddhism.,Known mainly from Sri Lankan chronicles.,books: DN Jha; Romila Thapar
+mauryan_end,mauryan_empire,ancient_india,End of the Mauryan dynasty,Pushyamitra Shunga|fall of the Mauryas,185 BCE,,circa,5,Brihadratha;Pushyamitra Shunga,Pushyamitra Shunga kills the last Maurya ruler and founds the Shunga dynasty.,,books: RC Majumdar; Romila Thapar
+prinsep_brahmi,brahmi_decipherment,ancient_india,James Prinsep deciphers Brahmi,James Prinsep|Brahmi decipherment,1837,,year,0,James Prinsep,Decipherment that made Ashoka's edicts readable.,,books: DN Jha; Romila Thapar
 menander,post_mauryan,ancient_india,Indo-Greek king Menander (Milinda),Menander|Milinda|Milindapanha,165 BCE,130 BCE,circa,15,Menander;Nagasena,Best-known Indo-Greek ruler; his dialogue with Nagasena is the Milindapanha.,,
-vikrama_samvat,post_mauryan,ancient_india,Start of the Vikrama Samvat era,Vikrama Samvat|Vikram era,57 BCE,,year,0,,"Era reckoned from 57 BCE, traditionally linked to a king Vikramaditya of Ujjain.",The era's origin is debated; its starting year is fixed.,
-shaka_era,kushana_empire,ancient_india,Start of the Shaka era,Shaka era|Saka era|Shaka Samvat,78,,year,0,,Era beginning in 78 CE; later adopted for India's national calendar.,Traditionally linked to Kanishka; the link is contested.,
-kanishka_accession,kushana_empire,ancient_india,Accession of Kanishka,Kanishka,127,,contested,50,Kanishka,Leading Kushana ruler; patron of Buddhism and of the Gandhara and Mathura schools of art.,Older view 78 CE (Shaka era); many scholars now prefer c. 127 CE.,
-gautamiputra_satakarni,satavahanas,ancient_india,Reign of Gautamiputra Satakarni,Gautamiputra Satakarni,106,130,contested,20,Gautamiputra Satakarni;Gautami Balashri,Satavahana ruler who defeated the Kshaharata Shaka Nahapana (Nasik inscription).,Chronologies vary.,
-rudradaman_junagadh,western_kshatrapas,ancient_india,Junagadh (Girnar) inscription of Rudradaman,Rudradaman|Junagadh inscription|Girnar inscription,150,,year,1,Rudradaman I,Early long Sanskrit inscription; records repair of the Sudarshana lake.,Dated Shaka year 72.,
-sangam_age,sangam_age,ancient_india,Sangam age,Sangam period|Sangam literature,300 BCE,300,contested,100,Cheras;Cholas;Pandyas,"Age of early Tamil poetry and the Chera, Chola and Pandya chiefdoms.",Ranges differ widely between scholars.,
-gupta_era,gupta_empire,ancient_india,Start of the Gupta era,Gupta era|Chandragupta I,319,,year,1,Chandragupta I,"Gupta era begins in 319-320 CE, usually linked to Chandragupta I's accession.",,
-samudragupta_reign,gupta_empire,ancient_india,Reign of Samudragupta,Samudragupta|Allahabad pillar inscription|Prayag prashasti,335,375,circa,5,Samudragupta;Harishena,Gupta expansion recorded in Harishena's Prayag (Allahabad) prashasti.,,
-chandragupta2_reign,gupta_empire,ancient_india,Reign of Chandragupta II,Chandragupta II|Vikramaditya,375,415,circa,5,Chandragupta II,Defeat of the Western Kshatrapas; height of Gupta power.,,
-faxian_travels,gupta_empire,ancient_india,Faxian (Fa-Hien) travels to India,Fa-Hien|Faxian,399,414,circa,3,Faxian,Chinese Buddhist pilgrim whose account describes north India under Chandragupta II.,399-414 spans the whole journey from and back to China.,
-kumaragupta1_reign,gupta_empire,ancient_india,Reign of Kumaragupta I,Kumaragupta I,415,455,circa,5,Kumaragupta I,Gupta ruler traditionally credited with founding the Nalanda mahavihara.,,
-skandagupta_reign,gupta_empire,ancient_india,Reign of Skandagupta,Skandagupta,455,467,circa,5,Skandagupta,Repulsed early Huna attacks.,,
-aryabhatiya,gupta_empire,ancient_india,Aryabhata composes the Aryabhatiya,Aryabhata|Aryabhatiya,499,,year,1,Aryabhata,Astronomical and mathematical treatise.,,
+vikrama_samvat,post_mauryan,ancient_india,Start of the Vikrama Samvat era,Vikrama Samvat|Vikram era,57 BCE,,year,0,,"Era reckoned from 57 BCE, traditionally linked to a king Vikramaditya of Ujjain.",The era's origin is debated; its starting year is fixed.,books: DN Jha; Ranbir Chakravarti
+shaka_era,kushana_empire,ancient_india,Start of the Shaka era,Shaka era|Saka era|Shaka Samvat,78,,year,0,,Era beginning in 78 CE; later adopted for India's national calendar.,Traditionally linked to Kanishka; the link is contested.,books: Ajeet Jha; Upinder Singh
+kanishka_accession,kushana_empire,ancient_india,Accession of Kanishka,Kanishka,127,,contested,50,Kanishka,Leading Kushana ruler; patron of Buddhism and of the Gandhara and Mathura schools of art.,Older view 78 CE (Shaka era); many scholars now prefer c. 127 CE.,books: Ranbir Chakravarti; Upinder Singh
+gautamiputra_satakarni,satavahanas,ancient_india,Reign of Gautamiputra Satakarni,Gautamiputra Satakarni,106,130,contested,20,Gautamiputra Satakarni;Gautami Balashri,Satavahana ruler who defeated the Kshaharata Shaka Nahapana (Nasik inscription).,Chronologies vary.,books: RC Majumdar; RS Sharma
+rudradaman_junagadh,western_kshatrapas,ancient_india,Junagadh (Girnar) inscription of Rudradaman,Rudradaman|Junagadh inscription|Girnar inscription,150,,year,1,Rudradaman I,Early long Sanskrit inscription; records repair of the Sudarshana lake.,Dated Shaka year 72.,books: Romila Thapar; Upinder Singh
+sangam_age,sangam_age,ancient_india,Sangam age,Sangam period|Sangam literature,300 BCE,300,contested,100,Cheras;Cholas;Pandyas,"Age of early Tamil poetry and the Chera, Chola and Pandya chiefdoms.",Ranges differ widely between scholars.,books: Ajeet Jha
+gupta_era,gupta_empire,ancient_india,Start of the Gupta era,Gupta era|Chandragupta I,319,,year,1,Chandragupta I,"Gupta era begins in 319-320 CE, usually linked to Chandragupta I's accession.",,books: Ajeet Jha; Ranbir Chakravarti; Upinder Singh
+samudragupta_reign,gupta_empire,ancient_india,Reign of Samudragupta,Samudragupta|Allahabad pillar inscription|Prayag prashasti,335,375,circa,5,Samudragupta;Harishena,Gupta expansion recorded in Harishena's Prayag (Allahabad) prashasti.,,books: Ajeet Jha; RS Sharma
+chandragupta2_reign,gupta_empire,ancient_india,Reign of Chandragupta II,Chandragupta II|Vikramaditya,375,415,circa,5,Chandragupta II,Defeat of the Western Kshatrapas; height of Gupta power.,,books: DN Jha; Upinder Singh
+faxian_travels,gupta_empire,ancient_india,Faxian (Fa-Hien) travels to India,Fa-Hien|Faxian,399,414,circa,3,Faxian,Chinese Buddhist pilgrim whose account describes north India under Chandragupta II.,399-414 spans the whole journey from and back to China.,books: Ajeet Jha; Ranbir Chakravarti
+kumaragupta1_reign,gupta_empire,ancient_india,Reign of Kumaragupta I,Kumaragupta I,415,455,circa,5,Kumaragupta I,Gupta ruler traditionally credited with founding the Nalanda mahavihara.,,books: DN Jha; Upinder Singh
+skandagupta_reign,gupta_empire,ancient_india,Reign of Skandagupta,Skandagupta,455,467,circa,5,Skandagupta,Repulsed early Huna attacks.,,books: AL Basham; RC Majumdar
+aryabhatiya,gupta_empire,ancient_india,Aryabhata composes the Aryabhatiya,Aryabhata|Aryabhatiya,499,,year,1,Aryabhata,Astronomical and mathematical treatise.,,books: Ajeet Jha; Romila Thapar
 mihirakula_defeat,huna_invasions,ancient_india,Defeat of the Huna ruler Mihirakula,Mihirakula|Yashodharman,528,,circa,5,Yashodharman;Mihirakula,Yashodharman of Malwa claims victory over Mihirakula (Mandsaur inscription).,,
-harsha_reign,harsha,ancient_india,Reign of Harshavardhana,Harsha|Harshavardhana,606,647,year,1,Harshavardhana;Banabhatta,"Ruler of Thanesar and Kannauj, known from the Harshacharita and Xuanzang's account.",,
-xuanzang_travels,harsha,ancient_india,Xuanzang (Hiuen Tsang) in India,Hiuen Tsang|Xuanzang,629,645,circa,2,Xuanzang;Harshavardhana,Chinese pilgrim who studied at Nalanda and attended Harsha's assemblies.,,
+harsha_reign,harsha,ancient_india,Reign of Harshavardhana,Harsha|Harshavardhana,606,647,year,1,Harshavardhana;Banabhatta,"Ruler of Thanesar and Kannauj, known from the Harshacharita and Xuanzang's account.",,books: Ajeet Jha; Upinder Singh
+xuanzang_travels,harsha,ancient_india,Xuanzang (Hiuen Tsang) in India,Hiuen Tsang|Xuanzang,629,645,circa,2,Xuanzang;Harshavardhana,Chinese pilgrim who studied at Nalanda and attended Harsha's assemblies.,,books: RC Majumdar; RS Sharma
 harsha_pulakeshin,chalukyas_pallavas,ancient_india,Pulakeshin II stops Harsha on the Narmada,Pulakeshin II|Harsha and Pulakeshin,618,,contested,15,Pulakeshin II;Harshavardhana,"Chalukya victory over Harsha, recorded in the Aihole inscription.",Dated c. 618-619 or c. 630-634 CE in different works.,
-aihole_inscription,chalukyas_pallavas,ancient_india,Aihole inscription of Pulakeshin II,Aihole inscription|Ravikirti,634,,year,1,Ravikirti;Pulakeshin II,Prashasti by Ravikirti recording Pulakeshin II's victories.,Dated Shaka 556.,
-vatapi_captured,chalukyas_pallavas,ancient_india,Pallava capture of Vatapi,Vatapi|Narasimhavarman I,642,,year,1,Narasimhavarman I;Pulakeshin II,Pallava king Narasimhavarman I sacks the Chalukya capital; Pulakeshin II dies.,,
-arab_sindh,arab_conquest_sindh,ancient_india|medieval_india,Arab conquest of Sindh,Muhammad bin Qasim|Arab conquest of Sindh,712,,year,1,Muhammad bin Qasim;Dahir,Umayyad general Muhammad bin Qasim defeats Dahir and conquers Sindh.,Campaign of 711-712.,
+aihole_inscription,chalukyas_pallavas,ancient_india,Aihole inscription of Pulakeshin II,Aihole inscription|Ravikirti,634,,year,1,Ravikirti;Pulakeshin II,Prashasti by Ravikirti recording Pulakeshin II's victories.,Dated Shaka 556.,books: RC Majumdar; Upinder Singh
+vatapi_captured,chalukyas_pallavas,ancient_india,Pallava capture of Vatapi,Vatapi|Narasimhavarman I,642,,year,1,Narasimhavarman I;Pulakeshin II,Pallava king Narasimhavarman I sacks the Chalukya capital; Pulakeshin II dies.,,books: RS Sharma
+arab_sindh,arab_conquest_sindh,ancient_india|medieval_india,Arab conquest of Sindh,Muhammad bin Qasim|Arab conquest of Sindh,712,,year,1,Muhammad bin Qasim;Dahir,Umayyad general Muhammad bin Qasim defeats Dahir and conquers Sindh.,Campaign of 711-712.,books: AL Basham; Romila Thapar
 tripartite_struggle,tripartite_struggle,medieval_india,Tripartite struggle for Kannauj,Tripartite struggle,750,950,circa,25,Palas;Pratiharas;Rashtrakutas,"Long contest between Palas, Gurjara-Pratiharas and Rashtrakutas for control of Kannauj.",,
-dharmapala_reign,palas,medieval_india,Reign of Dharmapala,Dharmapala|Vikramashila,770,810,circa,10,Dharmapala,Pala ruler of Bengal; founder of the Vikramashila mahavihara.,,
-kailasa_ellora,rashtrakutas,medieval_india,Kailasa temple at Ellora,Kailasa temple|Kailasanatha temple Ellora|Krishna I,756,774,circa,10,Krishna I,Rock-cut temple excavated under the Rashtrakuta king Krishna I.,,
-amoghavarsha_reign,rashtrakutas,medieval_india,Reign of Amoghavarsha I,Amoghavarsha,814,878,circa,3,Amoghavarsha I,Long-reigning Rashtrakuta king; the Kannada work Kavirajamarga is associated with his court.,,
-mihira_bhoja_reign,pratiharas,medieval_india,Reign of Mihira Bhoja,Mihira Bhoja,836,885,circa,5,Mihira Bhoja,Most powerful Gurjara-Pratihara ruler.,,
-rajaraja_reign,cholas,medieval_india,Reign of Rajaraja I,Rajaraja I|Rajaraja Chola,985,1014,year,1,Rajaraja I,Chola expansion; built the Brihadishvara temple at Thanjavur (completed c. 1010).,,
-rajendra_reign,cholas,medieval_india,Reign of Rajendra I,Rajendra I|Gangaikonda Cholapuram,1014,1044,year,1,Rajendra I,Expeditions to the Ganga valley and Srivijaya; new capital at Gangaikonda Cholapuram.,,
-mahmud_raids,ghaznavid_raids,medieval_india,Raids of Mahmud of Ghazni,Mahmud of Ghazni|Mahmud Ghaznavi,1000,1027,circa,2,Mahmud of Ghazni,Series of about seventeen raids into north India.,,
-somnath_raid,ghaznavid_raids,medieval_india,Mahmud's raid on Somnath,Somnath|Somnath temple,1025,1026,year,1,Mahmud of Ghazni,Sack of the Somnath temple in Gujarat.,,
+dharmapala_reign,palas,medieval_india,Reign of Dharmapala,Dharmapala|Vikramashila,770,810,circa,10,Dharmapala,Pala ruler of Bengal; founder of the Vikramashila mahavihara.,,books: AL Basham; Satish Chandra; Vipul Singh
+kailasa_ellora,rashtrakutas,medieval_india,Kailasa temple at Ellora,Kailasa temple|Kailasanatha temple Ellora|Krishna I,756,774,circa,10,Krishna I,Rock-cut temple excavated under the Rashtrakuta king Krishna I.,,books: AL Basham; Ajeet Jha
+amoghavarsha_reign,rashtrakutas,medieval_india,Reign of Amoghavarsha I,Amoghavarsha,814,878,circa,3,Amoghavarsha I,Long-reigning Rashtrakuta king; the Kannada work Kavirajamarga is associated with his court.,,books: Ajeet Jha; Upinder Singh
+mihira_bhoja_reign,pratiharas,medieval_india,Reign of Mihira Bhoja,Mihira Bhoja,836,885,circa,5,Mihira Bhoja,Most powerful Gurjara-Pratihara ruler.,,books: RC Majumdar
+rajaraja_reign,cholas,medieval_india,Reign of Rajaraja I,Rajaraja I|Rajaraja Chola,985,1014,contested,4,Rajaraja I,Chola expansion; built the Brihadishvara temple at Thanjavur (completed c. 1010).,"Upinder Singh, Ajeet Jha and Vipul Singh give 985-1014; one Vipul Singh chapter gives 985-1018.",books: Ajeet Jha; Upinder Singh; Vipul Singh
+rajendra_reign,cholas,medieval_india,Reign of Rajendra I,Rajendra I|Gangaikonda Cholapuram,1012,1044,contested,2,Rajendra I,Expeditions to the Ganga valley and Srivijaya; new capital at Gangaikonda Cholapuram.,Upinder Singh dates Rajendra I to 1012-44 (co-rule from 1012); India in the Persianate Age has him rule in his own right from 1014.,books: India in the Persianate Age; Upinder Singh
+mahmud_raids,ghaznavid_raids,medieval_india,Raids of Mahmud of Ghazni,Mahmud of Ghazni|Mahmud Ghaznavi,1000,1027,circa,2,Mahmud of Ghazni,Series of about seventeen raids into north India.,,books: JL Mehta; Vipul Singh
+somnath_raid,ghaznavid_raids,medieval_india,Mahmud's raid on Somnath,Somnath|Somnath temple,1025,1026,year,1,Mahmud of Ghazni,Sack of the Somnath temple in Gujarat.,,books: India in the Persianate Age; Satish Chandra
 alberuni_kitab,ghaznavid_raids,medieval_india,Alberuni's Kitab-ul-Hind,Alberuni|al-Biruni|Kitab-ul-Hind|Tahqiq-i-Hind,1030,,circa,3,al-Biruni,"Account of Indian society, science and religion.",,
-tarain_first,ghurid_conquest,medieval_india,First Battle of Tarain,First Battle of Tarain,1191,,year,0,Prithviraj Chauhan;Muhammad of Ghur,Prithviraj Chauhan defeats Muhammad of Ghur.,,
-tarain_second,ghurid_conquest,medieval_india,Second Battle of Tarain,Second Battle of Tarain,1192,,year,0,Prithviraj Chauhan;Muhammad of Ghur,Muhammad of Ghur defeats Prithviraj; opens north India to Ghurid rule.,,
-chandawar,ghurid_conquest,medieval_india,Battle of Chandawar,Chandawar,1194,,year,0,Jaichand;Muhammad of Ghur,Muhammad of Ghur defeats Jaichand of Kannauj.,,
-bakhtiyar_nadia,ghurid_conquest,medieval_india,Bakhtiyar Khalji's raid on Nadia,Bakhtiyar Khalji|Nadia,1204,,circa,2,Bakhtiyar Khalji;Lakshmana Sena,Raid on the Sena capital that began Turkish rule in Bengal.,Dated c. 1202-1205 in different accounts.,
-aibak_rule,delhi_sultanate,medieval_india,Qutbuddin Aibak rules at Delhi,Qutbuddin Aibak|Delhi Sultanate founded|Mamluk dynasty|Slave dynasty,1206,1210,year,0,Qutbuddin Aibak,After Muhammad of Ghur's death Aibak rules as the first sultan of Delhi.,,
-iltutmish_reign,delhi_sultanate,medieval_india,Reign of Iltutmish,Iltutmish,1211,1236,year,1,Iltutmish,Consolidated the Sultanate; received investiture from the Abbasid caliph.,,
-raziya_reign,delhi_sultanate,medieval_india,Reign of Raziya,Raziya|Razia Sultan,1236,1240,year,0,Raziya,Only woman ruler of the Delhi Sultanate.,,
-balban_reign,delhi_sultanate,medieval_india,Reign of Balban,Balban|Ghiyasuddin Balban,1266,1287,year,0,Ghiyasuddin Balban,Stressed royal prestige and broke the power of the Turkish nobility (the Forty).,,
-khalji_revolution,khaljis,medieval_india,Khalji revolution,Khalji revolution|Jalaluddin Khalji,1290,,year,0,Jalaluddin Khalji,The Khaljis replace the Ilbari Turks on the Delhi throne.,,
-alauddin_reign,khaljis,medieval_india,Reign of Alauddin Khalji,Alauddin Khalji|market reforms,1296,1316,year,0,Alauddin Khalji,"Market control, revenue measures and campaigns in Gujarat, Rajasthan and the Deccan.",,
-chittor_1303,khaljis,medieval_india,Alauddin captures Chittor,Chittor 1303|siege of Chittor,1303,,year,0,Alauddin Khalji;Ratan Singh,Siege and capture of Chittor.,,
+tarain_first,ghurid_conquest,medieval_india,First Battle of Tarain,First Battle of Tarain,1191,,year,0,Prithviraj Chauhan;Muhammad of Ghur,Prithviraj Chauhan defeats Muhammad of Ghur.,,books: Satish Chandra; Upinder Singh
+tarain_second,ghurid_conquest,medieval_india,Second Battle of Tarain,Second Battle of Tarain,1192,,year,0,Prithviraj Chauhan;Muhammad of Ghur,Muhammad of Ghur defeats Prithviraj; opens north India to Ghurid rule.,,books: Satish Chandra; Upinder Singh
+chandawar,ghurid_conquest,medieval_india,Battle of Chandawar,Chandawar,1194,,year,0,Jaichand;Muhammad of Ghur,Muhammad of Ghur defeats Jaichand of Kannauj.,,books: Satish Chandra; Vipul Singh
+bakhtiyar_nadia,ghurid_conquest,medieval_india,Bakhtiyar Khalji's raid on Nadia,Bakhtiyar Khalji|Nadia,1204,,circa,2,Bakhtiyar Khalji;Lakshmana Sena,Raid on the Sena capital that began Turkish rule in Bengal.,Dated c. 1202-1205 in different accounts.,books: India in the Persianate Age; Satish Chandra; The Rise of Islam and the Bengal Frontier
+aibak_rule,delhi_sultanate,medieval_india,Qutbuddin Aibak rules at Delhi,Qutbuddin Aibak|Delhi Sultanate founded|Mamluk dynasty|Slave dynasty,1206,1210,year,0,Qutbuddin Aibak,After Muhammad of Ghur's death Aibak rules as the first sultan of Delhi.,,books: Satish Chandra; Vipul Singh
+iltutmish_reign,delhi_sultanate,medieval_india,Reign of Iltutmish,Iltutmish,1211,1236,year,1,Iltutmish,Consolidated the Sultanate; received investiture from the Abbasid caliph.,,books: Vipul Singh
+raziya_reign,delhi_sultanate,medieval_india,Reign of Raziya,Raziya|Razia Sultan,1236,1240,contested,1,Raziya,Only woman ruler of the Delhi Sultanate.,Vipul Singh gives 1236-40; Satish Chandra gives 1236-39.,books: Satish Chandra; Vipul Singh
+balban_reign,delhi_sultanate,medieval_india,Reign of Balban,Balban|Ghiyasuddin Balban,1266,1287,contested,1,Ghiyasuddin Balban,Stressed royal prestige and broke the power of the Turkish nobility (the Forty).,"India in the Persianate Age gives 1266-87, J.L. Mehta 1266-86; Vipul Singh dates his accession to 1265.",books: India in the Persianate Age; JL Mehta; Vipul Singh
+khalji_revolution,khaljis,medieval_india,Khalji revolution,Khalji revolution|Jalaluddin Khalji,1290,,year,0,Jalaluddin Khalji,The Khaljis replace the Ilbari Turks on the Delhi throne.,,books: JL Mehta; Vipul Singh
+alauddin_reign,khaljis,medieval_india,Reign of Alauddin Khalji,Alauddin Khalji|market reforms,1296,1316,year,0,Alauddin Khalji,"Market control, revenue measures and campaigns in Gujarat, Rajasthan and the Deccan.",,books: JL Mehta; Vipul Singh
+chittor_1303,khaljis,medieval_india,Alauddin captures Chittor,Chittor 1303|siege of Chittor,1303,,year,0,Alauddin Khalji;Ratan Singh,Siege and capture of Chittor.,,books: Satish Chandra; Vipul Singh
 malik_kafur_south,khaljis,medieval_india,Malik Kafur's southern campaigns,Malik Kafur,1308,1311,circa,1,Malik Kafur,"Campaigns against Warangal, Dwarasamudra and Madurai.",,
 mbt_reign,tughlaqs,medieval_india,Reign of Muhammad bin Tughlaq,Muhammad bin Tughlaq|Muhammad Tughlaq,1325,1351,year,0,Muhammad bin Tughlaq,Reign known for ambitious and controversial projects.,,
-capital_daulatabad,tughlaqs,medieval_india,Capital moved to Daulatabad,Daulatabad|transfer of capital,1327,,year,1,Muhammad bin Tughlaq,"Shift of the capital, and many inhabitants, from Delhi to Daulatabad.",,
-token_currency,tughlaqs,medieval_india,Token currency experiment,token currency,1329,1330,circa,1,Muhammad bin Tughlaq,Bronze tokens issued at par with silver; withdrawn after widespread forgery.,,
-ibn_battuta,tughlaqs,medieval_india,Ibn Battuta in India,Ibn Battuta|Rihla,1333,1342,circa,1,Ibn Battuta;Muhammad bin Tughlaq,Moroccan traveller who served as qazi of Delhi; described India in his Rihla.,,
-vijayanagara_founded,vijayanagara,medieval_india,Foundation of Vijayanagara,Vijayanagara|Harihara and Bukka,1336,,circa,2,Harihara I;Bukka I,Founded by Harihara and Bukka of the Sangama dynasty.,1336 is the traditional date.,
-bahmani_founded,bahmani,medieval_india,Foundation of the Bahmani kingdom,Bahmani kingdom|Bahman Shah,1347,,year,0,Alauddin Hasan Bahman Shah,Revolt against Muhammad bin Tughlaq creates an independent Deccan sultanate.,,
+capital_daulatabad,tughlaqs,medieval_india,Capital moved to Daulatabad,Daulatabad|transfer of capital,1327,,year,1,Muhammad bin Tughlaq,"Shift of the capital, and many inhabitants, from Delhi to Daulatabad.",,books: India in the Persianate Age; Vipul Singh
+token_currency,tughlaqs,medieval_india,Token currency experiment,token currency,1329,1330,circa,1,Muhammad bin Tughlaq,Bronze tokens issued at par with silver; withdrawn after widespread forgery.,,books: Vipul Singh
+ibn_battuta,tughlaqs,medieval_india,Ibn Battuta in India,Ibn Battuta|Rihla,1333,1342,circa,1,Ibn Battuta;Muhammad bin Tughlaq,Moroccan traveller who served as qazi of Delhi; described India in his Rihla.,,books: JL Mehta; Satish Chandra
+vijayanagara_founded,vijayanagara,medieval_india,Foundation of Vijayanagara,Vijayanagara|Harihara and Bukka,1336,,circa,2,Harihara I;Bukka I,Founded by Harihara and Bukka of the Sangama dynasty.,1336 is the traditional date.,books: JL Mehta; Vipul Singh
+bahmani_founded,bahmani,medieval_india,Foundation of the Bahmani kingdom,Bahmani kingdom|Bahman Shah,1347,,year,0,Alauddin Hasan Bahman Shah,Revolt against Muhammad bin Tughlaq creates an independent Deccan sultanate.,,books: JL Mehta
 firoz_reign,tughlaqs,medieval_india,Reign of Firoz Shah Tughlaq,Firoz Shah Tughlaq|Firuz Tughlaq,1351,1388,year,0,Firoz Shah Tughlaq,"Canals, new towns, and jizya extended to Brahmins.",,
-timur_delhi,tughlaqs,medieval_india,Timur sacks Delhi,Timur|Tamerlane,1398-12,,month,0,Timur;Nasiruddin Mahmud Tughlaq,Timur's invasion and sack of Delhi.,,
-lodi_dynasty,lodis,medieval_india,Lodi dynasty,Lodi dynasty|Bahlul Lodi|Sikandar Lodi|Ibrahim Lodi,1451,1526,year,0,Bahlul Lodi;Sikandar Lodi;Ibrahim Lodi,Afghan dynasty ended by Babur at Panipat.,,
-krishnadevaraya_reign,vijayanagara,medieval_india,Reign of Krishnadevaraya,Krishnadevaraya|Amuktamalyada,1509,1529,year,0,Krishnadevaraya,Peak of Vijayanagara power; author of the Telugu Amuktamalyada.,,
-raichur_1520,vijayanagara,medieval_india,Battle of Raichur,Raichur,1520,,year,0,Krishnadevaraya;Ismail Adil Shah,Krishnadevaraya defeats the sultan of Bijapur.,,
-panipat_first,mughal_foundation,medieval_india,First Battle of Panipat,First Battle of Panipat|Panipat 1526,1526-04-21,,day,0,Babur;Ibrahim Lodi,Babur defeats Ibrahim Lodi and founds Mughal rule.,,
-khanwa,mughal_foundation,medieval_india,Battle of Khanwa,Khanwa,1527-03,,month,0,Babur;Rana Sanga,Babur defeats Rana Sanga's Rajput confederacy.,Day given as 16 or 17 March.,
-chausa_kannauj,sur_interlude,medieval_india,Sher Shah defeats Humayun (Chausa and Kannauj),Chausa|Battle of Kannauj|Bilgram,1539,1540,year,0,Sher Shah;Humayun,Chausa (1539) and Kannauj (1540) drive Humayun out of India.,,
-sher_shah_reign,sur_interlude,medieval_india,Reign of Sher Shah Suri,Sher Shah|Sher Shah Suri,1540,1545,year,0,Sher Shah,"Administrative and revenue reforms, the silver rupiya, road building.",,
+timur_delhi,tughlaqs,medieval_india,Timur sacks Delhi,Timur|Tamerlane,1398-12,,month,0,Timur;Nasiruddin Mahmud Tughlaq,Timur's invasion and sack of Delhi.,,books: JL Mehta
+lodi_dynasty,lodis,medieval_india,Lodi dynasty,Lodi dynasty|Bahlul Lodi|Sikandar Lodi|Ibrahim Lodi,1451,1526,year,0,Bahlul Lodi;Sikandar Lodi;Ibrahim Lodi,Afghan dynasty ended by Babur at Panipat.,,books: India in the Persianate Age; Vipul Singh
+krishnadevaraya_reign,vijayanagara,medieval_india,Reign of Krishnadevaraya,Krishnadevaraya|Amuktamalyada,1509,1529,year,1,Krishnadevaraya,Peak of Vijayanagara power; author of the Telugu Amuktamalyada.,Most books give 1509-29; one J.L. Mehta passage reads 1509-30.,books: JL Mehta; Vipul Singh
+raichur_1520,vijayanagara,medieval_india,Battle of Raichur,Raichur,1520,,year,0,Krishnadevaraya;Ismail Adil Shah,Krishnadevaraya defeats the sultan of Bijapur.,,books: JL Mehta; KA Nilakanta Sastri; Satish Chandra
+panipat_first,mughal_foundation,medieval_india,First Battle of Panipat,First Battle of Panipat|Panipat 1526,1526-04-20,1526-04-21,day,0,Babur;Ibrahim Lodi,Babur defeats Ibrahim Lodi and founds Mughal rule.,J.L. Mehta and India in the Persianate Age give 21 April 1526; Satish Chandra gives 20 April 1526.,books: India in the Persianate Age; JL Mehta; Satish Chandra
+khanwa,mughal_foundation,medieval_india,Battle of Khanwa,Khanwa,1527-03,,month,0,Babur;Rana Sanga,Babur defeats Rana Sanga's Rajput confederacy.,Day given as 16 or 17 March.,books: JL Mehta; Mughals IGNOU; Satish Chandra
+chausa_kannauj,sur_interlude,medieval_india,Sher Shah defeats Humayun (Chausa and Kannauj),Chausa|Battle of Kannauj|Bilgram,1539,1540,year,0,Sher Shah;Humayun,Chausa (1539) and Kannauj (1540) drive Humayun out of India.,,books: India in the Persianate Age; Satish Chandra
+sher_shah_reign,sur_interlude,medieval_india,Reign of Sher Shah Suri,Sher Shah|Sher Shah Suri,1540,1545,year,0,Sher Shah,"Administrative and revenue reforms, the silver rupiya, road building.",,books: India in the Persianate Age; Vipul Singh
 akbar_accession,akbar,medieval_india,Accession of Akbar,Akbar's accession,1556-02-14,,day,0,Akbar;Bairam Khan,Akbar is enthroned at Kalanaur after Humayun's death.,,
-panipat_second,akbar,medieval_india,Second Battle of Panipat,Second Battle of Panipat|Panipat 1556,1556-11-05,,day,0,Akbar;Bairam Khan;Hemu,Mughal victory over Hemu.,,
-jizya_abolished,akbar,medieval_india,Akbar abolishes jizya,jizya abolished,1564,,year,0,Akbar,,,
-talikota,vijayanagara,medieval_india,Battle of Talikota (Rakshasa-Tangadi),Talikota|Rakshasa-Tangadi,1565,,year,0,Rama Raya;Deccan sultanates,Combined Deccan sultanates defeat Vijayanagara; the capital is sacked.,Day given as 23 or 26 January.,
-mansabdari,akbar,medieval_india,Mansabdari system organised,Mansabdari|mansab,1573,1574,circa,2,Akbar,Graded ranks for nobles and officials.,The dual zat/sawar rank is dated to the 1590s.,
-ibadat_khana,akbar,medieval_india,Ibadat Khana built at Fatehpur Sikri,Ibadat Khana,1575,,year,0,Akbar,Hall for religious debate.,,
-haldighati,akbar,medieval_india,Battle of Haldighati,Haldighati,1576-06,,month,0,Maharana Pratap;Man Singh,Mughal forces under Man Singh fight Maharana Pratap.,Day given as 18 or 21 June.,
-mahzar,akbar,medieval_india,Mahzar declaration,Mahzar|infallibility decree,1579,,year,0,Akbar,Gives Akbar the final word on disputed religious questions.,,
-dahsala,akbar,medieval_india,Dahsala (zabt) revenue system,Dahsala|zabt|Todar Mal's settlement,1580,,year,0,Akbar;Todar Mal,Revenue assessed on ten-year averages of produce and prices.,,
-din_i_ilahi,akbar,medieval_india,Din-i-Ilahi (Tauhid-i-Ilahi),Din-i-Ilahi|Tauhid-i-Ilahi,1582,,year,0,Akbar,Discipleship order centred on the emperor.,,
+panipat_second,akbar,medieval_india,Second Battle of Panipat,Second Battle of Panipat|Panipat 1556,1556-11-05,,day,0,Akbar;Bairam Khan;Hemu,Mughal victory over Hemu.,,books: Satish Chandra
+jizya_abolished,akbar,medieval_india,Akbar abolishes jizya,jizya abolished,1564,,year,0,Akbar,,,books: JL Mehta; Mughals IGNOU; Satish Chandra
+talikota,vijayanagara,medieval_india,Battle of Talikota (Rakshasa-Tangadi),Talikota|Rakshasa-Tangadi,1565,,year,0,Rama Raya;Deccan sultanates,Combined Deccan sultanates defeat Vijayanagara; the capital is sacked.,Day given as 23 or 26 January.,books: Mughals IGNOU; Satish Chandra
+mansabdari,akbar,medieval_india,Mansabdari system organised,Mansabdari|mansab,1567,1574,contested,0,Akbar,Graded ranks for nobles and officials.,Satish Chandra: the numerical division of mansabs was effected in 1567; the dagh (branding) system and reorganisation followed in 1573-74.,books: Satish Chandra
+ibadat_khana,akbar,medieval_india,Ibadat Khana built at Fatehpur Sikri,Ibadat Khana,1575,,year,0,Akbar,Hall for religious debate.,,books: Satish Chandra
+haldighati,akbar,medieval_india,Battle of Haldighati,Haldighati,1576,,year,0,Maharana Pratap;Man Singh,Mughal forces under Man Singh fight Maharana Pratap.,Satish Chandra prints '18 Feb. 1576'; the other books give only 1576.,books: Satish Chandra
+mahzar,akbar,medieval_india,Mahzar declaration,Mahzar|infallibility decree,1579,,year,0,Akbar,Gives Akbar the final word on disputed religious questions.,,books: Mughals IGNOU
+dahsala,akbar,medieval_india,Dahsala (zabt) revenue system,Dahsala|zabt|Todar Mal's settlement,1580,,year,0,Akbar;Todar Mal,Revenue assessed on ten-year averages of produce and prices.,,books: Mughals IGNOU; Satish Chandra
+din_i_ilahi,akbar,medieval_india,Din-i-Ilahi (Tauhid-i-Ilahi),Din-i-Ilahi|Tauhid-i-Ilahi,1582,,year,0,Akbar,Discipleship order centred on the emperor.,,books: JL Mehta; Mughals IGNOU
 jahangir_reign,later_great_mughals,medieval_india,Reign of Jahangir,Jahangir,1605,1627,year,0,Jahangir;Nur Jahan,,,
-guru_arjan,sikhism,medieval_india,Execution of Guru Arjan,Guru Arjan|Guru Arjan Dev,1606,,year,0,Guru Arjan;Jahangir,"Fifth Sikh Guru, compiler of the Adi Granth, executed on Jahangir's orders.",,
-thomas_roe,later_great_mughals,medieval_india|modern_india,Sir Thomas Roe at Jahangir's court,Thomas Roe,1615,1619,year,0,Thomas Roe;Jahangir,English ambassador seeking trading privileges.,,
+guru_arjan,sikhism,medieval_india,Execution of Guru Arjan,Guru Arjan|Guru Arjan Dev,1606,,year,0,Guru Arjan;Jahangir,"Fifth Sikh Guru, compiler of the Adi Granth, executed on Jahangir's orders.",,books: Irfan Habib
+thomas_roe,later_great_mughals,medieval_india|modern_india,Sir Thomas Roe at Jahangir's court,Thomas Roe,1615,1619,year,0,Thomas Roe;Jahangir,English ambassador seeking trading privileges.,,books: JL Mehta; Satish Chandra
 shahjahan_reign,later_great_mughals,medieval_india,Reign of Shah Jahan,Shah Jahan,1628,1658,year,0,Shah Jahan,,,
-samugarh,later_great_mughals,medieval_india,Battle of Samugarh,Samugarh,1658-05,,month,0,Aurangzeb;Dara Shikoh,Aurangzeb defeats Dara Shikoh in the war of succession.,,
-aurangzeb_reign,aurangzeb,medieval_india,Reign of Aurangzeb,Aurangzeb|Alamgir,1658,1707,year,0,Aurangzeb,,,
-purandar,marathas,medieval_india,Treaty of Purandar,Treaty of Purandar,1665,,year,0,Shivaji;Jai Singh,Shivaji cedes forts to the Mughals.,,
+samugarh,later_great_mughals,medieval_india,Battle of Samugarh,Samugarh,1658-05,,month,0,Aurangzeb;Dara Shikoh,Aurangzeb defeats Dara Shikoh in the war of succession.,,books: Satish Chandra
+aurangzeb_reign,aurangzeb,medieval_india,Reign of Aurangzeb,Aurangzeb|Alamgir,1658,1707,year,0,Aurangzeb,,,books: JL Mehta; The Rise of Islam and the Bengal Frontier
+purandar,marathas,medieval_india,Treaty of Purandar,Treaty of Purandar,1665,,year,0,Shivaji;Jai Singh,Shivaji cedes forts to the Mughals.,,books: India in the Persianate Age; Satish Chandra
 saraighat,ahoms,medieval_india,Battle of Saraighat,Saraighat|Lachit Borphukan,1671,,year,0,Lachit Borphukan,Ahom victory over the Mughals on the Brahmaputra.,,
-shivaji_coronation,marathas,medieval_india,Coronation of Shivaji,Shivaji's coronation|Raigad coronation,1674-06,,month,0,Shivaji,Shivaji crowned Chhatrapati at Raigad.,,
-tegh_bahadur,sikhism,medieval_india,Execution of Guru Tegh Bahadur,Guru Tegh Bahadur,1675,,year,0,Guru Tegh Bahadur;Aurangzeb,Ninth Sikh Guru executed at Delhi.,,
-jizya_reimposed,aurangzeb,medieval_india,Aurangzeb reimposes jizya,jizya reimposed,1679,,year,0,Aurangzeb,,,
-khalsa,sikhism,medieval_india,Founding of the Khalsa,Khalsa,1699,,year,0,Guru Gobind Singh,Founded at Anandpur.,,
-aurangzeb_death,mughal_decline,medieval_india,Death of Aurangzeb,death of Aurangzeb,1707-03,,month,0,Aurangzeb,Followed by succession wars and weakening central control.,,
-farrukhsiyar_farman,mughal_decline,medieval_india|modern_india,Farrukhsiyar's farman to the English Company,Farrukhsiyar's farman|farman of 1717,1717,,year,0,Farrukhsiyar,Grants the English Company duty-free trade in Bengal.,,
-baji_rao_peshwa,marathas,medieval_india,Baji Rao I as Peshwa,Baji Rao I,1720,1740,year,0,Baji Rao I,Northward expansion of Maratha power.,,
-hyderabad_autonomy,regional_states_18c,medieval_india,Nizam-ul-Mulk wins at Shakar Kheda,Nizam-ul-Mulk|Shakar Kheda,1724,,year,0,Nizam-ul-Mulk,Leads to the autonomous state of Hyderabad.,,
+shivaji_coronation,marathas,medieval_india,Coronation of Shivaji,Shivaji's coronation|Raigad coronation,1674-06,,month,0,Shivaji,Shivaji crowned Chhatrapati at Raigad.,,books: India in the Persianate Age
+tegh_bahadur,sikhism,medieval_india,Execution of Guru Tegh Bahadur,Guru Tegh Bahadur,1675,,year,0,Guru Tegh Bahadur;Aurangzeb,Ninth Sikh Guru executed at Delhi.,,books: India in the Persianate Age; Satish Chandra
+jizya_reimposed,aurangzeb,medieval_india,Aurangzeb reimposes jizya,jizya reimposed,1679,,year,0,Aurangzeb,,,books: JL Mehta
+khalsa,sikhism,medieval_india,Founding of the Khalsa,Khalsa,1699,,year,0,Guru Gobind Singh,Founded at Anandpur.,,books: Satish Chandra; Sekhar Bandopadhyay
+aurangzeb_death,mughal_decline,medieval_india,Death of Aurangzeb,death of Aurangzeb,1707-03,,month,0,Aurangzeb,Followed by succession wars and weakening central control.,,books: BL Grover
+farrukhsiyar_farman,mughal_decline,medieval_india|modern_india,Farrukhsiyar's farman to the English Company,Farrukhsiyar's farman|farman of 1717,1717,,year,0,Farrukhsiyar,Grants the English Company duty-free trade in Bengal.,,books: Bipan Chandra; Sekhar Bandopadhyay
+baji_rao_peshwa,marathas,medieval_india,Baji Rao I as Peshwa,Baji Rao I,1720,1740,year,0,Baji Rao I,Northward expansion of Maratha power.,,books: Satish Chandra; Sekhar Bandopadhyay
+hyderabad_autonomy,regional_states_18c,medieval_india,Nizam-ul-Mulk wins at Shakar Kheda,Nizam-ul-Mulk|Shakar Kheda,1724,,contested,1,Nizam-ul-Mulk,Leads to the autonomous state of Hyderabad.,"The books give 1723 (Bandopadhyay), 1724 (Persianate Age; Satish Chandra) and 1725 (another Satish Chandra passage).",books: Satish Chandra; Sekhar Bandopadhyay
 nadir_shah,mughal_decline,medieval_india,Nadir Shah's invasion,Nadir Shah|Battle of Karnal,1739-02,1739-03,month,0,Nadir Shah;Muhammad Shah,Mughal defeat at Karnal and sack of Delhi; the Peacock Throne is carried away.,,
-panipat_third,marathas,medieval_india|modern_india,Third Battle of Panipat,Third Battle of Panipat|Panipat 1761,1761-01-14,,day,0,Ahmad Shah Abdali;Sadashivrao Bhau,Afghan victory over the Marathas.,,
-amir_khusrau,bhakti_sufi,medieval_india,Amir Khusrau,Amir Khusrau,1253,1325,year,0,Amir Khusrau,Poet and musician at the Sultanate court; disciple of Nizamuddin Auliya.,,
-nizamuddin_death,bhakti_sufi,medieval_india,Death of Nizamuddin Auliya,Nizamuddin Auliya,1325,,year,0,Nizamuddin Auliya,Chishti Sufi of Delhi.,,
-kabir,bhakti_sufi,medieval_india,Kabir,Kabir,1440,1518,contested,30,Kabir,Nirguna bhakti poet of Banaras.,Traditional and uncertain dates.,
-guru_nanak,bhakti_sufi,medieval_india,Life of Guru Nanak,Guru Nanak,1469,1539,year,0,Guru Nanak,Founder of Sikhism.,,
-chaitanya,bhakti_sufi,medieval_india,Chaitanya Mahaprabhu,Chaitanya,1486,1534,year,0,Chaitanya,Leader of Gaudiya Vaishnavism in Bengal.,,
+panipat_third,marathas,medieval_india|modern_india,Third Battle of Panipat,Third Battle of Panipat|Panipat 1761,1761-01-14,,day,0,Ahmad Shah Abdali;Sadashivrao Bhau,Afghan victory over the Marathas.,,books: Bipan Chandra; Sekhar Bandopadhyay
+amir_khusrau,bhakti_sufi,medieval_india,Amir Khusrau,Amir Khusrau,1253,1325,year,0,Amir Khusrau,Poet and musician at the Sultanate court; disciple of Nizamuddin Auliya.,,books: Mughals IGNOU; Vipul Singh
+nizamuddin_death,bhakti_sufi,medieval_india,Death of Nizamuddin Auliya,Nizamuddin Auliya,1325,,year,0,Nizamuddin Auliya,Chishti Sufi of Delhi.,,books: India in the Persianate Age
+kabir,bhakti_sufi,medieval_india,Kabir,Kabir,1398,1518,contested,30,Kabir,Nirguna bhakti poet of Banaras.,"Vipul Singh gives 1398-1518, J.L. Mehta c. 1440-1510 and Basham 1440-1518.",books: AL Basham; JL Mehta; Vipul Singh
+guru_nanak,bhakti_sufi,medieval_india,Life of Guru Nanak,Guru Nanak,1469,1539,year,1,Guru Nanak,Founder of Sikhism.,"All books give 1469 for his birth; the Persianate Age gives 1539 for his death, J.L. Mehta 1538.",books: India in the Persianate Age; JL Mehta
+chaitanya,bhakti_sufi,medieval_india,Chaitanya Mahaprabhu,Chaitanya,1486,1533,year,0,Chaitanya,Leader of Gaudiya Vaishnavism in Bengal.,"Vipul Singh, J.L. Mehta and Eaton give 1486-1533.",books: The Rise of Islam and the Bengal Frontier; Vipul Singh
 vasco_da_gama,european_arrival,medieval_india|modern_india,Vasco da Gama reaches Calicut,Vasco da Gama,1498-05-20,,day,0,Vasco da Gama;Zamorin of Calicut,Opens the sea route from Europe to India round the Cape.,,
-goa_captured,european_arrival,medieval_india|modern_india,Portuguese capture Goa,Albuquerque|capture of Goa,1510,,year,0,Afonso de Albuquerque,Goa becomes the centre of the Portuguese Estado da India.,,
-eic_charter,european_arrival,modern_india,English East India Company chartered,East India Company charter,1600-12-31,,day,0,Elizabeth I,Royal charter to the London company trading to the East Indies.,,
-dutch_voc,european_arrival,modern_india,Dutch East India Company (VOC) formed,VOC|Dutch East India Company,1602,,year,0,,,,
-surat_factory,european_arrival,modern_india,English factory at Surat,Surat factory,1613,,year,0,,First permanent English factory in Mughal India.,,
-french_company,european_arrival,modern_india,French East India Company formed,French East India Company,1664,,year,0,Colbert,,,
+goa_captured,european_arrival,medieval_india|modern_india,Portuguese capture Goa,Albuquerque|capture of Goa,1510,,year,0,Afonso de Albuquerque,Goa becomes the centre of the Portuguese Estado da India.,,books: India in the Persianate Age; Satish Chandra
+eic_charter,european_arrival,modern_india,English East India Company chartered,East India Company charter,1600-12-31,,day,0,Elizabeth I,Royal charter to the London company trading to the East Indies.,,books: Bipan Chandra
+dutch_voc,european_arrival,modern_india,Dutch East India Company (VOC) formed,VOC|Dutch East India Company,1602,,year,0,,,,books: Bipan Chandra; India in the Persianate Age
+surat_factory,european_arrival,modern_india,English factory at Surat,Surat factory,1613,,year,0,,First permanent English factory in Mughal India.,,books: Satish Chandra; Sekhar Bandopadhyay
+french_company,european_arrival,modern_india,French East India Company formed,French East India Company,1664,,year,0,Colbert,,,books: India in the Persianate Age
 carnatic_wars,anglo_french_rivalry,modern_india,Carnatic Wars,Carnatic Wars,1746,1763,year,0,Dupleix;Robert Clive,"Three Anglo-French wars in south India (1746-48, 1749-54, 1756-63).",,
-wandiwash,anglo_french_rivalry,modern_india,Battle of Wandiwash,Wandiwash,1760-01-22,,day,0,Eyre Coote;Lally,Decisive British victory over the French.,,
-siraj_calcutta,bengal_conquest,modern_india,Siraj-ud-daula captures Calcutta,capture of Calcutta 1756|Black Hole,1756-06,,month,0,Siraj-ud-daula,,,
-plassey,bengal_conquest,modern_india,Battle of Plassey,Plassey|Palashi,1757-06-23,,day,0,Robert Clive;Siraj-ud-daula;Mir Jafar,,,
-buxar,bengal_conquest,modern_india,Battle of Buxar,Buxar,1764-10-22,,day,0,Hector Munro;Mir Qasim;Shuja-ud-daula;Shah Alam II,,,
-allahabad_treaty,bengal_conquest,modern_india,Treaty of Allahabad and grant of the Diwani,Treaty of Allahabad|grant of Diwani,1765-08,,month,0,Robert Clive;Shah Alam II,"Company obtains the diwani of Bengal, Bihar and Orissa.",,
+wandiwash,anglo_french_rivalry,modern_india,Battle of Wandiwash,Wandiwash,1760-01-22,,day,0,Eyre Coote;Lally,Decisive British victory over the French.,,books: Bipan Chandra
+siraj_calcutta,bengal_conquest,modern_india,Siraj-ud-daula captures Calcutta,capture of Calcutta 1756|Black Hole,1756-06,,month,0,Siraj-ud-daula,,,books: BL Grover; Bipan Chandra
+plassey,bengal_conquest,modern_india,Battle of Plassey,Plassey|Palashi,1757-06-23,,day,0,Robert Clive;Siraj-ud-daula;Mir Jafar,,,books: BL Grover; Bipan Chandra
+buxar,bengal_conquest,modern_india,Battle of Buxar,Buxar,1764-10-22,,day,0,Hector Munro;Mir Qasim;Shuja-ud-daula;Shah Alam II,,,books: BL Grover; Bipan Chandra
+allahabad_treaty,bengal_conquest,modern_india,Treaty of Allahabad and grant of the Diwani,Treaty of Allahabad|grant of Diwani,1765-08,,month,0,Robert Clive;Shah Alam II,"Company obtains the diwani of Bengal, Bihar and Orissa.",,books: BL Grover; India in the Persianate Age
 dual_government,bengal_conquest,modern_india,Dual government in Bengal,Dual government|Dual system,1765,1772,year,0,Robert Clive;Warren Hastings,Company held the diwani while the nizamat stayed nominally with the Nawab.,,
-bengal_famine_1770,bengal_conquest,modern_india,Bengal famine,famine of 1770,1769,1770,year,0,,,,
-regulating_act,company_constitutional,modern_india,Regulating Act,Regulating Act,1773,,year,0,Lord North;Warren Hastings,Governor of Bengal made Governor-General; Supreme Court at Calcutta.,,
-pitts_india_act,company_constitutional,modern_india,Pitt's India Act,Pitt's India Act,1784,,year,0,William Pitt the Younger,Board of Control set up over the Company.,,
-anglo_mysore_wars,anglo_mysore,modern_india,Anglo-Mysore Wars,Anglo-Mysore Wars,1767,1799,year,0,Hyder Ali;Tipu Sultan,"Four wars (1767-69, 1780-84, 1790-92, 1799).",,
-salbai,anglo_maratha,modern_india,Treaty of Salbai,Treaty of Salbai,1782,,year,0,Mahadji Scindia,Ends the First Anglo-Maratha War.,,
-permanent_settlement,land_revenue,modern_india,Permanent Settlement,Permanent Settlement,1793,,year,0,Lord Cornwallis,Land revenue fixed in perpetuity with zamindars in Bengal.,,
-subsidiary_alliance,wellesley,modern_india,Subsidiary alliance system,Subsidiary alliance,1798,,year,0,Lord Wellesley,Hyderabad is the first to accept (1798).,,
-tipu_death,anglo_mysore,modern_india,Fall of Seringapatam; death of Tipu Sultan,Seringapatam|death of Tipu Sultan,1799-05-04,,day,0,Tipu Sultan;Lord Wellesley,,,
-bassein,anglo_maratha,modern_india,Treaty of Bassein,Treaty of Bassein,1802-12-31,,day,0,Baji Rao II,Peshwa accepts a subsidiary alliance; leads to the Second Anglo-Maratha War.,,
+bengal_famine_1770,bengal_conquest,modern_india,Bengal famine,famine of 1770,1769,1770,year,0,,,,books: BL Grover; Sekhar Bandopadhyay
+regulating_act,company_constitutional,modern_india,Regulating Act,Regulating Act,1773,,year,0,Lord North;Warren Hastings,Governor of Bengal made Governor-General; Supreme Court at Calcutta.,,books: BL Grover; Sekhar Bandopadhyay
+pitts_india_act,company_constitutional,modern_india,Pitt's India Act,Pitt's India Act,1784,,year,0,William Pitt the Younger,Board of Control set up over the Company.,,books: BL Grover; Bipan Chandra
+anglo_mysore_wars,anglo_mysore,modern_india,Anglo-Mysore Wars,Anglo-Mysore Wars,1767,1799,year,0,Hyder Ali;Tipu Sultan,"Four wars (1767-69, 1780-84, 1790-92, 1799).",,books: Sekhar Bandopadhyay
+salbai,anglo_maratha,modern_india,Treaty of Salbai,Treaty of Salbai,1782,,year,0,Mahadji Scindia,Ends the First Anglo-Maratha War.,,books: BL Grover; Bipan Chandra
+permanent_settlement,land_revenue,modern_india,Permanent Settlement,Permanent Settlement,1793,,year,0,Lord Cornwallis,Land revenue fixed in perpetuity with zamindars in Bengal.,,books: Bipan Chandra; Sekhar Bandopadhyay
+subsidiary_alliance,wellesley,modern_india,Subsidiary alliance system,Subsidiary alliance,1798,,year,0,Lord Wellesley,Hyderabad is the first to accept (1798).,,books: BL Grover; Bipan Chandra
+tipu_death,anglo_mysore,modern_india,Fall of Seringapatam; death of Tipu Sultan,Seringapatam|death of Tipu Sultan,1799-05-04,,day,0,Tipu Sultan;Lord Wellesley,,,books: Bipan Chandra
+bassein,anglo_maratha,modern_india,Treaty of Bassein,Treaty of Bassein,1802-12-31,,day,1,Baji Rao II,Peshwa accepts a subsidiary alliance; leads to the Second Anglo-Maratha War.,Grover and Bipan Chandra give 31 December 1802; Bandopadhyay places the signing in 1803.,books: BL Grover; Bipan Chandra; Sekhar Bandopadhyay
 anglo_maratha_wars,anglo_maratha,modern_india,Anglo-Maratha Wars,Anglo-Maratha Wars,1775,1818,year,0,,"Three wars (1775-82, 1803-05, 1817-18); the Peshwaship is abolished in 1818.",,
-amritsar_1809,sikh_kingdom,modern_india,Treaty of Amritsar,Treaty of Amritsar,1809,,year,0,Ranjit Singh;Charles Metcalfe,Sutlej fixed as the eastern limit of Ranjit Singh's kingdom.,,
-charter_1813,company_constitutional,modern_india,Charter Act of 1813,Charter Act of 1813,1813,,year,0,,Ends the Company's India trade monopoly (tea and China trade excepted); provides one lakh rupees a year for education.,,
-ryotwari,land_revenue,modern_india,Ryotwari settlement in Madras,Ryotwari,1820,,circa,2,Thomas Munro;Alexander Read,Settlement made directly with cultivators.,Experiments from 1792; general extension c. 1820.,
+amritsar_1809,sikh_kingdom,modern_india,Treaty of Amritsar,Treaty of Amritsar,1809,,year,0,Ranjit Singh;Charles Metcalfe,Sutlej fixed as the eastern limit of Ranjit Singh's kingdom.,,books: BL Grover; Sekhar Bandopadhyay
+charter_1813,company_constitutional,modern_india,Charter Act of 1813,Charter Act of 1813,1813,,year,0,,Ends the Company's India trade monopoly (tea and China trade excepted); provides one lakh rupees a year for education.,,books: BL Grover; Bipan Chandra
+ryotwari,land_revenue,modern_india,Ryotwari settlement in Madras,Ryotwari,1820,,circa,2,Thomas Munro;Alexander Read,Settlement made directly with cultivators.,Experiments from 1792; general extension c. 1820.,books: BL Grover; Sekhar Bandopadhyay
 mahalwari,land_revenue,modern_india,Mahalwari settlement,Mahalwari,1822,1833,circa,1,Holt Mackenzie;R.M. Bird,Village-community (mahal) settlement in the North-Western Provinces.,,
 brahmo_sabha,socio_religious_reform,modern_india,Brahmo Sabha founded,Brahmo Sabha|Brahmo Samaj,1828-08-20,,day,0,Raja Rammohan Roy,,,
 sati_abolition,socio_religious_reform,modern_india,Abolition of sati (Regulation XVII),abolition of sati|Regulation XVII,1829-12-04,,day,0,Lord William Bentinck;Raja Rammohan Roy,,,
-charter_1833,company_constitutional,modern_india,Charter Act of 1833,Charter Act of 1833,1833,,year,0,,Governor-General of Bengal becomes Governor-General of India; Company's commercial role ends.,,
-macaulay_minute,education_policy,modern_india,Macaulay's Minute on Indian Education,Macaulay's Minute,1835-02-02,,day,0,T.B. Macaulay,,,
-punjab_annexed,expansion_dalhousie,modern_india,Annexation of Punjab,annexation of Punjab,1849,,year,0,Lord Dalhousie,Follows the Second Anglo-Sikh War.,,
+charter_1833,company_constitutional,modern_india,Charter Act of 1833,Charter Act of 1833,1833,,year,0,,Governor-General of Bengal becomes Governor-General of India; Company's commercial role ends.,,books: Bipan Chandra; Sekhar Bandopadhyay
+macaulay_minute,education_policy,modern_india,Macaulay's Minute on Indian Education,Macaulay's Minute,1835-02-02,,day,0,T.B. Macaulay,,,books: BL Grover; Sekhar Bandopadhyay
+punjab_annexed,expansion_dalhousie,modern_india,Annexation of Punjab,annexation of Punjab,1849,,year,0,Lord Dalhousie,Follows the Second Anglo-Sikh War.,,books: Sekhar Bandopadhyay
 doctrine_of_lapse,expansion_dalhousie,modern_india,Annexations under the Doctrine of Lapse,Doctrine of Lapse,1848,1856,year,0,Lord Dalhousie,Satara (1848) first; Jhansi and Nagpur among others.,,
-charter_1853,company_constitutional,modern_india,Charter Act of 1853,Charter Act of 1853,1853,,year,0,,Introduces open competition for the civil service.,,
+charter_1853,company_constitutional,modern_india,Charter Act of 1853,Charter Act of 1853,1853,,year,0,,Introduces open competition for the civil service.,,books: Sekhar Bandopadhyay
 first_railway,economic_impact,modern_india,First passenger railway (Bombay to Thane),first railway|Bombay to Thane,1853-04-16,,day,0,Lord Dalhousie,,,
-woods_despatch,education_policy,modern_india,Wood's Despatch,Wood's Despatch,1854,,year,0,Charles Wood,,,
+woods_despatch,education_policy,modern_india,Wood's Despatch,Wood's Despatch,1854,,year,0,Charles Wood,,,books: BL Grover
 santhal_hul,tribal_peasant_revolts,modern_india,Santhal rebellion (Hul),Santhal rebellion|Santhal Hul,1855,1856,year,0,Sidhu;Kanhu,,,
-awadh_annexed,expansion_dalhousie,modern_india,Annexation of Awadh,annexation of Awadh|annexation of Oudh,1856-02,,month,0,Lord Dalhousie;Wajid Ali Shah,Annexed on grounds of misgovernment.,,
+awadh_annexed,expansion_dalhousie,modern_india,Annexation of Awadh,annexation of Awadh|annexation of Oudh,1856-02,,month,0,Lord Dalhousie;Wajid Ali Shah,Annexed on grounds of misgovernment.,,books: Sekhar Bandopadhyay
 widow_remarriage_act,socio_religious_reform,modern_india,Hindu Widows' Remarriage Act,Widow Remarriage Act,1856-07-26,,day,0,Ishwar Chandra Vidyasagar,,,
-revolt_1857_meerut,revolt_1857,modern_india,Revolt of 1857 begins at Meerut,Revolt of 1857|Meerut outbreak|Sepoy Mutiny|First War of Independence,1857-05-10,,day,0,,,,
-universities_1857,education_policy,modern_india,"Universities of Calcutta, Bombay and Madras founded",universities of 1857,1857,,year,0,,,,
-delhi_recaptured,revolt_1857,modern_india,British recapture Delhi,recapture of Delhi,1857-09,,month,0,Bahadur Shah II,,,
-goi_act_1858,revolt_1857,modern_india,Government of India Act 1858,Government of India Act 1858|Act for the Better Government of India,1858-08-02,,day,0,,Rule passes from the Company to the Crown.,,
-queens_proclamation,revolt_1857,modern_india,Queen Victoria's Proclamation,Queen's Proclamation,1858-11-01,,day,0,Lord Canning,,,
+revolt_1857_meerut,revolt_1857,modern_india,Revolt of 1857 begins at Meerut,Revolt of 1857|Meerut outbreak|Sepoy Mutiny|First War of Independence,1857-05-10,,day,0,,,,books: Bipan Chandra
+universities_1857,education_policy,modern_india,"Universities of Calcutta, Bombay and Madras founded",universities of 1857,1857,,year,0,,,,books: BL Grover; Bipan Chandra
+delhi_recaptured,revolt_1857,modern_india,British recapture Delhi,recapture of Delhi,1857-09,,month,0,Bahadur Shah II,,,books: BL Grover; Bipan Chandra
+goi_act_1858,revolt_1857,modern_india,Government of India Act 1858,Government of India Act 1858|Act for the Better Government of India,1858-08-02,,day,0,,Rule passes from the Company to the Crown.,,books: BL Grover; Sekhar Bandopadhyay
+queens_proclamation,revolt_1857,modern_india,Queen Victoria's Proclamation,Queen's Proclamation,1858-11-01,,day,0,Lord Canning,,,books: BL Grover; Sekhar Bandopadhyay
 indigo_revolt,tribal_peasant_revolts,modern_india,Indigo revolt,Indigo revolt|Neel Darpan,1859,1860,year,0,,Bengal peasants refuse to grow indigo.,,
-councils_act_1861,crown_constitutional,modern_india,Indian Councils Act 1861,Indian Councils Act 1861,1861,,year,0,,,,
-satyashodhak_samaj,socio_religious_reform,modern_india,Satyashodhak Samaj founded,Satyashodhak Samaj,1873,,year,0,Jyotiba Phule,,,
-arya_samaj,socio_religious_reform,modern_india,Arya Samaj founded,Arya Samaj,1875,,year,0,Dayananda Saraswati,,,
-aligarh_mao,socio_religious_reform,modern_india,Muhammadan Anglo-Oriental school and college at Aligarh,Aligarh|MAO College,1875,1877,year,0,Sayyid Ahmad Khan,School opened 1875; college 1877.,,
-deccan_riots,tribal_peasant_revolts,modern_india,Deccan riots,Deccan riots,1875,,year,0,,Peasants attack moneylenders in Poona and Ahmednagar districts.,,
-indian_association,early_nationalism,modern_india,Indian Association founded,Indian Association,1876,,year,0,Surendranath Banerjea;Ananda Mohan Bose,,,
-vernacular_press_act,lytton_ripon,modern_india,Vernacular Press Act,Vernacular Press Act,1878,,year,0,Lord Lytton,Repealed in 1882.,,
-ilbert_bill,lytton_ripon,modern_india,Ilbert Bill controversy,Ilbert Bill,1883,,year,0,Lord Ripon;C.P. Ilbert,,,
-inc_founded,early_nationalism,modern_india,Indian National Congress founded,founding of the Indian National Congress|first Congress session,1885-12-28,,day,0,A.O. Hume;W.C. Bonnerjee,First session held at Bombay.,,
-councils_act_1892,crown_constitutional,modern_india,Indian Councils Act 1892,Indian Councils Act 1892,1892,,year,0,,,,
-ramakrishna_mission,socio_religious_reform,modern_india,Ramakrishna Mission founded,Ramakrishna Mission,1897,,year,0,Swami Vivekananda,,,
-ulgulan,tribal_peasant_revolts,modern_india,Munda Ulgulan,Ulgulan|Birsa Munda,1899,1900,year,0,Birsa Munda,,,
-swadeshi_boycott,swadeshi_movement,modern_india,Boycott resolution at Calcutta Town Hall,Swadeshi movement|boycott resolution,1905-08-07,,day,0,,Formal launch of the Swadeshi movement.,,
-bengal_partition,swadeshi_movement,modern_india,Partition of Bengal takes effect,Partition of Bengal,1905-10-16,,day,0,Lord Curzon,Announced in July 1905.,,
-muslim_league_founded,communal_politics,modern_india,All-India Muslim League founded,founding of the Muslim League,1906-12-30,,day,0,Aga Khan III;Nawab Salimullah,Founded at Dacca.,,
-surat_split,moderates_extremists,modern_india,Surat split,Surat split,1907-12,,month,0,,Congress splits between Moderates and Extremists.,,
-morley_minto,crown_constitutional,modern_india,Morley-Minto Reforms (Indian Councils Act 1909),Morley-Minto Reforms|Indian Councils Act 1909,1909,,year,0,John Morley;Lord Minto,Introduces separate electorates for Muslims.,,
+councils_act_1861,crown_constitutional,modern_india,Indian Councils Act 1861,Indian Councils Act 1861,1861,,year,0,,,,books: Sekhar Bandopadhyay
+satyashodhak_samaj,socio_religious_reform,modern_india,Satyashodhak Samaj founded,Satyashodhak Samaj,1873,,year,0,Jyotiba Phule,,,books: Sekhar Bandopadhyay; Sumit Sarkar
+arya_samaj,socio_religious_reform,modern_india,Arya Samaj founded,Arya Samaj,1875,,year,0,Dayananda Saraswati,,,books: Bipan Chandra; Sekhar Bandopadhyay
+aligarh_mao,socio_religious_reform,modern_india,Muhammadan Anglo-Oriental school and college at Aligarh,Aligarh|MAO College,1875,,year,2,Sayyid Ahmad Khan,School opened 1875; college 1877.,Grover dates the school and Bipan Chandra the college to 1875.,books: BL Grover; Bipan Chandra
+deccan_riots,tribal_peasant_revolts,modern_india,Deccan riots,Deccan riots,1875,,year,0,,Peasants attack moneylenders in Poona and Ahmednagar districts.,,books: Bipan Chandra; Sekhar Bandopadhyay
+indian_association,early_nationalism,modern_india,Indian Association founded,Indian Association,1876,,year,0,Surendranath Banerjea;Ananda Mohan Bose,,,books: Bipan Chandra; Sekhar Bandopadhyay
+vernacular_press_act,lytton_ripon,modern_india,Vernacular Press Act,Vernacular Press Act,1878,,year,0,Lord Lytton,Repealed in 1882.,,books: Bipan Chandra
+ilbert_bill,lytton_ripon,modern_india,Ilbert Bill controversy,Ilbert Bill,1883,,year,0,Lord Ripon;C.P. Ilbert,,,books: BL Grover; Sekhar Bandopadhyay
+inc_founded,early_nationalism,modern_india,Indian National Congress founded,founding of the Indian National Congress|first Congress session,1885-12-28,,day,0,A.O. Hume;W.C. Bonnerjee,First session held at Bombay.,,books: Bipan Chandra
+councils_act_1892,crown_constitutional,modern_india,Indian Councils Act 1892,Indian Councils Act 1892,1892,,year,0,,,,books: Bipan Chandra
+ramakrishna_mission,socio_religious_reform,modern_india,Ramakrishna Mission founded,Ramakrishna Mission,1897,,year,0,Swami Vivekananda,,,books: Bipan Chandra; Sekhar Bandopadhyay
+ulgulan,tribal_peasant_revolts,modern_india,Munda Ulgulan,Ulgulan|Birsa Munda,1899,1900,year,0,Birsa Munda,,,books: Bipan Chandra; Sekhar Bandopadhyay
+swadeshi_boycott,swadeshi_movement,modern_india,Boycott resolution at Calcutta Town Hall,Swadeshi movement|boycott resolution,1905-08-07,,day,0,,Formal launch of the Swadeshi movement.,,books: Bipan Chandra; Sekhar Bandopadhyay
+bengal_partition,swadeshi_movement,modern_india,Partition of Bengal takes effect,Partition of Bengal,1905-10-16,,day,0,Lord Curzon,Announced in July 1905.,,books: Bipan Chandra; Sekhar Bandopadhyay
+muslim_league_founded,communal_politics,modern_india,All-India Muslim League founded,founding of the Muslim League,1906-12-30,,day,0,Aga Khan III;Nawab Salimullah,Founded at Dacca.,Bandopadhyay gives 30 December 1906; one Sarkar passage has October 1906.,books: Sekhar Bandopadhyay; Sumit Sarkar
+surat_split,moderates_extremists,modern_india,Surat split,Surat split,1907-12,,month,0,,Congress splits between Moderates and Extremists.,,books: Bipan Chandra; Sumit Sarkar
+morley_minto,crown_constitutional,modern_india,Morley-Minto Reforms (Indian Councils Act 1909),Morley-Minto Reforms|Indian Councils Act 1909,1909,,year,0,John Morley;Lord Minto,Introduces separate electorates for Muslims.,,books: Bipan Chandra; Sekhar Bandopadhyay
 delhi_durbar_1911,swadeshi_movement,modern_india,Delhi Durbar announces annulment of the partition,Delhi Durbar 1911|annulment of the partition of Bengal,1911-12-12,,day,0,George V,Annulment and transfer of the capital to Delhi announced.,,
-ghadar_party,revolutionary_movements,modern_india,Ghadar Party founded,Ghadar Party,1913,,year,0,Lala Har Dayal,Founded in the United States.,,
+ghadar_party,revolutionary_movements,modern_india,Ghadar Party founded,Ghadar Party,1913,,year,0,Lala Har Dayal,Founded in the United States.,,books: Bipan Chandra
 gandhi_return,gandhian_era,modern_india,Gandhi returns to India,Gandhi's return from South Africa,1915-01-09,,day,0,M.K. Gandhi,,,
-home_rule_leagues,home_rule,modern_india,Home Rule Leagues founded,Home Rule League|Home Rule movement,1916,,year,0,Bal Gangadhar Tilak;Annie Besant,"Tilak's league in April, Besant's in September.",,
-lucknow_pact,home_rule,modern_india,Lucknow Pact,Lucknow Pact,1916-12,,month,0,Bal Gangadhar Tilak;M.A. Jinnah,Congress-League agreement; Congress accepts separate electorates.,,
-champaran,gandhian_era,modern_india,Champaran satyagraha,Champaran,1917,,year,0,M.K. Gandhi;Rajkumar Shukla,Against the tinkathia system on indigo plantations.,,
-montagu_declaration,montford,modern_india,Montagu Declaration,August Declaration|Montagu Declaration,1917-08-20,,day,0,Edwin Montagu,Announces the goal of progressive realisation of responsible government.,,
-kheda_ahmedabad,gandhian_era,modern_india,Kheda satyagraha and Ahmedabad mill strike,Kheda satyagraha|Ahmedabad mill strike,1918,,year,0,M.K. Gandhi;Vallabhbhai Patel,,,
-rowlatt_act,rowlatt_satyagraha,modern_india,Rowlatt Act passed,Rowlatt Act,1919-03,,month,0,,Allows detention without trial.,,
-jallianwala_bagh,rowlatt_satyagraha,modern_india,Jallianwala Bagh massacre,Jallianwala Bagh|Amritsar massacre,1919-04-13,,day,0,Reginald Dyer,,,
-goi_act_1919,montford,modern_india,Government of India Act 1919,Montagu-Chelmsford Reforms|Government of India Act 1919|dyarchy,1919,,year,0,Edwin Montagu;Lord Chelmsford,Introduces dyarchy in the provinces.,,
-ncm_launch,non_cooperation,modern_india,Non-Cooperation Movement launched,Non-Cooperation Movement,1920-08-01,,day,0,M.K. Gandhi,Endorsed at the Calcutta (September) and Nagpur (December) sessions of 1920.,,
-moplah_rebellion,non_cooperation,modern_india,Malabar (Moplah) rebellion,Moplah rebellion|Malabar rebellion,1921,,year,0,,,,
-chauri_chaura,non_cooperation,modern_india,Chauri Chaura incident,Chauri Chaura,1922-02-05,,day,0,,,,
-ncm_withdrawn,non_cooperation,modern_india,Non-Cooperation withdrawn (Bardoli resolution),Bardoli resolution|withdrawal of Non-Cooperation,1922-02-12,,day,0,M.K. Gandhi,,,
-swaraj_party,swarajists,modern_india,Swaraj Party formed,Swaraj Party|Swarajists|Congress-Khilafat Swarajya Party,1923-01-01,,day,1,C.R. Das;Motilal Nehru,Formed after the Gaya session rejected council entry.,Commonly dated 1 January 1923; some works say late 1922-early 1923.,
-vaikom_satyagraha,social_movements,modern_india,Vaikom satyagraha,Vaikom satyagraha,1924,1925,year,0,T.K. Madhavan;E.V. Ramasamy,Agitation for access to roads around the Vaikom temple in Travancore.,,
-kakori,revolutionary_movements,modern_india,Kakori train action,Kakori,1925-08-09,,day,0,Ram Prasad Bismil;Ashfaqulla Khan,,,
-mahad_satyagraha,social_movements,modern_india,Mahad satyagraha,Mahad satyagraha|Chavdar Tale,1927,,year,0,B.R. Ambedkar,,,
-simon_commission,simon_commission,modern_india,Simon Commission arrives in India,Simon Commission,1928-02-03,,day,0,John Simon,Appointed November 1927; boycotted because it had no Indian member.,,
-nehru_report,simon_commission,modern_india,Nehru Report,Nehru Report,1928-08,,month,0,Motilal Nehru,,,
-bardoli_satyagraha,gandhian_era,modern_india,Bardoli satyagraha,Bardoli satyagraha,1928,,year,0,Vallabhbhai Patel,,,
-assembly_bomb,revolutionary_movements,modern_india,Bombs thrown in the Central Legislative Assembly,Assembly bomb case,1929-04-08,,day,0,Bhagat Singh;Batukeshwar Dutt,,,
-purna_swaraj,civil_disobedience,modern_india,Lahore session adopts Purna Swaraj,Purna Swaraj|Lahore session 1929,1929-12,,month,0,Jawaharlal Nehru,,,
-independence_day_1930,civil_disobedience,modern_india,First Independence Day pledge,Purna Swaraj Day,1930-01-26,,day,0,,,,
-dandi_march,civil_disobedience,modern_india,Dandi March,Dandi March|Salt March|Salt Satyagraha,1930-03-12,1930-04-06,day,0,M.K. Gandhi,,,
-chittagong_raid,revolutionary_movements,modern_india,Chittagong armoury raid,Chittagong armoury raid,1930-04-18,,day,0,Surya Sen,,,
+home_rule_leagues,home_rule,modern_india,Home Rule Leagues founded,Home Rule League|Home Rule movement,1916,,year,0,Bal Gangadhar Tilak;Annie Besant,"Tilak's league in April, Besant's in September.",,books: Bipan Chandra; Sekhar Bandopadhyay
+lucknow_pact,home_rule,modern_india,Lucknow Pact,Lucknow Pact,1916-12,,month,0,Bal Gangadhar Tilak;M.A. Jinnah,Congress-League agreement; Congress accepts separate electorates.,,books: Sumit Sarkar
+champaran,gandhian_era,modern_india,Champaran satyagraha,Champaran,1917,,year,0,M.K. Gandhi;Rajkumar Shukla,Against the tinkathia system on indigo plantations.,,books: Bipan Chandra; Sumit Sarkar
+montagu_declaration,montford,modern_india,Montagu Declaration,August Declaration|Montagu Declaration,1917-08-20,,day,0,Edwin Montagu,Announces the goal of progressive realisation of responsible government.,,books: Bipan Chandra; Sekhar Bandopadhyay
+kheda_ahmedabad,gandhian_era,modern_india,Kheda satyagraha and Ahmedabad mill strike,Kheda satyagraha|Ahmedabad mill strike,1918,,year,0,M.K. Gandhi;Vallabhbhai Patel,,,books: Bipan Chandra; Sekhar Bandopadhyay
+rowlatt_act,rowlatt_satyagraha,modern_india,Rowlatt Act passed,Rowlatt Act,1919-03,,month,0,,Allows detention without trial.,,books: Bipan Chandra; Sumit Sarkar
+jallianwala_bagh,rowlatt_satyagraha,modern_india,Jallianwala Bagh massacre,Jallianwala Bagh|Amritsar massacre,1919-04-13,,day,0,Reginald Dyer,,,books: Bipan Chandra
+goi_act_1919,montford,modern_india,Government of India Act 1919,Montagu-Chelmsford Reforms|Government of India Act 1919|dyarchy,1919,,year,0,Edwin Montagu;Lord Chelmsford,Introduces dyarchy in the provinces.,,books: Bipan Chandra; Sumit Sarkar
+ncm_launch,non_cooperation,modern_india,Non-Cooperation Movement launched,Non-Cooperation Movement,1920-08-01,,day,0,M.K. Gandhi,Endorsed at the Calcutta (September) and Nagpur (December) sessions of 1920.,Bipan Chandra (India's Struggle) and Bandopadhyay give 1 August 1920; Bipan Chandra's History of Modern India dates the Khilafat Committee's launch to 31 August 1920.,books: Bipan Chandra; Sekhar Bandopadhyay
+moplah_rebellion,non_cooperation,modern_india,Malabar (Moplah) rebellion,Moplah rebellion|Malabar rebellion,1921,,year,0,,,,books: Sekhar Bandopadhyay; Sumit Sarkar
+chauri_chaura,non_cooperation,modern_india,Chauri Chaura incident,Chauri Chaura,1922-02-05,,day,0,,,,books: Bipan Chandra; Sumit Sarkar
+ncm_withdrawn,non_cooperation,modern_india,Non-Cooperation withdrawn (Bardoli resolution),Bardoli resolution|withdrawal of Non-Cooperation,1922-02-12,,day,0,M.K. Gandhi,,,books: Bipan Chandra
+swaraj_party,swarajists,modern_india,Swaraj Party formed,Swaraj Party|Swarajists|Congress-Khilafat Swarajya Party,1923-01,1923-03,month,0,C.R. Das;Motilal Nehru,Formed after the Gaya session rejected council entry.,Bipan Chandra gives 1 January 1923; Sarkar gives March 1923.,books: Bipan Chandra; Sumit Sarkar
+vaikom_satyagraha,social_movements,modern_india,Vaikom satyagraha,Vaikom satyagraha,1924,1925,year,0,T.K. Madhavan;E.V. Ramasamy,Agitation for access to roads around the Vaikom temple in Travancore.,,books: Bipan Chandra; Sekhar Bandopadhyay; Sumit Sarkar
+kakori,revolutionary_movements,modern_india,Kakori train action,Kakori,1925-08-09,,day,0,Ram Prasad Bismil;Ashfaqulla Khan,,,books: Bipan Chandra
+mahad_satyagraha,social_movements,modern_india,Mahad satyagraha,Mahad satyagraha|Chavdar Tale,1927,,year,0,B.R. Ambedkar,,,books: Sekhar Bandopadhyay
+simon_commission,simon_commission,modern_india,Simon Commission arrives in India,Simon Commission,1928-02-03,,day,0,John Simon,Appointed November 1927; boycotted because it had no Indian member.,,books: Bipan Chandra
+nehru_report,simon_commission,modern_india,Nehru Report,Nehru Report,1928-08,,month,0,Motilal Nehru,,,books: Bipan Chandra; Sekhar Bandopadhyay
+bardoli_satyagraha,gandhian_era,modern_india,Bardoli satyagraha,Bardoli satyagraha,1928,,year,0,Vallabhbhai Patel,,,books: Bipan Chandra; Sekhar Bandopadhyay
+assembly_bomb,revolutionary_movements,modern_india,Bombs thrown in the Central Legislative Assembly,Assembly bomb case,1929-04-08,,day,0,Bhagat Singh;Batukeshwar Dutt,,,books: Bipan Chandra
+purna_swaraj,civil_disobedience,modern_india,Lahore session adopts Purna Swaraj,Purna Swaraj|Lahore session 1929,1929-12,,month,0,Jawaharlal Nehru,,,books: Bipan Chandra; Sumit Sarkar
+independence_day_1930,civil_disobedience,modern_india,First Independence Day pledge,Purna Swaraj Day,1930-01-26,,day,0,,,,books: Bipan Chandra
+dandi_march,civil_disobedience,modern_india,Dandi March,Dandi March|Salt March|Salt Satyagraha,1930-03-12,1930-04-06,day,0,M.K. Gandhi,,,books: Bipan Chandra
+chittagong_raid,revolutionary_movements,modern_india,Chittagong armoury raid,Chittagong armoury raid,1930-04-18,,day,0,Surya Sen,,,books: Bipan Chandra
 first_rtc,round_table_conferences,modern_india,First Round Table Conference,First Round Table Conference,1930-11-12,1931-01-19,day,0,,Congress did not attend.,,
-gandhi_irwin_pact,civil_disobedience,modern_india,Gandhi-Irwin Pact,Gandhi-Irwin Pact|Delhi Pact,1931-03-05,,day,0,M.K. Gandhi;Lord Irwin,,,
-bhagat_singh_executed,revolutionary_movements,modern_india,"Execution of Bhagat Singh, Rajguru and Sukhdev",execution of Bhagat Singh,1931-03-23,,day,0,Bhagat Singh;Rajguru;Sukhdev,,,
-karachi_session,civil_disobedience,modern_india,Karachi session (Fundamental Rights resolution),Karachi session|Karachi resolution,1931-03,,month,0,Vallabhbhai Patel,,,
+gandhi_irwin_pact,civil_disobedience,modern_india,Gandhi-Irwin Pact,Gandhi-Irwin Pact|Delhi Pact,1931-03-05,,day,0,M.K. Gandhi;Lord Irwin,,,books: Bipan Chandra; Sekhar Bandopadhyay
+bhagat_singh_executed,revolutionary_movements,modern_india,"Execution of Bhagat Singh, Rajguru and Sukhdev",execution of Bhagat Singh,1931-03-23,,day,0,Bhagat Singh;Rajguru;Sukhdev,,,books: Bipan Chandra
+karachi_session,civil_disobedience,modern_india,Karachi session (Fundamental Rights resolution),Karachi session|Karachi resolution,1931-03,,month,0,Vallabhbhai Patel,,,books: Bipan Chandra
 second_rtc,round_table_conferences,modern_india,Second Round Table Conference,Second Round Table Conference,1931-09,1931-12,month,0,M.K. Gandhi,Gandhi attends as the sole Congress representative.,,
-communal_award,communal_award,modern_india,Communal Award,Communal Award,1932-08-16,,day,0,Ramsay MacDonald,,,
+communal_award,communal_award,modern_india,Communal Award,Communal Award,1932-08,1932-09,month,0,Ramsay MacDonald,,"Bipan Chandra, Sarkar and Bandopadhyay say August 1932; another Bandopadhyay passage says September 1932. No book gives the day.",books: Bipan Chandra; Sekhar Bandopadhyay
 poona_pact,communal_award,modern_india,Poona Pact,Poona Pact,1932-09-24,,day,0,M.K. Gandhi;B.R. Ambedkar,Reserved seats for the depressed classes within joint electorates.,,
-goi_act_1935,goi_act_1935,modern_india,Government of India Act 1935,Government of India Act 1935,1935,,year,0,,Provincial autonomy and a proposed all-India federation.,,
+goi_act_1935,goi_act_1935,modern_india,Government of India Act 1935,Government of India Act 1935,1935,,year,0,,Provincial autonomy and a proposed all-India federation.,,books: BL Grover; Bipan Chandra
 elections_1937,provincial_ministries,modern_india,Provincial elections,1937 elections,1937-01,1937-02,month,0,,,,
-congress_ministries,provincial_ministries,modern_india,Congress ministries in office,Congress ministries,1937-07,1939-11,month,0,,Resigned in October-November 1939 in protest at India's entry into the war.,,
+congress_ministries,provincial_ministries,modern_india,Congress ministries in office,Congress ministries,1937-07,1939-11,month,0,,Resigned in October-November 1939 in protest at India's entry into the war.,"Grover dates the resignations to October 1939, Bandopadhyay to November 1939.",books: BL Grover; Sekhar Bandopadhyay
 deliverance_day,provincial_ministries,modern_india,Muslim League's Day of Deliverance,Day of Deliverance,1939-12-22,,day,0,M.A. Jinnah,,,
 lahore_resolution,pakistan_demand,modern_india,Lahore Resolution of the Muslim League,Lahore Resolution|Pakistan Resolution,1940-03-23,1940-03-24,day,0,M.A. Jinnah;Fazlul Haq,"Moved on 23 March, adopted on 24 March.",,
-august_offer,wartime_politics,modern_india,August Offer,August Offer,1940-08-08,,day,0,Lord Linlithgow,,,
-individual_satyagraha,wartime_politics,modern_india,Individual Satyagraha begins,Individual Satyagraha,1940-10-17,,day,0,Vinoba Bhave,,,
+august_offer,wartime_politics,modern_india,August Offer,August Offer,1940-08-08,,day,0,Lord Linlithgow,,,books: BL Grover; Sumit Sarkar
+individual_satyagraha,wartime_politics,modern_india,Individual Satyagraha begins,Individual Satyagraha,1940-10-17,,day,0,Vinoba Bhave,,,books: Bipan Chandra
 cripps_mission,cripps_mission_1942,modern_india,Cripps Mission in India,Cripps Mission|Cripps offer|Cripps proposals,1942-03,1942-04,month,0,Stafford Cripps,Offers post-war Dominion Status with the right to secede and a right for provinces not to join the new Union; rejected by both Congress and the League.,Arrived in Delhi 22 March (some sources say 23 March); left 11 or 12 April.,
-cripps_declaration,cripps_mission_1942,modern_india,Cripps draft declaration published,Cripps draft declaration,1942-03-30,,day,0,Stafford Cripps,,Handed to the press on 29 March and published on 30 March.,
-quit_india_resolution,quit_india,modern_india,Quit India resolution,Quit India|Quit India Movement,1942-08-08,,day,0,M.K. Gandhi,Passed at Bombay; leaders arrested on 9 August.,,
-bengal_famine_1943,wartime_politics,modern_india,Bengal famine,Bengal famine of 1943,1943,,year,0,,,,
-azad_hind,ina,modern_india,Provisional Government of Free India (Azad Hind),Azad Hind government|Provisional Government of Free India,1943-10-21,,day,0,Subhas Chandra Bose,,,
-rajaji_formula,pakistan_demand,modern_india,C. Rajagopalachari formula,Rajaji formula|CR formula,1944,,year,0,C. Rajagopalachari,,,
-gandhi_jinnah_talks,pakistan_demand,modern_india,Gandhi-Jinnah talks,Gandhi-Jinnah talks,1944-09,,month,0,M.K. Gandhi;M.A. Jinnah,,,
-simla_conference_1945,wavell_plan,modern_india,Simla Conference on the Wavell Plan,Wavell Plan|Simla Conference 1945,1945-06-25,1945-07-14,day,0,Lord Wavell,Broke down over the League's claim to nominate all Muslim members.,,
-ina_trials,ina,modern_india,INA trials at the Red Fort,INA trials|Red Fort trials,1945-11,,month,0,Shah Nawaz Khan;P.K. Sahgal;G.S. Dhillon,,,
-rin_mutiny,post_war_upsurge,modern_india,Royal Indian Navy mutiny,RIN mutiny|naval mutiny,1946-02-18,,day,0,,Began in Bombay.,,
-cmp_arrival,cabinet_mission_1946,modern_india,Cabinet Mission arrives in India,Cabinet Mission,1946-03-24,,day,0,Pethick-Lawrence;Stafford Cripps;A.V. Alexander,Three-member British Cabinet delegation.,,
+cripps_declaration,cripps_mission_1942,modern_india,Cripps draft declaration published,Cripps draft declaration,1942-03-29,1942-03-30,day,0,Stafford Cripps,,Grover: the proposals were made public at a press conference on 29 March; published on 30 March.,books: BL Grover
+quit_india_resolution,quit_india,modern_india,Quit India resolution,Quit India|Quit India Movement,1942-08-08,,day,0,M.K. Gandhi,Passed at Bombay; leaders arrested on 9 August.,,books: Bipan Chandra
+bengal_famine_1943,wartime_politics,modern_india,Bengal famine,Bengal famine of 1943,1943,,year,0,,,,books: Sumit Sarkar
+azad_hind,ina,modern_india,Provisional Government of Free India (Azad Hind),Azad Hind government|Provisional Government of Free India,1943-10-21,,day,0,Subhas Chandra Bose,,,books: Bipan Chandra; Sumit Sarkar
+rajaji_formula,pakistan_demand,modern_india,C. Rajagopalachari formula,Rajaji formula|CR formula,1944,,year,0,C. Rajagopalachari,,,books: BL Grover; Sekhar Bandopadhyay
+gandhi_jinnah_talks,pakistan_demand,modern_india,Gandhi-Jinnah talks,Gandhi-Jinnah talks,1944-09,,month,0,M.K. Gandhi;M.A. Jinnah,,,books: Sekhar Bandopadhyay; Sumit Sarkar
+simla_conference_1945,wavell_plan,modern_india,Simla Conference on the Wavell Plan,Wavell Plan|Simla Conference 1945,1945-06-25,1945-07-14,day,0,Lord Wavell,Broke down over the League's claim to nominate all Muslim members.,,books: BL Grover; Sekhar Bandopadhyay; Sumit Sarkar
+ina_trials,ina,modern_india,INA trials at the Red Fort,INA trials|Red Fort trials,1945-11,,month,0,Shah Nawaz Khan;P.K. Sahgal;G.S. Dhillon,,,books: Bipan Chandra; Sumit Sarkar
+rin_mutiny,post_war_upsurge,modern_india,Royal Indian Navy mutiny,RIN mutiny|naval mutiny,1946-02-18,,day,0,,Began in Bombay.,,books: Bipan Chandra; Sekhar Bandopadhyay; Sumit Sarkar
+cmp_arrival,cabinet_mission_1946,modern_india,Cabinet Mission arrives in India,Cabinet Mission,1946-03-24,,day,0,Pethick-Lawrence;Stafford Cripps;A.V. Alexander,Three-member British Cabinet delegation.,,books: BL Grover; Sumit Sarkar
 cmp_simla_talks,cabinet_mission_1946,modern_india,Second Simla Conference (tripartite talks),Second Simla Conference,1946-05,,month,0,,"Talks between the Mission, Congress and the League end without agreement.",,
-cmp_plan,cabinet_mission_1946,modern_india,Cabinet Mission Plan (statement of 16 May),Cabinet Mission Plan|16 May statement|long-term plan,1946-05-16,,day,0,,"Three-tier union with provinces grouped into Sections A, B and C; Constituent Assembly elected by provincial assemblies; a sovereign Pakistan rejected.",,
+cmp_plan,cabinet_mission_1946,modern_india,Cabinet Mission Plan (statement of 16 May),Cabinet Mission Plan|16 May statement|long-term plan,1946-05-16,,day,0,,"Three-tier union with provinces grouped into Sections A, B and C; Constituent Assembly elected by provincial assemblies; a sovereign Pakistan rejected.",,books: BL Grover; Sekhar Bandopadhyay
 cmp_clarification,cabinet_mission_1946,modern_india,Cabinet Mission statement of 25 May,25 May statement,1946-05-25,,day,0,,Calls grouping an essential feature of the scheme; says the Congress reading of paragraph 15 does not accord with the Mission's intentions.,,
-league_accepts_cmp,cabinet_mission_1946,modern_india,Muslim League accepts the Plan,League acceptance of the Cabinet Mission Plan,1946-06-06,,day,0,M.A. Jinnah,"Accepts, holding that the basis of Pakistan is inherent in compulsory grouping.",,
+league_accepts_cmp,cabinet_mission_1946,modern_india,Muslim League accepts the Plan,League acceptance of the Cabinet Mission Plan,1946-06-06,,day,0,M.A. Jinnah,"Accepts, holding that the basis of Pakistan is inherent in compulsory grouping.",,books: Bipan Chandra
 interim_govt_proposal,cabinet_mission_1946,modern_india,Interim government proposals (16 June statement),16 June statement|short-term plan|interim government proposals,1946-06-16,,day,0,Lord Wavell,Viceroy proposes a 14-member interim government.,,
-cwc_resolution_cmp,cabinet_mission_1946,modern_india,Congress Working Committee resolution on the Plan,Congress acceptance of the Cabinet Mission Plan,1946-06-25,,day,0,Maulana Azad,Accepts the 16 May long-term plan with its own reading of grouping; rejects the 16 June interim government proposals.,,
-aicc_ratifies_cmp,cabinet_mission_1946,modern_india,AICC ratifies the Working Committee's decision,AICC ratification 1946,1946-07,,month,0,,,,
-nehru_press_conference,cabinet_mission_1946,modern_india,Nehru's press conference on the Plan,Nehru's 10 July press conference,1946-07-10,,day,0,Jawaharlal Nehru,Says Congress is committed only to entering the Constituent Assembly and that there will probably be no grouping.,,
-league_withdraws,cabinet_mission_1946,modern_india,Muslim League withdraws its acceptance,League withdrawal from the Cabinet Mission Plan,1946-07-29,,day,0,M.A. Jinnah,League Council withdraws acceptance and calls for Direct Action.,,
-direct_action_day,partition_violence,modern_india,Direct Action Day and the Great Calcutta Killing,Direct Action Day|Great Calcutta Killing,1946-08-16,,day,0,,,,
-interim_govt_sworn,interim_government_1946,modern_india,Interim Government headed by Nehru sworn in,Interim Government,1946-09-02,,day,0,Jawaharlal Nehru,,,
-noakhali,partition_violence,modern_india,Noakhali riots,Noakhali,1946-10,,month,0,,,,
-league_joins_interim,interim_government_1946,modern_india,Muslim League joins the Interim Government,League joins Interim Government,1946-10,,month,0,Liaquat Ali Khan,League nominees join; Liaquat Ali Khan takes Finance.,Sources give 25 or 26 October for the swearing-in; the decision to join came in mid-October.,
-hmg_statement_dec6,cabinet_mission_1946,modern_india,British government statement of 6 December,6 December statement,1946-12-06,,day,0,,Upholds the Mission's reading that sections decide by majority; offers a Federal Court reference.,,
-ca_first_session,constituent_assembly,modern_india,Constituent Assembly first meets,first session of the Constituent Assembly,1946-12-09,,day,0,Sachchidananda Sinha;Rajendra Prasad,Meets without the Muslim League.,,
-objectives_resolution,constituent_assembly,modern_india,Objectives Resolution,Objectives Resolution,1946-12-13,1947-01-22,day,0,Jawaharlal Nehru,"Moved on 13 December 1946, adopted on 22 January 1947.",,
+cwc_resolution_cmp,cabinet_mission_1946,modern_india,Congress Working Committee resolution on the Plan,Congress acceptance of the Cabinet Mission Plan,1946-06-24,1946-06-25,day,0,Maulana Azad,Accepts the 16 May long-term plan with its own reading of grouping; rejects the 16 June interim government proposals.,Bandopadhyay dates the Working Committee's approval to 25 June 1946; Sarkar dates Congress acceptance of the plan to 24 June.,books: Sekhar Bandopadhyay; Sumit Sarkar
+aicc_ratifies_cmp,cabinet_mission_1946,modern_india,AICC ratifies the Working Committee's decision,AICC ratification 1946,1946-07,,month,0,,,,books: Sekhar Bandopadhyay
+nehru_press_conference,cabinet_mission_1946,modern_india,Nehru's press conference on the Plan,Nehru's 10 July press conference,1946-07-10,,day,0,Jawaharlal Nehru,Says Congress is committed only to entering the Constituent Assembly and that there will probably be no grouping.,,books: Sekhar Bandopadhyay; Sumit Sarkar
+league_withdraws,cabinet_mission_1946,modern_india,Muslim League withdraws its acceptance,League withdrawal from the Cabinet Mission Plan,1946-07-29,,day,0,M.A. Jinnah,League Council withdraws acceptance and calls for Direct Action.,,books: BL Grover; Bipan Chandra
+direct_action_day,partition_violence,modern_india,Direct Action Day and the Great Calcutta Killing,Direct Action Day|Great Calcutta Killing,1946-08-16,,day,0,,,,books: Bipan Chandra; Sekhar Bandopadhyay
+interim_govt_sworn,interim_government_1946,modern_india,Interim Government headed by Nehru sworn in,Interim Government,1946-09-02,,day,0,Jawaharlal Nehru,,,books: BL Grover; Sekhar Bandopadhyay
+noakhali,partition_violence,modern_india,Noakhali riots,Noakhali,1946-10,,month,0,,,,books: BL Grover
+league_joins_interim,interim_government_1946,modern_india,Muslim League joins the Interim Government,League joins Interim Government,1946-10,,month,0,Liaquat Ali Khan,League nominees join; Liaquat Ali Khan takes Finance.,Sources give 25 or 26 October for the swearing-in; the decision to join came in mid-October.,books: Bipan Chandra
+hmg_statement_dec6,cabinet_mission_1946,modern_india,British government statement of 6 December,6 December statement,1946-12-06,,day,0,,Upholds the Mission's reading that sections decide by majority; offers a Federal Court reference.,,books: Bipan Chandra
+ca_first_session,constituent_assembly,modern_india,Constituent Assembly first meets,first session of the Constituent Assembly,1946-12-09,,day,0,Sachchidananda Sinha;Rajendra Prasad,Meets without the Muslim League.,,books: BL Grover; Bipan Chandra
+objectives_resolution,constituent_assembly,modern_india,Objectives Resolution,Objectives Resolution,1946-12-13,1947-01-22,day,0,Jawaharlal Nehru,"Moved on 13 December 1946, adopted on 22 January 1947.",,books: BL Grover
 tebhaga,peasant_movements_1940s,modern_india,Tebhaga movement,Tebhaga,1946,1947,year,0,,Sharecroppers in Bengal demand two-thirds of the crop.,,
-telangana_struggle,peasant_movements_1940s,modern_india,Telangana armed struggle,Telangana movement,1946,1951,year,0,,,,
-attlee_statement,transfer_of_power,modern_india,Attlee announces withdrawal by June 1948,Attlee's statement of 20 February,1947-02-20,,day,0,Clement Attlee,,,
+telangana_struggle,peasant_movements_1940s,modern_india,Telangana armed struggle,Telangana movement,1946,1951,year,1,,,Sarkar: July 1946 to October 1951; Bandopadhyay: began July 1946; Ranajit Guha: 1947-51.,books: Ranajit Guha; Sekhar Bandopadhyay; Sumit Sarkar
+attlee_statement,transfer_of_power,modern_india,Attlee announces withdrawal by June 1948,Attlee's statement of 20 February,1947-02-20,,day,0,Clement Attlee,,,books: Bipan Chandra; Sumit Sarkar
 mountbatten_viceroy,transfer_of_power,modern_india,Mountbatten sworn in as Viceroy,Mountbatten,1947-03-24,,day,0,Lord Mountbatten,,,
-june3_plan,transfer_of_power,modern_india,Mountbatten Plan (3 June Plan),3 June Plan|Mountbatten Plan|partition plan,1947-06-03,,day,0,Lord Mountbatten,,,
-independence_act,transfer_of_power,modern_india,Indian Independence Act receives royal assent,Indian Independence Act,1947-07-18,,day,0,,,,
-independence_1947,transfer_of_power,modern_india,Independence of India,Indian independence|15 August 1947,1947-08-15,,day,0,,Pakistan's independence is dated 14 August.,,
+june3_plan,transfer_of_power,modern_india,Mountbatten Plan (3 June Plan),3 June Plan|Mountbatten Plan|partition plan,1947-06-03,,day,0,Lord Mountbatten,,,books: BL Grover
+independence_act,transfer_of_power,modern_india,Indian Independence Act receives royal assent,Indian Independence Act,1947-07-18,,day,0,,,,books: BL Grover; Sekhar Bandopadhyay
+independence_1947,transfer_of_power,modern_india,Independence of India,Indian independence|15 August 1947,1947-08-15,,day,0,,Pakistan's independence is dated 14 August.,,books: Norman Lowe; Sekhar Bandopadhyay
 radcliffe_award,transfer_of_power,modern_india,Radcliffe boundary awards published,Radcliffe Award|Radcliffe Line,1947-08-17,,day,0,Cyril Radcliffe,,,
-kashmir_accession,integration_of_states,modern_india,Instrument of Accession of Jammu and Kashmir,Kashmir accession,1947-10-26,,day,0,Hari Singh,,,
-gandhi_assassinated,post_independence,modern_india,Assassination of Gandhi,Gandhi's assassination,1948-01-30,,day,0,M.K. Gandhi,,,
-operation_polo,integration_of_states,modern_india,Operation Polo (Hyderabad),Operation Polo|police action in Hyderabad,1948-09-13,1948-09-18,day,0,,,,
-constitution_adopted,constituent_assembly,modern_india,Constitution adopted,adoption of the Constitution,1949-11-26,,day,0,B.R. Ambedkar;Rajendra Prasad,,,
-constitution_in_force,constituent_assembly,modern_india,Constitution comes into force,Republic Day 1950,1950-01-26,,day,0,,,,
+kashmir_accession,integration_of_states,modern_india,Instrument of Accession of Jammu and Kashmir,Kashmir accession,1947-10-26,,day,0,Hari Singh,,,books: BL Grover
+gandhi_assassinated,post_independence,modern_india,Assassination of Gandhi,Gandhi's assassination,1948-01-30,,day,0,M.K. Gandhi,,,books: BL Grover; Sekhar Bandopadhyay
+operation_polo,integration_of_states,modern_india,Operation Polo (Hyderabad),Operation Polo|police action in Hyderabad,1948-09-13,1948-09-18,day,0,,,,books: Bipan Chandra; Sekhar Bandopadhyay
+constitution_adopted,constituent_assembly,modern_india,Constitution adopted,adoption of the Constitution,1949-11-26,,day,0,B.R. Ambedkar;Rajendra Prasad,,,books: BL Grover
+constitution_in_force,constituent_assembly,modern_india,Constitution comes into force,Republic Day 1950,1950-01-26,,day,0,,,,books: BL Grover; Sekhar Bandopadhyay
 planning_commission,post_independence,modern_india,Planning Commission set up,Planning Commission,1950-03-15,,day,0,Jawaharlal Nehru,,,
 bhoodan,post_independence,modern_india,Bhoodan movement begins,Bhoodan,1951-04-18,,day,0,Vinoba Bhave,Begins at Pochampally in Telangana.,,
-first_general_election,post_independence,modern_india,First general election,first general election,1951-10,1952-02,month,0,,,,
-andhra_state,linguistic_reorganisation,modern_india,Andhra State formed,Andhra State|Potti Sriramulu,1953-10-01,,day,0,Potti Sriramulu,Follows Potti Sriramulu's death on fast in December 1952.,,
+first_general_election,post_independence,modern_india,First general election,first general election,1951-10,1952-02,month,0,,,,books: Sekhar Bandopadhyay
+andhra_state,linguistic_reorganisation,modern_india,Andhra State formed,Andhra State|Potti Sriramulu,1953-10-01,,day,0,Potti Sriramulu,Follows Potti Sriramulu's death on fast in December 1952.,,books: Sekhar Bandopadhyay
 panchsheel,nehru_foreign_policy,modern_india,Panchsheel agreement with China,Panchsheel|Panchsheel agreement,1954-04-29,,day,0,Jawaharlal Nehru;Zhou Enlai,,,
 states_reorganisation,linguistic_reorganisation,modern_india,States Reorganisation Act takes effect,States Reorganisation Act,1956-11-01,,day,0,,,,
 sino_indian_war,nehru_foreign_policy,modern_india,Sino-Indian war,1962 war|India-China war,1962-10-20,1962-11-21,day,0,,,,
-nehru_death,post_independence,modern_india,Death of Jawaharlal Nehru,death of Nehru,1964-05-27,,day,0,Jawaharlal Nehru,,,
+nehru_death,post_independence,modern_india,Death of Jawaharlal Nehru,death of Nehru,1964-05-27,,day,0,Jawaharlal Nehru,,,books: Sekhar Bandopadhyay
 glorious_revolution,english_revolution,modern_world,Glorious Revolution and Bill of Rights,Glorious Revolution|Bill of Rights 1689,1688,1689,year,0,William III;Mary II;James II,Parliament settles the Crown on William and Mary; the Bill of Rights limits royal power.,,
 locke_two_treatises,enlightenment,modern_world,Locke's Two Treatises of Government,Two Treatises of Government|John Locke,1689,,year,1,John Locke,,Published late 1689 with 1690 on the title page.,
 spirit_of_laws,enlightenment,modern_world,Montesquieu's The Spirit of the Laws,Spirit of the Laws|Montesquieu,1748,,year,0,Montesquieu,Argues for separation of powers.,,
@@ -272,21 +272,21 @@ stamp_act,american_revolution,modern_world,Stamp Act,Stamp Act,1765,,year,0,,Col
 watt_patent,industrial_revolution,modern_world,Watt patents the separate condenser,James Watt|steam engine patent,1769,,year,0,James Watt,,,
 boston_tea_party,american_revolution,modern_world,Boston Tea Party,Boston Tea Party,1773-12-16,,day,0,,,,
 declaration_of_independence,american_revolution,modern_world,US Declaration of Independence,Declaration of Independence,1776-07-04,,day,0,Thomas Jefferson,,,
-wealth_of_nations,enlightenment,modern_world,Adam Smith's The Wealth of Nations,Wealth of Nations|Adam Smith,1776,,year,0,Adam Smith,,,
+wealth_of_nations,enlightenment,modern_world,Adam Smith's The Wealth of Nations,Wealth of Nations|Adam Smith,1776,,year,0,Adam Smith,,,books: Eric Hobsbawm
 saratoga,american_revolution,modern_world,British surrender at Saratoga,Saratoga,1777-10,,month,0,,Leads to the French alliance of 1778.,,
 yorktown,american_revolution,modern_world,British surrender at Yorktown,Yorktown,1781-10-19,,day,0,Cornwallis;George Washington,,,
 treaty_of_paris_1783,american_revolution,modern_world,Treaty of Paris (1783),Treaty of Paris 1783,1783-09-03,,day,0,,Britain recognises American independence.,,
 us_constitution,american_revolution,modern_world,US Constitution signed,US Constitution,1787-09-17,,day,0,,In force from 1789.,,
 estates_general,french_revolution,modern_world,Estates-General opens,Estates-General,1789-05-05,,day,0,Louis XVI,,,
 tennis_court_oath,french_revolution,modern_world,Tennis Court Oath,Tennis Court Oath,1789-06-20,,day,0,,,,
-bastille,french_revolution,modern_world,Storming of the Bastille,Bastille,1789-07-14,,day,0,,,,
-august_decrees,french_revolution,modern_world,Abolition of feudal privileges,August decrees|night of 4 August,1789-08-04,,day,0,,,,
+bastille,french_revolution,modern_world,Storming of the Bastille,Bastille,1789-07-14,,day,0,,,,books: Eric Hobsbawm
+august_decrees,french_revolution,modern_world,Abolition of feudal privileges,August decrees|night of 4 August,1789-08-04,,day,0,,,,books: David Thomson
 rights_of_man,french_revolution,modern_world,Declaration of the Rights of Man and of the Citizen,Declaration of the Rights of Man,1789-08-26,,day,0,,,,
-republic_1792,french_revolution,modern_world,First French Republic proclaimed,First Republic,1792-09,,month,0,,,,
-louis_xvi_executed,french_revolution,modern_world,Execution of Louis XVI,execution of Louis XVI,1793-01-21,,day,0,Louis XVI,,,
+republic_1792,french_revolution,modern_world,First French Republic proclaimed,First Republic,1792-09,,month,0,,,,books: David Thomson
+louis_xvi_executed,french_revolution,modern_world,Execution of Louis XVI,execution of Louis XVI,1793-01-21,,day,0,Louis XVI,,,books: David Thomson
 reign_of_terror,french_revolution,modern_world,Reign of Terror,Reign of Terror|Committee of Public Safety,1793-09,1794-07,month,0,Robespierre,,,
-thermidor,french_revolution,modern_world,Fall of Robespierre (9 Thermidor),Thermidorian Reaction|9 Thermidor,1794-07-27,,day,0,Robespierre,,,
-brumaire,napoleonic_era,modern_world,Coup of 18 Brumaire,18 Brumaire,1799-11-09,,day,0,Napoleon Bonaparte,,,
+thermidor,french_revolution,modern_world,Fall of Robespierre (9 Thermidor),Thermidorian Reaction|9 Thermidor,1794-07-27,,day,0,Robespierre,,,books: Eric Hobsbawm
+brumaire,napoleonic_era,modern_world,Coup of 18 Brumaire,18 Brumaire,1799-11-09,,day,0,Napoleon Bonaparte,,,books: David Thomson
 haiti_independence,atlantic_revolutions,modern_world,Haitian independence,Haitian Revolution|independence of Haiti,1804-01-01,,day,0,Toussaint Louverture;Jean-Jacques Dessalines,,,
 civil_code,napoleonic_era,modern_world,Napoleonic Civil Code,Napoleonic Code|Civil Code,1804-03-21,,day,0,Napoleon Bonaparte,,,
 napoleon_crowned,napoleonic_era,modern_world,Napoleon crowned Emperor,coronation of Napoleon,1804-12-02,,day,0,Napoleon Bonaparte,,,
@@ -295,114 +295,114 @@ austerlitz,napoleonic_era,modern_world,Battle of Austerlitz,Austerlitz,1805-12-0
 berlin_decree,napoleonic_era,modern_world,Berlin Decree (Continental System),Continental System|Berlin Decree,1806-11-21,,day,0,Napoleon Bonaparte,,,
 grito_de_dolores,atlantic_revolutions,modern_world,Grito de Dolores (Mexican independence struggle begins),Grito de Dolores|Miguel Hidalgo,1810-09-16,,day,0,Miguel Hidalgo,,,
 russian_campaign_1812,napoleonic_era,modern_world,Napoleon's invasion of Russia,invasion of Russia 1812,1812-06,1812-12,month,0,Napoleon Bonaparte;Alexander I,,,
-leipzig,napoleonic_era,modern_world,Battle of Leipzig (Battle of the Nations),Leipzig|Battle of the Nations,1813-10,,month,0,,,,
+leipzig,napoleonic_era,modern_world,Battle of Leipzig (Battle of the Nations),Leipzig|Battle of the Nations,1813-10,,month,0,,,,books: David Thomson
 congress_of_vienna,concert_of_europe,modern_world,Congress of Vienna,Congress of Vienna,1814-09,1815-06,month,0,Metternich;Castlereagh;Talleyrand,Final Act signed on 9 June 1815.,,
 waterloo,napoleonic_era,modern_world,Battle of Waterloo,Waterloo,1815-06-18,,day,0,Napoleon Bonaparte;Wellington,,,
 monroe_doctrine,atlantic_revolutions,modern_world,Monroe Doctrine,Monroe Doctrine,1823-12-02,,day,0,James Monroe,,,
 stockton_darlington,industrial_revolution,modern_world,Stockton and Darlington Railway opens,Stockton and Darlington,1825-09-27,,day,0,George Stephenson,,,
 greek_independence,concert_of_europe,modern_world,London Protocol recognises Greek independence,Greek independence|London Protocol,1830-02-03,,day,0,,,,
-july_revolution,revolutions_1830_1848,modern_world,July Revolution in France,July Revolution,1830-07,,month,0,Louis-Philippe,,,
+july_revolution,revolutions_1830_1848,modern_world,July Revolution in France,July Revolution,1830-07,,month,0,Louis-Philippe,,,books: Eric Hobsbawm
 liverpool_manchester,industrial_revolution,modern_world,Liverpool and Manchester Railway opens,Liverpool and Manchester Railway,1830-09-15,,day,0,,,,
-reform_act_1832,british_reform,modern_world,Great Reform Act,Reform Act 1832|Great Reform Act,1832,,year,0,Earl Grey,,,
-slavery_abolition_act,british_reform,modern_world,Slavery Abolition Act,Slavery Abolition Act,1833,,year,0,,,,
+reform_act_1832,british_reform,modern_world,Great Reform Act,Reform Act 1832|Great Reform Act,1832,,year,0,Earl Grey,,,books: BL Grover; David Thomson
+slavery_abolition_act,british_reform,modern_world,Slavery Abolition Act,Slavery Abolition Act,1833,,year,0,,,,books: David Thomson
 zollverein,german_unification,modern_world,German Zollverein comes into effect,Zollverein,1834-01-01,,day,0,,,,
 chartism,british_reform,modern_world,Chartist movement,Chartism|People's Charter,1838,1848,year,0,,,,
 opium_war_first,china_imperialism,modern_world,First Opium War,First Opium War,1839,1842,year,0,Lin Zexu,,,
 treaty_of_nanking,china_imperialism,modern_world,Treaty of Nanking,Treaty of Nanking|Treaty of Nanjing,1842-08-29,,day,0,,Hong Kong ceded; treaty ports opened.,,
-corn_laws_repeal,british_reform,modern_world,Repeal of the Corn Laws,Corn Laws repeal,1846,,year,0,Robert Peel,,,
-communist_manifesto,socialism,modern_world,The Communist Manifesto published,Communist Manifesto,1848-02,,month,0,Karl Marx;Friedrich Engels,,,
-revolutions_1848,revolutions_1830_1848,modern_world,Revolutions of 1848,Revolutions of 1848|Springtime of Nations,1848,,year,0,,"Uprisings in France, the German states, the Habsburg lands and Italy.",,
+corn_laws_repeal,british_reform,modern_world,Repeal of the Corn Laws,Corn Laws repeal,1846,,year,0,Robert Peel,,,books: Eric Hobsbawm
+communist_manifesto,socialism,modern_world,The Communist Manifesto published,Communist Manifesto,1848-02,,month,0,Karl Marx;Friedrich Engels,,,books: David Thomson; Eric Hobsbawm
+revolutions_1848,revolutions_1830_1848,modern_world,Revolutions of 1848,Revolutions of 1848|Springtime of Nations,1848,,year,0,,"Uprisings in France, the German states, the Habsburg lands and Italy.",,books: Eric Hobsbawm
 frankfurt_parliament,german_unification,modern_world,Frankfurt Parliament,Frankfurt Parliament,1848-05,1849-06,month,0,,,,
-taiping,china_imperialism,modern_world,Taiping Rebellion,Taiping Rebellion,1850,1864,year,0,Hong Xiuquan,,,
-crimean_war,concert_of_europe,modern_world,Crimean War,Crimean War,1853,1856,year,0,,"Ended by the Treaty of Paris, 30 March 1856.",,
-opium_war_second,china_imperialism,modern_world,Second Opium War,Second Opium War|Arrow War,1856,1860,year,0,,,,
-thousand_expedition,italian_unification,modern_world,Garibaldi's Expedition of the Thousand,Expedition of the Thousand|Redshirts,1860-05,,month,0,Giuseppe Garibaldi,,,
+taiping,china_imperialism,modern_world,Taiping Rebellion,Taiping Rebellion,1850,1864,year,2,Hong Xiuquan,,"Both books start it in 1850; Lowe ends it in 1864, Hobsbawm in 1866.",books: Eric Hobsbawm; Norman Lowe
+crimean_war,concert_of_europe,modern_world,Crimean War,Crimean War,1853,1856,year,1,,"Ended by the Treaty of Paris, 30 March 1856.",Thomson: Turkey declared war on Russia in October 1853 and Britain and France entered in 1854.,
+opium_war_second,china_imperialism,modern_world,Second Opium War,Second Opium War|Arrow War,1856,1860,year,0,,,Hobsbawm dates the war 1856-8 and the sack of Peking 1860.,
+thousand_expedition,italian_unification,modern_world,Garibaldi's Expedition of the Thousand,Expedition of the Thousand|Redshirts,1860-05,,month,0,Giuseppe Garibaldi,,,books: David Thomson
 kingdom_of_italy,italian_unification,modern_world,Kingdom of Italy proclaimed,Kingdom of Italy,1861-03-17,,day,0,Victor Emmanuel II;Cavour,,,
 emancipation_serfs,tsarist_russia,modern_world,Emancipation of the serfs in Russia,Emancipation Edict,1861-03,,month,0,Alexander II,,Dated 19 February 1861 in the Old Style calendar.,
 fort_sumter,american_civil_war,modern_world,American Civil War begins at Fort Sumter,American Civil War|Fort Sumter,1861-04-12,,day,0,Abraham Lincoln,,,
 emancipation_proclamation,american_civil_war,modern_world,Emancipation Proclamation,Emancipation Proclamation,1863-01-01,,day,0,Abraham Lincoln,,,
-danish_war,german_unification,modern_world,Second Schleswig War,Danish War|Schleswig-Holstein,1864,,year,0,Otto von Bismarck,,,
+danish_war,german_unification,modern_world,Second Schleswig War,Danish War|Schleswig-Holstein,1864,,year,0,Otto von Bismarck,,,books: David Thomson
 appomattox,american_civil_war,modern_world,Lee surrenders at Appomattox,Appomattox,1865-04-09,,day,0,Robert E. Lee;Ulysses S. Grant,,,
 koniggratz,german_unification,modern_world,Battle of Koniggratz (Sadowa),Koniggratz|Sadowa|Austro-Prussian War,1866-07-03,,day,0,Otto von Bismarck;Helmuth von Moltke,,,
-venetia_1866,italian_unification,modern_world,Venetia joins Italy,Venetia,1866,,year,0,,,,
-meiji_restoration,japan_modernisation,modern_world,Meiji Restoration,Meiji Restoration,1868,,year,0,Emperor Meiji,,,
+venetia_1866,italian_unification,modern_world,Venetia joins Italy,Venetia,1866,,year,0,,,,books: David Thomson
+meiji_restoration,japan_modernisation,modern_world,Meiji Restoration,Meiji Restoration,1868,,year,1,Emperor Meiji,,Lowe dates the restoration to 1868; Thomson dates Japan's internal revolution to 1867.,books: David Thomson; Norman Lowe
 sedan,german_unification,modern_world,Battle of Sedan,Sedan|Franco-Prussian War,1870-09-01,,day,0,Napoleon III,,,
 rome_captured,italian_unification,modern_world,Italian troops enter Rome,capture of Rome,1870-09-20,,day,0,,,,
-german_empire,german_unification,modern_world,German Empire proclaimed at Versailles,German Empire|unification of Germany,1871-01-18,,day,0,Wilhelm I;Otto von Bismarck,,,
+german_empire,german_unification,modern_world,German Empire proclaimed at Versailles,German Empire|unification of Germany,1871-01-18,,day,0,Wilhelm I;Otto von Bismarck,,,books: David Thomson
 paris_commune,socialism,modern_world,Paris Commune,Paris Commune,1871-03-18,1871-05-28,day,0,,,,
-dual_alliance,alliance_system,modern_world,Dual Alliance (Germany and Austria-Hungary),Dual Alliance,1879,,year,0,Otto von Bismarck,,,
+dual_alliance,alliance_system,modern_world,Dual Alliance (Germany and Austria-Hungary),Dual Alliance,1879,,year,0,Otto von Bismarck,,,books: David Thomson
 triple_alliance,alliance_system,modern_world,Triple Alliance,Triple Alliance,1882-05-20,,day,0,,"Germany, Austria-Hungary and Italy.",,
 berlin_conference,scramble_for_africa,modern_world,Berlin Conference on Africa,Berlin Conference|Berlin West Africa Conference,1884-11-15,1885-02-26,day,0,Otto von Bismarck,,,
 sino_japanese_war,japan_modernisation,modern_world,First Sino-Japanese War,Sino-Japanese War,1894,1895,year,0,,"Ended by the Treaty of Shimonoseki, 17 April 1895.",,
-fashoda,scramble_for_africa,modern_world,Fashoda incident,Fashoda,1898,,year,0,,,,
-boer_war,scramble_for_africa,modern_world,South African (Boer) War,Boer War,1899,1902,year,0,,,,
+fashoda,scramble_for_africa,modern_world,Fashoda incident,Fashoda,1898,,year,0,,,,books: David Thomson
+boer_war,scramble_for_africa,modern_world,South African (Boer) War,Boer War,1899,1902,year,0,,,,books: Eric Hobsbawm; Norman Lowe
 boxer_rebellion,china_imperialism,modern_world,Boxer Rebellion,Boxer Rebellion|Boxer Uprising,1899,1901,year,0,,"Ended by the Boxer Protocol, 7 September 1901.",,
 entente_cordiale,alliance_system,modern_world,Entente Cordiale,Entente Cordiale,1904-04-08,,day,0,,,,
 russo_japanese_war,japan_modernisation,modern_world,Russo-Japanese War,Russo-Japanese War,1904,1905,year,0,,"Ended by the Treaty of Portsmouth, 5 September 1905.",,
 bloody_sunday_1905,russian_revolution,modern_world,"Bloody Sunday, start of the 1905 Revolution",Bloody Sunday|1905 Revolution,1905-01-22,,day,0,Father Gapon;Nicholas II,,9 January in the Old Style calendar.,
-moroccan_crises,alliance_system,modern_world,Moroccan crises,Moroccan crises|Tangier crisis|Agadir crisis,1905,1911,year,0,,Tangier (1905) and Agadir (1911).,,
+moroccan_crises,alliance_system,modern_world,Moroccan crises,Moroccan crises|Tangier crisis|Agadir crisis,1905,1911,year,0,,Tangier (1905) and Agadir (1911).,,books: David Thomson; Eric Hobsbawm
 anglo_russian_convention,alliance_system,modern_world,Anglo-Russian Convention,Anglo-Russian Convention|Triple Entente,1907-08-31,,day,0,,,,
 wuchang_uprising,chinese_revolution,modern_world,Wuchang uprising (1911 Revolution),1911 Revolution|Xinhai Revolution|Wuchang uprising,1911-10-10,,day,0,Sun Yat-sen,,,
 roc_founded,chinese_revolution,modern_world,Republic of China proclaimed,Republic of China,1912-01-01,,day,0,Sun Yat-sen,,,
 balkan_wars,world_war_one,modern_world,Balkan Wars,Balkan Wars,1912,1913,year,0,,,,
-sarajevo,world_war_one,modern_world,Assassination of Archduke Franz Ferdinand,Sarajevo assassination|Franz Ferdinand,1914-06-28,,day,0,Gavrilo Princip;Franz Ferdinand,,,
-austria_declares_war,world_war_one,modern_world,Austria-Hungary declares war on Serbia,outbreak of the First World War,1914-07-28,,day,0,,,,
-britain_enters_ww1,world_war_one,modern_world,Britain declares war on Germany,Britain enters the war,1914-08-04,,day,0,,,,
-february_revolution,russian_revolution,modern_world,February Revolution in Russia,February Revolution,1917-03,,month,0,Nicholas II,,23-27 February in the Old Style calendar.,
+sarajevo,world_war_one,modern_world,Assassination of Archduke Franz Ferdinand,Sarajevo assassination|Franz Ferdinand,1914-06-28,,day,0,Gavrilo Princip;Franz Ferdinand,,,books: Eric Hobsbawm; Norman Lowe
+austria_declares_war,world_war_one,modern_world,Austria-Hungary declares war on Serbia,outbreak of the First World War,1914-07-28,,day,0,,,,books: Eric Hobsbawm
+britain_enters_ww1,world_war_one,modern_world,Britain declares war on Germany,Britain enters the war,1914-08-04,,day,0,,,,books: Norman Lowe
+february_revolution,russian_revolution,modern_world,February Revolution in Russia,February Revolution,1917-03,,month,0,Nicholas II,,23-27 February in the Old Style calendar.,books: Norman Lowe
 us_enters_ww1,world_war_one,modern_world,United States enters the First World War,US entry into the First World War,1917-04-06,,day,0,Woodrow Wilson,,,
-october_revolution,russian_revolution,modern_world,October Revolution (Bolshevik seizure of power),October Revolution|Bolshevik Revolution,1917-11-07,,day,0,Lenin;Trotsky,,25 October in the Old Style calendar.,
+october_revolution,russian_revolution,modern_world,October Revolution (Bolshevik seizure of power),October Revolution|Bolshevik Revolution,1917-11-07,,day,0,Lenin;Trotsky,,25 October in the Old Style calendar.,books: Eric Hobsbawm; Norman Lowe
 fourteen_points,world_war_one,modern_world,Wilson's Fourteen Points,Fourteen Points,1918-01-08,,day,0,Woodrow Wilson,,,
 brest_litovsk,russian_revolution,modern_world,Treaty of Brest-Litovsk,Brest-Litovsk,1918-03-03,,day,0,Lenin,,,
-armistice_1918,world_war_one,modern_world,Armistice ends the First World War,Armistice of 1918,1918-11-11,,day,0,,,,
-may_fourth,chinese_revolution,modern_world,May Fourth Movement,May Fourth Movement,1919-05-04,,day,0,,,,
+armistice_1918,world_war_one,modern_world,Armistice ends the First World War,Armistice of 1918,1918-11-11,,day,0,,,,books: Eric Hobsbawm; Norman Lowe
+may_fourth,chinese_revolution,modern_world,May Fourth Movement,May Fourth Movement,1919-05-04,,day,0,,,,books: Norman Lowe
 versailles,world_war_one,modern_world,Treaty of Versailles signed,Treaty of Versailles,1919-06-28,,day,0,,,,
 weimar_constitution,interwar_europe,modern_world,Weimar Constitution,Weimar Constitution,1919-08-11,,day,0,,,,
-league_of_nations,interwar_europe,modern_world,League of Nations comes into being,League of Nations,1920-01-10,,day,0,,,,
+league_of_nations,interwar_europe,modern_world,League of Nations comes into being,League of Nations,1920-01-10,,day,0,,,,books: Norman Lowe
 nep,soviet_union,modern_world,New Economic Policy,New Economic Policy|NEP,1921-03,,month,0,Lenin,,,
 ccp_founded,chinese_revolution,modern_world,Chinese Communist Party founded,Chinese Communist Party,1921-07,,month,0,,,,
-march_on_rome,fascism_nazism,modern_world,March on Rome,March on Rome,1922-10,,month,0,Benito Mussolini,,,
+march_on_rome,fascism_nazism,modern_world,March on Rome,March on Rome,1922-10,,month,0,Benito Mussolini,,,books: Norman Lowe
 ussr_formed,soviet_union,modern_world,USSR formed,formation of the USSR,1922-12-30,,day,0,,,,
 lenin_death,soviet_union,modern_world,Death of Lenin,death of Lenin,1924-01-21,,day,0,Lenin,,,
-locarno,interwar_europe,modern_world,Locarno Treaties,Locarno,1925,,year,0,Gustav Stresemann;Austen Chamberlain;Aristide Briand,,,
+locarno,interwar_europe,modern_world,Locarno Treaties,Locarno,1925,,year,0,Gustav Stresemann;Austen Chamberlain;Aristide Briand,,,books: Norman Lowe
 first_five_year_plan,soviet_union,modern_world,First Soviet Five-Year Plan,First Five-Year Plan,1928,1932,year,0,Joseph Stalin,,,
 kellogg_briand,interwar_europe,modern_world,Kellogg-Briand Pact,Kellogg-Briand Pact,1928-08-27,,day,0,,,,
-wall_street_crash,great_depression,modern_world,Wall Street Crash,Wall Street Crash|Great Depression,1929-10,,month,0,,,,
+wall_street_crash,great_depression,modern_world,Wall Street Crash,Wall Street Crash|Great Depression,1929-10,,month,0,,,,books: Eric Hobsbawm; Norman Lowe
 mukden_incident,japan_militarism,modern_world,Mukden incident,Mukden incident|Manchurian crisis,1931-09-18,,day,0,,,,
-hitler_chancellor,fascism_nazism,modern_world,Hitler becomes Chancellor,Hitler appointed Chancellor,1933-01-30,,day,0,Adolf Hitler,,,
-reichstag_fire,fascism_nazism,modern_world,Reichstag fire,Reichstag fire,1933-02-27,,day,0,,,,
-enabling_act,fascism_nazism,modern_world,Enabling Act,Enabling Act,1933-03-23,,day,0,Adolf Hitler,,,
-new_deal,great_depression,modern_world,New Deal,New Deal,1933,1939,year,1,Franklin D. Roosevelt,,,
+hitler_chancellor,fascism_nazism,modern_world,Hitler becomes Chancellor,Hitler appointed Chancellor,1933-01-30,,day,0,Adolf Hitler,,,books: Eric Hobsbawm
+reichstag_fire,fascism_nazism,modern_world,Reichstag fire,Reichstag fire,1933-02-27,,day,0,,,,books: Norman Lowe
+enabling_act,fascism_nazism,modern_world,Enabling Act,Enabling Act,1933-03-23,,day,0,Adolf Hitler,,,books: Norman Lowe
+new_deal,great_depression,modern_world,New Deal,New Deal,1933,1939,year,1,Franklin D. Roosevelt,,,books: Norman Lowe
 long_march,chinese_revolution,modern_world,Long March,Long March,1934-10,1935-10,month,0,Mao Zedong,,,
 ethiopia_invasion,fascism_nazism,modern_world,Italy invades Ethiopia,Abyssinian crisis|invasion of Ethiopia,1935-10-03,,day,0,Benito Mussolini;Haile Selassie,,,
 nuremberg_laws,fascism_nazism,modern_world,Nuremberg Laws,Nuremberg Laws,1935-09-15,,day,0,,,,
 rhineland,world_war_two,modern_world,Remilitarisation of the Rhineland,Rhineland remilitarisation,1936-03-07,,day,0,Adolf Hitler,,,
 spanish_civil_war,interwar_europe,modern_world,Spanish Civil War,Spanish Civil War,1936-07,1939-04,month,0,Francisco Franco,,,
-anschluss,world_war_two,modern_world,Anschluss with Austria,Anschluss,1938-03,,month,0,Adolf Hitler,,,
-munich_agreement,world_war_two,modern_world,Munich Agreement,Munich Agreement|appeasement,1938-09,,month,0,Neville Chamberlain;Adolf Hitler,,Signed in the early hours of 30 September; dated 29 September.,
+anschluss,world_war_two,modern_world,Anschluss with Austria,Anschluss,1938-03,,month,0,Adolf Hitler,,,books: Norman Lowe
+munich_agreement,world_war_two,modern_world,Munich Agreement,Munich Agreement|appeasement,1938-09,,month,0,Neville Chamberlain;Adolf Hitler,,Lowe gives September 1938; Hobsbawm writes October 1938.,books: Eric Hobsbawm; Norman Lowe
 kristallnacht,fascism_nazism,modern_world,Kristallnacht,Kristallnacht,1938-11-09,1938-11-10,day,0,,,,
-nazi_soviet_pact,world_war_two,modern_world,Nazi-Soviet Pact,Molotov-Ribbentrop Pact|Nazi-Soviet Pact,1939-08-23,,day,0,Molotov;Ribbentrop,,,
-invasion_of_poland,world_war_two,modern_world,Germany invades Poland,invasion of Poland,1939-09-01,,day,0,,,,
-britain_france_declare,world_war_two,modern_world,Britain and France declare war on Germany,outbreak of the Second World War,1939-09-03,,day,0,,,,
-fall_of_france,world_war_two,modern_world,Franco-German armistice,fall of France,1940-06-22,,day,0,Philippe Petain,,,
-battle_of_britain,world_war_two,modern_world,Battle of Britain,Battle of Britain,1940-07,1940-10,month,0,,,,
-barbarossa,world_war_two,modern_world,Operation Barbarossa,Operation Barbarossa,1941-06-22,,day,0,,,,
+nazi_soviet_pact,world_war_two,modern_world,Nazi-Soviet Pact,Molotov-Ribbentrop Pact|Nazi-Soviet Pact,1939-08-23,,day,0,Molotov;Ribbentrop,,,books: Norman Lowe
+invasion_of_poland,world_war_two,modern_world,Germany invades Poland,invasion of Poland,1939-09-01,,day,0,,,,books: Norman Lowe
+britain_france_declare,world_war_two,modern_world,Britain and France declare war on Germany,outbreak of the Second World War,1939-09-03,,day,0,,,,books: Bipan Chandra
+fall_of_france,world_war_two,modern_world,Franco-German armistice,fall of France,1940-06-22,,day,0,Philippe Petain,,,books: Norman Lowe
+battle_of_britain,world_war_two,modern_world,Battle of Britain,Battle of Britain,1940-07,1940-10,month,0,,,Lowe gives July to September 1940.,
+barbarossa,world_war_two,modern_world,Operation Barbarossa,Operation Barbarossa,1941-06-22,,day,0,,,,books: Eric Hobsbawm; Norman Lowe
 atlantic_charter,world_war_two,modern_world,Atlantic Charter,Atlantic Charter,1941-08-14,,day,0,Franklin D. Roosevelt;Winston Churchill,,,
-pearl_harbor,world_war_two,modern_world,Attack on Pearl Harbor,Pearl Harbor,1941-12-07,,day,0,,,,
+pearl_harbor,world_war_two,modern_world,Attack on Pearl Harbor,Pearl Harbor,1941-12-07,,day,0,,,,books: Eric Hobsbawm; Norman Lowe
 midway,world_war_two,modern_world,Battle of Midway,Midway,1942-06-04,1942-06-07,day,0,,,,
-stalingrad,world_war_two,modern_world,Battle of Stalingrad,Stalingrad,1942-08,1943-02,month,0,,German surrender on 2 February 1943.,,
-d_day,world_war_two,modern_world,D-Day landings in Normandy,D-Day|Normandy landings,1944-06-06,,day,0,,,,
+stalingrad,world_war_two,modern_world,Battle of Stalingrad,Stalingrad,1942-08,1943-02,month,0,,German surrender on 2 February 1943.,Lowe dates the surrender to 2 February 1943; Hobsbawm runs the battle to March 1943.,books: Eric Hobsbawm; Norman Lowe
+d_day,world_war_two,modern_world,D-Day landings in Normandy,D-Day|Normandy landings,1944-06-06,,day,0,,,,books: Norman Lowe
 yalta,world_war_two,modern_world,Yalta Conference,Yalta Conference,1945-02-04,1945-02-11,day,0,Roosevelt;Churchill;Stalin,,,
 ve_day,world_war_two,modern_world,German surrender (VE Day),VE Day,1945-05-08,,day,0,,,,
 un_charter,united_nations,modern_world,UN Charter signed at San Francisco,UN Charter,1945-06-26,,day,0,,,,
 potsdam,world_war_two,modern_world,Potsdam Conference,Potsdam Conference,1945-07-17,1945-08-02,day,0,Truman;Churchill;Attlee;Stalin,,,
-hiroshima,world_war_two,modern_world,Atomic bombing of Hiroshima,Hiroshima,1945-08-06,,day,0,,,,
+hiroshima,world_war_two,modern_world,Atomic bombing of Hiroshima,Hiroshima,1945-08-06,,day,0,,,,books: Norman Lowe
 nagasaki,world_war_two,modern_world,Atomic bombing of Nagasaki,Nagasaki,1945-08-09,,day,0,,,,
 indonesia_proclamation,decolonisation,modern_world,Indonesian independence proclaimed,Indonesian independence,1945-08-17,,day,0,Sukarno;Mohammad Hatta,Dutch recognition followed on 27 December 1949.,,
-japan_surrender,world_war_two,modern_world,Japan signs the instrument of surrender,Japanese surrender,1945-09-02,,day,0,,,,
+japan_surrender,world_war_two,modern_world,Japan signs the instrument of surrender,Japanese surrender,1945-09-02,,day,0,,,,books: Norman Lowe
 un_founded,united_nations,modern_world,United Nations comes into existence,founding of the United Nations,1945-10-24,,day,0,,,,
 truman_doctrine,cold_war,modern_world,Truman Doctrine,Truman Doctrine|containment,1947-03-12,,day,0,Harry Truman,,,
 marshall_plan,cold_war,modern_world,Marshall Plan announced,Marshall Plan,1947-06-05,,day,0,George Marshall,,,
-apartheid_1948,south_africa,modern_world,National Party victory; apartheid policy begins,apartheid,1948,,year,0,D.F. Malan,,,
+apartheid_1948,south_africa,modern_world,National Party victory; apartheid policy begins,apartheid,1948,,year,0,D.F. Malan,,,books: Norman Lowe
 berlin_blockade,cold_war,modern_world,Berlin Blockade,Berlin Blockade|Berlin Airlift,1948-06-24,1949-05-12,day,0,,,,
 nato,cold_war,modern_world,North Atlantic Treaty signed,NATO,1949-04-04,,day,0,,,,
 prc_proclaimed,chinese_revolution,modern_world,People's Republic of China proclaimed,People's Republic of China|Chinese Revolution 1949,1949-10-01,,day,0,Mao Zedong,,,
@@ -413,13 +413,13 @@ geneva_accords_1954,decolonisation,modern_world,Geneva Accords on Indochina,Gene
 bandung,non_alignment,modern_world,Bandung Conference,Bandung Conference|Asian-African Conference,1955-04-18,1955-04-24,day,0,Sukarno;Jawaharlal Nehru;Zhou Enlai;Nasser,,,
 warsaw_pact,cold_war,modern_world,Warsaw Pact signed,Warsaw Pact,1955-05-14,,day,0,,,,
 suez_nationalisation,decolonisation,modern_world,Nasser nationalises the Suez Canal Company,Suez Canal nationalisation,1956-07-26,,day,0,Gamal Abdel Nasser,,,
-hungarian_revolution,cold_war,modern_world,Hungarian Revolution,Hungarian Revolution 1956,1956-10,1956-11,month,0,Imre Nagy,,,
+hungarian_revolution,cold_war,modern_world,Hungarian Revolution,Hungarian Revolution 1956,1956-10,1956-11,month,0,Imre Nagy,,,books: Eric Hobsbawm; Norman Lowe
 suez_crisis,decolonisation,modern_world,Suez War (Anglo-French-Israeli attack on Egypt),Suez Crisis,1956-10,1956-11,month,0,Anthony Eden;Gamal Abdel Nasser,,,
 ghana_independence,decolonisation,modern_world,Ghana becomes independent,Ghana independence,1957-03-06,,day,0,Kwame Nkrumah,,,
 treaty_of_rome,european_integration,modern_world,Treaty of Rome (EEC),Treaty of Rome|European Economic Community|EEC,1957-03-25,,day,0,,EEC in operation from 1 January 1958.,,
 sputnik,cold_war,modern_world,Sputnik launched,Sputnik,1957-10-04,,day,0,,,,
-great_leap_forward,chinese_revolution,modern_world,Great Leap Forward,Great Leap Forward,1958,1960,year,2,Mao Zedong,,Some works date its end to 1961-62.,
-cuban_revolution,cold_war,modern_world,Cuban Revolution: Batista flees,Cuban Revolution,1959-01-01,,day,0,Fidel Castro,,,
+great_leap_forward,chinese_revolution,modern_world,Great Leap Forward,Great Leap Forward,1958,1960,year,2,Mao Zedong,,Some works date its end to 1961-62.,books: Eric Hobsbawm; Norman Lowe
+cuban_revolution,cold_war,modern_world,Cuban Revolution: Batista flees,Cuban Revolution,1959-01-01,,day,0,Fidel Castro,,,books: Eric Hobsbawm; Norman Lowe
 sharpeville,south_africa,modern_world,Sharpeville massacre,Sharpeville,1960-03-21,,day,0,,,,
 year_of_africa,decolonisation,modern_world,Year of Africa,Year of Africa,1960,,year,0,,Seventeen African states become independent.,,
 berlin_wall,cold_war,modern_world,Berlin Wall built,Berlin Wall,1961-08-13,,day,0,,,,
@@ -430,16 +430,16 @@ cuban_missile_crisis,cold_war,modern_world,Cuban Missile Crisis,Cuban Missile Cr
 oau_founded,decolonisation,modern_world,Organisation of African Unity founded,OAU,1963-05-25,,day,0,,,,
 kenya_independence,decolonisation,modern_world,Kenya becomes independent,Kenyan independence,1963-12-12,,day,0,Jomo Kenyatta,,,
 gulf_of_tonkin,cold_war,modern_world,Gulf of Tonkin incident,Gulf of Tonkin,1964-08,,month,0,Lyndon Johnson,,,
-cultural_revolution,chinese_revolution,modern_world,Cultural Revolution,Cultural Revolution,1966,1976,year,0,Mao Zedong,,,
+cultural_revolution,chinese_revolution,modern_world,Cultural Revolution,Cultural Revolution,1966,1976,year,0,Mao Zedong,,"Both books start it in 1966; Lowe ends it in 1969, Hobsbawm in 1976.",books: Eric Hobsbawm; Norman Lowe
 prague_spring_invasion,cold_war,modern_world,Warsaw Pact invasion of Czechoslovakia,Prague Spring,1968-08-20,1968-08-21,day,0,Alexander Dubcek,,,
 paris_peace_accords,cold_war,modern_world,Paris Peace Accords on Vietnam,Paris Peace Accords,1973-01-27,,day,0,,,,
 fall_of_saigon,cold_war,modern_world,Fall of Saigon,Fall of Saigon,1975-04-30,,day,0,,,,
-gorbachev_leader,soviet_disintegration,modern_world,Gorbachev becomes General Secretary,Gorbachev|glasnost|perestroika,1985-03-11,,day,0,Mikhail Gorbachev,,,
-berlin_wall_fall,soviet_disintegration,modern_world,Fall of the Berlin Wall,fall of the Berlin Wall,1989-11-09,,day,0,,,,
+gorbachev_leader,soviet_disintegration,modern_world,Gorbachev becomes General Secretary,Gorbachev|glasnost|perestroika,1985-03,,month,0,Mikhail Gorbachev,,Hobsbawm gives 15 March 1985; Lowe gives March 1985.,books: Eric Hobsbawm; Norman Lowe
+berlin_wall_fall,soviet_disintegration,modern_world,Fall of the Berlin Wall,fall of the Berlin Wall,1989-11-09,,day,0,,,,books: Norman Lowe
 mandela_released,south_africa,modern_world,Nelson Mandela released,Mandela's release,1990-02-11,,day,0,Nelson Mandela;F.W. de Klerk,,,
-german_reunification,soviet_disintegration,modern_world,German reunification,German reunification,1990-10-03,,day,0,Helmut Kohl,,,
-august_coup,soviet_disintegration,modern_world,August coup in Moscow,August coup,1991-08-19,1991-08-21,day,0,Boris Yeltsin,,,
-belavezha_accords,soviet_disintegration,modern_world,Belavezha Accords,Belavezha Accords|Commonwealth of Independent States,1991-12-08,,day,0,Boris Yeltsin;Leonid Kravchuk;Stanislav Shushkevich,,,
+german_reunification,soviet_disintegration,modern_world,German reunification,German reunification,1990-10-03,,day,0,Helmut Kohl,,,books: Norman Lowe
+august_coup,soviet_disintegration,modern_world,August coup in Moscow,August coup,1991-08-18,1991-08-21,day,0,Boris Yeltsin,,Lowe: Gorbachev was arrested on 18 August and the coup leaders admitted defeat on 21 August.,books: Norman Lowe
+belavezha_accords,soviet_disintegration,modern_world,Belavezha Accords,Belavezha Accords|Commonwealth of Independent States,1991-12-08,,day,0,Boris Yeltsin;Leonid Kravchuk;Stanislav Shushkevich,,,books: Norman Lowe
 gorbachev_resigns,soviet_disintegration,modern_world,Gorbachev resigns,Gorbachev's resignation,1991-12-25,,day,0,Mikhail Gorbachev,,,
 ussr_dissolved,soviet_disintegration,modern_world,Dissolution of the Soviet Union,dissolution of the USSR|collapse of the Soviet Union,1991-12-26,,day,0,,,,
 maastricht_signed,european_integration,modern_world,Maastricht Treaty signed,Maastricht Treaty|European Union,1992-02-07,,day,0,,In force from 1 November 1993.,,
