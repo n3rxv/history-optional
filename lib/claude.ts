@@ -23,6 +23,17 @@ export function claudeClient(): Anthropic {
     : new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
 }
 
+/** Always Anthropic, whatever CLAUDE_VIA says: for the modes pinned to Haiku. */
+export function anthropicClient(): Anthropic {
+  return new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
+}
+
+/** Always DeepSeek: for the chat modes pinned to it. Null without its key. */
+export function deepseekClient(): Anthropic | null {
+  const key = process.env.DEEPSEEK_API_KEY;
+  return key ? new Anthropic({ apiKey: key, baseURL: DEEPSEEK_URL }) : null;
+}
+
 /**
  * A request as the provider needs it. On DeepSeek the model is deepseek-flash
  * and its thinking is off, unless `think`: for reading handwriting, which it

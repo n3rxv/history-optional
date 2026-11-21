@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { claudeClient, claudeReadsPdf, claudeRequest } from '@/lib/claude';
+import { anthropicClient, deepseekClient } from '@/lib/claude';
 import { streamGeminiPdf } from '@/lib/geminiPdf';
 import { checkRateLimit, clientIp, tooManyRequests } from '@/lib/rateLimit';
 import { consumeUsage, releaseUsage } from '@/lib/usageQuota';
@@ -318,9 +318,14 @@ ${STYLE_RULE}${pdf_base64 ? "\n\nThe user has uploaded a PDF. Analyze it careful
       /correct answer|mcq|prelims|pyq/i.test(lastUserMsg)
     );
 
-    // Routing:
-    // ALL responses → Claude Haiku 4.5 (Anthropic) — Groq removed in favour
-    // of consistent citation/RAG quality across both bookMode and normal chat.
+    // Routing, one model per mode:
+    //   PDF mode      → Claude Haiku 4.5, which reads the document; Gemini
+    //                   takes over if the Anthropic call fails first
+    //   Mentor mode   → DeepSeek
+    //   Hindi mode    → Claude Haiku 4.5 (DeepSeek's Hindi is weaker)
+    //   Normal chat   → DeepSeek
+    // DeepSeek is spoken to through its Anthropic-compatible endpoint
+    // (lib/claude.ts), so both sides stream the same way.
     // ── Streaming response ──────────────────────────────────────────
     const encoder = new TextEncoder();
     const stream = new ReadableStream({
@@ -358,13 +363,29 @@ ${STYLE_RULE}${pdf_base64 ? "\n\nThe user has uploaded a PDF. Analyze it careful
           // Answers often close on a list item with no full stop, which the
           // gate would otherwise take for a cut-off sentence and drop.
           let ended = false;
-          if (pdf_base64 && !claudeReadsPdf()) {
-            // DeepSeek is standing in for Claude (lib/claude.ts) and can't
-            // read PDFs. Gemini reads them (lib/geminiPdf.ts).
-            ended = await streamGeminiPdf({ system: systemPrompt, messages, pdfBase64: pdf_base64, maxTokens, onText: collect });
-          } else if (pdf_base64) {
-            // PDF mode — Haiku only (DeepSeek does not support document input)
-            const anthropic = claudeClient();
+          /** One DeepSeek stream, read the same way as the Anthropic ones.
+           *  Without a DeepSeek key the call goes to Haiku instead, so the
+           *  chat keeps answering rather than failing. */
+          const runDeepSeek = async (sys: string) => {
+            const deepseek = deepseekClient();
+            const plain = messages.map((m: any) => ({ role: m.role, content: m.content }));
+            const params: any = deepseek
+              ? { model: 'deepseek-flash', max_tokens: maxTokens, system: sys, messages: plain, thinking: { type: 'disabled' } }
+              : { model: 'claude-haiku-4-5-20251001', max_tokens: maxTokens, system: sys, messages: plain };
+            const s = (deepseek ?? anthropicClient()).messages.stream(params);
+            for await (const chunk of s as any) {
+              if (chunk.type === 'content_block_delta' && chunk.delta.type === 'text_delta') {
+                collect(chunk.delta.text);
+              } else if (chunk.type === 'message_delta') {
+                ended = chunk.delta.stop_reason === 'end_turn' || chunk.delta.stop_reason === 'stop_sequence';
+              }
+            }
+          };
+
+          if (pdf_base64) {
+            // PDF mode — Haiku reads the document. Gemini reads it too, and
+            // takes over if Anthropic refuses the call before any text.
+            const anthropic = anthropicClient();
             const msgsCopy = messages.map((m: any) => ({ role: m.role, content: m.content }));
             const firstUserIdx = msgsCopy.findIndex((m: any) => m.role === 'user');
             if (firstUserIdx !== -1) {
@@ -376,34 +397,47 @@ ${STYLE_RULE}${pdf_base64 ? "\n\nThe user has uploaded a PDF. Analyze it careful
                 ],
               };
             }
-            const anthropicStream = anthropic.messages.stream(claudeRequest({
-              model: 'claude-haiku-4-5-20251001',
-              max_tokens: maxTokens,
-              system: systemPrompt,
-              messages: msgsCopy,
-            }));
-            for await (const chunk of anthropicStream) {
-              if (chunk.type === 'content_block_delta' && chunk.delta.type === 'text_delta') {
-                collect(chunk.delta.text);
-              } else if (chunk.type === 'message_delta') {
-                ended = chunk.delta.stop_reason === 'end_turn' || chunk.delta.stop_reason === 'stop_sequence';
+            let haikuText = '';
+            const pdfCollect = (t: string) => { haikuText += t; collect(t); };
+            try {
+              const anthropicStream = anthropic.messages.stream({
+                model: 'claude-haiku-4-5-20251001',
+                max_tokens: maxTokens,
+                system: systemPrompt,
+                messages: msgsCopy,
+              });
+              for await (const chunk of anthropicStream) {
+                if (chunk.type === 'content_block_delta' && chunk.delta.type === 'text_delta') {
+                  pdfCollect(chunk.delta.text);
+                } else if (chunk.type === 'message_delta') {
+                  ended = chunk.delta.stop_reason === 'end_turn' || chunk.delta.stop_reason === 'stop_sequence';
+                }
               }
+            } catch (e) {
+              // Switch only when nothing went out; once Haiku has written, a
+              // second opening below its text would read as a muddle.
+              if (haikuText) throw e;
+              console.error('PDF chat: Haiku failed, using Gemini:', e);
+              ended = await streamGeminiPdf({ system: systemPrompt, messages, pdfBase64: pdf_base64, maxTokens, onText: collect });
             }
+          } else if (mentorMode && isPremium) {
+            // Mentor mode — DeepSeek. It answers in Hindi too when asked.
+            await runDeepSeek(systemPrompt);
           } else if (lang === 'hi') {
-            // Hindi mode — Haiku (DeepSeek Hindi quality weak hai)
-            const anthropic = claudeClient();
+            // Hindi mode — Haiku (DeepSeek's Hindi is weaker)
+            const anthropic = anthropicClient();
             const builtMessages = messages.map((m: any, i: number) => {
               if (i === messages.length - 1 && m.role === 'user') {
                 return { role: m.role, content: m.content + '\n\n[IMPORTANT: Respond entirely in Hindi (Devanagari script), keeping citation markers as [Source #N]]' };
               }
               return { role: m.role, content: m.content };
             });
-            const anthropicStream = anthropic.messages.stream(claudeRequest({
+            const anthropicStream = anthropic.messages.stream({
               model: 'claude-haiku-4-5-20251001',
               max_tokens: maxTokens,
               system: systemPrompt,
               messages: builtMessages,
-            }));
+            });
             for await (const chunk of anthropicStream) {
               if (chunk.type === 'content_block_delta' && chunk.delta.type === 'text_delta') {
                 collect(chunk.delta.text);
@@ -412,50 +446,10 @@ ${STYLE_RULE}${pdf_base64 ? "\n\nThe user has uploaded a PDF. Analyze it careful
               }
             }
           } else {
-            // Normal chat — Groq GPT-OSS-120B (on_demand)
-            const builtMessages = messages.map((m: any) => ({ role: m.role, content: m.content }));
-            const groqRes = await fetch('https://api.groq.com/openai/v1/chat/completions', {
-              method: 'POST',
-              headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${process.env.GROQ_API_KEY}`,
-              },
-              signal: AbortSignal.timeout(45000),
-              body: JSON.stringify({
-                model: 'openai/gpt-oss-120b',
-                max_tokens: maxTokens,
-                stream: true,
-                messages: [
-                  { role: 'system', content: systemPrompt },
-                  ...builtMessages,
-                ],
-              }),
-            });
-            if (!groqRes.ok || !groqRes.body) throw new Error(`Groq API error: ${groqRes.status}`);
-            const reader = groqRes.body.getReader();
-            const decoder = new TextDecoder();
-            let buffer = '';
-            while (true) {
-              const { done, value } = await reader.read();
-              if (done) break;
-              buffer += decoder.decode(value, { stream: true });
-              const lines = buffer.split('\n');
-              buffer = lines.pop() ?? '';
-              for (const line of lines) {
-                const trimmed = line.trim();
-                if (!trimmed || trimmed === 'data: [DONE]') continue;
-                if (trimmed.startsWith('data: ')) {
-                  try {
-                    const json = JSON.parse(trimmed.slice(6));
-                    const delta = json.choices?.[0]?.delta?.content;
-                    if (delta) collect(delta);
-                    const finish = json.choices?.[0]?.finish_reason;
-                    if (finish) ended = finish === 'stop';
-                  } catch {}
-                }
-              }
-            }
+            // Normal chat — DeepSeek.
+            await runDeepSeek(systemPrompt);
           }
+
           gate.flush(ended);
           if (gate.emitted() === 0) send('Something went wrong. Please try again.');
           else if (stages) {
