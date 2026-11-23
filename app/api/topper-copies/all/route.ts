@@ -14,11 +14,11 @@ const sb = createClient(
 // for a paid PDF, and the bucket is public, so handing it out here made the
 // entitlement check on the detail page bypassable.
 export async function GET() {
-  let copies: { id: string; question: string; note: string | null; created_at: string; topic_slug: string | null }[];
+  let copies: { id: string; question: string; note: string | null; created_at: string; topic_slug: string | null; evaluated: boolean }[];
   try {
     copies = await selectAll((from, to) => sb
       .from('topper_copies')
-      .select('id, question, note, created_at, topic_slug')
+      .select('id, question, note, created_at, topic_slug, evaluated')
       .order('created_at', { ascending: false })
       .order('id')
       .range(from, to));

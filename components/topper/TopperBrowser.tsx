@@ -17,10 +17,11 @@ import { useLang } from '@/lib/i18n/LangContext';
 import { usePyqHi } from '@/lib/pyqHi';
 import { noteTitle as noteTitleHi, sectionName } from '@/lib/notesHi';
 
-type Copy = { id: string; question: string; note: string | null; pyq_ids: number[]; topics: string[] };
+type Copy = { id: string; question: string; note: string | null; pyq_ids: number[]; topics: string[]; evaluated?: boolean };
 type Access = { access: boolean; clicks: number; isPremium?: boolean; hasTopperAccess?: boolean };
 export type NoteMeta = { slug: string; title: string; section: string };
-type Filters = { section: string; topic: string; topper: string; q: string };
+/** evaluated: only copies that came already marked by a test-series examiner. */
+type Filters = { section: string; topic: string; topper: string; q: string; evaluated: boolean };
 
 /** Matches the allowance in /api/topper-copies/[id]. */
 const FREE_VIEWS = 5;
@@ -43,12 +44,14 @@ function parse(search: string): Filters {
     topic: p.get('topic') ?? p.get('ttopic') ?? '',
     topper: (p.get('topper') ?? '').slice(0, 100),
     q: (p.get('q') ?? '').slice(0, 200),
+    evaluated: p.get('evaluated') === '1',
   };
 }
 const subscribeUrl = (cb: () => void) => { window.addEventListener('popstate', cb); return () => window.removeEventListener('popstate', cb); };
 
 const ARROW = <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" /></svg>;
 const BACK = <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M19 12H5M11 6l-6 6 6 6" /></svg>;
+const TICK = <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" /></svg>;
 const MEDAL = <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><circle cx="12" cy="15" r="6" /><path d="M8.5 10L6 3h4l2 4 2-4h4l-2.5 7" /><path d="M12 12.5l.9 1.8 2 .3-1.5 1.4.4 2-1.8-1-1.8 1 .4-2-1.5-1.4 2-.3z" /></svg>;
 
 /**
@@ -124,6 +127,7 @@ export default function TopperBrowser({ notes, years, sigs }: { notes: NoteMeta[
   const toppers = useMemo(() => {
     const byName = new Map<string, { name: string; note: string; count: number }>();
     for (const c of copies ?? []) {
+      if (f.evaluated && !c.evaluated) continue;
       const name = topperOf(c.note);
       if (!name) continue;
       const t = byName.get(name) ?? { name, note: c.note ?? '', count: 0 };
@@ -131,7 +135,7 @@ export default function TopperBrowser({ notes, years, sigs }: { notes: NoteMeta[
       byName.set(name, t);
     }
     return [...byName.values()].sort((a, b) => rankOf(a.note) - rankOf(b.note) || a.name.localeCompare(b.name));
-  }, [copies]);
+  }, [copies, f.evaluated]);
 
   // A topper named by a link who has no copies would leave an empty list
   // with nothing selected to explain it, so one is only applied once the
@@ -150,6 +154,7 @@ export default function TopperBrowser({ notes, years, sigs }: { notes: NoteMeta[
     if (merged.topic) p.set('topic', merged.topic);
     if (merged.topper) p.set('topper', merged.topper);
     if (merged.q.trim()) p.set('q', merged.q.trim());
+    if (merged.evaluated) p.set('evaluated', '1');
     window.history.replaceState(window.history.state, '', `${window.location.pathname}${p.size ? `?${p}` : ''}`);
   };
 
@@ -163,10 +168,10 @@ export default function TopperBrowser({ notes, years, sigs }: { notes: NoteMeta[
     return m;
   }, [copies]);
 
-  // Topper and text narrow everything below them, the tab counts and the
-  // topic list included, so a count never promises copies the list then
-  // does not show.
-  const pool = useMemo(() => {
+  // Topper, text and the evaluated switch narrow everything below them, the
+  // tab counts and the topic list included, so a count never promises copies
+  // the list then does not show.
+  const searched = useMemo(() => {
     const s = f.q.trim().toLowerCase();
     return (copies ?? []).filter((c) => {
       if (who && topperOf(c.note) !== who) return false;
@@ -177,6 +182,9 @@ export default function TopperBrowser({ notes, years, sigs }: { notes: NoteMeta[
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [copies, who, f.q, asked, pyqHi, ownHi]);
+  /** How many copies the evaluated switch would leave, for its count. */
+  const evaluatedCount = useMemo(() => searched.filter((c) => c.evaluated).length, [searched]);
+  const pool = useMemo(() => (f.evaluated ? searched.filter((c) => c.evaluated) : searched), [searched, f.evaluated]);
   const inSection = (c: Copy, section: string) => !section || c.topics.some((t) => noteSection.get(t) === section);
 
   const topicGroups = useMemo(() => {
@@ -224,7 +232,7 @@ export default function TopperBrowser({ notes, years, sigs }: { notes: NoteMeta[
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [shown, f.section, topic, noteSection, noteOrder]);
 
-  const filtered = Boolean(f.section || topic || who || f.q.trim());
+  const filtered = Boolean(f.section || topic || who || f.q.trim() || f.evaluated);
 
   /** The first `limit` question cards in syllabus order, with only the groups
    *  that still hold one. The group headers keep their full counts. */
@@ -241,7 +249,7 @@ export default function TopperBrowser({ notes, years, sigs }: { notes: NoteMeta[
   }, [groups, limit]);
 
   // A new filter starts the page again, wherever it was set from.
-  useEffect(() => { setLimit(PAGE); }, [f.section, topic, who, f.q, copies]);
+  useEffect(() => { setLimit(PAGE); }, [f.section, topic, who, f.q, f.evaluated, copies]);
 
   // Opening a copy is what spends a free view, and the copy endpoint counts
   // it. Here only decide between the copy and the paywall, asking afresh
@@ -332,6 +340,12 @@ export default function TopperBrowser({ notes, years, sigs }: { notes: NoteMeta[
                 <option value="">{L('Every topper', 'सभी टॉपर')}</option>
                 {toppers.map((t) => <option key={t.name} value={t.name}>{[t.name, parseNote(t.note).rank, parseNote(t.note).year].filter(Boolean).join(' · ')} ({t.count})</option>)}
               </select>
+              <button type="button" className={`tc-toggle${f.evaluated ? ' set' : ''}`} aria-pressed={f.evaluated}
+                disabled={!f.evaluated && copies !== null && evaluatedCount === 0}
+                onClick={() => update({ evaluated: !f.evaluated })}>
+                <span className="tc-toggle-box" aria-hidden="true">{f.evaluated && TICK}</span>
+                {L('Evaluated copies', 'जाँची हुई कॉपियाँ')}{copies && <span className="tc-toggle-n">{evaluatedCount.toLocaleString('en-IN')}</span>}
+              </button>
             </div>
           </div>
 
@@ -344,11 +358,17 @@ export default function TopperBrowser({ notes, years, sigs }: { notes: NoteMeta[
                 <span>{(() => {
                   const nq = groups.reduce((n, g) => n + g.questions.length, 0);
                   return langHi
-                    ? `${nq.toLocaleString('en-IN')} प्रश्न, ${shown.length === copies.length ? `${copies.length} कॉपियाँ` : `${copies.length} में से ${shown.length} कॉपियाँ`}`
-                    : `${nq.toLocaleString('en-IN')} ${nq === 1 ? 'question' : 'questions'}, ${shown.length === copies.length ? `${copies.length} copies` : `${shown.length} of ${copies.length} copies`}`;
+                    ? `${nq.toLocaleString('en-IN')} प्रश्न, ${shown.length === copies.length ? `${copies.length.toLocaleString('en-IN')} कॉपियाँ` : `${copies.length.toLocaleString('en-IN')} में से ${shown.length.toLocaleString('en-IN')} कॉपियाँ`}`
+                    : `${nq.toLocaleString('en-IN')} ${nq === 1 ? 'question' : 'questions'}, ${shown.length === copies.length ? `${copies.length.toLocaleString('en-IN')} copies` : `${shown.length.toLocaleString('en-IN')} of ${copies.length.toLocaleString('en-IN')} copies`}`;
                 })()}</span>
-                {filtered && <button type="button" className="tc-reset" onClick={() => update({ section: '', topic: '', topper: '', q: '' })}>{L('Clear filters', 'फ़िल्टर हटाएँ')}</button>}
+                {filtered && <button type="button" className="tc-reset" onClick={() => update({ section: '', topic: '', topper: '', q: '', evaluated: false })}>{L('Clear filters', 'फ़िल्टर हटाएँ')}</button>}
               </div>
+              {f.evaluated && (
+                <p className="tc-note">
+                  {L("These copies were marked by a coaching institute's examiner in a test series, not by UPSC. Look for the score circled at the end of each answer and the remarks in the margins.",
+                    'इन कॉपियों को किसी कोचिंग संस्थान के परीक्षक ने टेस्ट सीरीज़ में जाँचा है, UPSC ने नहीं। हर उत्तर के अंत में घेरे गए अंक और हाशिये में लिखी टिप्पणियाँ देखें।')}
+                </p>
+              )}
               {shown.length === 0 && <p className="tc-empty">{L('No copy matches all of that. Try fewer filters, or a shorter search.', 'इन सभी से मेल खाती कोई कॉपी नहीं मिली। कम फ़िल्टर या छोटी खोज आज़माएँ।')}</p>}
 
               {visible.map((g) => {
@@ -389,7 +409,7 @@ export default function TopperBrowser({ notes, years, sigs }: { notes: NoteMeta[
                                 return (
                                   <button key={c.id} type="button" className="tc-topper" onClick={() => open(copyHref(c))} aria-label={L(`Read ${name}'s answer`, `${name} का उत्तर पढ़ें`)}>
                                     <span className="tc-avatar" aria-hidden="true">{initials(name)}</span>
-                                    <span className="tc-who-text"><strong>{name}</strong><span>{[rank, year].filter(Boolean).join(' · ')}</span></span>
+                                    <span className="tc-who-text"><strong>{name}</strong><span>{[rank, year].filter(Boolean).join(' · ')}{c.evaluated && <span className="tc-marked">{L('Evaluated', 'जाँची हुई')}</span>}</span></span>
                                     <span className="tc-go">{L('Read', 'पढ़ें')} {ARROW}</span>
                                   </button>
                                 );
@@ -479,8 +499,19 @@ const TC_CSS = `
 }
 .tc-select.set { border-color: color-mix(in srgb, var(--accent) 50%, transparent); background-color: var(--accent-dim); color: var(--accent-text); font-weight: 600; }
 .tc-select-topic { flex: 1 1 260px; max-width: 380px; }
+.tc-toggle { display: inline-flex; align-items: center; gap: var(--space-2); height: 40px; padding: 0 var(--space-4) 0 var(--space-3); background: var(--ds-card); border: 1px solid var(--border2); border-radius: var(--radius-full); color: var(--text); font: inherit; font-size: 0.9rem; font-weight: 500; cursor: pointer; white-space: nowrap; }
+.tc-toggle:hover:not(:disabled) { border-color: var(--border3); }
+.tc-toggle:disabled { opacity: 0.5; cursor: default; }
+.tc-toggle:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.tc-toggle-box { width: 18px; height: 18px; flex-shrink: 0; display: inline-flex; align-items: center; justify-content: center; border: 1.5px solid var(--border3); border-radius: 5px; background: var(--ds-card); }
+.tc-toggle-n { min-width: 22px; padding: 2px 6px; border-radius: var(--radius-full); background: var(--ds-soft); font-size: 0.76rem; font-weight: 600; color: var(--text3); text-align: center; }
+.tc-toggle.set { border-color: color-mix(in srgb, var(--accent) 50%, transparent); background: var(--accent-dim); color: var(--accent-text); font-weight: 600; }
+.tc-toggle.set .tc-toggle-box { border-color: var(--accent); background: var(--accent); color: var(--bg); }
+.tc-toggle.set .tc-toggle-n { background: var(--ds-card); color: var(--accent-text); }
+.tc-note { margin: 0 0 var(--space-2); padding: var(--space-3) var(--space-4); border: 1px solid var(--border); border-radius: var(--radius-lg); background: var(--ds-soft); font-size: 0.9rem; line-height: 1.55; color: var(--text2); }
+.tc-who-text .tc-marked { display: inline-block; margin-left: 6px; padding: 0 6px; border-radius: var(--radius-full); background: var(--accent-dim); color: var(--accent-text); font-style: normal; font-size: 0.72rem; font-weight: 700; }
 .tc-status { display: flex; align-items: center; justify-content: space-between; gap: var(--space-3); margin: var(--space-2) 0; font-size: 0.95rem; color: var(--text2); }
-.tc-reset { background: none; border: none; padding: 4px 0; font: inherit; font-size: 0.9rem; font-weight: 600; color: var(--accent-text); cursor: pointer; }
+.tc-reset { flex-shrink: 0; white-space: nowrap; background: none; border: none; padding: 4px 0; font: inherit; font-size: 0.9rem; font-weight: 600; color: var(--accent-text); cursor: pointer; }
 .tc-empty { padding: var(--space-8) 0; color: var(--text2); }
 .tc-loadmore { display: flex; justify-content: center; padding: var(--space-8) 0 var(--space-2); }
 
@@ -527,6 +558,8 @@ const TC_CSS = `
   .tc-tab span { display: none; }
   .tc-selects { display: grid; grid-template-columns: minmax(0, 1fr); }
   .tc-select-topic { max-width: none; }
+  .tc-toggle { justify-content: flex-start; }
+  .tc-toggle-n { margin-left: auto; }
   .tc-card { padding: var(--space-4); }
   .tc-q { font-size: 1rem; }
   .tc-notes { margin-left: 0; }
