@@ -13,8 +13,16 @@ import { NextRequest, NextResponse } from 'next/server';
  * supabase/track_visit.sql.
  */
 
+// Epochal-Search and the like: the crawlers behind DistilledCrux's 2026-11-22 Vercel pause.
 const BOT_UA =
-  /bot|crawler|spider|crawling|headlesschrome|googlebot|bingbot|ahrefsbot|semrushbot|mj12bot|dotbot|rogerbot|facebookexternalhit|python|curl|wget|axios|node-fetch|go-http-client|java|ruby|scrapy/i;
+  /bot|crawler|spider|crawling|headless|epochal|perplexity|lighthouse|pagespeed|gtmetrix|pingdom|uptime|monitor|preview|scanner|phantom|selenium|puppeteer|playwright|googlebot|bingbot|ahrefsbot|semrushbot|mj12bot|dotbot|rogerbot|facebookexternalhit|python|curl|wget|axios|node-fetch|okhttp|httpclient|libwww|go-http-client|java|ruby|scrapy/i;
+
+/**
+ * The tracker only calls once the page has seen a real input, and says so
+ * (components/VisitorTracker.tsx). A call without the flag comes from a script
+ * or a bot, not the tracker, and records nothing.
+ */
+const fromPerson = (body: { human?: unknown }) => body?.human === true;
 
 // Deliberately in-memory rather than the durable limiter in lib/rateLimit.
 // This only suppresses duplicate pings, and a database round trip to decide
@@ -90,6 +98,9 @@ export async function PATCH(req: NextRequest) {
     const body = await req.json();
     const visitorId = field(body.visitor_id, 128);
     if (!visitorId) return NextResponse.json({ ok: false });
+    if (Array.isArray(body.pages) && body.pages.length && !fromPerson(body)) {
+      return NextResponse.json({ ok: false, reason: 'no_person' });
+    }
 
     const pages = (Array.isArray(body.pages) ? body.pages : [])
       .slice(0, MAX_BEAT_PAGES)
@@ -139,6 +150,7 @@ export async function POST(req: NextRequest) {
     const body = await req.json();
     const visitorId = field(body.visitor_id, 128);
     if (!visitorId) return NextResponse.json({ ok: false, reason: 'no visitor_id' });
+    if (!fromPerson(body)) return NextResponse.json({ ok: false, reason: 'no_person' });
 
     if (isRateLimited(visitorId)) {
       return NextResponse.json({ ok: false, reason: 'rate_limited' });

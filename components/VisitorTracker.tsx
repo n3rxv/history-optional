@@ -76,7 +76,7 @@ function beat(visitorId: string) {
   void fetch('/api/track-visit', {
     method: 'PATCH',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ visitor_id: visitorId, ...(pages.length ? { pages, ...pageInfo } : {}) }),
+    body: JSON.stringify({ visitor_id: visitorId, ...(pages.length ? { pages, ...pageInfo, human: true } : {}) }),
     keepalive: true,
   }).catch(() => {});
 }
@@ -103,6 +103,40 @@ const pageLoadedAt = typeof performance !== 'undefined' ? Date.now() - performan
 function shouldTrack(): boolean {
   if (navigator.webdriver) return false;
   return !/^(localhost|127\.0\.0\.1|\[::1\])$/.test(location.hostname);
+}
+
+/**
+ * Nothing is recorded until the page sees a real input: a tap, a key, the
+ * mouse wheel or the mouse moving. Only events the browser itself raised count
+ * (event.isTrusted), not ones a script dispatches. On 2026-11-22 about half of
+ * this site's new rows were one-page, few-second, "direct" desktop visits from
+ * a different Indian town each time: automated browsers behind Indian
+ * residential proxies, with user agents that read as ordinary Chrome or
+ * Firefox. They load a page and leave without touching it. One input marks
+ * the tab (sessionStorage), so its later pages are tracked as before. The API
+ * refuses pings that don't say so (app/api/track-visit/route.ts).
+ */
+const HUMAN_KEY = 'ho_human';
+const HUMAN_EVENTS = ['pointerdown', 'pointermove', 'keydown', 'touchstart', 'wheel'] as const;
+let human = false;
+const waitingForHuman: (() => void)[] = [];
+/** Runs fn now if the visitor has shown they are a person, else on their first input. */
+function whenHuman(fn: () => void) {
+  if (human) fn();
+  else waitingForHuman.push(fn);
+}
+function watchForHuman(): () => void {
+  try { if (sessionStorage.getItem(HUMAN_KEY) === '1') human = true; } catch { /* storage blocked */ }
+  if (human) return () => {};
+  const onEvent = (e: Event) => {
+    if (!e.isTrusted || human) return;
+    human = true;
+    try { sessionStorage.setItem(HUMAN_KEY, '1'); } catch { /* as above */ }
+    for (const name of HUMAN_EVENTS) window.removeEventListener(name, onEvent);
+    for (const fn of waitingForHuman.splice(0)) fn();
+  };
+  for (const name of HUMAN_EVENTS) window.addEventListener(name, onEvent, { passive: true });
+  return () => { for (const name of HUMAN_EVENTS) window.removeEventListener(name, onEvent); };
 }
 
 let visitorIdPromise: Promise<{ visitor_id: string; old_fp: string | null }> | null = null;
@@ -192,7 +226,7 @@ function post(body: Record<string, unknown>, keepalive: boolean) {
   void fetch('/api/track-visit', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(body),
+    body: JSON.stringify({ ...body, human: true }),
     keepalive,
   }).catch(() => {});
 }
@@ -234,6 +268,11 @@ export default function VisitorTracker() {
 
         if (!localStorage.getItem(COUNTED_KEY)) {
           pendingFirst.current = (keepalive: boolean) => {
+            // No input yet: wait for one. Leaving without any is not a visit.
+            if (!human) {
+              if (!keepalive) whenHuman(() => pendingFirst.current?.(false));
+              return;
+            }
             const dwell = Math.floor((Date.now() - pageLoadedAt) / 1000);
             if (dwell < MIN_DWELL_SECS) return;
             pendingFirst.current = null;
@@ -247,13 +286,16 @@ export default function VisitorTracker() {
           return;
         }
 
-        // A session's first page goes now, the rest with the next beat.
-        if (Date.now() - lastSent() < SESSION_GAP_MS) {
-          queuePage(pathname);
-          return;
-        }
-        post(body, false);
-        firstVisitReported.current = true;
+        // A session's first page goes as soon as a person is seen, the rest
+        // with the next beat. Checked again then: an earlier page may have gone.
+        whenHuman(() => {
+          if (Date.now() - lastSent() < SESSION_GAP_MS) {
+            queuePage(pathname);
+            return;
+          }
+          post(body, false);
+          firstVisitReported.current = true;
+        });
       } catch {
         // Analytics must never surface to the reader.
       }
@@ -295,10 +337,10 @@ export default function VisitorTracker() {
         // once HEARTBEAT_MS has passed since any tab's last call.
         interval = setInterval(() => {
           const now = Date.now();
-          if (document.visibilityState === 'visible' && now - lastInput < HEARTBEAT_MS && now - lastSent() >= HEARTBEAT_MS) beat(visitor_id);
+          if (human && document.visibilityState === 'visible' && now - lastInput < HEARTBEAT_MS && now - lastSent() >= HEARTBEAT_MS) beat(visitor_id);
         }, 60 * 1000);
         onVisibility = () => {
-          if (document.visibilityState !== 'hidden') return;
+          if (!human || document.visibilityState !== 'hidden') return;
           if (startUnbeaten || Date.now() - lastSent() >= HIDE_BEAT_GAP_MS) beat(visitor_id);
         };
         document.addEventListener('visibilitychange', onVisibility);
@@ -312,6 +354,12 @@ export default function VisitorTracker() {
       if (interval) clearInterval(interval);
       if (onVisibility) document.removeEventListener('visibilitychange', onVisibility);
     };
+  }, []);
+
+  // Watches for the input that shows a person is here (see watchForHuman).
+  useEffect(() => {
+    if (!shouldTrack()) return;
+    return watchForHuman();
   }, []);
 
   // Notes when the reader last did something, for the heartbeat above.
